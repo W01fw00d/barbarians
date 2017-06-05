@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>¡Bárbaros!</title>
+    <link rel="shortcut icon" type="image/png" href="images/favicon.ico"/>
+  </head>
+
+  <body>
+    <!-- <header>
+      <h1 class="text-center">
+          <abbr title=
+                  "Un minijuego de estrategia para Jordi, de parte de Gabo (programación) y Juanju (diseño) ;)">
+            ¡Bárbaros en los campos!</abbr>
+      </h1>
+
+      <!-- <h2 class="text-center">– Un minijuego de estrategia ambientado en la decadencia de Roma –</h2>-->
+
+    <!-- </header> -->
+    <div class="container">
+
+      <div id="controles" class="control-bar padding-sm margin-top-md row">
+    		<audio id="musica" class="music-control-bar control-bar-col col-sm-4" src="sounds/music.mp3" controls autoplay loop></audio>
+        <div class="control-bar-col col-sm-2">
+          Oro: <input id="oro" class="gold-marker" value="1" type="text" readonly></input>
+        </div>
+        <button type="button" id="pasarTurno" class="control-bar-col col-sm-2"> Terminar día </button>
+        <button type="button" id="resetMapa" class="control-bar-col col-sm-3"> Resetear mapa </button>
+    	</div>
+
+      <div class="control-board margin-top-md row">
+        <div class="col-sm-6">
+          <table id="mapa"></table>
+        </div>
+
+        <div class="col-sm-1"></div>
+
+        <div class="col-sm-4">
+          <div id="info">
+              <form class="padding-top-md">
+                  Bando:
+                  <br><input id= "jugador" type="text" readonly></input>
+                  <br><br>
+                  Unidad:
+                  <br><input id= "tipo" type="text" readonly></input>
+                  <br><br>
+                  Nombre:
+                  <br><input id= "nombre" type="text" readonly></input>
+                  <br><br><br>
+              </form>
+              <form id="form_pueblo">
+                  <!--Solo pueblo -->
+                  <div id= "prod" type="text" readonly></div>
+                  <br>
+                  <button type="button" id= "mej_cant">Mejorar cantidad (1 Oro)</button>
+                  <br><br>
+                  <button type="button" id= "mej_cal">Mejorar calidad (1 Oro)</button>
+                  <br><br>
+              </form>
+              <form id="form_soldado">
+                  <!--Solo soldado -->
+                  <div id= "mueve" type="text" readonly></div>
+                  <br>
+                  <div id= "fuerza" type="text" readonly></div>
+                  <br>
+                  <button type="button" id= "destruir">Destruir</button>
+                  <br><br>
+              </form>
+
+              <button type="button" id="cerrar" class="close-button">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </body>
+
+    <link rel="stylesheet" type="text/css" href="data/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="data/style.css"/>
+    <script type="text/javascript" src="data/jquery-2.1.4.js"></script>
+    <script type="text/javascript" src="data/bootstrap.min.js"></script>
+    <script type="text/javascript" src="data/functions.js"></script>
+</html>

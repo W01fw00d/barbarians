@@ -1,0 +1,136 @@
+@font-face {
+    font-family: 'Roman';
+    src: url('images/roman.ttf');
+}
+
+header{
+    font-family: 'Roman';
+}
+
+table, th, td {
+    border: 1px solid rgba(111, 111, 111, .5);
+}
+
+th {
+  width: 60px;
+  height: 50px;
+  text-align: center;
+}
+
+img{
+    /*width: 5vw;
+    height: 5vw;*/
+    width: 100%;
+    height: 100%;
+}
+
+input{
+    text-align: center;
+    color: Black;
+}
+
+body{
+    background: url('images/background.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+html {
+    height: 100%;
+}
+
+.icono {
+    position: relative;
+    /*
+
+    border: 1px solid rgba(111, 111, 111, .5);
+    */
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+
+    color: White;
+}
+
+.container{
+    text-align: center;
+}
+
+#mapa{
+   position: absolute;
+   width: 425px;
+    /*
+     margin: 0 auto;
+
+    width: 40vw;
+    height: 40vw;
+    */
+}
+
+#info {
+  display: block;
+    /*display: none;*/
+    /*background: rgb(111, 111, 111);
+    width: 20vw;
+    height: 35vw;
+    float: right;
+    padding: 3vw;
+    z-index: 4;
+    margin-right: 10vw;
+    color: White;*/
+}
+
+#info div{
+    color: White;
+}
+
+#info button{
+    color: Black;
+}
+
+
+#form_pueblo, #form_soldado {
+    display: none;
+}
+
+#soltar, #destruir{
+    display: none;
+}
+
+.padding-sm {
+  padding: 10px;
+}
+
+.padding-top-md {
+  padding-top: 20px;
+}
+
+.margin-top-md {
+  margin-top: 20px;
+}
+
+.control-bar {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.control-board {
+}
+
+.close-button {
+  padding: 5px;
+  margin-bottom: 15px;
+}
+
+.music-control-bar {
+  vertical-align: middle;
+}
+
+.gold-marker {
+  width: 50%;
+}
+
+.control-bar-col {
+  display: inline-block;
+  vertical-align: middle;
+  float: none;
+}

@@ -1,0 +1,5 @@
+Uncaught TypeError: Cannot read property 'lastElementChild' of nullmoverSoldado @ functions.js:1054autoMoverSoldadoRandom @ functions.js:704turnoIA @ functions.js:587pasarTurno @ functions.js:531jQuery.event.dispatch @ jquery-2.1.4.js:4435jQuery.event.add.elemData.handle @ jquery-2.1.4.js:4121
+
+
+
+Suele suceder en el mapa de campo abierto, cuando el barbaro esta en la esquina superior izquierda (00)
