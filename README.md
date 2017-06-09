@@ -1,4 +1,4 @@
-# Barbarians!
+# Barbarians! v1.1
 A silly little web-browser turn-based strategy game.
 
 Includes:
