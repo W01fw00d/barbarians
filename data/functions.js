@@ -1,30 +1,3 @@
-//BABEL: jquery, random,
-
-//v1.1
-
-/* TO DO LIST
-+ Permitir anular modo movimiento y volver a la seleccion sin haber consumido movs
-+ Permitir que el soldado a veces no complete su movimiento cuando está en automatico
-+ Crear un array aleatorio para la mejora de ciudades random, para que vaya variando el orden de mejora.
-? La IA realice decisiones lógicas, del tipo mover sus soldados en direccion a los del enemigo o a las ciudades neutrales/amigas.
-+ Sonidos de 'muerto' (grito epico de muerte cine) e 'inicio turno'(gallo). Musica romana de fondo y sonido de victoria.
-+ La IA no mejora aldeas por alguna razon.
-- Modificar el atributo "casilla" en el array de unidades, para que solo contenga los dos numeros de la casilla, y nada más (simplificar busqueda de casilla correcta)
-- Marcar el borde de la unidad seleccionada en cada momento.
-+ Poner una ayuda flotante que ponga el nombre, fuerza y movs de los soldados y pueblos; al dejar el ratón encima (bootstrap). Ponerle esa ayuda al título también.
-- Las unidades pueden atravesar obstaculos, pueden "saltar por encima": como evitarlo?
-+ Botón de resetear el mapa.
-- Más nombres romanos: se agotan en los últimos mapas.
-+ "info" que tenga un color de fondo dependiendo del bando: rojo, azul o gris.
-- Hacer que el turno de la IA pase 'a camara lenta' con un Timer?
-- Cuando pierdes, a veces se reinicia el mapa con más soldados de los que tocan: creo que se generar los soldados que tocaria al finalizar turno??
-- Permitir que cuando un soldado es generado al lado de una aldea enemiga, o un soldado enemigo, actue y conquiste/pelee.
-- Permitir elegir niveles, ya que el sistema de guardado con cookies no funciona en almacenamiento local.
-- Permitir mejorar cantidad hasta un maximo de 4, ya que luego es inútil.
-- Idear un sistema en caso de encontrarse con dos soldados enemigos al moverse: enfrentarse al más fuerte? a los dos? elegir?
-- Sistema de niveles para los soldados. Que suba la fuerza y el movimiento a medida que matan soldados enemigos.
-*/
-
 /*
 LEYENDA
 
