@@ -8,3 +8,6 @@ Includes:
 Greetings:
 * Art by Juanju (JJ)
 * Programming by W01fw00d
+
+
+To try it, just open the main.html file with your browser :)
