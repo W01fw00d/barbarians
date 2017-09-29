@@ -11,4 +11,4 @@ Greetings:
 
 To try it, just open the main.html file with your browser :)
 
-[How to contribute](https://github.com/MarcDiethelm/contributing/blob/master/README.md): 
+[How to contribute](https://github.com/MarcDiethelm/contributing/blob/master/README.md) 
