@@ -7,30 +7,19 @@
   </head>
 
   <body>
-    <!-- <header>
-      <h1 class="text-center">
-          <abbr title=
-                  "Un minijuego de estrategia para Jordi, de parte de Gabo (programación) y Juanju (diseño) ;)">
-            ¡Bárbaros en los campos!</abbr>
-      </h1>
-
-      <!-- <h2 class="text-center">– Un minijuego de estrategia ambientado en la decadencia de Roma –</h2>-->
-
-    <!-- </header> -->
     <div class="container">
-
-      <div id="controles" class="control-bar padding-sm margin-top-md row">
-    		<audio id="musica" class="music-control-bar control-bar-col col-sm-4" src="sounds/music.mp3" controls autoplay loop></audio>
+      <div class="control-bar padding-sm margin-top-md row">
+    		<audio id="music-bar" class="music-control-bar control-bar-col col-sm-4" src="sounds/music.mp3" controls loop></audio>
         <div class="control-bar-col col-sm-2">
-          Oro: <input id="oro" class="gold-marker" value="1" type="text" readonly></input>
+          <span class="gold-label">Gold: </span><input id="gold" class="gold-marker" value="1" type="text" readonly></input>
         </div>
-        <button type="button" id="pasarTurno" class="control-bar-col col-sm-2"> End turn </button>
-        <button type="button" id="resetMapa" class="control-bar-col col-sm-3"> Reset map </button>
+        <button type="button" id="end_turn" class="control-bar-col col-sm-2"> End turn </button>
+        <button type="button" id="reset_map" class="control-bar-col col-sm-3"> Reset map </button>
     	</div>
 
       <div class="control-board margin-top-md row">
         <div class="col-sm-6">
-          <table id="mapa"></table>
+          <table id="map"></table>F
         </div>
 
         <div class="col-sm-1"></div>
@@ -39,16 +28,16 @@
           <div id="info">
               <form class="padding-top-md">
                   Faction:
-                  <br><input id= "jugador" type="text" readonly></input>
+                  <br><input id="player" type="text" readonly></input>
                   <br><br>
                   Unit:
-                  <br><input id= "tipo" type="text" readonly></input>
+                  <br><input id="type" type="text" readonly></input>
                   <br><br>
                   Name:
-                  <br><input id= "nombre" type="text" readonly></input>
+                  <br><input id="name" type="text" readonly></input>
                   <br><br><br>
               </form>
-              <form id="form_pueblo">
+              <form id="town_info" class="hiddenDiv">
                   <!--Town only -->
                   <div id= "prod" type="text" readonly></div>
                   <br>
@@ -57,23 +46,21 @@
                   <button type="button" id= "mej_cal">Improve quality (1 Gold)</button>
                   <br><br>
               </form>
-              <form id="form_soldado">
+              <form id="soldier_info" class="hiddenDiv">
                   <!--Soldier only -->
-                  <div id= "mueve" type="text" readonly></div>
+                  <div id="movement" type="text" readonly></div>
                   <br>
-                  <div id= "fuerza" type="text" readonly></div>
+                  <div id="strength" type="text" readonly></div>
                   <br>
-                  <button type="button" id= "destruir">Destroy</button>
+                  <button type="button" id="destroy" class="hiddenDiv">Destroy</button>
                   <br><br>
               </form>
 
-              <button type="button" id="cerrar" class="close-button">Close</button>
+              <button type="button" id="close" class="close-button">Close</button>
           </div>
         </div>
       </div>
     </div>
-
-
   </body>
 
     <link rel="stylesheet" type="text/css" href="data/bootstrap.min.css"/>

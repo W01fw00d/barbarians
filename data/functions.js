@@ -28,9 +28,7 @@ OTHERS (NOT IMPLEMENTED YET)
 
 */
 
-
 //maps 8x8 (64 cells), 10 maps y 1 template
-
 var planos = [
 [
 	"        ",
@@ -156,195 +154,184 @@ var planos = [
 ];
 
 // You can set here a different starting level, for testing purposes
-var mapa_actual = 1,
-    unidades = [];
+var currentMapLevel = 1,
+    units = [];
 //Gold [Romans, Barbarians];
-    oro = [1, 1];
+    gold = [1, 1];
 
 $(document).ready(ini);
 
 function ini() {
 	//console.log(generadorPlanoRandom(10, 2, 2, 3, 5, 5, 5));
     /////////generadorPlanoRandom(x, A, E, N, a, e, n)///////
-    //mapeador(generadorPlanoRandom(10, 2, 2, 3, 2, 3, 2)); // <= 64
-    //mapa_actual = 7;
+    //mapGenerator(generadorPlanoRandom(10, 2, 2, 3, 2, 3, 2)); // <= 64
+    //currentMapLevel = 7;
     
-    mapeador(planos[mapa_actual]);
+    mapGenerator(planos[currentMapLevel]);
 
-    $('#cerrar').click(function(){
-        $('.casilla').off();
-        $('.icono').off();
-        $('.icono').click(seleccionIcono);
+    $('#close').click(function(){
+        $('.cell').off();
+        $('.icon').off();
+        $('.icon').click(showIconData);
         $('#info').hide();
     });
 
-    $('#resetMapa').click(function(){
-        if (confirm('¿Reiniciar el mapa actual?')){
-            mapeador(planos[mapa_actual]);
-        }else{
-
+    $('#reset_map').click(function(){
+        if (confirm('Reset current map?')){
+            mapGenerator(planos[currentMapLevel]);
         }
     });
-    // mapeador(parseInt(document.cookie.replace('mapa=','')));
-    //$('.icono').click(seleccionIcono);
-    //$('#cerrar').click(cerrarInfo);
 
-    $('#pasarTurno').click(pasarTurno);
-    // alert ('Has sido informado de que unos bárbaros están asaltando los pueblos de los alrededores de Roma. ¡Utiliza tus soldados para acabar con el enemigo y recupera esos pueblos!');
+    $('#end_turn').click(endTurn);
 }
 
 // Generates a map using the desing array as input
-function mapeador(array){
-	var i = 0;
-    var j = 0;
-    var casilla = '';
-    var icono = ' ';
-    var color_fondo = '';
-    var color_icono = '';
-    var forma_icono = '';
-    var display = '';
-    var suelo = '';
+function mapGenerator(array){
+	let i = 0,
+        j = 0,
+        cell = '',
+        icon = ' ',
+        color_fondo = '',
+        color_icon = '',
+        forma_icon = '',
+        display = '',
+        suelo = '';
 
-    document.getElementById("musica").pause();
+    document.getElementById("music-bar").pause();
 
     $('#info').hide();
 
-    $('#mapa').html('');
-    unidades = [];
-    oro = [1, 1];
-    $('#oro').val(oro[0]);
+    $('#map').html('');
+    units = [];
+    gold = [1, 1];
+    $('#gold').val(gold[0]);
 
     var array_length = array.length;
     for (i = 0; i < array_length; i++){
 
-        $('#mapa').append('<tr id="linea'+i+'"></tr>');
-        //$('#mapa').append('<div id="linea'+i+'" class="row">');
+        $('#map').append('<tr id="linea'+i+'"></tr>');
 
         linea_length = array[i].length;
         for (j = 0; j < linea_length; j++){
 
-            casilla = array[i].charAt(j);
+            cell = array[i].charAt(j);
 
-            switch(casilla){
+            switch(cell){
 
                 case ' ':
                     display = 'none';
-                    casilla = '_';
-                    icono = '';
+                    cell = '_';
+                    icon = '';
                     break;
                 case 'x':
                     display = 'none';
-                    casilla = 'x';
-                    icono = '<img id="icono'+i+''+j+casilla+'" src="images/MS_def.png"></img>';
+                    cell = 'x';
+                    icon = '<img id="icon'+i+''+j+cell+'" src="images/MS_def.png"></img>';
                     display = 'block';
                     break;
                 case 'I':
                     display = 'none';
-                    casilla = 'x';
-                    icono = '<img id="icono'+i+''+j+casilla+'" src="images/MI_defl.png"></img>';
+                    cell = 'x';
+                    icon = '<img id="icon'+i+''+j+cell+'" src="images/MI_defl.png"></img>';
                     display = 'block';
                     break;
                 case 'X':
                     display = 'none';
-                    casilla = 'x';
-                    icono = '<img id="icono'+i+''+j+casilla+'" src="images/M_def.png"></img>';
+                    cell = 'x';
+                    icon = '<img id="icon'+i+''+j+cell+'" src="images/M_def.png"></img>';
                     display = 'block';
                     break;
                 case 'D':
                     display = 'none';
-                    casilla = 'x';
-                    icono = '<img id="icono'+i+''+j+casilla+'" src="images/MD_def.png"></img>';
+                    cell = 'x';
+                    icon = '<img id="icon'+i+''+j+cell+'" src="images/MD_def.png"></img>';
                     display = 'block';
                     break;
                 case 'V':
                     display = 'none';
-                    casilla = 'x';
-                    icono = '<img id="icono'+i+''+j+casilla+'" src="images/A_def.png"></img>';
+                    cell = 'x';
+                    icon = '<img id="icon'+i+''+j+cell+'" src="images/A_def.png"></img>';
                     display = 'block';
                     break;
 
                 case 'N':
-                    forma_icono = '0px 0px 0px 0px';
+                    forma_icon = '0px 0px 0px 0px';
                     display = 'block';
-                    unidades.push(
-                        {casilla: 'icono'+i+j+casilla, jugador: 'Neutral', tipo: 'Pueblo', nombre: 'Libre', stats: {cantidad: 1, calidad: 1, precio_mej_cant: 1, precio_mej_cal: 1}});
-                    icono = '<a id="tooltip'+i+''+j+casilla+'" href="#" data-toggle="tooltip" title="Pueblo sin reclamar"><img class="icono" id="icono'+i+''+j+casilla+'" src="images/AN_del_def.png"></img></a>';
-                    //icono = '<img class="icono" id="icono'+i+''+j+casilla+'" src="images/AN_del_def.png"></img>';
+                    units.push(
+                        {cell: 'icon'+i+j+cell, jugador: 'Neutral', tipo: 'Pueblo', nombre: 'Libre', stats: {cantidad: 1, calidad: 1, precio_mej_cant: 1, precio_mej_cal: 1}});
+                    icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="Pueblo sin reclamar"><img class="icon" id="icon'+i+''+j+cell+'" src="images/AN_del_def.png"></img></a>';
+                    //icon = '<img class="icon" id="icon'+i+''+j+cell+'" src="images/AN_del_def.png"></img>';
                     break;
                 case 'A':
-                    forma_icono = '0px 0px 0px 0px';
+                    forma_icon = '0px 0px 0px 0px';
                     display = 'block';
-                    unidades.push(
-                        {casilla: 'icono'+i+j+casilla, jugador: 'Romanos', tipo: 'Pueblo', nombre: nombresRandom('Pueblo', 'Romanos'), stats: {cantidad: 1, calidad: 1, precio_mej_cant: 1, precio_mej_cal: 1}});
-                    icono = '<a id="tooltip'+i+''+j+casilla+'" href="#" data-toggle="tooltip" title="['+unidades[unidades.length - 1].nombre+']. Cantidad: [1], Calidad: [1]">'
-                        +'<img class="icono" id="icono'+i+''+j+casilla+'" src="images/AR_del_def.png"></img></a>';
-                    //icono = '<img class="icono" id="icono'+i+''+j+casilla+'" src="images/AR_del_def.png"></img>';
+                    units.push(
+                        {cell: 'icon'+i+j+cell, jugador: 'Romanos', tipo: 'Pueblo', nombre: nombresRandom('Pueblo', 'Romanos'), stats: {cantidad: 1, calidad: 1, precio_mej_cant: 1, precio_mej_cal: 1}});
+                    icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="['+units[units.length - 1].nombre+']. Cantidad: [1], Calidad: [1]">'
+                        +'<img class="icon" id="icon'+i+''+j+cell+'" src="images/AR_del_def.png"></img></a>';
+                    //icon = '<img class="icon" id="icon'+i+''+j+cell+'" src="images/AR_del_def.png"></img>';
                     break;
                 case 'E':
-                    forma_icono = '0px 0px 0px 0px';
+                    forma_icon = '0px 0px 0px 0px';
                     display = 'block';
-                    unidades.push(
-                        {casilla: 'icono'+i+j+casilla, jugador: 'Bárbaros', tipo: 'Pueblo', nombre: nombresRandom('Pueblo', 'Bárbaros'), stats: {cantidad: 1, calidad: 1, precio_mej_cant: 1, precio_mej_cal: 1}});
-                    icono = '<a id="tooltip'+i+''+j+casilla+'" href="#" data-toggle="tooltip" title="['+unidades[unidades.length - 1].nombre+']">'
-                        +'<img class="icono" id="icono'+i+''+j+casilla+'" src="images/AB_del_def.png"></img></a>';
-                    //icono = '<img class="icono" id="icono'+i+''+j+casilla+'" src="images/AB_del_def.png"></img>';
+                    units.push(
+                        {cell: 'icon'+i+j+cell, jugador: 'Bárbaros', tipo: 'Pueblo', nombre: nombresRandom('Pueblo', 'Bárbaros'), stats: {cantidad: 1, calidad: 1, precio_mej_cant: 1, precio_mej_cal: 1}});
+                    icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="['+units[units.length - 1].nombre+']">'
+                        +'<img class="icon" id="icon'+i+''+j+cell+'" src="images/AB_del_def.png"></img></a>';
+                    //icon = '<img class="icon" id="icon'+i+''+j+cell+'" src="images/AB_del_def.png"></img>';
                     break;
                 case 'n':
                     color_fondo = 'Green';
-                    color_icono = 'Grey';
-                    forma_icono = '50px 50px 50px 50px';
+                    color_icon = 'Grey';
+                    forma_icon = '50px 50px 50px 50px';
                     display = 'block';
-                    unidades.push(
-                        {casilla: 'icono'+i+j+casilla, jugador: 'Neutral', tipo: 'Manada', nombre: 'Lobos', mueve_total: 0, mueve: 0, fuerza: 1});
-                    icono = '<a id="tooltip'+i+''+j+casilla+'" href="#" data-toggle="tooltip" title="Lobos salvajes">'
-                        +'<img class="icono" id="icono'+i+''+j+casilla+'" src="images/L_del_def.png"></img></a>';
-                    //icono = '<img class="icono" id="icono'+i+''+j+casilla+'" src="images/L_del_def.png"></img>';
+                    units.push(
+                        {cell: 'icon'+i+j+cell, jugador: 'Neutral', tipo: 'Manada', nombre: 'Lobos', mueve_total: 0, mueve: 0, fuerza: 1});
+                    icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="Lobos salvajes">'
+                        +'<img class="icon" id="icon'+i+''+j+cell+'" src="images/L_del_def.png"></img></a>';
+                    //icon = '<img class="icon" id="icon'+i+''+j+cell+'" src="images/L_del_def.png"></img>';
                     break;
                 case 'a':
                     color_fondo = 'Green';
-                    color_icono = 'Blue';
-                    forma_icono = '50px 50px 50px 50px';
+                    color_icon = 'Blue';
+                    forma_icon = '50px 50px 50px 50px';
                     display = 'block';
-                    unidades.push(
-                        {casilla: 'icono'+i+j+casilla, jugador: 'Romanos', tipo: 'Soldado', nombre: nombresRandom('Soldado', 'Romanos'), mueve_total: 2, mueve: 2, fuerza: 1});
-                    icono = '<a id="tooltip'+i+''+j+casilla+'" href="#" data-toggle="tooltip" title="['+unidades[unidades.length - 1].nombre+']. Mueve: [2], Fuerza: [1]">'
-                        +'<img class="icono" id="icono'+i+''+j+casilla+'" src="images/SR_del_def.png"></img></a>';
-                    //icono = '<img class="icono" id="icono'+i+''+j+casilla+'" src="images/SR_del_def.png"></img>';
+                    units.push(
+                        {cell: 'icon'+i+j+cell, jugador: 'Romanos', tipo: 'Soldado', nombre: nombresRandom('Soldado', 'Romanos'), mueve_total: 2, mueve: 2, fuerza: 1});
+                    icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="['+units[units.length - 1].nombre+']. Mueve: [2], Fuerza: [1]">'
+                        +'<img class="icon" id="icon'+i+''+j+cell+'" src="images/SR_del_def.png"></img></a>';
+                    //icon = '<img class="icon" id="icon'+i+''+j+cell+'" src="images/SR_del_def.png"></img>';
                     break;
                 case 'e':
                     color = 'Green';
                     color_fondo = 'Green';
-                    color_icono = 'Red';
-                    forma_icono = '50px 50px 50px 50px';
+                    color_icon = 'Red';
+                    forma_icon = '50px 50px 50px 50px';
                     display = 'block';
-                    unidades.push(
-                        {casilla: 'icono'+i+j+casilla, jugador: 'Bárbaros', tipo: 'Soldado', nombre: nombresRandom('Soldado', 'Bárbaros'), mueve_total: 1, mueve: 1, fuerza: 1});
-                    icono = '<a id="tooltip'+i+''+j+casilla+'" href="#" data-toggle="tooltip" title="['+unidades[unidades.length - 1].nombre+']. Mueve: [1]. Fuerza: [1]">'
-                        +'<img class="icono" id="icono'+i+''+j+casilla+'" src="images/SB_del_def.png"></img></a>';
-                    //icono = '<img class="icono" id="icono'+i+''+j+casilla+'" src="images/SB_del_def.png"></img>';
+                    units.push(
+                        {cell: 'icon'+i+j+cell, jugador: 'Bárbaros', tipo: 'Soldado', nombre: nombresRandom('Soldado', 'Bárbaros'), mueve_total: 1, mueve: 1, fuerza: 1});
+                    icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="['+units[units.length - 1].nombre+']. Mueve: [1]. Fuerza: [1]">'
+                        +'<img class="icon" id="icon'+i+''+j+cell+'" src="images/SB_del_def.png"></img></a>';
+                    //icon = '<img class="icon" id="icon'+i+''+j+cell+'" src="images/SB_del_def.png"></img>';
                     break;
 
                 default:
-                    icono = '';
+                    icon = '';
                     display = 'none';
-                    casilla = '_';
+                    cell = '_';
                     break;
             }
 
-            //icono = '<div class="icono" id="icono'+i+''+j+casilla+'">'+casilla+'</div>';
-
-            //$('#linea'+i).append('<div id="casilla'+i+''+j+'" class="col-sm-1">'+icono+'</div>');
-            $('#linea'+i).append('<th class="casilla" id="casilla'+i+''+j+'">'+icono+'</th>');
-            //$('#casilla'+i+''+j).css({'background': color_fondo});
+            $('#linea'+i).append('<th class="cell" id="cell' + i + '' + j + '">' + icon + '</th>');
 
             suelo = 'H_def.png';
-            $('#casilla'+i+''+j).css({'background-image': 'url(images/'+suelo+')'});
+            $('#cell' + i + '' + j).css({'background-image': 'url(images/'+suelo+')'});
 
-            $('#icono'+i+j+casilla).css({/*'background': color_icono, 'border-radius' : forma_icono, */'display' : display});
+            $('#icon' + i + j + cell ).css({'display' : display});
         }
     }
 
-    $('.icono').click(seleccionIcono);
+    $('.icon').click(showIconData);
 }
 
 // ON DEVELOPMENT
@@ -567,8 +554,8 @@ function nombresRandom(tipo, bando){
 }
 
 // End current player turn, and provides 3 gold to each player
-function pasarTurno(){
-    const unidades_length = unidades.length;
+function endTurn(){
+    const units_length = units.length;
     
     let i = 0,
         id = '',
@@ -577,13 +564,13 @@ function pasarTurno(){
     generarSoldados('Romanos');
     turnoIA();
     generarSoldados('Bárbaros');
-    oro[1] += 3;
-    oro[0] += 3;
-    $('#oro').val(oro[0]);
+    gold[1] += 3;
+    gold[0] += 3;
+    $('#gold').val(gold[0]);
 
-    for (i = 0; i < unidades_length; i++){
+    for (i = 0; i < units_length; i++){
 
-        unidad_i = unidades[i];
+        unidad_i = units[i];
 
         // Soldiers will capture adjacent towns automatically if they are besides them at the end of turn
         encuentro(unidad_i);
@@ -593,17 +580,17 @@ function pasarTurno(){
 
             // If it's a Roman Soldier, colour it in order to indicate that it can move again 
             if (unidad_i.jugador === 'Romanos'){
-                id = $('#'+unidad_i.casilla).attr('id').replace('icono', '').split("");
+                id = $('#'+unidad_i.cell).attr('id').replace('icon', '').split("");
                 
-                $('#casilla'+id[0]+id[1]).html('<a id="tooltip'+id[0]+id[1]
-                    +'a" href="#" data-toggle="tooltip" title="['+unidad_i.nombre+']. Mueve: ['+unidad_i.mueve+'], Fuerza: ['+unidad_i.fuerza+']">'
-                        +'<img class="icono" id="icono'+id[0]+id[1]+'a" src="images/SR_del_def.png"></img></a>');
+                $('#cell' + id[0] + id[1]).html('<a id="tooltip' + id[0] + id[1]
+                    +'a" href="#" data-toggle="tooltip" title="['+unidad_i.nombre+']. Moves: ['+unidad_i.mueve+'], Strength: ['+unidad_i.fuerza+']">'
+                        +'<img class="icon" id="icon'+id[0]+id[1]+'a" src="images/SR_del_def.png"></img></a>');
             }
         }
     }
 
-    $('.icono').off();
-    $('.icono').click(seleccionIcono);
+    $('.icon').off();
+    $('.icon').click(showIconData);
 
     comprobarVictoria();
 }
@@ -617,25 +604,25 @@ function turnoIA(){
     var pueblo_aux = '';
 
     var pueblos_length = '';
-    var unidades_length = unidades.length;
+    var units_length = units.length;
     var vago = 0;
 
     // Move soldiers
-    for (i = 0; i < unidades_length; i++){
+    for (i = 0; i < units_length; i++){
 
         // If random number is 1, soldier will not move this turn
         vago = Math.round(Math.random() * 5);
 
-        if ( (unidades[i] !== undefined) && (unidades[i].tipo === 'Soldado') && (unidades[i].jugador === 'Bárbaros') && (vago != 1) ){
-            autoMoverSoldadoRandom(unidades[i]);
+        if ( (units[i] !== undefined) && (units[i].tipo === 'Soldado') && (units[i].jugador === 'Bárbaros') && (vago != 1) ){
+            autoMoverSoldadoRandom(units[i]);
         }
     }
 
     // Create only towns array
-    for (i = 0; i < unidades.length; i++){
+    for (i = 0; i < units.length; i++){
 
-        if ((unidades[i].tipo === 'Pueblo') && (unidades[i].jugador === 'Bárbaros')){
-            pueblos.push(unidades[i]);
+        if ((units[i].tipo === 'Pueblo') && (units[i].jugador === 'Bárbaros')){
+            pueblos.push(units[i]);
         }
     }
 
@@ -668,11 +655,11 @@ function turnoIA(){
         // If random number is 1, quality won't be improved; if it's 2, quantity won't be improved
         vago = Math.round(Math.random() * 5);
 
-        if ((oro[1] >= pueblos[i].stats.precio_mej_cal) && (vago !== 1)){
+        if ((gold[1] >= pueblos[i].stats.precio_mej_cal) && (vago !== 1)){
             modoMejorar(pueblos[i], 'mej_cal');
         }
 
-        if ((oro[1] >= pueblos[i].stats.precio_mej_cant) && (vago !== 2)){
+        if ((gold[1] >= pueblos[i].stats.precio_mej_cant) && (vago !== 2)){
             modoMejorar(pueblos[i], 'mej_cant');
         }
     }
@@ -681,27 +668,27 @@ function turnoIA(){
 // Move enemy soldiers randomly
 function autoMoverSoldadoRandom(unidad){
     var randomIndex = 0;
-    var casilla_random = '';
+    var cell_random = '';
     var iguales = true;
-    var casilla_aux = '';
+    var cell_aux = '';
 
-    var casilla = unidad.casilla.replace('icono', '').split("");
+    var cell = unidad.cell.replace('icon', '').split("");
 
     var iteracion = [
-        ('casilla' + (parseInt(casilla[0]) + 1) + '' + parseInt(casilla[1])), ('casilla' + parseInt(casilla[0]) + '' + (parseInt(casilla[1]) + 1)),
-        ('casilla' + (parseInt(casilla[0]) - 1) + '' + parseInt(casilla[1])), ('casilla' + parseInt(casilla[0]) + '' + (parseInt(casilla[1]) - 1))
+        ('cell' + (parseInt(cell[0]) + 1) + '' + parseInt(cell[1])), ('cell' + parseInt(cell[0]) + '' + (parseInt(cell[1]) + 1)),
+        ('cell' + (parseInt(cell[0]) - 1) + '' + parseInt(cell[1])), ('cell' + parseInt(cell[0]) + '' + (parseInt(cell[1]) - 1))
     ];
 
     // Avoid soldiers moving to non-existant cells
-    if (parseInt(casilla[0]) === 7){
+    if (parseInt(cell[0]) === 7){
         iteracion.splice(0, 1);
-    }else if (parseInt(casilla[0]) === 0){
+    }else if (parseInt(cell[0]) === 0){
         iteracion.splice(2, 1);
     }
 
-    if (parseInt(casilla[1]) === 7){
+    if (parseInt(cell[1]) === 7){
         iteracion.splice(1, 1);
-    }else if (parseInt(casilla[1]) === 0){
+    }else if (parseInt(cell[1]) === 0){
         iteracion.splice(3, 1);
     }
 
@@ -715,16 +702,16 @@ function autoMoverSoldadoRandom(unidad){
         while (iguales){
 
             iguales = false;
-            casilla_random1 = Math.abs(Math.round(Math.random() * (iteracion.length - 1)))
-            casilla_random2 = Math.abs(Math.round(Math.random() * (iteracion.length - 1)))
-            if (casilla_random1 == casilla_random2){
+            cell_random1 = Math.abs(Math.round(Math.random() * (iteracion.length - 1)))
+            cell_random2 = Math.abs(Math.round(Math.random() * (iteracion.length - 1)))
+            if (cell_random1 == cell_random2){
                 iguales = true;
             }
         }
 
-        casilla_aux = iteracion[casilla_random1];
-        iteracion[casilla_random1] = iteracion[casilla_random2];
-        iteracion[casilla_random2] = casilla_aux;
+        cell_aux = iteracion[cell_random1];
+        iteracion[cell_random1] = iteracion[cell_random2];
+        iteracion[cell_random2] = cell_aux;
 
         num_iter--;
     }
@@ -734,8 +721,8 @@ function autoMoverSoldadoRandom(unidad){
     while ((unidad.mueve === movs) && (iteracion.length > 0)){
 
         randomIndex = Math.abs(Math.round(Math.random() * (iteracion.length - 1))) ;
-        casilla_random = iteracion[randomIndex];
-        moverSoldado(unidad, casilla_random);
+        cell_random = iteracion[randomIndex];
+        moverSoldado(unidad, cell_random);
         iteracion.splice(randomIndex, 1);
     }
 }
@@ -744,51 +731,51 @@ function autoMoverSoldadoRandom(unidad){
 function autoMoverSoldadoIA(unidad){
 
     var randomIndex = 0;
-    var casilla_random = '';
+    var cell_random = '';
     var iguales = true;
-    var casilla_aux = '';
+    var cell_aux = '';
     var i = 0;
-    var casilla_ini = '';
-    var casilla_fin = '';
+    var cell_ini = '';
+    var cell_fin = '';
     var objetivo = '';
     var continuar = true;
 
-    var casilla = unidad.casilla.replace('icono', '').split("");
+    var cell = unidad.cell.replace('icon', '').split("");
 
     var iteracion = [
-        ('#casilla' + (parseInt(casilla[0]) + 1) + '' + parseInt(casilla[1]) +' a img'), ('#casilla' + parseInt(casilla[0]) + '' + (parseInt(casilla[1]) + 1) +' a img'),
-        ('#casilla' + (parseInt(casilla[0]) - 1) + '' + parseInt(casilla[1]) +' a img'), ('#casilla' + parseInt(casilla[0]) + '' + (parseInt(casilla[1]) - 1) +' a img')
+        ('#cell' + (parseInt(cell[0]) + 1) + '' + parseInt(cell[1]) +' a img'), ('#cell' + parseInt(cell[0]) + '' + (parseInt(cell[1]) + 1) +' a img'),
+        ('#cell' + (parseInt(cell[0]) - 1) + '' + parseInt(cell[1]) +' a img'), ('#cell' + parseInt(cell[0]) + '' + (parseInt(cell[1]) - 1) +' a img')
     ];
 
     var iteracion_length = iteracion.length;
-    var unidades_length = unidades.length;
+    var units_length = units.length;
 
-    casilla_ini = unidad.casilla.replace('icono','').split('');
+    cell_ini = unidad.cell.replace('icon','').split('');
 
     // First look for towns
-    for (i = 0; (i < unidades_length && movs > 0); i++){
+    for (i = 0; (i < units_length && movs > 0); i++){
 
         continuar = true;
 
-        if ((unidades[i].tipo === 'Pueblo') && ((unidades[i].jugador === 'Neutral') || (unidades[i].jugador === 'Romanos'))){
+        if ((units[i].tipo === 'Pueblo') && ((units[i].jugador === 'Neutral') || (units[i].jugador === 'Romanos'))){
 
             while (continuar && unidad.mueve > 0){
-                objetivo = unidades[i];
-                casilla_fin = unidades[i].casilla.replace('icono','').split('');
+                objetivo = units[i];
+                cell_fin = units[i].cell.replace('icon','').split('');
 
                 //It will try to position itself on the same column that the target; and after that, on the same row.
-                if (casilla_ini[1] < casilla_fin[1]){
+                if (cell_ini[1] < cell_fin[1]){
                     moverSoldado(unidad, iteracion[1]);
-                }if (casilla_ini[1] < casilla_fin[1]){
+                }if (cell_ini[1] < cell_fin[1]){
                     moverSoldado(unidad, iteracion[4]);
-                }else if (casilla_ini[0] < casilla_fin[0]){
+                }else if (cell_ini[0] < cell_fin[0]){
                     moverSoldado(unidad, iteracion[0]);
-                }else if (casilla_ini[0] > casilla_fin[0]){
+                }else if (cell_ini[0] > cell_fin[0]){
                     moverSoldado(unidad, iteracion[2]);
                 }
 
                 // If our unit doesn't exist anymore o the town was already conquered, stop
-                if ( (unidades[i].jugador === 'Romanos') || (unidad === undefined) ){
+                if ( (units[i].jugador === 'Romanos') || (unidad === undefined) ){
                     continuar = false;
                 }
             }
@@ -796,29 +783,29 @@ function autoMoverSoldadoIA(unidad){
     }
 
     // Then it searchs for human and neutral soldiers
-    for (i = 0; i < unidades_length; i++){
+    for (i = 0; i < units_length; i++){
 
         continuar = true;
 
-        if ((unidades[i].tipo === 'Soldado') && ((unidades[i].jugador === 'Neutral') || (unidades[i].jugador === 'Romanos'))){
+        if ((units[i].tipo === 'Soldado') && ((units[i].jugador === 'Neutral') || (units[i].jugador === 'Romanos'))){
 
             while (continuar && unidad.mueve > 0){
-                objetivo = unidades[i];
-                casilla_fin = unidades[i].casilla.replace('icono','').split('');
+                objetivo = units[i];
+                cell_fin = units[i].cell.replace('icon','').split('');
 
                 //Intentará posicionarse en la misma columna que el objetivo, y luego en su misma fila
-                if (casilla_ini[1] < casilla_fin[1]){
+                if (cell_ini[1] < cell_fin[1]){
                     moverSoldado(unidad, iteracion[1]);
-                }if (casilla_ini[1] < casilla_fin[1]){
+                }if (cell_ini[1] < cell_fin[1]){
                     moverSoldado(unidad, iteracion[4]);
-                }else if (casilla_ini[0] < casilla_fin[0]){
+                }else if (cell_ini[0] < cell_fin[0]){
                     moverSoldado(unidad, iteracion[0]);
-                }else if (casilla_ini[0] > casilla_fin[0]){f
+                }else if (cell_ini[0] > cell_fin[0]){f
                     moverSoldado(unidad, iteracion[2]);
                 }
 
                 // If our unit or human player unit doesn't exist anymore
-                if ( (unidades[i] !== objetivo) || (unidad === undefined) ){
+                if ( (units[i] !== objetivo) || (unidad === undefined) ){
                     continuar = false;
                 }
             }
@@ -830,42 +817,42 @@ function autoMoverSoldadoIA(unidad){
 function generarSoldados(jugador){
     var i = 0;
     var j = 0;
-    var unidades_length = unidades.length;
+    var units_length = units.length;
     var soldados = 0;
     var calidad = 0;
     var movs = 0;
-    var casilla = '';
-    var casilla_vacia = '';
+    var cell = '';
+    var cell_vacia = '';
     var id = '';
     var nombre_random = '';
 
     var iteracion = '';
     var iteracion_length = '';
 
-    for(i = 0; i < unidades_length; i++ ){
+    for(i = 0; i < units_length; i++ ){
 
-        if ((unidades[i].tipo === 'Pueblo') && (unidades[i].jugador === jugador)){
+        if ((units[i].tipo === 'Pueblo') && (units[i].jugador === jugador)){
 
-            soldados = unidades[i].stats.cantidad;
-            calidad = unidades[i].stats.calidad;
+            soldados = units[i].stats.cantidad;
+            calidad = units[i].stats.calidad;
 
-            casilla = unidades[i].casilla.replace('icono','').split("");
+            cell = units[i].cell.replace('icon','').split("");
 
             iteracion = [
-                ('#casilla' + (parseInt(casilla[0]) + 1) + '' + parseInt(casilla[1])), ('#casilla' + parseInt(casilla[0]) + '' + (parseInt(casilla[1]) + 1)),
-                ('#casilla' + (parseInt(casilla[0]) - 1) + '' + parseInt(casilla[1])), ('#casilla' + parseInt(casilla[0]) + '' + (parseInt(casilla[1]) - 1))
+                ('#cell' + (parseInt(cell[0]) + 1) + '' + parseInt(cell[1])), ('#cell' + parseInt(cell[0]) + '' + (parseInt(cell[1]) + 1)),
+                ('#cell' + (parseInt(cell[0]) - 1) + '' + parseInt(cell[1])), ('#cell' + parseInt(cell[0]) + '' + (parseInt(cell[1]) - 1))
             ];
 
             // Stop soldiers moving to non-existant cells
-            if (parseInt(casilla[0]) === 7){
+            if (parseInt(cell[0]) === 7){
                 iteracion.splice(0, 1);
-            }else if (parseInt(casilla[0]) === 0){
+            }else if (parseInt(cell[0]) === 0){
                 iteracion.splice(2, 1);
             }
 
-            if (parseInt(casilla[1]) === 7){
+            if (parseInt(cell[1]) === 7){
                 iteracion.splice(1, 1);
-            }else if (parseInt(casilla[1]) === 0){
+            }else if (parseInt(cell[1]) === 0){
                 iteracion.splice(3, 1);
             }
 
@@ -877,35 +864,35 @@ function generarSoldados(jugador){
 
                 if ( ($(iteracion[j]+' img').attr('id') === undefined ) ){
 
-                    casilla_vacia = iteracion[j].replace('#casilla','').split("");
+                    cell_vacia = iteracion[j].replace('#cell','').split("");
 
                     nombre_random = nombresRandom('Soldado', jugador);
 
                     if (jugador === 'Romanos'){
-                        id = 'icono'+casilla_vacia[0]+casilla_vacia[1]+'a';
+                        id = 'icon'+cell_vacia[0]+cell_vacia[1]+'a';
                         movs = 2;
 
-                        $(iteracion[j]).html('<a id="tooltip'+i+''+j+casilla
-                        +'" href="#" data-toggle="tooltip" title="['+nombre_random+']. Mueve: ['+movs+'], Fuerza: ['+unidades[i].stats.calidad+']">'
-                        +'<img class="icono" id="'+id+'" src="images/SR_del_def.png"></img></a>');
+                        $(iteracion[j]).html('<a id="tooltip'+i+''+j+cell
+                        +'" href="#" data-toggle="tooltip" title="['+nombre_random+']. Mueve: ['+movs+'], Fuerza: ['+units[i].stats.calidad+']">'
+                        +'<img class="icon" id="'+id+'" src="images/SR_del_def.png"></img></a>');
 
                     }else if (jugador === 'Bárbaros'){
-                        id = 'icono'+casilla_vacia[0]+casilla_vacia[1]+'e';
+                        id = 'icon'+cell_vacia[0]+cell_vacia[1]+'e';
 
                         movs = 1;
 
-                        $(iteracion[j]).html('<a id="tooltip'+i+''+j+casilla+'" href="#" data-toggle="tooltip" title="['+nombre_random+']. Mueve: ['+movs+'], Fuerza: ['+unidades[i].stats.calidad+']">'
-                        +'<img class="icono" id="'+id+'" src="images/SB_del_def.png"></img></a>');
+                        $(iteracion[j]).html('<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="['+nombre_random+']. Mueve: ['+movs+'], Fuerza: ['+units[i].stats.calidad+']">'
+                        +'<img class="icon" id="'+id+'" src="images/SB_del_def.png"></img></a>');
                     }
 
 
-                    //$('#'+casilla_vacia).css({'background': color_icono, 'border-radius' : forma_icono, 'display' : display});
+                    //$('#'+cell_vacia).css({'background': color_icon, 'border-radius' : forma_icon, 'display' : display});
 
-                    unidades.push(
-                        {casilla: id, jugador: jugador, tipo: 'Soldado', nombre: nombre_random, mueve: movs, mueve_total: movs, fuerza: calidad});
+                    units.push(
+                        {cell: id, jugador: jugador, tipo: 'Soldado', nombre: nombre_random, mueve: movs, mueve_total: movs, fuerza: calidad});
 
                     // Resolve possible encounters when this unit appears besides other enemy unit
-                    encuentro(unidades[unidades.length - 1]);
+                    encuentro(units[units.length - 1]);
 
                     soldados--;
                 }
@@ -914,21 +901,26 @@ function generarSoldados(jugador){
     }
 }
 
+function updateDataLabels(unit) {
+    $('#player').val(unit.jugador);
+    $('#type').val(unit.tipo);
+    $('#name').val(unit.nombre);
+};
 
 // Shows data about the icon and, depending of the type of icon, allows to move it (soldier) or improve it (town)
-function seleccionIcono(){
+function showIconData(){
     let i = 0,
         unidad = '',
-        icono = this.id,
-        tipo = icono.charAt(icono.length - 1),
+        icon = this.id,
+        tipo = icon.charAt(icon.length - 1),
         color = '',
-        unidades_length = unidades.length;
+        units_length = units.length;
 
-    $('.icono').off();
+    $('.icon').off();
 
-    for(i = 0; i < unidades_length; i++){
-        if (unidades[i].casilla == icono){
-            unidad = unidades[i];
+    for(i = 0; i < units_length; i++){
+        if (units[i].cell == icon){
+            unidad = units[i];
             break;
         }
     }
@@ -936,19 +928,15 @@ function seleccionIcono(){
     switch(tipo){
 
         case 'A':
-            $('#jugador').val(unidad.jugador);
-            $('#tipo').val(unidad.tipo);
-            $('#nombre').val(unidad.nombre);
+            updateDataLabels(unidad);
 
             $('#prod_cant').html(unidad.cantidad);
             $('#prod_cal').html(unidad.calidad);
             $('#mej_cant').html(unidad.precio_mej_cant);
             $('#mej_cal').html(unidad.precio_mej_cal);
 
-            $('#form_pueblo').show();
-            $('#form_soldado').hide();
-
-            //$('#mej_cant').click({unidad : unidad, mejora_auto : ''}, modoMejorar);
+            $('#town_info').show();
+            $('#soldier_info').hide();
 
             $('#mej_cant').off();
             $('#mej_cant').click(function(){
@@ -962,62 +950,54 @@ function seleccionIcono(){
 
             //$('#mej_cal').click({unidad : unidad}, modoMejorar);
 
-            $("#mej_cant").html('Upgrade quantity ('+unidad.stats.precio_mej_cant+' Oro)');
-            $("#mej_cal").html('Upgrade quality ('+unidad.stats.precio_mej_cal+' Oro)');
-            $("#prod").html('Producing ['+unidad.stats.cantidad+'] soldiers with ['+unidad.stats.calidad+'] strength each turn.');
+            $("#mej_cant").html('Quantity ('+unidad.stats.precio_mej_cant+' Gold)');
+            $("#mej_cal").html('Quality ('+unidad.stats.precio_mej_cal+' Gold)');
+            $("#prod").html('Producing ['+unidad.stats.cantidad+'] soldiers with ['+unidad.stats.calidad+'] strength each turn. Upgrade: ');
 
             color = 'RGB(255, 10, 10)';
             break;
 
         case 'E':
-            $('#jugador').val(unidad.jugador);
-            $('#tipo').val(unidad.tipo);
-            $('#nombre').val(unidad.nombre);
+            updateDataLabels(unidad);
 
-            $('#form_pueblo').hide();
-            $('#form_soldado').hide();
+            $('#town_info').hide();
+            $('#soldier_info').hide();
 
             color = 'RGB(7, 168, 226)';
             break;
 
         case 'N':
-            $('#jugador').val(unidad.jugador);
-            $('#tipo').val(unidad.tipo);
-            $('#nombre').val(unidad.nombre);
+            updateDataLabels(unidad);
 
-            $('#form_pueblo').hide();
-            $('#form_soldado').hide();
+            $('#town_info').hide();
+            $('#soldier_info').hide();
 
             color = 'RGB(135, 135, 135)';
             break;
 
         case 'a':
-            $('#jugador').val(unidad.jugador);
-            $('#tipo').val(unidad.tipo);
-            $('#nombre').val(unidad.nombre);
+            updateDataLabels(unidad);
 
-            $('#form_pueblo').hide();
-            $('#form_soldado').show();
-            $('#destruir').show();
+            $('#town_info').hide();
+            $('#soldier_info').show();
+            $('#destroy').show();
 
-            modoMover(icono, unidad);
-            $("#mueve").html('Movements left: [' + unidad.mueve + ']');
-            $("#fuerza").html('Combat strength: [' + unidad.fuerza + '].');
+            modoMover(icon, unidad);
+            $("#movement").html('Movements left: [' + unidad.mueve + ']');
+            $("#strength").html('Combat strength: [' + unidad.fuerza + '].');
 
             color = 'RGB(255, 10, 10)';
             break;
 
         case 'e':
-            $('#jugador').val(unidad.jugador);
-            $('#tipo').val(unidad.tipo);
-            $('#nombre').val(unidad.nombre);
+            updateDataLabels(unidad);
 
-            $('#form_pueblo').hide();
-            $('#form_soldado').show();
-            $('#destruir').hide();
+            $('#town_info').hide();
+            $('#soldier_info').show();
+            $('#destroy').hide();
 
-//            $("#mueve").html('Movements left: [' + unidad.mueve+']');
-            $("#fuerza").html('Combat strength: [' + unidad.fuerza + '].');
+//            $("#movement").html('Movements left: [' + unidad.mueve+']');
+            $("#strength").html('Combat strength: [' + unidad.fuerza + '].');
 
             color = 'RGB(7, 168, 226)';
             break;
@@ -1028,16 +1008,14 @@ function seleccionIcono(){
                   strength_message_eng = 'Can devour an undertrained human',
                   strength_message_spa = 'Puede devorar a alguien con poco entrenamiento';
             
-            $('#jugador').val(unidad.jugador);
-            $('#tipo').val(unidad.tipo);
-            $('#nombre').val(unidad.nombre);
+            updateDataLabels(unidad);
 
-            $('#form_pueblo').hide();
-            $('#form_soldado').show();
-            $('#destruir').hide();
+            $('#town_info').hide();
+            $('#soldier_info').show();
+            $('#destroy').hide();
 
-            $("#mueve").html(move_message_eng);
-            $("#fuerza").html(strength_message_eng);
+            $("#movement").html(move_message_eng);
+            $("#strength").html(strength_message_eng);
 
             color = 'RGB(135, 135, 135)';
             break;
@@ -1047,92 +1025,85 @@ function seleccionIcono(){
     $('#info').show();
 }
 
-/*
-function cerrarInfo(){
-    $('#info').hide();
-}
-*/
-
 // Allows soldier to move while movements left
-function modoMover(icono, unidad){
-
+function modoMover(icon, unidad){
     //movs = unidad.mueve;
 
-    //$('#'+icono).html('<form><input readonly>'+movs+'</input></form>');
+    //$('#'+icon).html('<form><input readonly>'+movs+'</input></form>');
 
-    $('.casilla').off();
-    //movs = movs - $('.casilla').click({unidad: unidad}, moverSoldado).data("result");
+    $('.cell').off();
+    //movs = movs - $('.cell').click({unidad: unidad}, moverSoldado).data("result");
 
-    $('.casilla').click(function(){
-        //alert(unidad.casilla.replace('icono', '').substring(0, 2) + '=' + this.id.replace('casilla', ''));
+    $('.cell').click(function(){
+        //alert(unidad.cell.replace('icon', '').substring(0, 2) + '=' + this.id.replace('cell', ''));
         var meta = this.id;
-        if ((unidad.mueve > 0) && (unidad.casilla.replace('icono', '').substring(0, 2) !== this.id.replace('casilla', ''))){
+        if ((unidad.mueve > 0) && (unidad.cell.replace('icon', '').substring(0, 2) !== this.id.replace('cell', ''))){
             moverSoldado(unidad, meta);
         }
 
     });
 
-    $('#destruir').off();
-    $('#destruir').click(function(){
+    $('#destroy').off();
+    $('#destroy').click(function(){
         if (confirm('¿Suicidar al soldado actual?')){
-            destruirUnidad(unidad);
-            $('.casilla').off();
+            destroyUnit(unidad);
+            $('.cell').off();
             $('#info').hide();
-            $('.icono').off();
-            $('.icono').click(seleccionIcono);
+            $('.icon').off();
+            $('.icon').click(showIconData);
         }else{
 
         }
     });
 
-    //$('#'+icono).html('<form><input readonly>'+movs+'</input></form>');
+    //$('#'+icon).html('<form><input readonly>'+movs+'</input></form>');
 
-    //$('#casilla').off();
-    //$('.icono').click(seleccionIcono);
+    //$('#cell').off();
+    //$('.icon').click(showIconData);
 
 }
 
 // mejora_auto is for AI turn use of this function. In other case, this is invoked by an event_handler
 function moverSoldado(unidad, meta) {
-    let icono = '',
+    let icon = '',
         resultado = '';
 
     switch (unidad.jugador) {
         case 'Romanos':
-            color_icono = 'Blue';
-            forma_icono = '50px 50px 50px 50px';
+            color_icon = 'Blue';
+            forma_icon = '50px 50px 50px 50px';
             display = 'block';
 
             break;
         case 'Bárbaros':
-            color_icono = 'Red';
-            forma_icono = '50px 50px 50px 50px';
+            color_icon = 'Red';
+            forma_icon = '50px 50px 50px 50px';
             display = 'block';
             break;
     }
 
-    icono = document.getElementById(meta).lastElementChild;
-    casilla_ini = unidad.casilla.replace('icono','').split("");
-    casilla_fin = meta.replace('casilla','').replace('#', '').split("");
+    icon = document.getElementById(meta).lastElementChild;
+    cell_ini = unidad.cell.replace('icon','').split("");
+    cell_fin = meta.replace('cell','').replace('#', '').split("");
     
     //Check how many cells have it move as a total
-    mov =  Math.abs(casilla_ini[0] - casilla_fin[0])  + Math.abs(casilla_fin[1] - casilla_ini[1]);
+    mov =  Math.abs(cell_ini[0] - cell_fin[0])  + Math.abs(cell_fin[1] - cell_ini[1]);
 
     if (
-        (icono === null)
+        (icon === null)
         && (mov > 0) && (mov <= unidad.mueve)
         /*
-        && ((casilla_ini[0] - casilla_fin[0] < unidad.mueve) || (casilla_fin[0] - casilla_ini[0] < unidad.mueve))
-        && ((casilla_ini[1] - casilla_fin[1] < unidad.mueve) || (casilla_fin[1] - casilla_ini[1] < unidad.mueve))
+        && ((cell_ini[0] - cell_fin[0] < unidad.mueve) || (cell_fin[0] - cell_ini[0] < unidad.mueve))
+        && ((cell_ini[1] - cell_fin[1] < unidad.mueve) || (cell_fin[1] - cell_ini[1] < unidad.mueve))
         */
         ){
 
         //Move the soldier icon to he selected cell, and calculate movements left 
 
-        //$(unidad.casilla).css({'background': color_icono, 'border-radius' : forma_icono, 'display' : display});
-        //unidad.casilla = 'icono'+casilla_ini[2];
+        //$(unidad.cell).css({'background': color_icon, 'border-radius' : forma_icon, 'display' : display});
+        //unidad.cell = 'icon'+cell_ini[2];
 
-        unidad.casilla = 'icono' + casilla_fin[0] + '' + casilla_fin[1] + casilla_ini[2];
+        unidad.cell = 'icon' + cell_fin[0] + '' + cell_fin[1] + cell_ini[2];
 
         resultado = encuentro(unidad);
 
@@ -1147,33 +1118,33 @@ function moverSoldado(unidad, meta) {
             case 'Romanos':
 
                 if (resultado === 'pierde'){
-                    $('#casilla'+casilla_fin[0]+''+casilla_fin[1]).html('');
+                    $('#cell'+cell_fin[0]+''+cell_fin[1]).html('');
                 }else if ((resultado === 'gana') || (unidad.mueve === 0)){
-                    $('#casilla'+casilla_fin[0]+''+casilla_fin[1]).html('<a id="tooltip'+casilla_fin[0]+''+casilla_fin[1]+casilla_ini[2]
+                    $('#cell'+cell_fin[0]+''+cell_fin[1]).html('<a id="tooltip'+cell_fin[0]+''+cell_fin[1]+cell_ini[2]
                         +'" href="#" data-toggle="tooltip" title="['+unidad.nombre+']. Mueve: ['+unidad.mueve+'], Fuerza: ['+unidad.fuerza+']">'
-                        +'<img class="icono" id="icono'+casilla_fin[0]+''+casilla_fin[1]+casilla_ini[2]+'" src="images/SRUsed_del_def.png"></img></a>');
+                        +'<img class="icon" id="icon'+cell_fin[0]+''+cell_fin[1]+cell_ini[2]+'" src="images/SRUsed_del_def.png"></img></a>');
 
                 }else if (resultado === 'nada'){
-                    $('#casilla'+casilla_fin[0]+''+casilla_fin[1]).html('<a id="tooltip'+casilla_fin[0]+''+casilla_fin[1]+casilla_ini[2]
+                    $('#cell'+cell_fin[0]+''+cell_fin[1]).html('<a id="tooltip'+cell_fin[0]+''+cell_fin[1]+cell_ini[2]
                         +'" href="#" data-toggle="tooltip" title="['+unidad.nombre+']. Mueve: ['+unidad.mueve+'], Fuerza: ['+unidad.fuerza+']">'
-                        +'<img class="icono" id="icono'+casilla_fin[0]+''+casilla_fin[1]+casilla_ini[2]+'" src="images/SR_del_def.png"></img></a>');
+                        +'<img class="icon" id="icon'+cell_fin[0]+''+cell_fin[1]+cell_ini[2]+'" src="images/SR_del_def.png"></img></a>');
                 }
 
             break;
             case 'Bárbaros':
                 if (resultado === 'pierde'){
-                    $('#casilla'+casilla_fin[0]+''+casilla_fin[1]).html('');
+                    $('#cell'+cell_fin[0]+''+cell_fin[1]).html('');
                 }else{
-                    $('#casilla'+casilla_fin[0]+''+casilla_fin[1]).html('<a id="tooltip'+casilla_fin[0]+''+casilla_fin[1]+casilla_ini[2]
+                    $('#cell'+cell_fin[0]+''+cell_fin[1]).html('<a id="tooltip'+cell_fin[0]+''+cell_fin[1]+cell_ini[2]
                         +'" href="#" data-toggle="tooltip" title="['+unidad.nombre+']. Mueve: ['+unidad.mueve_total+'], Fuerza: ['+unidad.fuerza+']">'
-                        +'<img class="icono" id="icono'+casilla_fin[0]+''+casilla_fin[1]+casilla_ini[2]+'" src="images/SB_del_def.png"></img></a>');
+                        +'<img class="icon" id="icon'+cell_fin[0]+''+cell_fin[1]+cell_ini[2]+'" src="images/SB_del_def.png"></img></a>');
                 }
             break;
     }
 
-        $('#casilla'+casilla_ini[0]+''+casilla_ini[1]).html('');
-        $('.casilla').off();
-        $('.icono').click(seleccionIcono);
+        $('#cell'+cell_ini[0]+''+cell_ini[1]).html('');
+        $('.cell').off();
+        $('.icon').click(showIconData);
         $('#info').hide();
         comprobarVictoria();
 
@@ -1191,15 +1162,15 @@ function encuentro(unidad){
         conquistado = 0,
         vencedor = '',
         perdedor = '',
-        casilla = unidad.casilla.replace('icono', '').split(""),
+        cell = unidad.cell.replace('icon', '').split(""),
         
         iteracion = [
-            ('#casilla' + (parseInt(casilla[0]) + 1) + '' + parseInt(casilla[1])), ('#casilla' + parseInt(casilla[0]) + '' + (parseInt(casilla[1]) + 1)),
-            ('#casilla' + (parseInt(casilla[0]) - 1) + '' + parseInt(casilla[1])), ('#casilla' + parseInt(casilla[0]) + '' + (parseInt(casilla[1]) - 1))
+            ('#cell' + (parseInt(cell[0]) + 1) + '' + parseInt(cell[1])), ('#cell' + parseInt(cell[0]) + '' + (parseInt(cell[1]) + 1)),
+            ('#cell' + (parseInt(cell[0]) - 1) + '' + parseInt(cell[1])), ('#cell' + parseInt(cell[0]) + '' + (parseInt(cell[1]) - 1))
         ],
         
         iteracion_length = iteracion.length,
-        unidades_length = unidades.length,
+        units_length = units.length,
         i = 0,
         j = 0,
         k = 0,
@@ -1212,19 +1183,19 @@ function encuentro(unidad){
     // Look for fights with other soldiers next to itself
     for (i = 0; i < iteracion_length; i++){
          if ( ($(iteracion[i]+' a img').attr('id') !== undefined)
-            && ( (($(iteracion[i]+' a img').attr('id').replace('icono', '').charAt(2) === 'e') && (unidad.jugador === 'Romanos'))
-            ||(($(iteracion[i]+' a img').attr('id').replace('icono', '').charAt(2) === 'a') && (unidad.jugador === 'Bárbaros'))
-            ||(($(iteracion[i]+' a img').attr('id').replace('icono', '').charAt(2) === 'n') && ((unidad.jugador === 'Romanos')||(unidad.jugador === 'Bárbaros'))) )
+            && ( (($(iteracion[i]+' a img').attr('id').replace('icon', '').charAt(2) === 'e') && (unidad.jugador === 'Romanos'))
+            ||(($(iteracion[i]+' a img').attr('id').replace('icon', '').charAt(2) === 'a') && (unidad.jugador === 'Bárbaros'))
+            ||(($(iteracion[i]+' a img').attr('id').replace('icon', '').charAt(2) === 'n') && ((unidad.jugador === 'Romanos')||(unidad.jugador === 'Bárbaros'))) )
 
             ) {
 
             resultado = 'nada';
 
             // Combat
-            for (j = 0; j < unidades_length; j++){
-                //console.log(unidades[j].casilla.replace('icono', '').replace('a', '').replace('e','') + ' ===??? ' + iteracion[i].replace('#casilla', ''));
-                if (unidades[j].casilla.replace('icono', '').replace('a', '').replace('e','').replace('n','') === iteracion[i].replace('#casilla', '')) {
-                    adversario = unidades[j];
+            for (j = 0; j < units_length; j++){
+                //console.log(units[j].cell.replace('icon', '').replace('a', '').replace('e','') + ' ===??? ' + iteracion[i].replace('#cell', ''));
+                if (units[j].cell.replace('icon', '').replace('a', '').replace('e','').replace('n','') === iteracion[i].replace('#cell', '')) {
+                    adversario = units[j];
                     break;
                 }
             }
@@ -1234,13 +1205,13 @@ function encuentro(unidad){
                 vencedor = unidad;
                 perdedor = adversario;
                 resultado = 'gana';
-                destruirUnidad(adversario);
+                destroyUnit(adversario);
 
             } else if (unidad.fuerza + 1 < adversario.fuerza) {
                 vencedor = adversario;
                 perdedor = unidad;
                 resultado = 'pierde';
-                destruirUnidad(unidad);
+                destroyUnit(unidad);
 
             } else if (unidad.fuerza === adversario.fuerza) {
 
@@ -1249,13 +1220,13 @@ function encuentro(unidad){
                     vencedor = unidad;
                     perdedor = adversario;
                     resultado = 'gana';
-                    destruirUnidad(adversario);
+                    destroyUnit(adversario);
 
                 } else {
                     vencedor = adversario;
                     perdedor = unidad;
                     resultado = 'pierde';
-                    destruirUnidad(unidad);
+                    destroyUnit(unidad);
                 }
             } else if (unidad.fuerza + 1 === adversario.fuerza) {
 
@@ -1264,13 +1235,13 @@ function encuentro(unidad){
                     vencedor = unidad;
                     perdedor = adversario;
                     resultado = 'gana';
-                    destruirUnidad(adversario);
+                    destroyUnit(adversario);
 
                 } else {
                     vencedor = adversario;
                     perdedor = unidad;
                     resultado = 'pierde';
-                    destruirUnidad(unidad);
+                    destroyUnit(unidad);
                 }
 
             } else if (unidad.fuerza === adversario.fuerza + 1){
@@ -1280,23 +1251,23 @@ function encuentro(unidad){
                     vencedor = unidad;
                     perdedor = adversario;
                     resultado = 'gana';
-                    destruirUnidad(adversario);
+                    destroyUnit(adversario);
 
                 } else {
                     vencedor = adversario;
                     perdedor = unidad;
                     resultado = 'pierde';
-                    destruirUnidad(unidad);
+                    destroyUnit(unidad);
                 }
             }
 
             // Loot for kill
             if ((vencedor.jugador === 'Romanos')&&(perdedor.jugador !== 'Neutral')){
-                oro[0]++;
-                $('#oro').val(oro[0]);
+                gold[0]++;
+                $('#gold').val(gold[0]);
 
             }else if ((vencedor.jugador === 'Bárbaros')&&(perdedor.jugador !== 'Neutral')){
-                oro[1]++;
+                gold[1]++;
             }
 
             // If not dead yet, keep looking for fights
@@ -1312,45 +1283,45 @@ function encuentro(unidad){
         for (i = 0; i < iteracion_length; i++){
 
             if (  ($(iteracion[i]+' a img').attr('id') !== undefined)
-                && (($(iteracion[i]+' a img').attr('id').replace('icono', '').charAt(2) === 'N')
-                || (($(iteracion[i]+' a img').attr('id').replace('icono', '').charAt(2) === 'E') && (unidad.jugador === 'Romanos'))
-                || (($(iteracion[i]+' a img').attr('id').replace('icono', '').charAt(2) === 'A') && (unidad.jugador === 'Bárbaros')) )
+                && (($(iteracion[i]+' a img').attr('id').replace('icon', '').charAt(2) === 'N')
+                || (($(iteracion[i]+' a img').attr('id').replace('icon', '').charAt(2) === 'E') && (unidad.jugador === 'Romanos'))
+                || (($(iteracion[i]+' a img').attr('id').replace('icon', '').charAt(2) === 'A') && (unidad.jugador === 'Bárbaros')) )
                 ) {
 
-               //.log($(iteracion[0]).attr('id').replace('icono', '').charAt(2));
+               //.log($(iteracion[0]).attr('id').replace('icon', '').charAt(2));
 
                 resultado = 'gana';
 
-                unidades_length = unidades.length;
+                units_length = units.length;
 
                 // Find target unit in array 
-                for (j = 0; j < unidades_length; j++){
-                    if (unidades[j].casilla === ($(iteracion[i]+' img').attr('id'))) {
+                for (j = 0; j < units_length; j++){
+                    if (units[j].cell === ($(iteracion[i]+' img').attr('id'))) {
                         conquistado = j;
                         break;
                     }
                 }
 
-                unidades[conquistado].jugador = unidad.jugador;
-                unidades[conquistado].nombre = nombresRandom('Pueblo', unidad.jugador);
+                units[conquistado].jugador = unidad.jugador;
+                units[conquistado].nombre = nombresRandom('Pueblo', unidad.jugador);
 
                 if (unidad.jugador === 'Romanos'){
                     $(iteracion[i]+' a img').attr('src', 'images/AR_del_def.png');
                     nuevo_id = $(iteracion[i]+' img').attr('id').replaceAt( $(iteracion[i]+' img').attr('id').length - 1, 'A');
                     $(iteracion[i]+' a img').attr('id', nuevo_id);
-                    unidades[conquistado].casilla = unidades[conquistado].casilla.replaceAt(unidades[conquistado].casilla.length - 1, 'A');
+                    units[conquistado].cell = units[conquistado].cell.replaceAt(units[conquistado].cell.length - 1, 'A');
 
-                    title = '['+unidades[conquistado].nombre+']. Cantidad: ['+unidades[conquistado].stats.cantidad+']. Calidad: ['+unidades[conquistado].stats.calidad+']';
+                    title = '['+units[conquistado].nombre+']. Cantidad: ['+units[conquistado].stats.cantidad+']. Calidad: ['+units[conquistado].stats.calidad+']';
 
                     audio = new Audio('sounds/rom_conquest.mp3');
                 }else if (unidad.jugador === 'Bárbaros'){
                     $(iteracion[i]+' a img').attr('src', 'images/AB_del_def.png');
                     nuevo_id = $(iteracion[i]+' img').attr('id').replaceAt( $(iteracion[i]+' img').attr('id').length - 1, 'E');
                     $(iteracion[i]+' a img').attr('id', nuevo_id);
-                    unidades[conquistado].casilla = unidades[conquistado].casilla.replaceAt(unidades[conquistado].casilla.length - 1, 'E');
+                    units[conquistado].cell = units[conquistado].cell.replaceAt(units[conquistado].cell.length - 1, 'E');
                     audio = new Audio('sounds/bar_conquest.mp3');
 
-                    title = '['+unidades[conquistado].nombre+']';
+                    title = '['+units[conquistado].nombre+']';
                 }
 
                 $(iteracion[i]+' a').attr('title', title);
@@ -1363,16 +1334,18 @@ function encuentro(unidad){
 }
 
 //
-function destruirUnidad(unidad){
-    $('#casilla' + unidad.casilla.replace('icono','').replace('a', '').replace('e', '').replace('n','')).html('');
-    unidades.splice(unidades.indexOf(unidad), 1);
+function destroyUnit(unidad){
+    $('#cell' + unidad.cell.replace('icon','').replace('a', '').replace('e', '').replace('n','')).html('');
+    units.splice(units.indexOf(unidad), 1);
 
     let audio;
 
     if (unidad.jugador === 'Romanos'){
         audio = new Audio('sounds/scream.mp3');
+        
     }else if (unidad.jugador === 'Bárbaros'){
         audio = new Audio('sounds/kill.mp3');
+        
     }else if (unidad.jugador === 'Neutral'){
         audio = new Audio('sounds/wolf_scream.mp3');
     }
@@ -1385,7 +1358,7 @@ function modoMejorar(unidad, mejora){
     const errorMessage = 'You don\'t have enough gold!';
     
     let money = 0,
-        casilla = '',
+        cell = '',
         imagen = '',
         title = '';
     
@@ -1399,12 +1372,12 @@ function modoMejorar(unidad, mejora){
 
     if (mejora === 'mej_cant'){
 
-        if (unidad.stats.precio_mej_cant <= oro[index]){
+        if (unidad.stats.precio_mej_cant <= gold[index]){
 
-            oro[index] -= unidad.stats.precio_mej_cant;
+            gold[index] -= unidad.stats.precio_mej_cant;
             unidad.stats.precio_mej_cant += unidad.stats.precio_mej_cant;
             unidad.stats.cantidad++;
-            $('#oro').val(oro[index]);
+            $('#gold').val(gold[index]);
 
         }else{
             alert(errorMessage);
@@ -1412,20 +1385,20 @@ function modoMejorar(unidad, mejora){
 
     }else if (mejora === 'mej_cal'){
 
-        if (unidad.stats.precio_mej_cal <= oro[index]){
+        if (unidad.stats.precio_mej_cal <= gold[index]){
 
-            oro[index] -= unidad.stats.precio_mej_cal;
+            gold[index] -= unidad.stats.precio_mej_cal;
             unidad.stats.precio_mej_cal += unidad.stats.precio_mej_cal;
             unidad.stats.calidad++;
-            $('#oro').val(oro[index]);
+            $('#gold').val(gold[index]);
 
         }else{
             alert(errorMessage);
         }
     }
 
-    casilla = unidad.casilla.replace('icono', '#casilla')
-    casilla = casilla.substring(0, casilla.length - 1);
+    cell = unidad.cell.replace('icon', '#cell')
+    cell = cell.substring(0, cell.length - 1);
 
     if (unidad.jugador === 'Romanos'){
         title = '['+unidad.nombre+']. Quantity: ['+unidad.stats.cantidad+'], Quality: ['+unidad.stats.calidad+']';
@@ -1433,12 +1406,12 @@ function modoMejorar(unidad, mejora){
         title = '['+unidad.nombre+']';
     }
 
-    $(casilla).html('<a id="tooltip'+unidad.casilla.replace('icono','')
+    $(cell).html('<a id="tooltip'+unidad.cell.replace('icon','')
             +'" href="#" data-toggle="tooltip" title="'+title+'">'
-            +'<img class="icono" id="'+unidad.casilla+'" src="images/'+imagen+'.png"></img></a>');
+            +'<img class="icon" id="'+unidad.cell+'" src="images/'+imagen+'.png"></img></a>');
 
     $('#info').hide();
-    $('.icono').click(seleccionIcono);
+    $('.icon').click(showIconData);
 }
 
 // Check that there are still units in both sides; if not, victory one of the two factions wins 
@@ -1449,18 +1422,18 @@ function comprobarVictoria(){
           defeat_message_spa = '¡Los Bárbaros están por todos lados! Roma caerá...';
 
     let i = 0,
-        unidades_length = unidades.length,
+        units_length = units.length,
     //Alive [Romans, Barbarians]
         vivos = [0,0],
         audio = '';
 
     // Player have to destroy all barbarians soldiers and towns. AI wins just by killing all roman soldiers. 
-    for (i = 0; i < unidades_length; i++){
+    for (i = 0; i < units_length; i++){
 
-        if ( (unidades[i].tipo === 'Soldado') && (unidades[i].jugador === 'Romanos') ){
+        if ( (units[i].tipo === 'Soldado') && (units[i].jugador === 'Romanos') ){
 
             vivos[0]++;
-        }else if (unidades[i].jugador === 'Bárbaros'){
+        }else if (units[i].jugador === 'Bárbaros'){
 
             vivos[1]++;
         }
@@ -1477,14 +1450,14 @@ function comprobarVictoria(){
         alert(defeat_message_eng);
         audio.play();
         //location.reload();
-        mapeador(planos[mapa_actual]);
+        mapGenerator(planos[currentMapLevel]);
     }
 }
 
 // Advance to the next level. If it's last level, show victory message and end game. Uses cookie for storing current level.
 function avanzarMapa(){
     const maps_messages_eng = [
-            'Welcome to Barbarians! Please choose a roman soldier or town to start.',
+            'Welcome! You are a Roman General and you have been informed that some nasty Barbarians are assaulting little towns outside Rome. Use your soldiers to finish the enemy and recover control over those towns!',
             'Even little mountain towns have the right to be protected against the sadistic Barbarians!',
             'Those damn uncivilized folks! They aren\'t even able to organize for battle...',
             'Your explorer asures you that the road is safe... but something smells bad... it\'s like the smell of people that haven\'t wash for years!',
@@ -1497,7 +1470,7 @@ function avanzarMapa(){
         ],
           
         maps_messages_spa = [
-            '¡Bienvenido a Bárbaros! Selecciona un soldado romano o un pueblo para empezar a jugar.',
+            '¡Bienvenido! Has sido informado de que unos bárbaros están asaltando los pueblos de los alrededores de Roma. ¡Utiliza tus soldados para acabar con el enemigo y recupera esos pueblos!',
             '¡Incluso los pequeños pueblos de las montañas merecen ser protegidos de los sádicos Bárbaros!',
             'Estos malditos incivilizados no son siquiera capaces de formar para la batalla...',
             'Tu explorador te ha asegurado que el paso es seguro... pero algo huele mal... como a gente que hace años que no se baña...',
@@ -1514,17 +1487,17 @@ function avanzarMapa(){
         win_message_spa = '¡Felicidades, has completado el juego! Esos bárbaros no volverán a amenazar la bella Roma... ¿O tal vez ésto solo sea el principio?';
     
 
-    mapa_actual++;
+    currentMapLevel++;
 
-    if (mapa_actual >= planos.length ){
+    if (currentMapLevel >= planos.length ){
         alert(win_message);
         document.cookie = "mapa=" + 1 + "; expires=Thu, 07 Dec 2017 12:00:00 UTC";
         location.reload();
         
     }else{
-        document.cookie = "mapa=" + mapa_actual + "; expires=Thu, 07 Dec 2017 12:00:00 UTC";
-        mapeador(planos[mapa_actual]);
+        document.cookie = "mapa=" + currentMapLevel + "; expires=Thu, 07 Dec 2017 12:00:00 UTC";
+        mapGenerator(planos[currentMapLevel]);
 
-        alert(maps_messages_eng[mapa_actual]);
+        alert(maps_messages_eng[currentMapLevel]);
     }
 }
