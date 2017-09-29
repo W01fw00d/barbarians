@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>¡Bárbaros!</title>
+    <title>Barbarians!</title>
     <link rel="shortcut icon" type="image/png" href="images/favicon.ico"/>
   </head>
 
@@ -24,8 +24,8 @@
         <div class="control-bar-col col-sm-2">
           Oro: <input id="oro" class="gold-marker" value="1" type="text" readonly></input>
         </div>
-        <button type="button" id="pasarTurno" class="control-bar-col col-sm-2"> Terminar día </button>
-        <button type="button" id="resetMapa" class="control-bar-col col-sm-3"> Resetear mapa </button>
+        <button type="button" id="pasarTurno" class="control-bar-col col-sm-2"> End turn </button>
+        <button type="button" id="resetMapa" class="control-bar-col col-sm-3"> Reset map </button>
     	</div>
 
       <div class="control-board margin-top-md row">
@@ -38,36 +38,36 @@
         <div class="col-sm-4">
           <div id="info">
               <form class="padding-top-md">
-                  Bando:
+                  Faction:
                   <br><input id= "jugador" type="text" readonly></input>
                   <br><br>
-                  Unidad:
+                  Unit:
                   <br><input id= "tipo" type="text" readonly></input>
                   <br><br>
-                  Nombre:
+                  Name:
                   <br><input id= "nombre" type="text" readonly></input>
                   <br><br><br>
               </form>
               <form id="form_pueblo">
-                  <!--Solo pueblo -->
+                  <!--Town only -->
                   <div id= "prod" type="text" readonly></div>
                   <br>
-                  <button type="button" id= "mej_cant">Mejorar cantidad (1 Oro)</button>
+                  <button type="button" id= "mej_cant">Improve quantity (1 Gold)</button>
                   <br><br>
-                  <button type="button" id= "mej_cal">Mejorar calidad (1 Oro)</button>
+                  <button type="button" id= "mej_cal">Improve quality (1 Gold)</button>
                   <br><br>
               </form>
               <form id="form_soldado">
-                  <!--Solo soldado -->
+                  <!--Soldier only -->
                   <div id= "mueve" type="text" readonly></div>
                   <br>
                   <div id= "fuerza" type="text" readonly></div>
                   <br>
-                  <button type="button" id= "destruir">Destruir</button>
+                  <button type="button" id= "destruir">Destroy</button>
                   <br><br>
               </form>
 
-              <button type="button" id="cerrar" class="close-button">Cerrar</button>
+              <button type="button" id="cerrar" class="close-button">Close</button>
           </div>
         </div>
       </div>
