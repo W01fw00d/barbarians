@@ -267,7 +267,7 @@ function mapGenerator(array){
                     iconShape = '0px 0px 0px 0px';
                     display = 'block';
                     units.push(
-                        {cell: 'icon'+i+j+cell, jugador: 'Neutral', tipo: 'Town', name: 'Libre', stats: {cantidad: 1, calidad: 1, precio_mej_cant: 1, precio_mej_cal: 1}});
+                        {cell: 'icon'+i+j+cell, player: 'Neutral', type: 'Town', name: 'Libre', stats: {quantity: 1, quality: 1, quantityUpgradePrice: 1, qualityUpgradePrice: 1}});
                     icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="Free Town"><img class="icon" id="icon'+i+''+j+cell+'" src="images/AN_del_def.png"></img></a>';
                     break;
                     
@@ -275,8 +275,8 @@ function mapGenerator(array){
                     iconShape = '0px 0px 0px 0px';
                     display = 'block';
                     units.push(
-                        {cell: 'icon'+i+j+cell, jugador: 'Roman', tipo: 'Town', name: getRandomName('Town', 'Roman'), stats: {cantidad: 1, calidad: 1, precio_mej_cant: 1, precio_mej_cal: 1}});
-                    icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="['+units[units.length - 1].name+']. Cantidad: [1], Calidad: [1]">'
+                        {cell: 'icon'+i+j+cell, player: 'Roman', type: 'Town', name: getRandomName('Town', 'Roman'), stats: {quantity: 1, quality: 1, quantityUpgradePrice: 1, qualityUpgradePrice: 1}});
+                    icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="['+units[units.length - 1].name+']. quantity: [1], quality: [1]">'
                         +'<img class="icon" id="icon'+i+''+j+cell+'" src="images/AR_del_def.png"></img></a>';
                     break;
                     
@@ -284,7 +284,7 @@ function mapGenerator(array){
                     iconShape = '0px 0px 0px 0px';
                     display = 'block';
                     units.push(
-                        {cell: 'icon'+i+j+cell, jugador: 'Barbarian', tipo: 'Town', name: getRandomName('Town', 'Barbarian'), stats: {cantidad: 1, calidad: 1, precio_mej_cant: 1, precio_mej_cal: 1}});
+                        {cell: 'icon'+i+j+cell, player: 'Barbarian', type: 'Town', name: getRandomName('Town', 'Barbarian'), stats: {quantity: 1, quality: 1, quantityUpgradePrice: 1, qualityUpgradePrice: 1}});
                     icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="['+units[units.length - 1].name+']">'
                         +'<img class="icon" id="icon'+i+''+j+cell+'" src="images/AB_del_def.png"></img></a>';
                     break;
@@ -295,7 +295,7 @@ function mapGenerator(array){
                     iconShape = '50px 50px 50px 50px';
                     display = 'block';
                     units.push(
-                        {cell: 'icon'+i+j+cell, jugador: 'Neutral', tipo: 'Manada', name: 'Lobos', mueve_total: 0, mueve: 0, strength: 1});
+                        {cell: 'icon'+i+j+cell, player: 'Neutral', type: 'Pack', name: 'Wolf', movements_total: 0, movements: 0, strength: 1});
                     icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="' + neutralIconTitle + '">'
                         +'<img class="icon" id="icon'+i+''+j+cell+'" src="images/L_del_def.png"></img></a>';
                     break;
@@ -306,8 +306,8 @@ function mapGenerator(array){
                     iconShape = '50px 50px 50px 50px';
                     display = 'block';
                     units.push(
-                        {cell: 'icon'+i+j+cell, jugador: 'Roman', tipo: 'Soldier', name: getRandomName('Soldier', 'Roman'), mueve_total: 2, mueve: 2, strength: 1});
-                    icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="['+units[units.length - 1].name+']. Mueve: [2], strength: [1]">'
+                        {cell: 'icon'+i+j+cell, player: 'Roman', type: 'Soldier', name: getRandomName('Soldier', 'Roman'), movements_total: 2, movements: 2, strength: 1});
+                    icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="['+units[units.length - 1].name+']. movements: [2], strength: [1]">'
                         +'<img class="icon" id="icon'+i+''+j+cell+'" src="images/SR_del_def.png"></img></a>';
                     break;
                     
@@ -318,8 +318,8 @@ function mapGenerator(array){
                     iconShape = '50px 50px 50px 50px';
                     display = 'block';
                     units.push(
-                        {cell: 'icon'+i+j+cell, jugador: 'Barbarian', tipo: 'Soldier', name: getRandomName('Soldier', 'Barbarian'), mueve_total: 1, mueve: 1, strength: 1});
-                    icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="['+units[units.length - 1].name+']. Mueve: [1]. strength: [1]">'
+                        {cell: 'icon'+i+j+cell, player: 'Barbarian', type: 'Soldier', name: getRandomName('Soldier', 'Barbarian'), movements_total: 1, movements: 1, strength: 1});
+                    icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="['+units[units.length - 1].name+']. movements: [1]. strength: [1]">'
                         +'<img class="icon" id="icon'+i+''+j+cell+'" src="images/SB_del_def.png"></img></a>';
                     break;
 
@@ -344,13 +344,13 @@ function mapGenerator(array){
 // Randomly generates a map using arguments (shall sum 64)
 function randomMapGenerator(x, A, E, N, a, e, n){
     var planes = [
-        {tipo: 'x', num: x}, 
-        {tipo: 'A', num: A}, 
-        {tipo: 'E', num: E}, 
-        {tipo: 'N', num: N}, 
-        {tipo: 'a', num: a}, 
-        {tipo: 'e', num: e}, 
-        {tipo: 'n', num: n}
+        {type: 'x', num: x}, 
+        {type: 'A', num: A}, 
+        {type: 'E', num: E}, 
+        {type: 'N', num: N}, 
+        {type: 'a', num: a}, 
+        {type: 'e', num: e}, 
+        {type: 'n', num: n}
     ];
 
     var total = planes[0].num + planes[1].num + planes[2].num + planes[3].num + planes[4].num + planes[5].num + planes[6].num;
@@ -369,8 +369,8 @@ function randomMapGenerator(x, A, E, N, a, e, n){
 
                 plan_random = Math.floor((Math.random() * planes.length));
 
-                if ( (planes[plan_random].num > 0) && comprobarIncompatibilidad(i, j, planes[plan_random].tipo, blueprint) ){;
-                    blueprint[i] = blueprint[i].replaceAt(j, planes[plan_random].tipo);
+                if ( (planes[plan_random].num > 0) && comprobarIncompatibilidad(i, j, planes[plan_random].type, blueprint) ){;
+                    blueprint[i] = blueprint[i].replaceAt(j, planes[plan_random].type);
                     planes[plan_random].num--;
                     total--;
                 }
@@ -383,13 +383,13 @@ function randomMapGenerator(x, A, E, N, a, e, n){
 
 // ON DEVELOPMENT
 // Checks that colindant cells there aren't any incompatible units with the new unit we are placing
-function comprobarIncompatibilidad(i, j, tipo, blueprint){
-    var k = 0;
-    var incompatibles;
-    var alwaysCompatible = false;
-    var iteration = [
-        [i+1,j], [i-1,j], [i,j+1], [i,j-1]
-    ];
+function comprobarIncompatibilidad(i, j, type, blueprint){
+    let k = 0,
+        incompatibles
+        alwaysCompatible = false
+        iteration = [
+            [i+1,j], [i-1,j], [i,j+1], [i,j-1]
+        ];
 
     //var iterationLength = iteration.length;
 
@@ -403,7 +403,7 @@ function comprobarIncompatibilidad(i, j, tipo, blueprint){
     var iterationLength = iteration.length;
 
     // 1 or 2 types are incompatibles, we repeat two times to simplify the algorythm
-    switch(tipo){
+    switch(type){
         case 'A':
             incompatibles = ['e', 'e', 'e'];
             break;
@@ -514,19 +514,19 @@ const romanSoldierNames = [
 
 
 // Returns a name string, chosen randomly from the names array 
-function getRandomName(tipo, bando){
+function getRandomName(type, faction){
     let names, randomNumber;
 
-    switch(tipo){
+    switch(type){
 
         case 'Soldier':
-            names = bando === 'Roman' ? 
+            names = faction === 'Roman' ? 
                 romanSoldierNames : barbarianSoldierNames;
 
             break;
             
         case 'Town':
-            names = bando === 'Roman' ? 
+            names = faction === 'Roman' ? 
                 romanTownNames : barbarianTownNames;
             
             break;
@@ -560,15 +560,15 @@ function endTurn(){
         // Soldiers will capture adjacent towns automatically if they are besides them at the end of turn
         checkEncounter(unit_i);
 
-        if (unit_i.tipo === 'Soldier'){
-            unit_i.mueve = unit_i.mueve_total;
+        if (unit_i.type === 'Soldier'){
+            unit_i.movements = unit_i.movements_total;
 
             // If it's a Roman Soldier, colour it in order to indicate that it can move again 
-            if (unit_i.jugador === 'Roman'){
+            if (unit_i.player === 'Roman'){
                 id = $('#'+unit_i.cell).attr('id').replace('icon', '').split("");
                 
                 $('#cell' + id[0] + id[1]).html('<a id="tooltip' + id[0] + id[1]
-                    +'a" href="#" data-toggle="tooltip" title="['+unit_i.name+']. Moves: ['+unit_i.mueve+'], Strength: ['+unit_i.strength+']">'
+                    +'a" href="#" data-toggle="tooltip" title="['+unit_i.name+']. Moves: ['+unit_i.movements+'], Strength: ['+unit_i.strength+']">'
                         +'<img class="icon" id="icon'+id[0]+id[1]+'a" src="images/SR_del_def.png"></img></a>');
             }
         }
@@ -582,46 +582,46 @@ function endTurn(){
 
 // Performs the AI enemy turn: it behaves quite randomly for now
 function turnoIA(){
-    var i = 0;
-    var towns = [];
-    var num_iter = 0;
-    var iguales = true;
-    var auxTown = '';
-
-    var towns_length = '';
-    var unitsLength = units.length;
-    var vago = 0;
+    let i = 0,
+        towns = [],
+        nIterations = 0,
+        equals = true,
+        auxTown = '',
+        townsLength = '',
+        unitsLength = units.length,
+        lazy = 0;
 
     // Move soldiers
     for (i = 0; i < unitsLength; i++){
 
         // If random number is 1, soldier will not move this turn
-        vago = Math.round(Math.random() * 5);
+        lazy = Math.round(Math.random() * 5);
 
-        if ( (units[i] !== undefined) && (units[i].tipo === 'Soldier') && (units[i].jugador === 'Barbarian') && (vago != 1) ){
-            automoveSoldierRandom(units[i]);
+        if ((units[i] !== undefined) && (units[i].type === 'Soldier') && (units[i].player === 'Barbarian') && (lazy != 1)){
+            moveSoldierRandom(units[i]);
         }
     }
 
     // Create only towns array
     for (i = 0; i < units.length; i++){
 
-        if ((units[i].tipo === 'Town') && (units[i].jugador === 'Barbarian')){
+        if ((units[i].type === 'Town') && (units[i].player === 'Barbarian')){
             towns.push(units[i]);
         }
     }
 
     // Randonmy reorder towns array
-    num_iter = Math.round(Math.random() * towns_length);
+    nIterations = Math.round(Math.random() * townsLength);
 
-    while (num_iter > 0){
+    while (nIterations > 0){
 
-        while (iguales){
-            iguales = false;
-            randomTown1 = Math.round(Math.random() * towns_length) - 1;
-            randomTown2 = Math.round(Math.random() * towns_length) - 1;
+        while (equals){
+            equals = false;
+            randomTown1 = Math.round(Math.random() * townsLength) - 1;
+            randomTown2 = Math.round(Math.random() * townsLength) - 1;
+            
             if (randomTown1 === randomTown2){
-                iguales = true;
+                equals = true;
             }
         }
 
@@ -629,50 +629,50 @@ function turnoIA(){
         towns[randomTown1] = towns[randomTown2];
         towns[randomTown2] = auxTown;
 
-        num_iter--;
+        nIterations--;
     }
 
-    towns_length = towns.length;
+    townsLength = towns.length;
 
     // Improve towns 
-    for (i = 0; i < towns_length; i++){
+    for (i = 0; i < townsLength; i++){
 
         // If random number is 1, quality won't be improved; if it's 2, quantity won't be improved
-        vago = Math.round(Math.random() * 5);
+        lazy = Math.round(Math.random() * 5);
 
-        if ((gold[1] >= towns[i].stats.precio_mej_cal) && (vago !== 1)){
-            upgradeMode(towns[i], 'mej_cal');
+        if ((gold[1] >= towns[i].stats.qualityUpgradePrice) && (lazy !== 1)){
+            upgradeMode(towns[i], 'improve_quality');
         }
 
-        if ((gold[1] >= towns[i].stats.precio_mej_cant) && (vago !== 2)){
-            upgradeMode(towns[i], 'mej_cant');
+        if ((gold[1] >= towns[i].stats.quantityUpgradePrice) && (lazy !== 2)){
+            upgradeMode(towns[i], 'improve_quantity');
         }
     }
 }
 
 // Move enemy soldiers randomly
-function automoveSoldierRandom(unit){
-    var randomIndex = 0;
-    var cell_random = '';
-    var iguales = true;
-    var cell_aux = '';
-
-    var cell = unit.cell.replace('icon', '').split("");
-
-    var iteration = [
-        ('cell' + (parseInt(cell[0]) + 1) + '' + parseInt(cell[1])), ('cell' + parseInt(cell[0]) + '' + (parseInt(cell[1]) + 1)),
-        ('cell' + (parseInt(cell[0]) - 1) + '' + parseInt(cell[1])), ('cell' + parseInt(cell[0]) + '' + (parseInt(cell[1]) - 1))
-    ];
+function moveSoldierRandom(unit){
+    var randomIndex = 0,
+        randomCell = '',
+        equals = true,
+        cell_aux = '',
+        cell = unit.cell.replace('icon', '').split(""),
+        iteration = [
+            ('cell' + (parseInt(cell[0]) + 1) + '' + parseInt(cell[1])), ('cell' + parseInt(cell[0]) + '' + (parseInt(cell[1]) + 1)),
+            ('cell' + (parseInt(cell[0]) - 1) + '' + parseInt(cell[1])), ('cell' + parseInt(cell[0]) + '' + (parseInt(cell[1]) - 1))
+        ];
 
     // Avoid soldiers moving to non-existant cells
     if (parseInt(cell[0]) === 7){
         iteration.splice(0, 1);
+        
     }else if (parseInt(cell[0]) === 0){
         iteration.splice(2, 1);
     }
 
     if (parseInt(cell[1]) === 7){
         iteration.splice(1, 1);
+        
     }else if (parseInt(cell[1]) === 0){
         iteration.splice(3, 1);
     }
@@ -680,49 +680,49 @@ function automoveSoldierRandom(unit){
     var iterationLength = iteration.length;
 
     // Randomly reorder posible directions array
-    num_iter = Math.round(Math.random() * iterationLength);
+    nIterations = Math.round(Math.random() * iterationLength);
 
-    while (num_iter > 0){
+    while (nIterations > 0){
 
-        while (iguales){
-
-            iguales = false;
-            cell_random1 = Math.abs(Math.round(Math.random() * (iteration.length - 1)))
-            cell_random2 = Math.abs(Math.round(Math.random() * (iteration.length - 1)))
-            if (cell_random1 == cell_random2){
-                iguales = true;
+        while (equals){
+            equals = false;
+            randomCell1 = Math.abs(Math.round(Math.random() * (iteration.length - 1)))
+            randomCell2 = Math.abs(Math.round(Math.random() * (iteration.length - 1)))
+            
+            if (randomCell1 == randomCell2){
+                equals = true;
             }
         }
 
-        cell_aux = iteration[cell_random1];
-        iteration[cell_random1] = iteration[cell_random2];
-        iteration[cell_random2] = cell_aux;
+        cell_aux = iteration[randomCell1];
+        iteration[randomCell1] = iteration[randomCell2];
+        iteration[randomCell2] = cell_aux;
 
-        num_iter--;
+        nIterations--;
     }
 
-    var movs = unit.mueve;
+    var movements = unit.movements;
 
-    while ((unit.mueve === movs) && (iteration.length > 0)){
+    while ((unit.movements === movements) && (iteration.length > 0)){
 
         randomIndex = Math.abs(Math.round(Math.random() * (iteration.length - 1))) ;
-        cell_random = iteration[randomIndex];
-        moveSoldier(unit, cell_random);
+        randomCell = iteration[randomIndex];
+        moveSoldier(unit, randomCell);
         iteration.splice(randomIndex, 1);
     }
 }
 
 // Move soldiers, first try to aproach neutral/human player towns, and then human player soldiers
-function automoveSoldierIA(unit){
+function moveSoldierIA(unit){
     var randomIndex = 0;
-    var cell_random = '';
-    var iguales = true;
+    var randomCell = '';
+    var equals = true;
     var cell_aux = '';
     var i = 0;
     var initialCell = '';
     var finalCell = '';
-    var objetivo = '';
-    var continuar = true;
+    var target = '';
+    var continueBool = true;
 
     var cell = unit.cell.replace('icon', '').split("");
 
@@ -737,30 +737,33 @@ function automoveSoldierIA(unit){
     initialCell = unit.cell.replace('icon','').split('');
 
     // First look for towns
-    for (i = 0; (i < unitsLength && movs > 0); i++){
+    for (i = 0; (i < unitsLength && movements > 0); i++){
 
-        continuar = true;
+        continueBool = true;
 
-        if ((units[i].tipo === 'Town') && ((units[i].jugador === 'Neutral') || (units[i].jugador === 'Roman'))){
+        if ((units[i].type === 'Town') && ((units[i].player === 'Neutral') || (units[i].player === 'Roman'))){
 
-            while (continuar && unit.mueve > 0){
-                objetivo = units[i];
+            while (continueBool && unit.movements > 0){
+                target = units[i];
                 finalCell = units[i].cell.replace('icon','').split('');
 
                 //It will try to position itself on the same column that the target; and after that, on the same row.
                 if (initialCell[1] < finalCell[1]){
                     moveSoldier(unit, iteration[1]);
-                }if (initialCell[1] < finalCell[1]){
+                    
+                } if (initialCell[1] < finalCell[1]){
                     moveSoldier(unit, iteration[4]);
-                }else if (initialCell[0] < finalCell[0]){
+                    
+                } else if (initialCell[0] < finalCell[0]){
                     moveSoldier(unit, iteration[0]);
-                }else if (initialCell[0] > finalCell[0]){
+                    
+                } else if (initialCell[0] > finalCell[0]){
                     moveSoldier(unit, iteration[2]);
                 }
 
                 // If our unit doesn't exist anymore o the town was already conquered, stop
-                if ( (units[i].jugador === 'Roman') || (unit === undefined) ){
-                    continuar = false;
+                if ((units[i].player === 'Roman') || (unit === undefined)){
+                    continueBool = false;
                 }
             }
         }
@@ -769,28 +772,31 @@ function automoveSoldierIA(unit){
     // Then it searchs for human and neutral soldiers
     for (i = 0; i < unitsLength; i++){
 
-        continuar = true;
+        continueBool = true;
 
-        if ((units[i].tipo === 'Soldier') && ((units[i].jugador === 'Neutral') || (units[i].jugador === 'Roman'))){
+        if ((units[i].type === 'Soldier') && ((units[i].player === 'Neutral') || (units[i].player === 'Roman'))){
 
-            while (continuar && unit.mueve > 0){
-                objetivo = units[i];
+            while (continueBool && unit.movements > 0){
+                target = units[i];
                 finalCell = units[i].cell.replace('icon','').split('');
 
-                //Intentará posicionarse en la misma columna que el objetivo, y luego en su misma fila
+                //Intentará posicionarse en la misma columna que el target, y luego en su misma fila
                 if (initialCell[1] < finalCell[1]){
                     moveSoldier(unit, iteration[1]);
-                }if (initialCell[1] < finalCell[1]){
+                    
+                } if (initialCell[1] < finalCell[1]){
                     moveSoldier(unit, iteration[4]);
-                }else if (initialCell[0] < finalCell[0]){
+                    
+                } else if (initialCell[0] < finalCell[0]){
                     moveSoldier(unit, iteration[0]);
-                }else if (initialCell[0] > finalCell[0]){f
+                    
+                } else if (initialCell[0] > finalCell[0]){f
                     moveSoldier(unit, iteration[2]);
                 }
 
                 // If our unit or human player unit doesn't exist anymore
-                if ( (units[i] !== objetivo) || (unit === undefined) ){
-                    continuar = false;
+                if ((units[i] !== target) || (unit === undefined)){
+                    continueBool = false;
                 }
             }
         }
@@ -798,15 +804,15 @@ function automoveSoldierIA(unit){
 }
 
 // Iterates through towns array and, if possible, generate soldiers equals to the quantity variable; with strength equals to quality variable
-function generateSoldiers(jugador){
+function generateSoldiers(player){
     var i = 0;
     var j = 0;
     var unitsLength = units.length;
     var soldiers = 0;
-    var calidad = 0;
-    var movs = 0;
+    var quality = 0;
+    var movements = 0;
     var cell = '';
-    var cell_vacia = '';
+    var emptyCell = '';
     var id = '';
     var randomName = '';
 
@@ -815,10 +821,10 @@ function generateSoldiers(jugador){
 
     for(i = 0; i < unitsLength; i++ ){
 
-        if ((units[i].tipo === 'Town') && (units[i].jugador === jugador)){
+        if ((units[i].type === 'Town') && (units[i].player === player)){
 
-            soldiers = units[i].stats.cantidad;
-            calidad = units[i].stats.calidad;
+            soldiers = units[i].stats.quantity;
+            quality = units[i].stats.quality;
 
             cell = units[i].cell.replace('icon','').split("");
 
@@ -848,29 +854,29 @@ function generateSoldiers(jugador){
 
                 if ( ($(iteration[j]+' img').attr('id') === undefined ) ){
 
-                    cell_vacia = iteration[j].replace('#cell','').split("");
+                    emptyCell = iteration[j].replace('#cell','').split("");
 
-                    randomName = getRandomName('Soldier', jugador);
+                    randomName = getRandomName('Soldier', player);
 
-                    if (jugador === 'Roman'){
-                        id = 'icon'+cell_vacia[0]+cell_vacia[1]+'a';
-                        movs = 2;
+                    if (player === 'Roman'){
+                        id = 'icon'+emptyCell[0]+emptyCell[1]+'a';
+                        movements = 2;
 
                         $(iteration[j]).html('<a id="tooltip'+i+''+j+cell
-                        +'" href="#" data-toggle="tooltip" title="['+randomName+']. Mueve: ['+movs+'], strength: ['+units[i].stats.calidad+']">'
+                        +'" href="#" data-toggle="tooltip" title="['+randomName+']. movements: ['+movements+'], strength: ['+units[i].stats.quality+']">'
                         +'<img class="icon" id="'+id+'" src="images/SR_del_def.png"></img></a>');
 
-                    }else if (jugador === 'Barbarian'){
-                        id = 'icon'+cell_vacia[0]+cell_vacia[1]+'e';
+                    }else if (player === 'Barbarian'){
+                        id = 'icon'+emptyCell[0]+emptyCell[1]+'e';
 
-                        movs = 1;
+                        movements = 1;
 
-                        $(iteration[j]).html('<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="['+randomName+']. Mueve: ['+movs+'], strength: ['+units[i].stats.calidad+']">'
+                        $(iteration[j]).html('<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="['+randomName+']. movements: ['+movements+'], strength: ['+units[i].stats.quality+']">'
                         +'<img class="icon" id="'+id+'" src="images/SB_del_def.png"></img></a>');
                     }
 
                     units.push(
-                        {cell: id, jugador: jugador, tipo: 'Soldier', name: randomName, mueve: movs, mueve_total: movs, strength: calidad});
+                        {cell: id, player: player, type: 'Soldier', name: randomName, movements: movements, movements_total: movements, strength: quality});
 
                     // Resolve possible encounters when this unit appears besides other enemy unit
                     checkEncounter(units[units.length - 1]);
@@ -883,8 +889,8 @@ function generateSoldiers(jugador){
 }
 
 function updateDataLabels(unit) {
-    $('#player').val(unit.jugador);
-    $('#type').val(unit.tipo);
+    $('#player').val(unit.player);
+    $('#type').val(unit.type);
     $('#name').val(unit.name);
 };
 
@@ -893,7 +899,7 @@ function showIconData(){
     let i = 0,
         unit,
         icon = this.id,
-        tipo = icon.charAt(icon.length - 1),
+        type = icon.charAt(icon.length - 1),
         color,
         grey = 'RGB(135, 135, 135)',
         red = 'RGB(255, 10, 10)',
@@ -909,34 +915,34 @@ function showIconData(){
         }
     }
 
-    switch(tipo){
+    switch(type){
 
         case 'A':
             updateDataLabels(unit);
 
-            $('#prod_cant').html(unit.cantidad);
-            $('#prod_cal').html(unit.calidad);
-            $('#mej_cant').html(unit.precio_mej_cant);
-            $('#mej_cal').html(unit.precio_mej_cal);
+            $('#quantity_production').html(unit.quantity);
+            $('#quality_production').html(unit.quality);
+            $('#improve_quantity').html(unit.quantityUpgradePrice);
+            $('#improve_quality').html(unit.qualityUpgradePrice);
 
             $('#town_info').show();
             $('#soldier_info').hide();
 
-            $('#mej_cant').off();
-            $('#mej_cant').click(function(){
-                upgradeMode(unit, 'mej_cant');
+            $('#improve_quantity').off();
+            $('#improve_quantity').click(function(){
+                upgradeMode(unit, 'improve_quantity');
             });
 
-            $('#mej_cal').off();
-            $('#mej_cal').click(function(){
-                upgradeMode(unit, 'mej_cal');
+            $('#improve_quality').off();
+            $('#improve_quality').click(function(){
+                upgradeMode(unit, 'improve_quality');
             });
 
-            //$('#mej_cal').click({unit : unit}, upgradeMode);
+            //$('#improve_quality').click({unit : unit}, upgradeMode);
 
-            $("#mej_cant").html('Quantity ('+unit.stats.precio_mej_cant+' Gold)');
-            $("#mej_cal").html('Quality ('+unit.stats.precio_mej_cal+' Gold)');
-            $("#prod").html('Producing ['+unit.stats.cantidad+'] soldiers with ['+unit.stats.calidad+'] strength each turn. Upgrade: ');
+            $("#improve_quantity").html('Quantity ('+unit.stats.quantityUpgradePrice+' Gold)');
+            $("#improve_quality").html('Quality ('+unit.stats.qualityUpgradePrice+' Gold)');
+            $("#prod").html('Producing ['+unit.stats.quantity+'] soldiers with ['+unit.stats.quality+'] strength each turn. Upgrade: ');
 
             color = 'red';
             break;
@@ -966,8 +972,8 @@ function showIconData(){
             $('#soldier_info').show();
             $('#destroy').show();
 
-            modoMover(icon, unit);
-            $("#movement").html('Movements left: [' + unit.mueve + ']');
+            moveMode(icon, unit);
+            $("#movement").html('Movements left: [' + unit.movements + ']');
             $("#strength").html('Combat strength: [' + unit.strength + '].');
 
             color = red;
@@ -1010,18 +1016,18 @@ function showIconData(){
 }
 
 // Allows soldier to move while movements left
-function modoMover(icon, unit){
+function moveMode(icon, unit){
     let target;
-    //movs = unit.mueve;
+    //movements = unit.movements;
 
-    //$('#'+icon).html('<form><input readonly>'+movs+'</input></form>');
+    //$('#'+icon).html('<form><input readonly>'+movements+'</input></form>');
 
     $('.cell').off();
-    //movs = movs - $('.cell').click({unit: unit}, moveSoldier).data("result");
+    //movements = movements - $('.cell').click({unit: unit}, moveSoldier).data("result");
 
     $('.cell').click(function(){
         var target = this.id;
-        if ((unit.mueve > 0) && (unit.cell.replace('icon', '').substring(0, 2) !== this.id.replace('cell', ''))){
+        if ((unit.movements > 0) && (unit.cell.replace('icon', '').substring(0, 2) !== this.id.replace('cell', ''))){
             moveSoldier(unit, target);
         }
 
@@ -1051,10 +1057,10 @@ function moveSoldier(unit, target) {
     //Check how many cells have it move as a total
     movement = Math.abs(initialCell[0] - finalCell[0]) + Math.abs(finalCell[1] - initialCell[1]);
 
-    if ((icon === null) && (movement > 0) && (movement <= unit.mueve)
+    if ((icon === null) && (movement > 0) && (movement <= unit.movements)
         /*
-        && ((initialCell[0] - finalCell[0] < unit.mueve) || (finalCell[0] - initialCell[0] < unit.mueve))
-        && ((initialCell[1] - finalCell[1] < unit.mueve) || (finalCell[1] - initialCell[1] < unit.mueve))
+        && ((initialCell[0] - finalCell[0] < unit.movements) || (finalCell[0] - initialCell[0] < unit.movements))
+        && ((initialCell[1] - finalCell[1] < unit.movements) || (finalCell[1] - initialCell[1] < unit.movements))
         */
         ){
 
@@ -1067,21 +1073,21 @@ function moveSoldier(unit, target) {
 
         result = checkEncounter(unit);
 
-        unit.mueve = (result !== 'none') ? 0 : unit.mueve - movement;
+        unit.movements = (result !== 'none') ? 0 : unit.movements - movement;
 
-        switch (unit.jugador) {
+        switch (unit.player) {
             case 'Roman':
                 if (result === 'looses'){
                     $('#cell' + finalCell[0] + '' + finalCell[1]).html('');
                     
-                }else if ((result === 'wins') || (unit.mueve === 0)){
+                }else if ((result === 'wins') || (unit.movements === 0)){
                     $('#cell'+finalCell[0]+''+finalCell[1]).html('<a id="tooltip'+finalCell[0]+''+finalCell[1]+initialCell[2]
-                        +'" href="#" data-toggle="tooltip" title="['+unit.name+']. Mueve: ['+unit.mueve+'], strength: ['+unit.strength+']">'
+                        +'" href="#" data-toggle="tooltip" title="['+unit.name+']. movements: ['+unit.movements+'], strength: ['+unit.strength+']">'
                         +'<img class="icon" id="icon'+finalCell[0]+''+finalCell[1]+initialCell[2]+'" src="images/SRUsed_del_def.png"></img></a>');
 
                 }else if (result === 'none'){
                     $('#cell'+finalCell[0]+''+finalCell[1]).html('<a id="tooltip'+finalCell[0]+''+finalCell[1]+initialCell[2]
-                        +'" href="#" data-toggle="tooltip" title="['+unit.name+']. Mueve: ['+unit.mueve+'], strength: ['+unit.strength+']">'
+                        +'" href="#" data-toggle="tooltip" title="['+unit.name+']. movements: ['+unit.movements+'], strength: ['+unit.strength+']">'
                         +'<img class="icon" id="icon'+finalCell[0]+''+finalCell[1]+initialCell[2]+'" src="images/SR_del_def.png"></img></a>');
                 }
 
@@ -1092,7 +1098,7 @@ function moveSoldier(unit, target) {
                     
                 }else{
                     $('#cell'+finalCell[0]+''+finalCell[1]).html('<a id="tooltip'+finalCell[0]+''+finalCell[1]+initialCell[2]
-                        +'" href="#" data-toggle="tooltip" title="['+unit.name+']. Mueve: ['+unit.mueve_total+'], strength: ['+unit.strength+']">'
+                        +'" href="#" data-toggle="tooltip" title="['+unit.name+']. movements: ['+unit.movements_total+'], strength: ['+unit.strength+']">'
                         +'<img class="icon" id="icon'+finalCell[0]+''+finalCell[1]+initialCell[2]+'" src="images/SB_del_def.png"></img></a>');
                 }
             break;
@@ -1106,7 +1112,7 @@ function moveSoldier(unit, target) {
 
     }else{
 
-        if (unit.jugador === 'Roman'){
+        if (unit.player === 'Roman'){
             alert('Invalid movement');
         }
     }
@@ -1139,9 +1145,9 @@ function checkEncounter(unit){
     // Look for fights with other soldiers next to itself
     for (i = 0; i < iterationLength; i++){
          if ( ($(iteration[i]+' a img').attr('id') !== undefined)
-            && ( (($(iteration[i]+' a img').attr('id').replace('icon', '').charAt(2) === 'e') && (unit.jugador === 'Roman'))
-            ||(($(iteration[i]+' a img').attr('id').replace('icon', '').charAt(2) === 'a') && (unit.jugador === 'Barbarian'))
-            ||(($(iteration[i]+' a img').attr('id').replace('icon', '').charAt(2) === 'n') && ((unit.jugador === 'Roman')||(unit.jugador === 'Barbarian'))) )
+            && ( (($(iteration[i]+' a img').attr('id').replace('icon', '').charAt(2) === 'e') && (unit.player === 'Roman'))
+            ||(($(iteration[i]+' a img').attr('id').replace('icon', '').charAt(2) === 'a') && (unit.player === 'Barbarian'))
+            ||(($(iteration[i]+' a img').attr('id').replace('icon', '').charAt(2) === 'n') && ((unit.player === 'Roman')||(unit.player === 'Barbarian'))) )
 
             ) {
 
@@ -1218,11 +1224,11 @@ function checkEncounter(unit){
             }
 
             // Loot for kill
-            if ((winner.jugador === 'Roman')&&(loser.jugador !== 'Neutral')){
+            if ((winner.player === 'Roman')&&(loser.player !== 'Neutral')){
                 gold[0]++;
                 $('#gold').val(gold[0]);
 
-            }else if ((winner.jugador === 'Barbarian')&&(loser.jugador !== 'Neutral')){
+            }else if ((winner.player === 'Barbarian')&&(loser.player !== 'Neutral')){
                 gold[1]++;
             }
 
@@ -1240,8 +1246,8 @@ function checkEncounter(unit){
 
             if (  ($(iteration[i]+' a img').attr('id') !== undefined)
                 && (($(iteration[i]+' a img').attr('id').replace('icon', '').charAt(2) === 'N')
-                || (($(iteration[i]+' a img').attr('id').replace('icon', '').charAt(2) === 'E') && (unit.jugador === 'Roman'))
-                || (($(iteration[i]+' a img').attr('id').replace('icon', '').charAt(2) === 'A') && (unit.jugador === 'Barbarian')) )
+                || (($(iteration[i]+' a img').attr('id').replace('icon', '').charAt(2) === 'E') && (unit.player === 'Roman'))
+                || (($(iteration[i]+' a img').attr('id').replace('icon', '').charAt(2) === 'A') && (unit.player === 'Barbarian')) )
                 ) {
 
                //.log($(iteration[0]).attr('id').replace('icon', '').charAt(2));
@@ -1258,19 +1264,19 @@ function checkEncounter(unit){
                     }
                 }
 
-                units[conquered].jugador = unit.jugador;
-                units[conquered].name = getRandomName('Town', unit.jugador);
+                units[conquered].player = unit.player;
+                units[conquered].name = getRandomName('Town', unit.player);
 
-                if (unit.jugador === 'Roman'){
+                if (unit.player === 'Roman'){
                     $(iteration[i]+' a img').attr('src', 'images/AR_del_def.png');
                     newId = $(iteration[i]+' img').attr('id').replaceAt( $(iteration[i]+' img').attr('id').length - 1, 'A');
                     $(iteration[i]+' a img').attr('id', newId);
                     units[conquered].cell = units[conquered].cell.replaceAt(units[conquered].cell.length - 1, 'A');
 
-                    title = '['+units[conquered].name+']. Cantidad: ['+units[conquered].stats.cantidad+']. Calidad: ['+units[conquered].stats.calidad+']';
+                    title = '['+units[conquered].name+']. quantity: ['+units[conquered].stats.quantity+']. quality: ['+units[conquered].stats.quality+']';
 
                     audio = new Audio('sounds/rom_conquest.mp3');
-                }else if (unit.jugador === 'Barbarian'){
+                }else if (unit.player === 'Barbarian'){
                     $(iteration[i]+' a img').attr('src', 'images/AB_del_def.png');
                     newId = $(iteration[i]+' img').attr('id').replaceAt( $(iteration[i]+' img').attr('id').length - 1, 'E');
                     $(iteration[i]+' a img').attr('id', newId);
@@ -1296,13 +1302,13 @@ function destroyUnit(unit){
 
     let audio;
 
-    if (unit.jugador === 'Roman'){
+    if (unit.player === 'Roman'){
         audio = new Audio('sounds/scream.mp3');
         
-    }else if (unit.jugador === 'Barbarian'){
+    }else if (unit.player === 'Barbarian'){
         audio = new Audio('sounds/kill.mp3');
         
-    }else if (unit.jugador === 'Neutral'){
+    }else if (unit.player === 'Neutral'){
         audio = new Audio('sounds/wolf_scream.mp3');
     }
 
@@ -1318,36 +1324,36 @@ function upgradeMode(unit, upgrade){
         image = '',
         title = '';
     
-    if (unit.jugador === 'Roman'){
+    if (unit.player === 'Roman'){
         index = 0;
         image = 'AR_del_def';
         
-    }else if (unit.jugador === 'Barbarian'){
+    } else if (unit.player === 'Barbarian'){
         index = 1;
         image = 'AB_del_def';
     }
 
-    if (upgrade === 'mej_cant'){
+    if (upgrade === 'improve_quantity'){
 
-        if (unit.stats.precio_mej_cant <= gold[index]){
-            gold[index] -= unit.stats.precio_mej_cant;
-            unit.stats.precio_mej_cant += unit.stats.precio_mej_cant;
-            unit.stats.cantidad++;
+        if (unit.stats.quantityUpgradePrice <= gold[index]){
+            gold[index] -= unit.stats.quantityUpgradePrice;
+            unit.stats.quantityUpgradePrice += unit.stats.quantityUpgradePrice;
+            unit.stats.quantity++;
             $('#gold').val(gold[index]);
 
-        }else{
+        } else{
             alert(errorMessage);
         }
 
-    }else if (upgrade === 'mej_cal'){
+    } else if (upgrade === 'improve_quality'){
 
-        if (unit.stats.precio_mej_cal <= gold[index]){
-            gold[index] -= unit.stats.precio_mej_cal;
-            unit.stats.precio_mej_cal += unit.stats.precio_mej_cal;
-            unit.stats.calidad++;
+        if (unit.stats.qualityUpgradePrice <= gold[index]){
+            gold[index] -= unit.stats.qualityUpgradePrice;
+            unit.stats.qualityUpgradePrice += unit.stats.qualityUpgradePrice;
+            unit.stats.quality++;
             $('#gold').val(gold[index]);
 
-        }else{
+        } else{
             alert(errorMessage);
         }
     }
@@ -1355,10 +1361,10 @@ function upgradeMode(unit, upgrade){
     cell = unit.cell.replace('icon', '#cell')
     cell = cell.substring(0, cell.length - 1);
 
-    if (unit.jugador === 'Roman'){
-        title = '['+unit.name+']. Quantity: ['+unit.stats.cantidad+'], Quality: ['+unit.stats.calidad+']';
+    if (unit.player === 'Roman'){
+        title = '['+unit.name+']. Quantity: ['+unit.stats.quantity+'], Quality: ['+unit.stats.quality+']';
         
-    }else if (unit.jugador === 'Barbarian'){
+    } else if (unit.player === 'Barbarian'){
         title = '['+unit.name+']';
     }
 
@@ -1386,10 +1392,10 @@ function checkVictoryCondition(){
     // Player have to destroy all barbarians soldiers and towns. AI wins just by killing all roman soldiers. 
     for (i = 0; i < unitsLength; i++){
 
-        if ( (units[i].tipo === 'Soldier') && (units[i].jugador === 'Roman') ){
+        if ( (units[i].type === 'Soldier') && (units[i].player === 'Roman') ){
             alive[0]++;
             
-        }else if (units[i].jugador === 'Barbarian'){
+        }else if (units[i].player === 'Barbarian'){
             alive[1]++;
         }
     }
