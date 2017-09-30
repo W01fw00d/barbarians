@@ -2,35 +2,24 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>¡Bárbaros!</title>
+    <title>Barbarians!</title>
     <link rel="shortcut icon" type="image/png" href="images/favicon.ico"/>
   </head>
 
   <body>
-    <!-- <header>
-      <h1 class="text-center">
-          <abbr title=
-                  "Un minijuego de estrategia para Jordi, de parte de Gabo (programación) y Juanju (diseño) ;)">
-            ¡Bárbaros en los campos!</abbr>
-      </h1>
-
-      <!-- <h2 class="text-center">– Un minijuego de estrategia ambientado en la decadencia de Roma –</h2>-->
-
-    <!-- </header> -->
     <div class="container">
-
-      <div id="controles" class="control-bar padding-sm margin-top-md row">
-    		<audio id="musica" class="music-control-bar control-bar-col col-sm-4" src="sounds/music.mp3" controls autoplay loop></audio>
+      <div class="control-bar padding-sm margin-top-md row">
+    		<audio id="music-bar" class="music-control-bar control-bar-col col-sm-4" src="sounds/music.mp3" controls loop></audio>
         <div class="control-bar-col col-sm-2">
-          Oro: <input id="oro" class="gold-marker" value="1" type="text" readonly></input>
+          <span class="gold-label">Gold: </span><input id="gold" class="gold-marker" value="1" type="text" readonly></input>
         </div>
-        <button type="button" id="pasarTurno" class="control-bar-col col-sm-2"> Terminar día </button>
-        <button type="button" id="resetMapa" class="control-bar-col col-sm-3"> Resetear mapa </button>
+        <button type="button" id="end_turn" class="control-bar-col col-sm-2"> End turn </button>
+        <button type="button" id="reset_map" class="control-bar-col col-sm-3"> Reset map </button>
     	</div>
 
       <div class="control-board margin-top-md row">
         <div class="col-sm-6">
-          <table id="mapa"></table>
+          <table id="map"></table>F
         </div>
 
         <div class="col-sm-1"></div>
@@ -38,42 +27,40 @@
         <div class="col-sm-4">
           <div id="info">
               <form class="padding-top-md">
-                  Bando:
-                  <br><input id= "jugador" type="text" readonly></input>
+                  Faction:
+                  <br><input id="player" type="text" readonly></input>
                   <br><br>
-                  Unidad:
-                  <br><input id= "tipo" type="text" readonly></input>
+                  Unit:
+                  <br><input id="type" type="text" readonly></input>
                   <br><br>
-                  Nombre:
-                  <br><input id= "nombre" type="text" readonly></input>
+                  Name:
+                  <br><input id="name" type="text" readonly></input>
                   <br><br><br>
               </form>
-              <form id="form_pueblo">
-                  <!--Solo pueblo -->
+              <form id="town_info" class="hidden-div">
+                  <!--Town only -->
                   <div id= "prod" type="text" readonly></div>
                   <br>
-                  <button type="button" id= "mej_cant">Mejorar cantidad (1 Oro)</button>
+                  <button type="button" id="improve_quantity">Improve quantity (1 Gold)</button>
                   <br><br>
-                  <button type="button" id= "mej_cal">Mejorar calidad (1 Oro)</button>
+                  <button type="button" id="improve_quality">Improve quality (1 Gold)</button>
                   <br><br>
               </form>
-              <form id="form_soldado">
-                  <!--Solo soldado -->
-                  <div id= "mueve" type="text" readonly></div>
+              <form id="soldier_info" class="hidden-div">
+                  <!--Soldier only -->
+                  <div id="movement" type="text" readonly></div>
                   <br>
-                  <div id= "fuerza" type="text" readonly></div>
+                  <div id="strength" type="text" readonly></div>
                   <br>
-                  <button type="button" id= "destruir">Destruir</button>
+                  <button type="button" id="destroy" class="hidden-div">Destroy</button>
                   <br><br>
               </form>
 
-              <button type="button" id="cerrar" class="close-button">Cerrar</button>
+              <button type="button" id="close" class="close-button">Close</button>
           </div>
         </div>
       </div>
     </div>
-
-
   </body>
 
     <link rel="stylesheet" type="text/css" href="data/bootstrap.min.css"/>

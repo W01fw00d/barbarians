@@ -1,37 +1,35 @@
 /*
-LEYENDA
+MAP CREATOR ICON ANNOTATION
 
-Obstaculos:
-x = montaña solitaria
-I = inicio (Izquierda) de cordillera horizontal
-X = centro de cordillera
-D = fin (Derecha) de cordillera
-V = vegetación
+Obstacles:
+x = lonely mountain
+I = start (Left) of horizontal mountain range
+X = mountain range center
+D = end (Right) of horizontal mountain range
+V = vegetation
 
-' ' = vacio
+' ' = empty cell
 
-Unidades:
-N = pueblo neutral
-A = pueblo romano
-E = pueblo bárbaro
-n = criatura neutral
-a = soldado romano
-e = soldado bárbaro
+Units:
+N = neutral town
+A = roman town
+E = barbarian town
+n = neutral creature (wolfs)
+a = roman soldier
+e = barbarian soldier
 
 
-OTROS (NO IMPLEMENTADOS)
+OTHERS (NOT IMPLEMENTED YET)
 
-'-' = camino
-'S' = rio
-'=' = puente
-'[' = muro
+'-' = road
+'S' = river
+'=' = bridge
+'[' = wall
 
 */
 
-
-//mapas 8x8 (64 casillas), 10 mapas y 1 plantilla
-
-var planos = [
+//maps 8x8 (64 cells), 10 maps y 1 template
+var blueprints = [
 [
 	"        ",
 	"        ",
@@ -155,221 +153,212 @@ var planos = [
 
 ];
 
-var mapa_actual = 1;
-
-var unidades = [];
-
-//Oro [Romanos, Bárbaros];
-var oro = [1, 1];
-
-//Movimientos (ahora en objeto Soldado)
-//var movs = 0;
-
+// You can set here a different starting level, for testing purposes
+var currentMapLevel = 1,
+    units = [];
+//Gold [Romans, Barbarians];
+    gold = [1, 1];
 
 $(document).ready(ini);
 
 function ini() {
-	//console.log(generadorPlanoRandom(10, 2, 2, 3, 5, 5, 5));
-    /////////generadorPlanoRandom(x, A, E, N, a, e, n)///////
-    //mapeador(generadorPlanoRandom(10, 2, 2, 3, 2, 3, 2)); // <= 64
-    //mapa_actual = 7;//
-    mapeador(planos[mapa_actual]);
+	//console.log(randomMapGenerator(10, 2, 2, 3, 5, 5, 5));
+    /////////randomMapGenerator(x, A, E, N, a, e, n)///////
+    //mapGenerator(randomMapGenerator(10, 2, 2, 3, 2, 3, 2)); // <= 64
+    //currentMapLevel = 7;
+    
+    mapGenerator(blueprints[currentMapLevel]);
 
-    $('#cerrar').click(function(){
-
-        $('.casilla').off();
-        $('.icono').off();
-        $('.icono').click(seleccionIcono);
+    $('#close').click(function(){
+        $('.cell').off();
+        $('.icon').off();
+        $('.icon').click(showIconData);
         $('#info').hide();
     });
 
-    $('#resetMapa').click(function(){
-        if (confirm('¿Reiniciar el mapa actual?')){
-            mapeador(planos[mapa_actual]);
-        }else{
-
+    $('#reset_map').click(function(){
+        if (confirm('Reset current map?')){
+            mapGenerator(blueprints[currentMapLevel]);
         }
     });
-    // mapeador(parseInt(document.cookie.replace('mapa=','')));
-    //$('.icono').click(seleccionIcono);
-    //$('#cerrar').click(cerrarInfo);
 
-    $('#pasarTurno').click(pasarTurno);
-    // alert ('Has sido informado de que unos bárbaros están asaltando los pueblos de los alrededores de Roma. ¡Utiliza tus soldados para acabar con el enemigo y recupera esos pueblos!');
+    $('#end_turn').click(endTurn);
 }
 
-//A partir del array con el diseño, genera un mapa del escenario
-function mapeador(array){
-	var i = 0;
-    var j = 0;
-    var casilla = '';
-    var icono = ' ';
-    var color_fondo = '';
-    var color_icono = '';
-    var forma_icono = '';
-    var display = '';
-    var suelo = '';
+// Generates a map using the desing array as input
+function mapGenerator(array){
+    const array_length = array.length,
+          iconTagClosing = '.png"></img>',
+          neutralIconTitle = 'Hungry wolfs';
+    
+	let i = 0,
+        j = 0,
+        cell = '',
+        icon = ' ',
+        backgroundColor = '',
+        iconColor = '',
+        iconShape = '',
+        display = '',
+        ground = 'H_def.png';
 
-    document.getElementById("musica").pause();
-
+    document.getElementById("music-bar").pause();
+    
+    units = [];
+    gold = [1, 1];
+    
+    $('#gold').val(gold[0]);
     $('#info').hide();
-
-    $('#mapa').html('');
-    unidades = [];
-    oro = [1, 1];
-    $('#oro').val(oro[0]);
-    console.log('unidades debería estar vacío: '+unidades[0]);
-
-    var array_length = array.length;
+    $('#map').html('');
+    
     for (i = 0; i < array_length; i++){
 
-        $('#mapa').append('<tr id="linea'+i+'"></tr>');
-        //$('#mapa').append('<div id="linea'+i+'" class="row">');
+        $('#map').append('<tr id="row' + i + '"></tr>');
 
-        linea_length = array[i].length;
-        for (j = 0; j < linea_length; j++){
+        row_length = array[i].length;
+        for (j = 0; j < row_length; j++){
 
-            casilla = array[i].charAt(j);
-            //console.log(casilla);
+            cell = array[i].charAt(j);
+            icon = '<img id="icon'+i+''+j+cell+'" src="images/';
 
-            switch(casilla){
+            switch(cell){
 
                 case ' ':
                     display = 'none';
-                    casilla = '_';
-                    icono = '';
+                    cell = '_';
+                    icon = '';
                     break;
+                    
                 case 'x':
                     display = 'none';
-                    casilla = 'x';
-                    icono = '<img id="icono'+i+''+j+casilla+'" src="images/MS_def.png"></img>';
+                    cell = 'x';
+                    icon += 'MS_def' + iconTagClosing;
                     display = 'block';
                     break;
+                    
                 case 'I':
                     display = 'none';
-                    casilla = 'x';
-                    icono = '<img id="icono'+i+''+j+casilla+'" src="images/MI_defl.png"></img>';
+                    cell = 'x';
+                    icon += 'MI_defl' + iconTagClosing;
                     display = 'block';
                     break;
+                    
                 case 'X':
                     display = 'none';
-                    casilla = 'x';
-                    icono = '<img id="icono'+i+''+j+casilla+'" src="images/M_def.png"></img>';
+                    cell = 'x';
+                    icon += 'M_def' + iconTagClosing;
                     display = 'block';
                     break;
+                    
                 case 'D':
                     display = 'none';
-                    casilla = 'x';
-                    icono = '<img id="icono'+i+''+j+casilla+'" src="images/MD_def.png"></img>';
+                    cell = 'x';
+                    icon += 'MD_def' + iconTagClosing;
                     display = 'block';
                     break;
+                    
                 case 'V':
                     display = 'none';
-                    casilla = 'x';
-                    icono = '<img id="icono'+i+''+j+casilla+'" src="images/A_def.png"></img>';
+                    cell = 'x';
+                    icon += 'A_def' + iconTagClosing;
                     display = 'block';
                     break;
 
                 case 'N':
-                    forma_icono = '0px 0px 0px 0px';
+                    iconShape = '0px 0px 0px 0px';
                     display = 'block';
-                    unidades.push(
-                        {casilla: 'icono'+i+j+casilla, jugador: 'Neutral', tipo: 'Pueblo', nombre: 'Libre', stats: {cantidad: 1, calidad: 1, precio_mej_cant: 1, precio_mej_cal: 1}});
-                    icono = '<a id="tooltip'+i+''+j+casilla+'" href="#" data-toggle="tooltip" title="Pueblo sin reclamar"><img class="icono" id="icono'+i+''+j+casilla+'" src="images/AN_del_def.png"></img></a>';
-                    //icono = '<img class="icono" id="icono'+i+''+j+casilla+'" src="images/AN_del_def.png"></img>';
+                    units.push(
+                        {cell: 'icon'+i+j+cell, player: 'Neutral', type: 'Town', name: 'Libre', stats: {quantity: 1, quality: 1, quantityUpgradePrice: 1, qualityUpgradePrice: 1}});
+                    icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="Free Town"><img class="icon" id="icon'+i+''+j+cell+'" src="images/AN_del_def.png"></img></a>';
                     break;
+                    
                 case 'A':
-                    forma_icono = '0px 0px 0px 0px';
+                    iconShape = '0px 0px 0px 0px';
                     display = 'block';
-                    unidades.push(
-                        {casilla: 'icono'+i+j+casilla, jugador: 'Romanos', tipo: 'Pueblo', nombre: nombresRandom('Pueblo', 'Romanos'), stats: {cantidad: 1, calidad: 1, precio_mej_cant: 1, precio_mej_cal: 1}});
-                    icono = '<a id="tooltip'+i+''+j+casilla+'" href="#" data-toggle="tooltip" title="['+unidades[unidades.length - 1].nombre+']. Cantidad: [1], Calidad: [1]">'
-                        +'<img class="icono" id="icono'+i+''+j+casilla+'" src="images/AR_del_def.png"></img></a>';
-                    //icono = '<img class="icono" id="icono'+i+''+j+casilla+'" src="images/AR_del_def.png"></img>';
+                    units.push(
+                        {cell: 'icon'+i+j+cell, player: 'Roman', type: 'Town', name: getRandomName('Town', 'Roman'), stats: {quantity: 1, quality: 1, quantityUpgradePrice: 1, qualityUpgradePrice: 1}});
+                    icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="['+units[units.length - 1].name+']. quantity: [1], quality: [1]">'
+                        +'<img class="icon" id="icon'+i+''+j+cell+'" src="images/AR_del_def.png"></img></a>';
                     break;
+                    
                 case 'E':
-                    forma_icono = '0px 0px 0px 0px';
+                    iconShape = '0px 0px 0px 0px';
                     display = 'block';
-                    unidades.push(
-                        {casilla: 'icono'+i+j+casilla, jugador: 'Bárbaros', tipo: 'Pueblo', nombre: nombresRandom('Pueblo', 'Bárbaros'), stats: {cantidad: 1, calidad: 1, precio_mej_cant: 1, precio_mej_cal: 1}});
-                    icono = '<a id="tooltip'+i+''+j+casilla+'" href="#" data-toggle="tooltip" title="['+unidades[unidades.length - 1].nombre+']">'
-                        +'<img class="icono" id="icono'+i+''+j+casilla+'" src="images/AB_del_def.png"></img></a>';
-                    //icono = '<img class="icono" id="icono'+i+''+j+casilla+'" src="images/AB_del_def.png"></img>';
+                    units.push(
+                        {cell: 'icon'+i+j+cell, player: 'Barbarian', type: 'Town', name: getRandomName('Town', 'Barbarian'), stats: {quantity: 1, quality: 1, quantityUpgradePrice: 1, qualityUpgradePrice: 1}});
+                    icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="['+units[units.length - 1].name+']">'
+                        +'<img class="icon" id="icon'+i+''+j+cell+'" src="images/AB_del_def.png"></img></a>';
                     break;
+                    
                 case 'n':
-                    color_fondo = 'Green';
-                    color_icono = 'Grey';
-                    forma_icono = '50px 50px 50px 50px';
+                    backgroundColor = 'Green';
+                    iconColor = 'Grey';
+                    iconShape = '50px 50px 50px 50px';
                     display = 'block';
-                    unidades.push(
-                        {casilla: 'icono'+i+j+casilla, jugador: 'Neutral', tipo: 'Manada', nombre: 'Lobos', mueve_total: 0, mueve: 0, fuerza: 1});
-                    icono = '<a id="tooltip'+i+''+j+casilla+'" href="#" data-toggle="tooltip" title="Lobos salvajes">'
-                        +'<img class="icono" id="icono'+i+''+j+casilla+'" src="images/L_del_def.png"></img></a>';
-                    //icono = '<img class="icono" id="icono'+i+''+j+casilla+'" src="images/L_del_def.png"></img>';
+                    units.push(
+                        {cell: 'icon'+i+j+cell, player: 'Neutral', type: 'Pack', name: 'Wolf', movements_total: 0, movements: 0, strength: 1});
+                    icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="' + neutralIconTitle + '">'
+                        +'<img class="icon" id="icon'+i+''+j+cell+'" src="images/L_del_def.png"></img></a>';
                     break;
+                    
                 case 'a':
-                    color_fondo = 'Green';
-                    color_icono = 'Blue';
-                    forma_icono = '50px 50px 50px 50px';
+                    backgroundColor = 'Green';
+                    iconColor = 'Blue';
+                    iconShape = '50px 50px 50px 50px';
                     display = 'block';
-                    unidades.push(
-                        {casilla: 'icono'+i+j+casilla, jugador: 'Romanos', tipo: 'Soldado', nombre: nombresRandom('Soldado', 'Romanos'), mueve_total: 2, mueve: 2, fuerza: 1});
-                    icono = '<a id="tooltip'+i+''+j+casilla+'" href="#" data-toggle="tooltip" title="['+unidades[unidades.length - 1].nombre+']. Mueve: [2], Fuerza: [1]">'
-                        +'<img class="icono" id="icono'+i+''+j+casilla+'" src="images/SR_del_def.png"></img></a>';
-                    //icono = '<img class="icono" id="icono'+i+''+j+casilla+'" src="images/SR_del_def.png"></img>';
+                    units.push(
+                        {cell: 'icon'+i+j+cell, player: 'Roman', type: 'Soldier', name: getRandomName('Soldier', 'Roman'), movements_total: 2, movements: 2, strength: 1});
+                    icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="['+units[units.length - 1].name+']. movements: [2], strength: [1]">'
+                        +'<img class="icon" id="icon'+i+''+j+cell+'" src="images/SR_del_def.png"></img></a>';
                     break;
+                    
                 case 'e':
                     color = 'Green';
-                    color_fondo = 'Green';
-                    color_icono = 'Red';
-                    forma_icono = '50px 50px 50px 50px';
+                    backgroundColor = 'Green';
+                    iconColor = 'Red';
+                    iconShape = '50px 50px 50px 50px';
                     display = 'block';
-                    unidades.push(
-                        {casilla: 'icono'+i+j+casilla, jugador: 'Bárbaros', tipo: 'Soldado', nombre: nombresRandom('Soldado', 'Bárbaros'), mueve_total: 1, mueve: 1, fuerza: 1});
-                    icono = '<a id="tooltip'+i+''+j+casilla+'" href="#" data-toggle="tooltip" title="['+unidades[unidades.length - 1].nombre+']. Mueve: [1]. Fuerza: [1]">'
-                        +'<img class="icono" id="icono'+i+''+j+casilla+'" src="images/SB_del_def.png"></img></a>';
-                    //icono = '<img class="icono" id="icono'+i+''+j+casilla+'" src="images/SB_del_def.png"></img>';
+                    units.push(
+                        {cell: 'icon'+i+j+cell, player: 'Barbarian', type: 'Soldier', name: getRandomName('Soldier', 'Barbarian'), movements_total: 1, movements: 1, strength: 1});
+                    icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="['+units[units.length - 1].name+']. movements: [1]. strength: [1]">'
+                        +'<img class="icon" id="icon'+i+''+j+cell+'" src="images/SB_del_def.png"></img></a>';
                     break;
 
                 default:
-                    icono = '';
+                    icon = '';
                     display = 'none';
-                    casilla = '_';
+                    cell = '_';
                     break;
             }
 
-            //icono = '<div class="icono" id="icono'+i+''+j+casilla+'">'+casilla+'</div>';
+            $('#row' + i).append('<th class="cell" id="cell' + i + '' + j + '">' + icon + '</th>');
 
-            //console.log('i= '+i+'j= '+j);
-            //$('#linea'+i).append('<div id="casilla'+i+''+j+'" class="col-sm-1">'+icono+'</div>');
-            $('#linea'+i).append('<th class="casilla" id="casilla'+i+''+j+'">'+icono+'</th>');
-            //$('#casilla'+i+''+j).css({'background': color_fondo});
-
-            suelo = 'H_def.png';
-            $('#casilla'+i+''+j).css({'background-image': 'url(images/'+suelo+')'});
-
-            //console.log('hago append sobre mapa linea '+i);
-
-            $('#icono'+i+j+casilla).css({/*'background': color_icono, 'border-radius' : forma_icono, */'display' : display});
+            $('#cell' + i + '' + j).css({'background-image': 'url(images/' + ground + ')'});
+            $('#icon' + i + j + cell).css({'display' : display});
         }
     }
 
-    $('.icono').click(seleccionIcono);
+    $('.icon').click(showIconData);
 }
 
-// Genera aleatoriamente un plano de mapa según argumentos (entre todos deben sumar <= 64) {EN PRUEBAS}
-function generadorPlanoRandom(x, A, E, N, a, e, n){
-
+// ON DEVELOPMENT
+// Randomly generates a map using arguments (shall sum 64)
+function randomMapGenerator(x, A, E, N, a, e, n){
     var planes = [
-        {tipo: 'x', num: x}, {tipo: 'A', num: A}, {tipo: 'E', num: E}, {tipo: 'N', num: N}, {tipo: 'a', num: a}, {tipo: 'e', num: e}, {tipo: 'n', num: n}
+        {type: 'x', num: x}, 
+        {type: 'A', num: A}, 
+        {type: 'E', num: E}, 
+        {type: 'N', num: N}, 
+        {type: 'a', num: a}, 
+        {type: 'e', num: e}, 
+        {type: 'n', num: n}
     ];
 
     var total = planes[0].num + planes[1].num + planes[2].num + planes[3].num + planes[4].num + planes[5].num + planes[6].num;
-    var plano = planos[0];
+    var blueprint = blueprints[0];
     var i = 0;
     var j = 0;
-    var columnas = plano.length;
-    var filas = plano[0].length;
+    var columnas = blueprint.length;
+    var filas = blueprint[0].length;
     var plan_random = '';
 
     while (total > 0){
@@ -379,9 +368,9 @@ function generadorPlanoRandom(x, A, E, N, a, e, n){
             for (j = 0; (j < filas && total > 0) ; j++){
 
                 plan_random = Math.floor((Math.random() * planes.length));
-                console.log ('Plan random: ' + plan_random);
-                if ( (planes[plan_random].num > 0) && comprobarIncompatibilidad(i, j, planes[plan_random].tipo, plano) ){;
-                    plano[i] = plano[i].replaceAt(j, planes[plan_random].tipo);
+
+                if ( (planes[plan_random].num > 0) && comprobarIncompatibilidad(i, j, planes[plan_random].type, blueprint) ){;
+                    blueprint[i] = blueprint[i].replaceAt(j, planes[plan_random].type);
                     planes[plan_random].num--;
                     total--;
                 }
@@ -389,41 +378,32 @@ function generadorPlanoRandom(x, A, E, N, a, e, n){
         }
     }
 
-    return plano;
+    return blueprint;
 }
 
-//PENDIENTE DE REVISION
-//Comprueba que en las casillas colindantes no haya ninguna unidad incompatible con la que se pretende colocar
-function comprobarIncompatibilidad(i, j, tipo, plano){
+// ON DEVELOPMENT
+// Checks that colindant cells there aren't any incompatible units with the new unit we are placing
+function comprobarIncompatibilidad(i, j, type, blueprint){
+    let k = 0,
+        incompatibles
+        alwaysCompatible = false
+        iteration = [
+            [i+1,j], [i-1,j], [i,j+1], [i,j-1]
+        ];
 
+    //var iterationLength = iteration.length;
 
-    var k = 0;
-    var incompatibles;
-    var siempreCompatible = false;
-    var iteracion = [
-        [i+1,j], [i-1,j], [i,j+1], [i,j-1]
-    ];
+    for (k = 0; k < iteration.length; k++){
 
-    //var iteracion_length = iteracion.length;
-
-    for (k = 0; k < iteracion.length; k++){
-
-        console.log(iteracion[k] + ', ' + ((iteracion[k][0]) < 0));
-
-        if (iteracion[k][0] < 0 || iteracion[k][1] < 0){
-
-            console.log('si, es negativo');
-            iteracion.splice(k, 1);
-
+        if (iteration[k][0] < 0 || iteration[k][1] < 0){
+            iteration.splice(k, 1);
         }
     }
 
-    var iteracion_length = iteracion.length;
-    console.log(iteracion_length);
+    var iterationLength = iteration.length;
 
-    //Los que solo son incompatibles con 1 o 2 tipo de unidad, se repite dos veces para simplificar el algoritmo
-    switch(tipo){
-
+    // 1 or 2 types are incompatibles, we repeat two times to simplify the algorythm
+    switch(type){
         case 'A':
             incompatibles = ['e', 'e', 'e'];
             break;
@@ -440,18 +420,17 @@ function comprobarIncompatibilidad(i, j, tipo, plano){
             incompatibles = ['A', 'a', 'n'];
             break;
         default:
-            siempreCompatible = true;
+            alwaysCompatible = true;
             break;
     }
 
-    if (!siempreCompatible){
+    if (!alwaysCompatible){
 
-        for (k = 0; k < iteracion.length; k++){
-            //console.log(iteracion[k]);
+        for (k = 0; k < iteration.length; k++){
 
-            if ( (plano[iteracion[k][0]].charAt(iteracion[k][1]) === incompatibles[0])
-            || (plano[iteracion[k][0]].charAt(iteracion[k][1]) === incompatibles[1])
-            || (plano[iteracion[k][0]].charAt(iteracion[k][1]) === incompatibles[2])
+            if ( (blueprint[iteration[k][0]].charAt(iteration[k][1]) === incompatibles[0])
+            || (blueprint[iteration[k][0]].charAt(iteration[k][1]) === incompatibles[1])
+            || (blueprint[iteration[k][0]].charAt(iteration[k][1]) === incompatibles[2])
             ){
                 return false;
             }
@@ -460,14 +439,13 @@ function comprobarIncompatibilidad(i, j, tipo, plano){
     return true;
 }
 
-String.prototype.replaceAt=function(index, character) {
+String.prototype.replaceAt = function(index, character) {
     return this.substr(0, index) + character + this.substr(index+character.length);
 }
 
 
-/////////////////////NOMBRES///////////////////////////
-
-var nombres_sold_rom = [
+// NAMES
+const romanSoldierNames = [
                     'Nerón', 'Victis', 'Caesar', 'Platón', 'Sócrates', 'Aristóteles', 'Augusto', 'Aquiles', 'Ulises', 'Agamenón', 'Arkantos', 'Ajax',
                     'Homero', 'Dante', 'Zeus', 'Helena', 'Apollo', 'Atenea', 'Minerva', 'Fausto', 'Hades', 'Poseidón', 'Júpiter', 'Venus', 'Mercurio',
                     'Galileo', 'Vinci', 'Invictus', 'Titán', 'Atlas', 'Gea', 'Gaia', 'Saturno', 'Urano', 'Dionisio', 'Ares', 'Kratos',
@@ -491,9 +469,9 @@ var nombres_sold_rom = [
                     'Vesta', 'Virtus', 'Volumna', 'Vulturno', 'Europa', 'Pandora', 'Efreet', 'Nova', 'Artemis', 'Bahamut', 'Deux Ex', 'Oraculo', 'El Gran Héroe', 'Rey de los Judios',
                     'Einstein', 'Madara', 'Mandala', 'Rem', 'Alejandro', 'Django', 'Shiva', 'Ánima',
                     'Gabo', 'Jordi','Juanju', 'Iván', 'Marga', 'Nacho'
-                ];
+                ],
 
-var nombres_sold_bar = [
+      barbarianSoldierNames = [
                     'El Decapitador', 'El DejaViudas', 'El Psicópata', 'Perro Loco', 'Jacobo PechoLobo', 'Champ', 'Chemp', 'Chomp', 'El SajaPerros', 'El ViolaCabras', 'Oso Sin Pelo',
                     'Verganmitorix', 'Harrak el Desmembrador', 'Conan el Bárbaro', 'Thormund', 'Jormungard', 'Fenrir', 'Gullinbursti', 'Bruto', 'CabezaYunke', 'Empalador', 'Bárbara',
                     'Zaratustra', 'CaraCulo', 'Calavera', 'Cráneo', 'Apestoso', 'Max', 'Stomp', 'Stamp', 'CuernoRoto', 'Ano', 'Ulf', 'Udolf', 'Alf', 'Olf', 'HachaGrande', 'LanzaRota',
@@ -513,17 +491,17 @@ var nombres_sold_bar = [
                     'Alberick', 'Alrik', 'Algot', 'Asmund', 'Gunvor', 'Grevor', 'Hallmar', 'Humla', 'Inge', 'Ingo', 'Ingred', 'Maj',
                     'Lunt', 'Leif', 'Majken', 'Lynae', 'Rin', 'Vidhr', 'Ylwa', 'Ursa', 'Yorick', 'Winka', 'Wanka', 'Trygg', 'Masturbatix',
                     'Tove', 'Torborg', 'Thour', 'Thurston', 'Valkyrie', 'Alina', 'Dash La Estampida', 'Trin La Tormenta', 'Odín', 'El Segador', 'Thor', 'Leviatán', 'Brunilda',
-                ];
+                ],
 
-var nombres_pue_rom = [
+    romanTownNames = [
                 'Roma', 'Polentia', 'Tracia', 'Hispalis', 'Gades', 'Atenas', 'Tiberia', 'Publia',
                 'Londinium', 'Agrippina', 'Burgidala', 'Salmantica', 'Tarraco', 'Babel', 'Tingis', 'Tomis', 'Salona', 'Naissus', 'Ancyra', 'Artaxarta',
                 'Caesarea', 'Nisibis', 'Tarsus', 'Salamis', 'Bostra', 'Cyrene', 'Alexandria',
                 'Zanarkand', 'Ciudad de Paso',
                 'Palma', 'Buenos Aires', 'Sa Cabaneta', 'Son Ferriol', 'Banyalbufar', 'Manacor', 'Corrubedo'
-                ];
+                ],
 
-var nombres_pue_bar = [
+      barbarianTownNames = [
                     'Tótems', 'VillaLobos', 'Aldea de la Peste', 'Tambor de Piel', 'Campamento de Caza', 'Guarida de Incursores', 'Jotunheim', 'Iggdrassil',
                     'Galia', 'Ostrogodia', 'Cartago', 'Aldea de los Hunos', 'Aldea de los Godos', 'Campamento Franco', 'Pueblo Sajón', 'Tierras de Vándalos',
                     'Campamento de Ostrogodos', 'Tungri', 'Treveri', 'Marsi', 'Camavi', 'Frisonia', 'Usupeti', 'Cherusci', 'Sicambrii', 'Catii', 'Suebi', 'Turones',
@@ -535,542 +513,501 @@ var nombres_pue_bar = [
 //////////////////////////////////////////////////
 
 
-// Devuelve un string con un nombre, seleccionado aleatoriamente de un array de nombres
-function nombresRandom(tipo, bando){
+// Returns a name string, chosen randomly from the names array 
+function getRandomName(type, faction){
+    let names, randomNumber;
 
-    var nombres;
+    switch(type){
 
-    switch(tipo){
-
-        case 'Soldado':
-
-            if (bando === 'Romanos'){
-
-                nombres = nombres_sold_rom;
-
-            }else if (bando === 'Bárbaros'){
-
-                nombres = nombres_sold_bar;
-
-            }
+        case 'Soldier':
+            names = faction === 'Roman' ? 
+                romanSoldierNames : barbarianSoldierNames;
 
             break;
-        case 'Pueblo':
-
-            if (bando === 'Romanos'){
-
-                nombres = nombres_pue_rom;
-
-            }else if (bando === 'Bárbaros'){
-
-                nombres = nombres_pue_bar;
-            }
+            
+        case 'Town':
+            names = faction === 'Roman' ? 
+                romanTownNames : barbarianTownNames;
+            
             break;
     }
 
-    var random = Math.floor(Math.random() * (nombres.length - 1) );
-    var resultado = nombres[random];
-    //console.log('antes:'+nombres[random])
-    nombres.splice(random, 1);
-    //console.log('despues:'+nombres[random])
-    return resultado;
+    randomNumber = Math.floor(Math.random() * (names.length - 1));
+    names.splice(randomNumber, 1);
+
+    return names[randomNumber];
 }
 
-// Finaliza el turno actual del jugador, y otorga 3 de oro a los jugadores
-function pasarTurno(){
+// End current player turn, and provides 3 gold to each player
+function endTurn(){
+    const unitsLength = units.length;
+    
+    let i = 0,
+        id = '',
+        unit_i;
 
-    var i = 0;
-    var unidades_length = unidades.length;
-    var id = '';
-
-    generarSoldados('Romanos');
+    generateSoldiers('Roman');
     turnoIA();
-    generarSoldados('Bárbaros');
-    oro[1] += 3;
-    oro[0] += 3;
-    $('#oro').val(oro[0]);
+    generateSoldiers('Barbarian');
+    gold[1] += 3;
+    gold[0] += 3;
+    $('#gold').val(gold[0]);
 
-    for (i = 0; i < unidades.length; i++){
+    for (i = 0; i < unitsLength; i++){
 
-        var unidad_i = unidades[i];
+        unit_i = units[i];
 
-        //Para que los soldados capturen los pueblos adyacentes automáticamete si se encuentran cerca al terminar turno.
-        encuentro(unidad_i);
+        // Soldiers will capture adjacent towns automatically if they are besides them at the end of turn
+        checkEncounter(unit_i);
 
-        if (unidad_i.tipo === 'Soldado'){
+        if (unit_i.type === 'Soldier'){
+            unit_i.movements = unit_i.movements_total;
 
-            unidad_i.mueve = unidad_i.mueve_total;
-
-            //Si es romano, se colorea para indicar que puede moverse de nuevo
-            if (unidad_i.jugador === 'Romanos'){
-                //alert(unidad_i.casilla);
-                id = $('#'+unidad_i.casilla).attr('id').replace('icono', '').split("");
-                //console.log(id[0] + id[1]);
-                $('#casilla'+id[0]+id[1]).html('<a id="tooltip'+id[0]+id[1]
-                    +'a" href="#" data-toggle="tooltip" title="['+unidad_i.nombre+']. Mueve: ['+unidad_i.mueve+'], Fuerza: ['+unidad_i.fuerza+']">'
-                        +'<img class="icono" id="icono'+id[0]+id[1]+'a" src="images/SR_del_def.png"></img></a>');
+            // If it's a Roman Soldier, colour it in order to indicate that it can move again 
+            if (unit_i.player === 'Roman'){
+                id = $('#'+unit_i.cell).attr('id').replace('icon', '').split("");
+                
+                $('#cell' + id[0] + id[1]).html('<a id="tooltip' + id[0] + id[1]
+                    +'a" href="#" data-toggle="tooltip" title="['+unit_i.name+']. Moves: ['+unit_i.movements+'], Strength: ['+unit_i.strength+']">'
+                        +'<img class="icon" id="icon'+id[0]+id[1]+'a" src="images/SR_del_def.png"></img></a>');
             }
         }
     }
 
-    $('.icono').off();
-    $('.icono').click(seleccionIcono);
+    $('.icon').off();
+    $('.icon').click(showIconData);
 
-    comprobarVictoria();
+    checkVictoryCondition();
 }
 
-// Lleva a cabo el turno del enemigo mediante una 'IA' de comportamiento aleatorio, como si fuera un jugador
+// Performs the AI enemy turn: it behaves quite randomly for now
 function turnoIA(){
+    let i = 0,
+        towns = [],
+        nIterations = 0,
+        equals = true,
+        auxTown = '',
+        townsLength = '',
+        unitsLength = units.length,
+        lazy = 0;
 
-    var i = 0;
-    var pueblos = [];
-    var num_iter = 0;
-    var iguales = true;
-    var pueblo_aux = '';
+    // Move soldiers
+    for (i = 0; i < unitsLength; i++){
 
-    var pueblos_length = '';
-    var unidades_length = unidades.length;
-    var vago = 0;
+        // If random number is 1, soldier will not move this turn
+        lazy = Math.round(Math.random() * 5);
 
-
-    // Mover soldados
-    for (i = 0; i < unidades_length; i++){
-
-        //Si es 1, ese soldado no se moverá en este turno
-        vago = Math.round(Math.random() * 5);
-
-        if ( (unidades[i] !== undefined) && (unidades[i].tipo === 'Soldado') && (unidades[i].jugador === 'Bárbaros') && (vago != 1) ){
-            console.log('i='+i+'unidades[i].tipo='+unidades[i].tipo);
-            autoMoverSoldadoRandom(unidades[i]);
+        if ((units[i] !== undefined) && (units[i].type === 'Soldier') && (units[i].player === 'Barbarian') && (lazy != 1)){
+            moveSoldierRandom(units[i]);
         }
     }
 
-    // Crear array de pueblos solamente
-    for (i = 0; i < unidades.length; i++){
+    // Create only towns array
+    for (i = 0; i < units.length; i++){
 
-        if ((unidades[i].tipo === 'Pueblo') && (unidades[i].jugador === 'Bárbaros')){
-
-            pueblos.push(unidades[i]);
+        if ((units[i].type === 'Town') && (units[i].player === 'Barbarian')){
+            towns.push(units[i]);
         }
     }
 
-    // Reordenar aleatoriamente la array de pueblos
-    num_iter = Math.round(Math.random() * pueblos_length);
+    // Randonmy reorder towns array
+    nIterations = Math.round(Math.random() * townsLength);
 
-    while (num_iter > 0){
+    while (nIterations > 0){
 
-        while (iguales){
-
-            iguales = false;
-            pueblo_random1 = Math.round(Math.random() * pueblos_length) - 1;
-            pueblo_random2 = Math.round(Math.random() * pueblos_length) - 1;
-            if (pueblo_random1 === pueblo_random2){
-                iguales = true;
+        while (equals){
+            equals = false;
+            randomTown1 = Math.round(Math.random() * townsLength) - 1;
+            randomTown2 = Math.round(Math.random() * townsLength) - 1;
+            
+            if (randomTown1 === randomTown2){
+                equals = true;
             }
         }
 
-        pueblo_aux = pueblos[pueblo_random1];
-        pueblos[pueblo_random1] = pueblos[pueblo_random2];
-        pueblos[pueblo_random2] = pueblo_aux;
+        auxTown = towns[randomTown1];
+        towns[randomTown1] = towns[randomTown2];
+        towns[randomTown2] = auxTown;
 
-        num_iter--;
+        nIterations--;
     }
 
-    pueblos_length = pueblos.length;
+    townsLength = towns.length;
 
-    // Mejorar los pueblos
-    for (i = 0; i < pueblos_length; i++){
-    //console.log('checkeando pueblos');
+    // Improve towns 
+    for (i = 0; i < townsLength; i++){
 
-        //Si es 1 0 2, no se mejorará cal o cant, respectivamente
-        vago = Math.round(Math.random() * 5);
+        // If random number is 1, quality won't be improved; if it's 2, quantity won't be improved
+        lazy = Math.round(Math.random() * 5);
 
-        if ((oro[1] >= pueblos[i].stats.precio_mej_cal) && (vago !== 1)){
-            //console.log('Mejorando cal pueblo!');
-            modoMejorar(pueblos[i], 'mej_cal');
+        if ((gold[1] >= towns[i].stats.qualityUpgradePrice) && (lazy !== 1)){
+            upgradeMode(towns[i], 'improve_quality');
         }
 
-        if ((oro[1] >= pueblos[i].stats.precio_mej_cant) && (vago !== 2)){
-
-            modoMejorar(pueblos[i], 'mej_cant');
+        if ((gold[1] >= towns[i].stats.quantityUpgradePrice) && (lazy !== 2)){
+            upgradeMode(towns[i], 'improve_quantity');
         }
     }
 }
 
-// Mueve aleatoriamente a todos los soldados enemigos
-function autoMoverSoldadoRandom(unidad){
+// Move enemy soldiers randomly
+function moveSoldierRandom(unit){
+    var randomIndex = 0,
+        randomCell = '',
+        equals = true,
+        cell_aux = '',
+        cell = unit.cell.replace('icon', '').split(""),
+        iteration = [
+            ('cell' + (parseInt(cell[0]) + 1) + '' + parseInt(cell[1])), ('cell' + parseInt(cell[0]) + '' + (parseInt(cell[1]) + 1)),
+            ('cell' + (parseInt(cell[0]) - 1) + '' + parseInt(cell[1])), ('cell' + parseInt(cell[0]) + '' + (parseInt(cell[1]) - 1))
+        ];
 
+    // Avoid soldiers moving to non-existant cells
+    if (parseInt(cell[0]) === 7){
+        iteration.splice(0, 1);
+        
+    }else if (parseInt(cell[0]) === 0){
+        iteration.splice(2, 1);
+    }
+
+    if (parseInt(cell[1]) === 7){
+        iteration.splice(1, 1);
+        
+    }else if (parseInt(cell[1]) === 0){
+        iteration.splice(3, 1);
+    }
+
+    var iterationLength = iteration.length;
+
+    // Randomly reorder posible directions array
+    nIterations = Math.round(Math.random() * iterationLength);
+
+    while (nIterations > 0){
+
+        while (equals){
+            equals = false;
+            randomCell1 = Math.abs(Math.round(Math.random() * (iteration.length - 1)))
+            randomCell2 = Math.abs(Math.round(Math.random() * (iteration.length - 1)))
+            
+            if (randomCell1 == randomCell2){
+                equals = true;
+            }
+        }
+
+        cell_aux = iteration[randomCell1];
+        iteration[randomCell1] = iteration[randomCell2];
+        iteration[randomCell2] = cell_aux;
+
+        nIterations--;
+    }
+
+    var movements = unit.movements;
+
+    while ((unit.movements === movements) && (iteration.length > 0)){
+
+        randomIndex = Math.abs(Math.round(Math.random() * (iteration.length - 1))) ;
+        randomCell = iteration[randomIndex];
+        moveSoldier(unit, randomCell);
+        iteration.splice(randomIndex, 1);
+    }
+}
+
+// Move soldiers, first try to aproach neutral/human player towns, and then human player soldiers
+function moveSoldierIA(unit){
     var randomIndex = 0;
-    var casilla_random = '';
-    var iguales = true;
-    var casilla_aux = '';
+    var randomCell = '';
+    var equals = true;
+    var cell_aux = '';
+    var i = 0;
+    var initialCell = '';
+    var finalCell = '';
+    var target = '';
+    var continueBool = true;
 
-    var casilla = unidad.casilla.replace('icono', '').split("");
+    var cell = unit.cell.replace('icon', '').split("");
 
-    var iteracion = [
-        ('casilla' + (parseInt(casilla[0]) + 1) + '' + parseInt(casilla[1])), ('casilla' + parseInt(casilla[0]) + '' + (parseInt(casilla[1]) + 1)),
-        ('casilla' + (parseInt(casilla[0]) - 1) + '' + parseInt(casilla[1])), ('casilla' + parseInt(casilla[0]) + '' + (parseInt(casilla[1]) - 1))
+    var iteration = [
+        ('#cell' + (parseInt(cell[0]) + 1) + '' + parseInt(cell[1]) +' a img'), ('#cell' + parseInt(cell[0]) + '' + (parseInt(cell[1]) + 1) +' a img'),
+        ('#cell' + (parseInt(cell[0]) - 1) + '' + parseInt(cell[1]) +' a img'), ('#cell' + parseInt(cell[0]) + '' + (parseInt(cell[1]) - 1) +' a img')
     ];
 
-    //Evitar que se muevan fuera del tablero, a casillas inexistentes
-    if (parseInt(casilla[0]) === 7){
-        iteracion.splice(0, 1);
-    }else if (parseInt(casilla[0]) === 0){
-        iteracion.splice(2, 1);
-    }
+    var iterationLength = iteration.length;
+    var unitsLength = units.length;
 
-    if (parseInt(casilla[1]) === 7){
-        iteracion.splice(1, 1);
-    }else if (parseInt(casilla[1]) === 0){
-        iteracion.splice(3, 1);
-    }
+    initialCell = unit.cell.replace('icon','').split('');
 
-    var iteracion_length = iteracion.length;
+    // First look for towns
+    for (i = 0; (i < unitsLength && movements > 0); i++){
 
-    // Reordenar aleatoriamente el array de direcciones posibles
-    num_iter = Math.round(Math.random() * iteracion_length);
+        continueBool = true;
 
-    while (num_iter > 0){
+        if ((units[i].type === 'Town') && ((units[i].player === 'Neutral') || (units[i].player === 'Roman'))){
 
-        while (iguales){
+            while (continueBool && unit.movements > 0){
+                target = units[i];
+                finalCell = units[i].cell.replace('icon','').split('');
 
-            iguales = false;
-            casilla_random1 = Math.abs(Math.round(Math.random() * (iteracion.length - 1)))
-            casilla_random2 = Math.abs(Math.round(Math.random() * (iteracion.length - 1)))
-            if (casilla_random1 == casilla_random2){
-                iguales = true;
-            }
-        }
-
-        casilla_aux = iteracion[casilla_random1];
-        iteracion[casilla_random1] = iteracion[casilla_random2];
-        iteracion[casilla_random2] = casilla_aux;
-
-        num_iter--;
-    }
-
-    var movs = unidad.mueve;
-
-    while ((unidad.mueve === movs) && (iteracion.length > 0)){
-
-        randomIndex = Math.abs(Math.round(Math.random() * (iteracion.length - 1))) ;
-        //console.log(':::'+unidad.casilla);
-        //console.log(randomIndex);
-        casilla_random = iteracion[randomIndex];
-        //console.log(casilla_random);f
-        moverSoldado(unidad, casilla_random);
-        //console.log ('iteracion.length=' + iteracion.length);
-        iteracion.splice(randomIndex, 1);
-
-    }
-}
-
-// Mueve los soldados intentando acercarse primero a las ciudades neutrales/adversarias y luego a los soldados adversarios.
-function autoMoverSoldadoIA(unidad){
-
-    var randomIndex = 0;
-    var casilla_random = '';
-    var iguales = true;
-    var casilla_aux = '';
-    var i = 0;
-    var casilla_ini = '';
-    var casilla_fin = '';
-    var objetivo = '';
-    var continuar = true;
-
-    var casilla = unidad.casilla.replace('icono', '').split("");
-
-    var iteracion = [
-        ('#casilla' + (parseInt(casilla[0]) + 1) + '' + parseInt(casilla[1]) +' a img'), ('#casilla' + parseInt(casilla[0]) + '' + (parseInt(casilla[1]) + 1) +' a img'),
-        ('#casilla' + (parseInt(casilla[0]) - 1) + '' + parseInt(casilla[1]) +' a img'), ('#casilla' + parseInt(casilla[0]) + '' + (parseInt(casilla[1]) - 1) +' a img')
-    ];
-
-    var iteracion_length = iteracion.length;
-    var unidades_length = unidades.length;
-
-    casilla_ini = unidad.casilla.replace('icono','').split('');
-
-    //var movs = unidad.stats.mueve;
-
-    //Primero busca pueblos
-    for (i = 0; (i < unidades_length && movs > 0); i++){
-
-        continuar = true;
-
-        if ((unidades[i].tipo === 'Pueblo') && ((unidades[i].jugador === 'Neutral') || (unidades[i].jugador === 'Romanos'))){
-
-            while (continuar && unidad.mueve > 0){
-                objetivo = unidades[i];
-                casilla_fin = unidades[i].casilla.replace('icono','').split('');
-
-                //Intentará posicionarse en la misma columna que el objetivo, y luego en su misma fila
-                if (casilla_ini[1] < casilla_fin[1]){
-                    moverSoldado(unidad, iteracion[1]);
-                }if (casilla_ini[1] < casilla_fin[1]){
-                    moverSoldado(unidad, iteracion[4]);
-                }else if (casilla_ini[0] < casilla_fin[0]){
-                    moverSoldado(unidad, iteracion[0]);
-                }else if (casilla_ini[0] > casilla_fin[0]){
-                    moverSoldado(unidad, iteracion[2]);
+                //It will try to position itself on the same column that the target; and after that, on the same row.
+                if (initialCell[1] < finalCell[1]){
+                    moveSoldier(unit, iteration[1]);
+                    
+                } if (initialCell[1] < finalCell[1]){
+                    moveSoldier(unit, iteration[4]);
+                    
+                } else if (initialCell[0] < finalCell[0]){
+                    moveSoldier(unit, iteration[0]);
+                    
+                } else if (initialCell[0] > finalCell[0]){
+                    moveSoldier(unit, iteration[2]);
                 }
 
-                //Si nuestra unidad o ya no existe o el pueblo ya fue conquistado, para
-                if ( (unidades[i].jugador === 'Romanos') || (unidad === undefined) ){
-                    continuar = false;
+                // If our unit doesn't exist anymore o the town was already conquered, stop
+                if ((units[i].player === 'Roman') || (unit === undefined)){
+                    continueBool = false;
                 }
             }
         }
     }
 
-    //Luego busca soldados
-    for (i = 0; i < unidades_length; i++){
+    // Then it searchs for human and neutral soldiers
+    for (i = 0; i < unitsLength; i++){
 
-        continuar = true;
+        continueBool = true;
 
-        if ((unidades[i].tipo === 'Soldado') && ((unidades[i].jugador === 'Neutral') || (unidades[i].jugador === 'Romanos'))){
+        if ((units[i].type === 'Soldier') && ((units[i].player === 'Neutral') || (units[i].player === 'Roman'))){
 
-            while (continuar && unidad.mueve > 0){
-                objetivo = unidades[i];
-                casilla_fin = unidades[i].casilla.replace('icono','').split('');
+            while (continueBool && unit.movements > 0){
+                target = units[i];
+                finalCell = units[i].cell.replace('icon','').split('');
 
-                //Intentará posicionarse en la misma columna que el objetivo, y luego en su misma fila
-                if (casilla_ini[1] < casilla_fin[1]){
-                    moverSoldado(unidad, iteracion[1]);
-                }if (casilla_ini[1] < casilla_fin[1]){
-                    moverSoldado(unidad, iteracion[4]);
-                }else if (casilla_ini[0] < casilla_fin[0]){
-                    moverSoldado(unidad, iteracion[0]);
-                }else if (casilla_ini[0] > casilla_fin[0]){f
-                    moverSoldado(unidad, iteracion[2]);
+                //Intentará posicionarse en la misma columna que el target, y luego en su misma fila
+                if (initialCell[1] < finalCell[1]){
+                    moveSoldier(unit, iteration[1]);
+                    
+                } if (initialCell[1] < finalCell[1]){
+                    moveSoldier(unit, iteration[4]);
+                    
+                } else if (initialCell[0] < finalCell[0]){
+                    moveSoldier(unit, iteration[0]);
+                    
+                } else if (initialCell[0] > finalCell[0]){f
+                    moveSoldier(unit, iteration[2]);
                 }
 
-                //Si nuestra unidad o la adversario ya no existe
-                if ( (unidades[i] !== objetivo) || (unidad === undefined) ){
-                    continuar = false;
+                // If our unit or human player unit doesn't exist anymore
+                if ((units[i] !== target) || (unit === undefined)){
+                    continueBool = false;
                 }
             }
         }
     }
 }
 
-// Itera a lo largo de todas als ciudades y, si puede, genera los soldados que pertocan según el stat 'cantidad', con una fuerza igual a 'calidad'
-function generarSoldados(jugador){
-
+// Iterates through towns array and, if possible, generate soldiers equals to the quantity variable; with strength equals to quality variable
+function generateSoldiers(player){
     var i = 0;
     var j = 0;
-    var unidades_length = unidades.length;
-    var soldados = 0;
-    var calidad = 0;
-    var movs = 0;
-    var casilla = '';
-    var casilla_vacia = '';
+    var unitsLength = units.length;
+    var soldiers = 0;
+    var quality = 0;
+    var movements = 0;
+    var cell = '';
+    var emptyCell = '';
     var id = '';
-    var nombre_random = '';
+    var randomName = '';
 
-    var iteracion = '';
-    var iteracion_length = '';
+    var iteration = '';
+    var iterationLength = '';
 
-    for(i = 0; i < unidades_length; i++ ){
+    for(i = 0; i < unitsLength; i++ ){
 
-        if ((unidades[i].tipo === 'Pueblo') && (unidades[i].jugador === jugador)){
+        if ((units[i].type === 'Town') && (units[i].player === player)){
 
-            soldados = unidades[i].stats.cantidad;
-            calidad = unidades[i].stats.calidad;
+            soldiers = units[i].stats.quantity;
+            quality = units[i].stats.quality;
 
-            casilla = unidades[i].casilla.replace('icono','').split("");
+            cell = units[i].cell.replace('icon','').split("");
 
-            iteracion = [
-                ('#casilla' + (parseInt(casilla[0]) + 1) + '' + parseInt(casilla[1])), ('#casilla' + parseInt(casilla[0]) + '' + (parseInt(casilla[1]) + 1)),
-                ('#casilla' + (parseInt(casilla[0]) - 1) + '' + parseInt(casilla[1])), ('#casilla' + parseInt(casilla[0]) + '' + (parseInt(casilla[1]) - 1))
+            iteration = [
+                ('#cell' + (parseInt(cell[0]) + 1) + '' + parseInt(cell[1])), ('#cell' + parseInt(cell[0]) + '' + (parseInt(cell[1]) + 1)),
+                ('#cell' + (parseInt(cell[0]) - 1) + '' + parseInt(cell[1])), ('#cell' + parseInt(cell[0]) + '' + (parseInt(cell[1]) - 1))
             ];
 
-            //Evitar que se muevan fuera del tablero, a casillas inexistentes
-            if (parseInt(casilla[0]) === 7){
-                iteracion.splice(0, 1);
-            }else if (parseInt(casilla[0]) === 0){
-                iteracion.splice(2, 1);
+            // Stop soldiers moving to non-existant cells
+            if (parseInt(cell[0]) === 7){
+                iteration.splice(0, 1);
+            }else if (parseInt(cell[0]) === 0){
+                iteration.splice(2, 1);
             }
 
-            if (parseInt(casilla[1]) === 7){
-                iteracion.splice(1, 1);
-            }else if (parseInt(casilla[1]) === 0){
-                iteracion.splice(3, 1);
+            if (parseInt(cell[1]) === 7){
+                iteration.splice(1, 1);
+            }else if (parseInt(cell[1]) === 0){
+                iteration.splice(3, 1);
             }
 
-            iteracion_length = iteracion.length;
+            iterationLength = iteration.length;
 
 
-            //Generara soldados mientras queden espacios libres, y capacidad del pueblo de generar soldados ese turno.
-            for (j = 0; (j < iteracion_length) && (soldados > 0); j++){
+            //Will generate soldiers while free cells and dependant of quantity var of town 
+            for (j = 0; (j < iterationLength) && (soldiers > 0); j++){
 
-                if ( ($(iteracion[j]+' img').attr('id') === undefined ) ){
+                if ( ($(iteration[j]+' img').attr('id') === undefined ) ){
 
-                    casilla_vacia = iteracion[j].replace('#casilla','').split("");
+                    emptyCell = iteration[j].replace('#cell','').split("");
 
-                    nombre_random = nombresRandom('Soldado', jugador);
+                    randomName = getRandomName('Soldier', player);
 
-                    if (jugador === 'Romanos'){
-                        id = 'icono'+casilla_vacia[0]+casilla_vacia[1]+'a';
-                        //alert(id);
-                        movs = 2;
+                    if (player === 'Roman'){
+                        id = 'icon'+emptyCell[0]+emptyCell[1]+'a';
+                        movements = 2;
 
-                        $(iteracion[j]).html('<a id="tooltip'+i+''+j+casilla
-                        +'" href="#" data-toggle="tooltip" title="['+nombre_random+']. Mueve: ['+movs+'], Fuerza: ['+unidades[i].stats.calidad+']">'
-                        +'<img class="icono" id="'+id+'" src="images/SR_del_def.png"></img></a>');
+                        $(iteration[j]).html('<a id="tooltip'+i+''+j+cell
+                        +'" href="#" data-toggle="tooltip" title="['+randomName+']. movements: ['+movements+'], strength: ['+units[i].stats.quality+']">'
+                        +'<img class="icon" id="'+id+'" src="images/SR_del_def.png"></img></a>');
 
-                    }else if (jugador === 'Bárbaros'){
-                        id = 'icono'+casilla_vacia[0]+casilla_vacia[1]+'e';
-                        //alert(id);
+                    }else if (player === 'Barbarian'){
+                        id = 'icon'+emptyCell[0]+emptyCell[1]+'e';
 
-                        movs = 1;
+                        movements = 1;
 
-                        $(iteracion[j]).html('<a id="tooltip'+i+''+j+casilla+'" href="#" data-toggle="tooltip" title="['+nombre_random+']. Mueve: ['+movs+'], Fuerza: ['+unidades[i].stats.calidad+']">'
-                        +'<img class="icono" id="'+id+'" src="images/SB_del_def.png"></img></a>');
+                        $(iteration[j]).html('<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="['+randomName+']. movements: ['+movements+'], strength: ['+units[i].stats.quality+']">'
+                        +'<img class="icon" id="'+id+'" src="images/SB_del_def.png"></img></a>');
                     }
 
+                    units.push(
+                        {cell: id, player: player, type: 'Soldier', name: randomName, movements: movements, movements_total: movements, strength: quality});
 
-                    //$('#'+casilla_vacia).css({'background': color_icono, 'border-radius' : forma_icono, 'display' : display});
+                    // Resolve possible encounters when this unit appears besides other enemy unit
+                    checkEncounter(units[units.length - 1]);
 
-                    unidades.push(
-                        {casilla: id, jugador: jugador, tipo: 'Soldado', nombre: nombre_random, mueve: movs, mueve_total: movs, fuerza: calidad});
-
-                    //Resolver posibles encuentros que le surjan al ser generado al lado de otra unidad.
-                    encuentro(unidades[unidades.length - 1]);
-
-                    soldados--;
+                    soldiers--;
                 }
             }
         }
     }
 }
 
+function updateDataLabels(unit) {
+    $('#player').val(unit.player);
+    $('#type').val(unit.type);
+    $('#name').val(unit.name);
+};
 
-// Muestra informacion sobre el icono y, según el tipo de icono seleccionado, permite mover soldado o mejorar pueblo
-function seleccionIcono(){
+// Shows data about the icon and, depending of the type of icon, allows to move it (soldier) or improve it (town)
+function showIconData(){
+    let i = 0,
+        unit,
+        icon = this.id,
+        type = icon.charAt(icon.length - 1),
+        color,
+        grey = 'RGB(135, 135, 135)',
+        red = 'RGB(255, 10, 10)',
+        blue = 'RGB(7, 168, 226)',
+        unitsLength = units.length;
 
-    var i = 0;
-    var unidad = '';
-    var icono = this.id;
-    var tipo = icono.charAt(icono.length - 1);
-    var color = '';
-    //console.log(tipo);
+    $('.icon').off();
 
-    var unidades_length = unidades.length;
-
-    $('.icono').off();
-
-    for(i = 0; i < unidades_length; i++){
-        if (unidades[i].casilla == icono){
-            unidad = unidades[i];
-            //console.log('encontrado!')
+    for(i = 0; i < unitsLength; i++){
+        if (units[i].cell == icon){
+            unit = units[i];
             break;
         }
     }
 
-    switch(tipo){
+    switch(type){
 
         case 'A':
-            $('#jugador').val(unidad.jugador);
-            $('#tipo').val(unidad.tipo);
-            $('#nombre').val(unidad.nombre);
+            updateDataLabels(unit);
 
-            $('#prod_cant').html(unidad.cantidad);
-            $('#prod_cal').html(unidad.calidad);
-            $('#mej_cant').html(unidad.precio_mej_cant);
-            $('#mej_cal').html(unidad.precio_mej_cal);
+            $('#quantity_production').html(unit.quantity);
+            $('#quality_production').html(unit.quality);
+            $('#improve_quantity').html(unit.quantityUpgradePrice);
+            $('#improve_quality').html(unit.qualityUpgradePrice);
 
-            $('#form_pueblo').show();
-            $('#form_soldado').hide();
+            $('#town_info').show();
+            $('#soldier_info').hide();
 
-            //console.log(unidad.stats.precio_mej_cant);
-            //$('#mej_cant').click({unidad : unidad, mejora_auto : ''}, modoMejorar);
-
-            $('#mej_cant').off();
-            $('#mej_cant').click(function(){
-                modoMejorar(unidad, 'mej_cant');
+            $('#improve_quantity').off();
+            $('#improve_quantity').click(function(){
+                upgradeMode(unit, 'improve_quantity');
             });
 
-            $('#mej_cal').off();
-            $('#mej_cal').click(function(){
-                modoMejorar(unidad, 'mej_cal');
+            $('#improve_quality').off();
+            $('#improve_quality').click(function(){
+                upgradeMode(unit, 'improve_quality');
             });
 
-            //$('#mej_cal').click({unidad : unidad}, modoMejorar);
+            //$('#improve_quality').click({unit : unit}, upgradeMode);
 
-            $("#mej_cant").html('Mejorar cantidad ('+unidad.stats.precio_mej_cant+' Oro)');
-            $("#mej_cal").html('Mejorar calidad ('+unidad.stats.precio_mej_cal+' Oro)');
-            $("#prod").html('Produciendo ['+unidad.stats.cantidad+'] soldados de fuerza ['+unidad.stats.calidad+'] cada día.');
+            $("#improve_quantity").html('Quantity ('+unit.stats.quantityUpgradePrice+' Gold)');
+            $("#improve_quality").html('Quality ('+unit.stats.qualityUpgradePrice+' Gold)');
+            $("#prod").html('Producing ['+unit.stats.quantity+'] soldiers with ['+unit.stats.quality+'] strength each turn. Upgrade: ');
 
-            color = 'RGB(255, 10, 10)';
+            color = 'red';
             break;
 
         case 'E':
+            updateDataLabels(unit);
 
-            $('#jugador').val(unidad.jugador);
-            $('#tipo').val(unidad.tipo);
-            $('#nombre').val(unidad.nombre);
+            $('#town_info').hide();
+            $('#soldier_info').hide();
 
-            $('#form_pueblo').hide();
-            $('#form_soldado').hide();
-
-            color = 'RGB(7, 168, 226)';
+            color = blue;
             break;
 
         case 'N':
-            $('#jugador').val(unidad.jugador);
-            $('#tipo').val(unidad.tipo);
-            $('#nombre').val(unidad.nombre);
+            updateDataLabels(unit);
 
-            $('#form_pueblo').hide();
-            $('#form_soldado').hide();
+            $('#town_info').hide();
+            $('#soldier_info').hide();
 
-            color = 'RGB(135, 135, 135)';
+            color = grey;
             break;
 
         case 'a':
-            $('#jugador').val(unidad.jugador);
-            $('#tipo').val(unidad.tipo);
-            $('#nombre').val(unidad.nombre);
+            updateDataLabels(unit);
 
-            $('#form_pueblo').hide();
-            $('#form_soldado').show();
-            $('#destruir').show();
+            $('#town_info').hide();
+            $('#soldier_info').show();
+            $('#destroy').show();
 
-            modoMover(icono, unidad);
-            $("#mueve").html('Aún puede moverse ['+unidad.mueve+'] casillas este turno.');
-            $("#fuerza").html('Tiene una fuerza en combate de ['+unidad.fuerza + '].');
+            moveMode(icon, unit);
+            $("#movement").html('Movements left: [' + unit.movements + ']');
+            $("#strength").html('Combat strength: [' + unit.strength + '].');
 
-            color = 'RGB(255, 10, 10)';
+            color = red;
             break;
 
         case 'e':
-            $('#jugador').val(unidad.jugador);
-            $('#tipo').val(unidad.tipo);
-            $('#nombre').val(unidad.nombre);
+            updateDataLabels(unit);
 
-            $('#form_pueblo').hide();
-            $('#form_soldado').show();
-            $('#destruir').hide();
+            $('#town_info').hide();
+            $('#soldier_info').show();
+            $('#destroy').hide();
 
-            $("#mueve").html('Puede moverse ['+unidad.mueve+'] casilla este turno.');
-            $("#fuerza").html('Tiene una fuerza en combate de ['+unidad.fuerza + '].');
+            $("#movement").html('');
+            $("#strength").html('Combat strength: [' + unit.strength + '].');
 
-            color = 'RGB(7, 168, 226)';
+            color = blue;
             break;
 
         case 'n':
-            $('#jugador').val(unidad.jugador);
-            $('#tipo').val(unidad.tipo);
-            $('#nombre').val(unidad.nombre);
+            const move_message_eng = 'They protect their territory',
+                  move_message_spa = 'Prefiere defender su territorio',
+                  strength_message_eng = 'Can devour an undertrained human',
+                  strength_message_spa = 'Puede devorar a alguien con poco entrenamiento';
+            
+            updateDataLabels(unit);
 
-            $('#form_pueblo').hide();
-            $('#form_soldado').show();
-            $('#destruir').hide();
+            $('#town_info').hide();
+            $('#soldier_info').show();
+            $('#destroy').hide();
 
-            $("#mueve").html('Prefiere defender su territorio');
-            $("#fuerza").html('Puede devorar a alguien con poco entrenamiento');
+            $("#movement").html(move_message_eng);
+            $("#strength").html(strength_message_eng);
 
-            color = 'RGB(135, 135, 135)';
+            color = grey;
             break;
     }
 
@@ -1078,506 +1015,449 @@ function seleccionIcono(){
     $('#info').show();
 }
 
-/*
-function cerrarInfo(){
-    $('#info').hide();
-}
-*/
+// Allows soldier to move while movements left
+function moveMode(icon, unit){
+    let target;
+    //movements = unit.movements;
 
-// Permite mover al soldado hasta quedarse sin movimientos
-function modoMover(icono, unidad){
+    //$('#'+icon).html('<form><input readonly>'+movements+'</input></form>');
 
-    //movs = unidad.mueve;
+    $('.cell').off();
+    //movements = movements - $('.cell').click({unit: unit}, moveSoldier).data("result");
 
-    //$('#'+icono).html('<form><input readonly>'+movs+'</input></form>');
-
-    $('.casilla').off();
-    //movs = movs - $('.casilla').click({unidad: unidad}, moverSoldado).data("result");  //Event handler de mover soldado
-
-    $('.casilla').click(function(){
-        //alert(unidad.casilla.replace('icono', '').substring(0, 2) + '=' + this.id.replace('casilla', ''));
-        var meta = this.id;
-        if ((unidad.mueve > 0) && (unidad.casilla.replace('icono', '').substring(0, 2) !== this.id.replace('casilla', ''))){
-            moverSoldado(unidad, meta);
+    $('.cell').click(function(){
+        var target = this.id;
+        if ((unit.movements > 0) && (unit.cell.replace('icon', '').substring(0, 2) !== this.id.replace('cell', ''))){
+            moveSoldier(unit, target);
         }
 
     });
 
-    $('#destruir').off();
-    $('#destruir').click(function(){
-        if (confirm('¿Suicidar al soldado actual?')){
-            destruirUnidad(unidad);
-            $('.casilla').off();
+    $('#destroy').off();
+    $('#destroy').click(function(){
+        if (confirm('Do you want to destroy current soldier?')){
+            destroyUnit(unit);
+            $('.cell').off();
             $('#info').hide();
-            $('.icono').off();
-            $('.icono').click(seleccionIcono);
-        }else{
-
+            $('.icon').off();
+            $('.icon').click(showIconData);
         }
     });
-
-    //$('#'+icono).html('<form><input readonly>'+movs+'</input></form>');
-
-    //$('#casilla').off();
-    //$('.icono').click(seleccionIcono);
-
 }
 
-// meta_auto es para cuando al funcion se invoca en el turno de la IA. En otro caso, es invocada por un event_handler
-function moverSoldado(unidad, meta) {
+// upgrade_auto is for AI turn use of this function. In other case, this is invoked by an event_handler
+function moveSoldier(unit, target) {
+    let icon = document.getElementById(target).lastElementChild,
+        movement,
+        result;
 
-    var icono = '';
-    var resultado = '';
+    initialCell = unit.cell.replace('icon', '').split("");
+    finalCell = target.replace('cell', '').replace('#', '').split("");
+    
+    //Check how many cells have it move as a total
+    movement = Math.abs(initialCell[0] - finalCell[0]) + Math.abs(finalCell[1] - initialCell[1]);
 
-    switch (unidad.jugador) {
-    case 'Romanos':
-        color_icono = 'Blue';
-        forma_icono = '50px 50px 50px 50px';
-        display = 'block';
-
-        break;
-    case 'Bárbaros':
-        color_icono = 'Red';
-        forma_icono = '50px 50px 50px 50px';
-        display = 'block';
-        break;
-    }
-
-    //alert(meta);
-    icono = document.getElementById(meta).lastElementChild;
-    casilla_ini = unidad.casilla.replace('icono','').split("");
-    //alert(casilla_ini[0] + ',' + casilla_ini[1] + ',' + casilla_ini[2]);
-    casilla_fin = meta.replace('casilla','').replace('#', '').split("");
-    //alert (icono);
-    //Determinar cuantas casillas nos hemos movido en total
-    mov =  Math.abs(casilla_ini[0] - casilla_fin[0])  + Math.abs(casilla_fin[1] - casilla_ini[1]);
-    //console.log(mov);
-
-    if (
-        (icono === null)
-        && (mov > 0) && (mov <= unidad.mueve)
+    if ((icon === null) && (movement > 0) && (movement <= unit.movements)
         /*
-        && ((casilla_ini[0] - casilla_fin[0] < unidad.mueve) || (casilla_fin[0] - casilla_ini[0] < unidad.mueve))
-        && ((casilla_ini[1] - casilla_fin[1] < unidad.mueve) || (casilla_fin[1] - casilla_ini[1] < unidad.mueve))
+        && ((initialCell[0] - finalCell[0] < unit.movements) || (finalCell[0] - initialCell[0] < unit.movements))
+        && ((initialCell[1] - finalCell[1] < unit.movements) || (finalCell[1] - initialCell[1] < unit.movements))
         */
         ){
 
-        //Se mueve el icono del soldado de la casilla donde estaba a la elegida, y se calculan los movimientos que le quedan
+        //Move the soldier icon to he selected cell, and calculate movements left 
 
-        //$(unidad.casilla).css({'background': color_icono, 'border-radius' : forma_icono, 'display' : display});
-        //unidad.casilla = 'icono'+casilla_ini[2];
+        //$(unit.cell).css({'background': iconColor, 'border-radius' : iconShape, 'display' : display});
+        //unit.cell = 'icon'+initialCell[2];
 
-        unidad.casilla = 'icono' + casilla_fin[0] + '' + casilla_fin[1] + casilla_ini[2];
+        unit.cell = 'icon' + finalCell[0] + '' + finalCell[1] + initialCell[2];
 
-        resultado = encuentro(unidad);
+        result = checkEncounter(unit);
 
-        if ( resultado !== 'nada'){
-            unidad.mueve = 0;
-        }else{
-            unidad.mueve -= mov;
-        }
+        unit.movements = (result !== 'none') ? 0 : unit.movements - movement;
 
+        switch (unit.player) {
+            case 'Roman':
+                if (result === 'looses'){
+                    $('#cell' + finalCell[0] + '' + finalCell[1]).html('');
+                    
+                }else if ((result === 'wins') || (unit.movements === 0)){
+                    $('#cell'+finalCell[0]+''+finalCell[1]).html('<a id="tooltip'+finalCell[0]+''+finalCell[1]+initialCell[2]
+                        +'" href="#" data-toggle="tooltip" title="['+unit.name+']. movements: ['+unit.movements+'], strength: ['+unit.strength+']">'
+                        +'<img class="icon" id="icon'+finalCell[0]+''+finalCell[1]+initialCell[2]+'" src="images/SRUsed_del_def.png"></img></a>');
 
-        switch (unidad.jugador) {
-            case 'Romanos':
-
-                if (resultado === 'pierde'){
-                    $('#casilla'+casilla_fin[0]+''+casilla_fin[1]).html('');
-                }else if ((resultado === 'gana') || (unidad.mueve === 0)){
-                    $('#casilla'+casilla_fin[0]+''+casilla_fin[1]).html('<a id="tooltip'+casilla_fin[0]+''+casilla_fin[1]+casilla_ini[2]
-                        +'" href="#" data-toggle="tooltip" title="['+unidad.nombre+']. Mueve: ['+unidad.mueve+'], Fuerza: ['+unidad.fuerza+']">'
-                        +'<img class="icono" id="icono'+casilla_fin[0]+''+casilla_fin[1]+casilla_ini[2]+'" src="images/SRUsed_del_def.png"></img></a>');
-
-                }else if (resultado === 'nada'){
-                    $('#casilla'+casilla_fin[0]+''+casilla_fin[1]).html('<a id="tooltip'+casilla_fin[0]+''+casilla_fin[1]+casilla_ini[2]
-                        +'" href="#" data-toggle="tooltip" title="['+unidad.nombre+']. Mueve: ['+unidad.mueve+'], Fuerza: ['+unidad.fuerza+']">'
-                        +'<img class="icono" id="icono'+casilla_fin[0]+''+casilla_fin[1]+casilla_ini[2]+'" src="images/SR_del_def.png"></img></a>');
+                }else if (result === 'none'){
+                    $('#cell'+finalCell[0]+''+finalCell[1]).html('<a id="tooltip'+finalCell[0]+''+finalCell[1]+initialCell[2]
+                        +'" href="#" data-toggle="tooltip" title="['+unit.name+']. movements: ['+unit.movements+'], strength: ['+unit.strength+']">'
+                        +'<img class="icon" id="icon'+finalCell[0]+''+finalCell[1]+initialCell[2]+'" src="images/SR_del_def.png"></img></a>');
                 }
 
             break;
-            case 'Bárbaros':
-                if (resultado === 'pierde'){
-                    $('#casilla'+casilla_fin[0]+''+casilla_fin[1]).html('');
+            case 'Barbarian':
+                if (result === 'looses'){
+                    $('#cell'+finalCell[0]+''+finalCell[1]).html('');
+                    
                 }else{
-                    $('#casilla'+casilla_fin[0]+''+casilla_fin[1]).html('<a id="tooltip'+casilla_fin[0]+''+casilla_fin[1]+casilla_ini[2]
-                        +'" href="#" data-toggle="tooltip" title="['+unidad.nombre+']. Mueve: ['+unidad.mueve_total+'], Fuerza: ['+unidad.fuerza+']">'
-                        +'<img class="icono" id="icono'+casilla_fin[0]+''+casilla_fin[1]+casilla_ini[2]+'" src="images/SB_del_def.png"></img></a>');
+                    $('#cell'+finalCell[0]+''+finalCell[1]).html('<a id="tooltip'+finalCell[0]+''+finalCell[1]+initialCell[2]
+                        +'" href="#" data-toggle="tooltip" title="['+unit.name+']. movements: ['+unit.movements_total+'], strength: ['+unit.strength+']">'
+                        +'<img class="icon" id="icon'+finalCell[0]+''+finalCell[1]+initialCell[2]+'" src="images/SB_del_def.png"></img></a>');
                 }
             break;
     }
 
-        $('#casilla'+casilla_ini[0]+''+casilla_ini[1]).html('');
-        $('.casilla').off();
-        $('.icono').click(seleccionIcono);
+        $('#cell' + initialCell[0] + '' + initialCell[1]).html('');
+        $('.cell').off();
+        $('.icon').click(showIconData);
         $('#info').hide();
-        comprobarVictoria();
+        checkVictoryCondition();
 
     }else{
 
-        if (unidad.jugador === 'Romanos'){
-            alert('Movimiento no permitido');
+        if (unit.player === 'Roman'){
+            alert('Invalid movement');
         }
     }
 }
 
-// Calcula el resultado del encuentro de un soldado con otro soldado o pueblo enemigo/neutral, devuelve true si victoria de unidad
-function encuentro(unidad){
+// Calculate the encounter result between a soldier and a soldier, or a soldier and a town; return true if unit wins.
+function checkEncounter(unit){
+    let adversary = '',
+        conquered = 0,
+        winner = '',
+        loser = '',
+        cell = unit.cell.replace('icon', '').split(""),
+        
+        iteration = [
+            ('#cell' + (parseInt(cell[0]) + 1) + '' + parseInt(cell[1])), ('#cell' + parseInt(cell[0]) + '' + (parseInt(cell[1]) + 1)),
+            ('#cell' + (parseInt(cell[0]) - 1) + '' + parseInt(cell[1])), ('#cell' + parseInt(cell[0]) + '' + (parseInt(cell[1]) - 1))
+        ],
+        
+        iterationLength = iteration.length,
+        unitsLength = units.length,
+        i = 0,
+        j = 0,
+        k = 0,
+        newId = '',
+        title = '',
+    //Finds anything? 'none', 'vence' 0 'wins'
+        result = 'none',
+        audio = '';
 
-    var adversario = '';
-    var conquistado = 0;
-    var vencedor = '';
-    var perdedor = '';
-    //alert(unidad.casilla);
-    var casilla = unidad.casilla.replace('icono', '').split("");
-    //alert(casilla[0] + ',' + casilla[1] + ',' + casilla[2]);
-
-    var iteracion = [
-        ('#casilla' + (parseInt(casilla[0]) + 1) + '' + parseInt(casilla[1])), ('#casilla' + parseInt(casilla[0]) + '' + (parseInt(casilla[1]) + 1)),
-        ('#casilla' + (parseInt(casilla[0]) - 1) + '' + parseInt(casilla[1])), ('#casilla' + parseInt(casilla[0]) + '' + (parseInt(casilla[1]) - 1))
-    ];
-
-    var iteracion_length = iteracion.length;
-    var unidades_length = unidades.length;
-
-    var i = 0;
-    var j = 0;
-    var k = 0;
-
-    var nuevo_id = '';
-    var title = '';
-    //Se encuentra algo? 'nada', 'vence' 0 'gana'
-    var resultado = 'nada';
-
-    var audio = '';
-
-    //console.log($('#casilla33 img').attr('id'));
-
-    //Busca enfrentamientos con otros soldados colindantes
-    for (i = 0; i < iteracion_length; i++){
-         if ( ($(iteracion[i]+' a img').attr('id') !== undefined)
-            && ( (($(iteracion[i]+' a img').attr('id').replace('icono', '').charAt(2) === 'e') && (unidad.jugador === 'Romanos'))
-            ||(($(iteracion[i]+' a img').attr('id').replace('icono', '').charAt(2) === 'a') && (unidad.jugador === 'Bárbaros'))
-            ||(($(iteracion[i]+' a img').attr('id').replace('icono', '').charAt(2) === 'n') && ((unidad.jugador === 'Romanos')||(unidad.jugador === 'Bárbaros'))) )
+    // Look for fights with other soldiers next to itself
+    for (i = 0; i < iterationLength; i++){
+         if ( ($(iteration[i]+' a img').attr('id') !== undefined)
+            && ( (($(iteration[i]+' a img').attr('id').replace('icon', '').charAt(2) === 'e') && (unit.player === 'Roman'))
+            ||(($(iteration[i]+' a img').attr('id').replace('icon', '').charAt(2) === 'a') && (unit.player === 'Barbarian'))
+            ||(($(iteration[i]+' a img').attr('id').replace('icon', '').charAt(2) === 'n') && ((unit.player === 'Roman')||(unit.player === 'Barbarian'))) )
 
             ) {
 
-            //console.log($(iteracion[0]).attr('id'));
-            //console.log('entro en if de soldados colindantes')
-            resultado = 'nada';
+            result = 'none';
 
-            //combate
-            for (j = 0; j < unidades_length; j++){
-                //console.log(unidades[j].casilla.replace('icono', '').replace('a', '').replace('e','') + ' ===??? ' + iteracion[i].replace('#casilla', ''));
-                if (unidades[j].casilla.replace('icono', '').replace('a', '').replace('e','').replace('n','') === iteracion[i].replace('#casilla', '')) {
-                    adversario = unidades[j];
+            // Combat
+            for (j = 0; j < unitsLength; j++){
+                //console.log(units[j].cell.replace('icon', '').replace('a', '').replace('e','') + ' ===??? ' + iteration[i].replace('#cell', ''));
+                if (units[j].cell.replace('icon', '').replace('a', '').replace('e','').replace('n','') === iteration[i].replace('#cell', '')) {
+                    adversary = units[j];
                     break;
-                    //console.log('1092-- Adversario encontrado');
                 }
             }
 
-            //100%
-            if (unidad.fuerza > adversario.fuerza + 1) {
+            // 100% win
+            if (unit.strength > adversary.strength + 1) {
+                winner = unit;
+                loser = adversary;
+                result = 'wins';
+                destroyUnit(adversary);
 
-                vencedor = unidad;
-                perdedor = adversario;
-                resultado = 'gana';
-                destruirUnidad(adversario);
+            } else if (unit.strength + 1 < adversary.strength) {
+                winner = adversary;
+                loser = unit;
+                result = 'looses';
+                destroyUnit(unit);
 
-            } else if (unidad.fuerza + 1 < adversario.fuerza) {
+            } else if (unit.strength === adversary.strength) {
 
-                vencedor = adversario;
-                perdedor = unidad;
-                resultado = 'pierde';
-                destruirUnidad(unidad);
-
-            } else if (unidad.fuerza === adversario.fuerza) {
-
-                //Se sortea el perdedor (50%)
+                // Random winner (50%)
                 if (Math.round(Math.random() * 1) === 1) {
-
-                    console.log('Vence');
-                    vencedor = unidad;
-                    perdedor = adversario;
-                    resultado = 'gana';
-                    destruirUnidad(adversario);
+                    winner = unit;
+                    loser = adversary;
+                    result = 'wins';
+                    destroyUnit(adversary);
 
                 } else {
-
-                    console.log('Pierde');
-                    vencedor = adversario;
-                    perdedor = unidad;
-                    resultado = 'pierde';
-                    destruirUnidad(unidad);
+                    winner = adversary;
+                    loser = unit;
+                    result = 'looses';
+                    destroyUnit(unit);
                 }
-            } else if (unidad.fuerza + 1 === adversario.fuerza) {
+            } else if (unit.strength + 1 === adversary.strength) {
 
                 // 25%
                 if (Math.round(Math.random() * 3) === 0) {
-
-                    console.log('Vence');
-                    vencedor = unidad;
-                    perdedor = adversario;
-                    resultado = 'gana';
-                    destruirUnidad(adversario);
+                    winner = unit;
+                    loser = adversary;
+                    result = 'wins';
+                    destroyUnit(adversary);
 
                 } else {
-
-                    console.log('Pierde');
-                    vencedor = adversario;
-                    perdedor = unidad;
-                    resultado = 'pierde';
-                    destruirUnidad(unidad);
+                    winner = adversary;
+                    loser = unit;
+                    result = 'looses';
+                    destroyUnit(unit);
                 }
 
-            } else if (unidad.fuerza === adversario.fuerza + 1){
+            } else if (unit.strength === adversary.strength + 1){
 
                 // 25%
                 if (Math.round(Math.random() * 3) !== 0) {
-
-                    console.log('Vence');
-                    vencedor = unidad;
-                    perdedor = adversario;
-                    resultado = 'gana';
-                    destruirUnidad(adversario);
+                    winner = unit;
+                    loser = adversary;
+                    result = 'wins';
+                    destroyUnit(adversary);
 
                 } else {
-
-                    console.log('Pierde');
-                    vencedor = adversario;
-                    perdedor = unidad;
-                    resultado = 'pierde';
-                    destruirUnidad(unidad);
+                    winner = adversary;
+                    loser = unit;
+                    result = 'looses';
+                    destroyUnit(unit);
                 }
             }
 
-            //Repartir recompensa por derrota
-            if ((vencedor.jugador === 'Romanos')&&(perdedor.jugador !== 'Neutral')){
+            // Loot for kill
+            if ((winner.player === 'Roman')&&(loser.player !== 'Neutral')){
+                gold[0]++;
+                $('#gold').val(gold[0]);
 
-                oro[0]++;
-                $('#oro').val(oro[0]);
-
-            }else if ((vencedor.jugador === 'Bárbaros')&&(perdedor.jugador !== 'Neutral')){
-
-                oro[1]++;
+            }else if ((winner.player === 'Barbarian')&&(loser.player !== 'Neutral')){
+                gold[1]++;
             }
 
-            //Si aún no ha muerto, sigue buscando adversarios.
-            if (perdedor === unidad){
+            // If not dead yet, keep looking for fights
+            if (loser === unit){
                 break;
             }
         }
     }
 
-    //Si la unidad aún no ha sido destruida, puede conquistar
-    if (resultado !== 'pierde') {
+    // If unit is still alive, it can conquest towns
+    if (result !== 'looses') {
 
-        for (i = 0; i < iteracion_length; i++){
+        for (i = 0; i < iterationLength; i++){
 
-            if (  ($(iteracion[i]+' a img').attr('id') !== undefined)
-                && (($(iteracion[i]+' a img').attr('id').replace('icono', '').charAt(2) === 'N')
-                || (($(iteracion[i]+' a img').attr('id').replace('icono', '').charAt(2) === 'E') && (unidad.jugador === 'Romanos'))
-                || (($(iteracion[i]+' a img').attr('id').replace('icono', '').charAt(2) === 'A') && (unidad.jugador === 'Bárbaros')) )
+            if (  ($(iteration[i]+' a img').attr('id') !== undefined)
+                && (($(iteration[i]+' a img').attr('id').replace('icon', '').charAt(2) === 'N')
+                || (($(iteration[i]+' a img').attr('id').replace('icon', '').charAt(2) === 'E') && (unit.player === 'Roman'))
+                || (($(iteration[i]+' a img').attr('id').replace('icon', '').charAt(2) === 'A') && (unit.player === 'Barbarian')) )
                 ) {
 
-               //.log($(iteracion[0]).attr('id').replace('icono', '').charAt(2));
+               //.log($(iteration[0]).attr('id').replace('icon', '').charAt(2));
 
-                resultado = 'gana';
+                result = 'wins';
 
-                unidades_length = unidades.length;
+                unitsLength = units.length;
 
-                //Encontrar la unidad objetivo en el array
-                for (j = 0; j < unidades_length; j++){
-                    if (unidades[j].casilla === ($(iteracion[i]+' img').attr('id'))) {
-                        conquistado = j;
+                // Find target unit in array 
+                for (j = 0; j < unitsLength; j++){
+                    if (units[j].cell === ($(iteration[i]+' img').attr('id'))) {
+                        conquered = j;
                         break;
                     }
                 }
 
-                unidades[conquistado].jugador = unidad.jugador;
-                unidades[conquistado].nombre = nombresRandom('Pueblo', unidad.jugador);
+                units[conquered].player = unit.player;
+                units[conquered].name = getRandomName('Town', unit.player);
 
-                if (unidad.jugador === 'Romanos'){
-                    $(iteracion[i]+' a img').attr('src', 'images/AR_del_def.png');
-                    nuevo_id = $(iteracion[i]+' img').attr('id').replaceAt( $(iteracion[i]+' img').attr('id').length - 1, 'A');
-                    $(iteracion[i]+' a img').attr('id', nuevo_id);
-                    unidades[conquistado].casilla = unidades[conquistado].casilla.replaceAt(unidades[conquistado].casilla.length - 1, 'A');
+                if (unit.player === 'Roman'){
+                    $(iteration[i]+' a img').attr('src', 'images/AR_del_def.png');
+                    newId = $(iteration[i]+' img').attr('id').replaceAt( $(iteration[i]+' img').attr('id').length - 1, 'A');
+                    $(iteration[i]+' a img').attr('id', newId);
+                    units[conquered].cell = units[conquered].cell.replaceAt(units[conquered].cell.length - 1, 'A');
 
-                    title = '['+unidades[conquistado].nombre+']. Cantidad: ['+unidades[conquistado].stats.cantidad+']. Calidad: ['+unidades[conquistado].stats.calidad+']';
+                    title = '['+units[conquered].name+']. quantity: ['+units[conquered].stats.quantity+']. quality: ['+units[conquered].stats.quality+']';
 
-                    //console.log(conquistado.casilla);
                     audio = new Audio('sounds/rom_conquest.mp3');
-                }else if (unidad.jugador === 'Bárbaros'){
-                    $(iteracion[i]+' a img').attr('src', 'images/AB_del_def.png');
-                    nuevo_id = $(iteracion[i]+' img').attr('id').replaceAt( $(iteracion[i]+' img').attr('id').length - 1, 'E');
-                    $(iteracion[i]+' a img').attr('id', nuevo_id);
-                    unidades[conquistado].casilla = unidades[conquistado].casilla.replaceAt(unidades[conquistado].casilla.length - 1, 'E');
+                }else if (unit.player === 'Barbarian'){
+                    $(iteration[i]+' a img').attr('src', 'images/AB_del_def.png');
+                    newId = $(iteration[i]+' img').attr('id').replaceAt( $(iteration[i]+' img').attr('id').length - 1, 'E');
+                    $(iteration[i]+' a img').attr('id', newId);
+                    units[conquered].cell = units[conquered].cell.replaceAt(units[conquered].cell.length - 1, 'E');
                     audio = new Audio('sounds/bar_conquest.mp3');
 
-                    title = '['+unidades[conquistado].nombre+']';
+                    title = '['+units[conquered].name+']';
                 }
 
-                $(iteracion[i]+' a').attr('title', title);
-                //Un soldado solo puede conquistar un pueblo por turno.
+                $(iteration[i]+' a').attr('title', title);
+                // A soldier can only conquest onw town each turn 
                 audio.play();
-
-                //break;
-
             }
         }
     }
-    return resultado;
+    return result;
 }
 
 //
-function destruirUnidad(unidad){
-    console.log($('#casilla' + unidad.casilla.replace('icono','').replace('a', '').replace('e', '').replace('n','')).attr('id'));
-    $('#casilla' + unidad.casilla.replace('icono','').replace('a', '').replace('e', '').replace('n','')).html('');
-    console.log('antes:'+unidad.nombre);
-    unidades.splice(unidades.indexOf(unidad), 1);
-    console.log('despues:'+unidad.nombre);
+function destroyUnit(unit){
+    $('#cell' + unit.cell.replace('icon','').replace('a', '').replace('e', '').replace('n','')).html('');
+    units.splice(units.indexOf(unit), 1);
 
-    var audio = '';
+    let audio;
 
-    if (unidad.jugador === 'Romanos'){
+    if (unit.player === 'Roman'){
         audio = new Audio('sounds/scream.mp3');
-    }else if (unidad.jugador === 'Bárbaros'){
+        
+    }else if (unit.player === 'Barbarian'){
         audio = new Audio('sounds/kill.mp3');
-    }else if (unidad.jugador === 'Neutral'){
+        
+    }else if (unit.player === 'Neutral'){
         audio = new Audio('sounds/wolf_scream.mp3');
     }
 
     audio.play();
 }
 
-// mejora_auto es para cuando al funcion se invoca en el turno de la IA. En otro caso, es invocada por un event_handler
-function modoMejorar(unidad, mejora){
-
-    var money = 0;
-    var casilla = '';
-    var imagen = '';
-    var title = '';
-    //alert(unidad.stats.precio_mej_cant);
-    if (unidad.jugador === 'Romanos'){
+// upgrade_auto is for AI turn use of this function. In other case, this is invoked by an event_handler
+function upgradeMode(unit, upgrade){
+    const errorMessage = 'You don\'t have enough gold!';
+    
+    let money = 0,
+        cell = '',
+        image = '',
+        title = '';
+    
+    if (unit.player === 'Roman'){
         index = 0;
-        imagen = 'AR_del_def';
-    }else if (unidad.jugador === 'Bárbaros'){
+        image = 'AR_del_def';
+        
+    } else if (unit.player === 'Barbarian'){
         index = 1;
-        imagen = 'AB_del_def';
+        image = 'AB_del_def';
     }
 
-    if (mejora === 'mej_cant'){
+    if (upgrade === 'improve_quantity'){
 
-        if (unidad.stats.precio_mej_cant <= oro[index]){
+        if (unit.stats.quantityUpgradePrice <= gold[index]){
+            gold[index] -= unit.stats.quantityUpgradePrice;
+            unit.stats.quantityUpgradePrice += unit.stats.quantityUpgradePrice;
+            unit.stats.quantity++;
+            $('#gold').val(gold[index]);
 
-            oro[index] -= unidad.stats.precio_mej_cant;
-            unidad.stats.precio_mej_cant += unidad.stats.precio_mej_cant;
-            unidad.stats.cantidad++;
-            $('#oro').val(oro[index]);
-            //alert('comprado!' + money + ', ' + unidad.stats.cantidad);
-
-        }else{
-            alert('¡No te basta el oro!');
+        } else{
+            alert(errorMessage);
         }
 
-    }else if (mejora === 'mej_cal'){
+    } else if (upgrade === 'improve_quality'){
 
-        if (unidad.stats.precio_mej_cal <= oro[index]){
+        if (unit.stats.qualityUpgradePrice <= gold[index]){
+            gold[index] -= unit.stats.qualityUpgradePrice;
+            unit.stats.qualityUpgradePrice += unit.stats.qualityUpgradePrice;
+            unit.stats.quality++;
+            $('#gold').val(gold[index]);
 
-            oro[index] -= unidad.stats.precio_mej_cal;
-            unidad.stats.precio_mej_cal += unidad.stats.precio_mej_cal;
-            unidad.stats.calidad++;
-            $('#oro').val(oro[index]);
-
-        }else{
-            alert('¡No te basta el oro!');
+        } else{
+            alert(errorMessage);
         }
     }
 
-    casilla = unidad.casilla.replace('icono', '#casilla')
-    casilla = casilla.substring(0, casilla.length - 1);
+    cell = unit.cell.replace('icon', '#cell')
+    cell = cell.substring(0, cell.length - 1);
 
-    if (unidad.jugador === 'Romanos'){
-        title = '['+unidad.nombre+']. Cantidad: ['+unidad.stats.cantidad+'], Calidad: ['+unidad.stats.calidad+']';
-    }else if (unidad.jugador === 'Bárbaros'){
-        title = '['+unidad.nombre+']';
+    if (unit.player === 'Roman'){
+        title = '['+unit.name+']. Quantity: ['+unit.stats.quantity+'], Quality: ['+unit.stats.quality+']';
+        
+    } else if (unit.player === 'Barbarian'){
+        title = '['+unit.name+']';
     }
 
-    $(casilla).html('<a id="tooltip'+unidad.casilla.replace('icono','')
+    $(cell).html('<a id="tooltip'+unit.cell.replace('icon','')
             +'" href="#" data-toggle="tooltip" title="'+title+'">'
-            +'<img class="icono" id="'+unidad.casilla+'" src="images/'+imagen+'.png"></img></a>');
+            +'<img class="icon" id="'+unit.cell+'" src="images/'+image+'.png"></img></a>');
 
     $('#info').hide();
-    $('.icono').click(seleccionIcono);
+    $('.icon').click(showIconData);
 }
 
-// Comprueba que aún queden unidades (soldados y pueblos) de los dos jugadores; sino, le concede la victoria a un bando
-function comprobarVictoria(){
+// Check that there are still units in both sides; if not, victory one of the two factions wins 
+function checkVictoryCondition(){
+    const victory_message_eng = 'Victory! The are is safe again.',
+          victory_message_spa = '¡Victoria! La zona vuelve a ser segura.',
+          defeat_message_eng = 'The Barbarians are everywhere! Rome will fall...',
+          defeat_message_spa = '¡Los Bárbaros están por todos lados! Roma caerá...';
 
-    var i = 0;
-    var unidades_length = unidades.length;
-    //Vivos [Romanos, Bárbaros]
-    var vivos = [0,0];
-    var audio = '';
+    let i = 0,
+        unitsLength = units.length,
+    //Alive [Romans, Barbarians]
+        alive = [0,0],
+        audio = '';
 
-    //El jugador tiene que destruir todos los soldados y pueblos barbaros. A la IA le basta con destruir a los soldados romanos.
-    for (i = 0; i < unidades_length; i++){
+    // Player have to destroy all barbarians soldiers and towns. AI wins just by killing all roman soldiers. 
+    for (i = 0; i < unitsLength; i++){
 
-        if ( (unidades[i].tipo === 'Soldado') && (unidades[i].jugador === 'Romanos') ){
-
-            vivos[0]++;
-        }else if (unidades[i].jugador === 'Bárbaros'){
-
-            vivos[1]++;
+        if ( (units[i].type === 'Soldier') && (units[i].player === 'Roman') ){
+            alive[0]++;
+            
+        }else if (units[i].player === 'Barbarian'){
+            alive[1]++;
         }
     }
 
-    if (vivos[1] === 0){
+    if (alive[1] === 0){
         audio = new Audio('sounds/victory.mp3');
-        alert ('¡Victoria! La zona vuelve a ser segura.');
+        alert(victory_message_eng);
         audio.play();
-        avanzarMapa();
+        goToNextMap();
 
-    }else if (vivos[0] === 0){
+    }else if (alive[0] === 0){
         audio = new Audio('sounds/loose.mp3');
-        alert ('¡Los Bárbaros están por todos lados! Roma caerá...');
+        alert(defeat_message_eng);
         audio.play();
         //location.reload();
-        mapeador(planos[mapa_actual]);
+        mapGenerator(blueprints[currentMapLevel]);
     }
 }
 
-// Avanza al siguiente plano, excepto si ya no quedan, que da la victoria al jugador
-function avanzarMapa(){
+// Advance to the next level. If it's last level, show victory message and end game. Uses cookie for storing current level.
+function goToNextMap(){
+    const maps_messages_eng = [
+            'Welcome! You are a Roman General and you have been informed that some nasty Barbarians are assaulting little towns outside Rome. Use your soldiers to finish the enemy and recover control over those towns!',
+            'Even little mountain towns have the right to be protected against the sadistic Barbarians!',
+            'Those damn uncivilized folks! They aren\'t even able to organize for battle...',
+            'Your explorer asures you that the road is safe... but something smells bad... it\'s like the smell of people that haven\'t wash for years!',
+            'Damn it! Your explorer lured us to the enemy den. There\'re anemies everywhere!',
+            'The traitor explorer is hidding somewhore in this barbarian valley... it\'s time for revenge!',
+            'While our troops were in the valley, a giant wolf pack is causing chaos on nearby towns, lured by blood!',
+            'Those Barbarians sure know how to ambush people on the mountains... but they\'ll never overcome the iron discipline of the Roman army!',
+            'Finally... you arrive to the main Barbarian camp... but you are all alone. Regroup and finish the enemy!',
+            'Rome reinforcements are here! Time to finish with the lasts of the Barbarians... For Rome!'
+        ],
+          
+        maps_messages_spa = [
+            '¡Bienvenido! Has sido informado de que unos bárbaros están asaltando los pueblos de los alrededores de Roma. ¡Utiliza tus soldados para acabar con el enemigo y recupera esos pueblos!',
+            '¡Incluso los pequeños pueblos de las montañas merecen ser protegidos de los sádicos Bárbaros!',
+            'Estos malditos incivilizados no son siquiera capaces de formar para la batalla...',
+            'Tu explorador te ha asegurado que el paso es seguro... pero algo huele mal... como a gente que hace años que no se baña...',
+            '¡Maldición! Tu explorador te ha llevado de lleno a la boca del lobo. ¡Hay enemigos por todas partes!',
+            'Tu explorador traidor se oculta en algún lugar de este valle lleno de bárbaros... es hora de la venganza',
+            '¡Mientras nuestras tropas estaban destacadas en el valle, una manada gigantesca de lobos rodean los poblados cercanos atraidos por la sangre!',
+            'Estos bárbaros son buenos tendiendo emboscadas en las montañas... ¡Pero nunca vencerán a la férrea disciplina del ejército Romano!',
+            'Al fin... has llegado al campamento principal de los Bárbaros... aunque solo quedas tú. ¡Reúne fuerzas y acaba con ellos!',
+            '¡Han llegado los refuerzos que Roma prometió...! Es hora de terminar con los últimos supervivientes bárbaros... ¡Por Roma!'
+        ],  
+        
+        win_message_eng = 'Congratulations, you completed the game! Those Barbarians won\'t be a threat for our beloved Rome anymore... right?',
+          
+        win_message_spa = '¡Felicidades, has completado el juego! Esos bárbaros no volverán a amenazar la bella Roma... ¿O tal vez ésto solo sea el principio?';
+    
 
-    mapa_actual++;
+    currentMapLevel++;
 
-    if (mapa_actual >= planos.length ){
-
-        alert('¡Felicidades, has completado el juego! Esos bárbaros no volverán a amenazar la bella Roma... ¿O tal vez ésto solo sea el principio?');
-        document.cookie="mapa="+1+"; expires=Thu, 07 Dec 2017 12:00:00 UTC";
+    if (currentMapLevel >= blueprints.length ){
+        alert(win_message);
+//        document.cookie = "mapa=" + 1 + "; expires=Thu, 07 Dec 2017 12:00:00 UTC";
         location.reload();
+        
     }else{
-        document.cookie="mapa="+mapa_actual+"; expires=Thu, 07 Dec 2017 12:00:00 UTC";
-        mapeador(planos[mapa_actual]);
-
-        if (mapa_actual === 2){
-            alert('¡Incluso los pequeños pueblos de las montañas merecen ser protegidos de los sádicos Bárbaros!')
-        }else if (mapa_actual === 3){
-            alert('Estos malditos incivilizados son siquiera capaces de formar para la batalla...')
-        }else if (mapa_actual === 4){
-            alert('Tus exploradores te han asegurado que el paso es seguro... pero algo huele mal... como a gente que hace años que no se baña...')
-        }else if (mapa_actual === 5){
-            alert('¡Maldición! Tu explorador te ha llevado de lleno a la boca del lobo. ¡Hay enemigos por todas partes!')
-        }else if (mapa_actual === 6){
-            alert('Tu explorador traidor se oculta en algún lugar de este valle lleno de bárbaros... es hora de la venganza')
-        }else if (mapa_actual === 7){
-            alert('¡Mientras nuestras tropas estaban destacadas en el valle, una manada gigantesca de lobos rodean los poblados cercanos atraidos por la sangre!')
-        }else if (mapa_actual === 8){
-            alert('Estos bárbaros son buenos tendiendo emboscadas en las montañas... ¡Pero nunca vencerán a la férrea disciplina del ejército Romano!')
-        }else if (mapa_actual === 9){
-            alert('Al fin... has llegado al campamento principal de los Bárbaros... aunque solo quedas tú. ¡Reúne fuerzas y acaba con ellos!')
-        }else if (mapa_actual === 10){
-            alert('¡Han llegado los refuerzos que Roma prometió...! Es hora de terminar con los últimos supervivientes bárbaros... ¡Por Roma!')
-        }
+//        document.cookie = "mapa=" + currentMapLevel + "; expires=Thu, 07 Dec 2017 12:00:00 UTC";
+        mapGenerator(blueprints[currentMapLevel]);
+        alert(maps_messages_eng[currentMapLevel]);
     }
 }
