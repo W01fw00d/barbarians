@@ -3,13 +3,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Barbarians!</title>
-    <link rel="shortcut icon" type="image/png" href="images/favicon.ico"/>
+    <link rel="shortcut icon" type="image/png" href="src/images/favicon.ico"/>
   </head>
 
   <body>
     <div class="container">
       <div class="control-bar padding-sm margin-top-md row">
-    		<audio id="music-bar" class="music-control-bar control-bar-col col-sm-4" src="sounds/music.mp3" controls loop></audio>
+    		<audio id="music-bar" class="music-control-bar control-bar-col col-sm-4" src="src/sounds/music.mp3" controls loop></audio>
         <div class="control-bar-col col-sm-2">
           <span class="gold-label">Gold: </span><input id="gold" class="gold-marker" value="1" type="text" readonly></input>
         </div>
@@ -63,9 +63,22 @@
     </div>
   </body>
 
-    <link rel="stylesheet" type="text/css" href="data/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="data/style.css"/>
-    <script type="text/javascript" src="data/jquery-2.1.4.js"></script>
-    <script type="text/javascript" src="data/bootstrap.min.js"></script>
-    <script type="text/javascript" src="data/functions.js"></script>
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="src/stylesheets/main.css"/>
+    <script type="text/javascript" src="lib/jquery-2.1.4.js"></script>
+    <script type="text/javascript" src="lib/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="src/scripts/map/mapBlueprints.js"></script>
+    <script type="text/javascript" src="src/scripts/map/mapGenerator.js"></script>
+    <script type="text/javascript" src="src/scripts/map/mapLevelsManager.js"></script>
+    <script type="text/javascript" src="src/scripts/map/randomMapGenerator.js"></script>
+
+    <script type="text/javascript" src="src/scripts/turns/aiTurn.js"></script>
+    <script type="text/javascript" src="src/scripts/turns/playerTurn.js"></script>
+    <script type="text/javascript" src="src/scripts/turns/turn.js"></script>
+
+    <script type="text/javascript" src="src/scripts/units/infoLayerController.js"></script>
+    <script type="text/javascript" src="src/scripts/units/unitNames.js"></script>
+    
+    <script type="text/javascript" src="src/scripts/main.js"></script>
 </html>
