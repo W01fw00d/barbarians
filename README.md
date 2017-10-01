@@ -1,5 +1,7 @@
-# Barbarians! v1.1
-A silly little web-browser turn-based strategy game.
+# Barbarians! v1.2
+![alt text](https://github.com/W01fw00d/barbarians/blob/master/src/images/gifs/barbarians_demo.gif "")
+
+A little web-browser turn-based strategy game.
 
 Includes:
 * Jquery 
