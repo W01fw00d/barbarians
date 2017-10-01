@@ -188,6 +188,7 @@ function ini() {
 // Generates a map using the desing array as input
 function mapGenerator(array){
     const array_length = array.length,
+          imageRoute = './src/images/board/',
           iconTagClosing = '.png"></img>',
           neutralIconTitle = 'Hungry wolfs';
     
@@ -218,7 +219,7 @@ function mapGenerator(array){
         for (j = 0; j < row_length; j++){
 
             cell = array[i].charAt(j);
-            icon = '<img id="icon'+i+''+j+cell+'" src="images/';
+            icon = '<img id="icon' + i + j + cell + '" src="' + imageRoute;
 
             switch(cell){
 
@@ -268,7 +269,7 @@ function mapGenerator(array){
                     display = 'block';
                     units.push(
                         {cell: 'icon'+i+j+cell, player: 'Neutral', type: 'Town', name: 'Libre', stats: {quantity: 1, quality: 1, quantityUpgradePrice: 1, qualityUpgradePrice: 1}});
-                    icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="Free Town"><img class="icon" id="icon'+i+''+j+cell+'" src="images/AN_del_def.png"></img></a>';
+                    icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="Free Town"><img class="icon" id="icon'+i+''+j+cell+'" src="' + imageRoute + 'AN_del_def.png"></img></a>';
                     break;
                     
                 case 'A':
@@ -277,7 +278,7 @@ function mapGenerator(array){
                     units.push(
                         {cell: 'icon'+i+j+cell, player: 'Roman', type: 'Town', name: getRandomName('Town', 'Roman'), stats: {quantity: 1, quality: 1, quantityUpgradePrice: 1, qualityUpgradePrice: 1}});
                     icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="['+units[units.length - 1].name+']. quantity: [1], quality: [1]">'
-                        +'<img class="icon" id="icon'+i+''+j+cell+'" src="images/AR_del_def.png"></img></a>';
+                        +'<img class="icon" id="icon'+i+''+j+cell+'" src="' + imageRoute + 'AR_del_def.png"></img></a>';
                     break;
                     
                 case 'E':
@@ -286,7 +287,7 @@ function mapGenerator(array){
                     units.push(
                         {cell: 'icon'+i+j+cell, player: 'Barbarian', type: 'Town', name: getRandomName('Town', 'Barbarian'), stats: {quantity: 1, quality: 1, quantityUpgradePrice: 1, qualityUpgradePrice: 1}});
                     icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="['+units[units.length - 1].name+']">'
-                        +'<img class="icon" id="icon'+i+''+j+cell+'" src="images/AB_del_def.png"></img></a>';
+                        +'<img class="icon" id="icon'+i+''+j+cell+'" src="' + imageRoute + 'AB_del_def.png"></img></a>';
                     break;
                     
                 case 'n':
@@ -295,9 +296,9 @@ function mapGenerator(array){
                     iconShape = '50px 50px 50px 50px';
                     display = 'block';
                     units.push(
-                        {cell: 'icon'+i+j+cell, player: 'Neutral', type: 'Pack', name: 'Wolf', movements_total: 0, movements: 0, strength: 1});
+                        {cell: 'icon'+i+j+cell, player: 'Neutral', type: 'Pack', name: 'Wolf', totalMovements: 0, movements: 0, strength: 1});
                     icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="' + neutralIconTitle + '">'
-                        +'<img class="icon" id="icon'+i+''+j+cell+'" src="images/L_del_def.png"></img></a>';
+                        +'<img class="icon" id="icon'+i+''+j+cell+'" src="' + imageRoute + 'L_del_def.png"></img></a>';
                     break;
                     
                 case 'a':
@@ -306,9 +307,9 @@ function mapGenerator(array){
                     iconShape = '50px 50px 50px 50px';
                     display = 'block';
                     units.push(
-                        {cell: 'icon'+i+j+cell, player: 'Roman', type: 'Soldier', name: getRandomName('Soldier', 'Roman'), movements_total: 2, movements: 2, strength: 1});
+                        {cell: 'icon'+i+j+cell, player: 'Roman', type: 'Soldier', name: getRandomName('Soldier', 'Roman'), totalMovements: 2, movements: 2, strength: 1});
                     icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="['+units[units.length - 1].name+']. movements: [2], strength: [1]">'
-                        +'<img class="icon" id="icon'+i+''+j+cell+'" src="images/SR_del_def.png"></img></a>';
+                        +'<img class="icon" id="icon'+i+''+j+cell+'" src="' + imageRoute + 'SR_del_def.png"></img></a>';
                     break;
                     
                 case 'e':
@@ -318,9 +319,9 @@ function mapGenerator(array){
                     iconShape = '50px 50px 50px 50px';
                     display = 'block';
                     units.push(
-                        {cell: 'icon'+i+j+cell, player: 'Barbarian', type: 'Soldier', name: getRandomName('Soldier', 'Barbarian'), movements_total: 1, movements: 1, strength: 1});
+                        {cell: 'icon'+i+j+cell, player: 'Barbarian', type: 'Soldier', name: getRandomName('Soldier', 'Barbarian'), totalMovements: 1, movements: 1, strength: 1});
                     icon = '<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="['+units[units.length - 1].name+']. movements: [1]. strength: [1]">'
-                        +'<img class="icon" id="icon'+i+''+j+cell+'" src="images/SB_del_def.png"></img></a>';
+                        +'<img class="icon" id="icon'+i+''+j+cell+'" src="' + imageRoute + 'SB_del_def.png"></img></a>';
                     break;
 
                 default:
@@ -332,7 +333,7 @@ function mapGenerator(array){
 
             $('#row' + i).append('<th class="cell" id="cell' + i + '' + j + '">' + icon + '</th>');
 
-            $('#cell' + i + '' + j).css({'background-image': 'url(images/' + ground + ')'});
+            $('#cell' + i + '' + j).css({'background-image': 'url(' + imageRoute + ground + ')'});
             $('#icon' + i + j + cell).css({'display' : display});
         }
     }
@@ -561,7 +562,7 @@ function endTurn(){
         checkEncounter(unit_i);
 
         if (unit_i.type === 'Soldier'){
-            unit_i.movements = unit_i.movements_total;
+            unit_i.movements = unit_i.totalMovements;
 
             // If it's a Roman Soldier, colour it in order to indicate that it can move again 
             if (unit_i.player === 'Roman'){
@@ -569,7 +570,7 @@ function endTurn(){
                 
                 $('#cell' + id[0] + id[1]).html('<a id="tooltip' + id[0] + id[1]
                     +'a" href="#" data-toggle="tooltip" title="['+unit_i.name+']. Moves: ['+unit_i.movements+'], Strength: ['+unit_i.strength+']">'
-                        +'<img class="icon" id="icon'+id[0]+id[1]+'a" src="images/SR_del_def.png"></img></a>');
+                        +'<img class="icon" id="icon'+id[0]+id[1]+'a" src="./src/images/board/SR_del_def.png"></img></a>');
             }
         }
     }
@@ -861,22 +862,20 @@ function generateSoldiers(player){
                     if (player === 'Roman'){
                         id = 'icon'+emptyCell[0]+emptyCell[1]+'a';
                         movements = 2;
+                        image = 'SR_del_def';
 
-                        $(iteration[j]).html('<a id="tooltip'+i+''+j+cell
-                        +'" href="#" data-toggle="tooltip" title="['+randomName+']. movements: ['+movements+'], strength: ['+units[i].stats.quality+']">'
-                        +'<img class="icon" id="'+id+'" src="images/SR_del_def.png"></img></a>');
-
-                    }else if (player === 'Barbarian'){
+                    } else if (player === 'Barbarian'){
                         id = 'icon'+emptyCell[0]+emptyCell[1]+'e';
-
                         movements = 1;
-
-                        $(iteration[j]).html('<a id="tooltip'+i+''+j+cell+'" href="#" data-toggle="tooltip" title="['+randomName+']. movements: ['+movements+'], strength: ['+units[i].stats.quality+']">'
-                        +'<img class="icon" id="'+id+'" src="images/SB_del_def.png"></img></a>');
+                        image = 'SB_del_def';
                     }
+                    
+                    $(iteration[j]).html('<a id="tooltip'+i+''+j+cell
+                        +'" href="#" data-toggle="tooltip" title="['+randomName+']. movements: ['+movements+'], strength: ['+units[i].stats.quality+']">'
+                        +'<img class="icon" id="'+id+'" src="./src/images/board/' + image + '.png"></img></a>');
 
                     units.push(
-                        {cell: id, player: player, type: 'Soldier', name: randomName, movements: movements, movements_total: movements, strength: quality});
+                        {cell: id, player: player, type: 'Soldier', name: randomName, movements: movements, totalMovements: movements, strength: quality});
 
                     // Resolve possible encounters when this unit appears besides other enemy unit
                     checkEncounter(units[units.length - 1]);
@@ -1080,28 +1079,28 @@ function moveSoldier(unit, target) {
                 if (result === 'looses'){
                     $('#cell' + finalCell[0] + '' + finalCell[1]).html('');
                     
-                }else if ((result === 'wins') || (unit.movements === 0)){
+                } else if ((result === 'wins') || (unit.movements === 0)){
                     $('#cell'+finalCell[0]+''+finalCell[1]).html('<a id="tooltip'+finalCell[0]+''+finalCell[1]+initialCell[2]
                         +'" href="#" data-toggle="tooltip" title="['+unit.name+']. movements: ['+unit.movements+'], strength: ['+unit.strength+']">'
-                        +'<img class="icon" id="icon'+finalCell[0]+''+finalCell[1]+initialCell[2]+'" src="images/SRUsed_del_def.png"></img></a>');
+                        +'<img class="icon" id="icon'+finalCell[0]+''+finalCell[1]+initialCell[2]+'" src="./src/images/board/SRUsed_del_def.png"></img></a>');
 
-                }else if (result === 'none'){
+                } else if (result === 'none'){
                     $('#cell'+finalCell[0]+''+finalCell[1]).html('<a id="tooltip'+finalCell[0]+''+finalCell[1]+initialCell[2]
                         +'" href="#" data-toggle="tooltip" title="['+unit.name+']. movements: ['+unit.movements+'], strength: ['+unit.strength+']">'
-                        +'<img class="icon" id="icon'+finalCell[0]+''+finalCell[1]+initialCell[2]+'" src="images/SR_del_def.png"></img></a>');
+                        +'<img class="icon" id="icon'+finalCell[0]+''+finalCell[1]+initialCell[2]+'" src="./src/images/board/SR_del_def.png"></img></a>');
                 }
-
-            break;
+                break;
+                
             case 'Barbarian':
                 if (result === 'looses'){
                     $('#cell'+finalCell[0]+''+finalCell[1]).html('');
                     
-                }else{
+                } else{
                     $('#cell'+finalCell[0]+''+finalCell[1]).html('<a id="tooltip'+finalCell[0]+''+finalCell[1]+initialCell[2]
-                        +'" href="#" data-toggle="tooltip" title="['+unit.name+']. movements: ['+unit.movements_total+'], strength: ['+unit.strength+']">'
-                        +'<img class="icon" id="icon'+finalCell[0]+''+finalCell[1]+initialCell[2]+'" src="images/SB_del_def.png"></img></a>');
+                        +'" href="#" data-toggle="tooltip" title="['+unit.name+']. movements: ['+unit.totalMovements+'], strength: ['+unit.strength+']">'
+                        +'<img class="icon" id="icon'+finalCell[0]+''+finalCell[1]+initialCell[2]+'" src="./src/images/board/SB_del_def.png"></img></a>');
                 }
-            break;
+                break;
     }
 
         $('#cell' + initialCell[0] + '' + initialCell[1]).html('');
@@ -1268,20 +1267,20 @@ function checkEncounter(unit){
                 units[conquered].name = getRandomName('Town', unit.player);
 
                 if (unit.player === 'Roman'){
-                    $(iteration[i]+' a img').attr('src', 'images/AR_del_def.png');
+                    $(iteration[i]+' a img').attr('src', './src/images/board/AR_del_def.png');
                     newId = $(iteration[i]+' img').attr('id').replaceAt( $(iteration[i]+' img').attr('id').length - 1, 'A');
                     $(iteration[i]+' a img').attr('id', newId);
                     units[conquered].cell = units[conquered].cell.replaceAt(units[conquered].cell.length - 1, 'A');
 
                     title = '['+units[conquered].name+']. quantity: ['+units[conquered].stats.quantity+']. quality: ['+units[conquered].stats.quality+']';
 
-                    audio = new Audio('sounds/rom_conquest.mp3');
+                    audio = new Audio('./src/sounds/rom_conquest.mp3');
                 }else if (unit.player === 'Barbarian'){
-                    $(iteration[i]+' a img').attr('src', 'images/AB_del_def.png');
+                    $(iteration[i]+' a img').attr('src', './src/images/board/AB_del_def.png');
                     newId = $(iteration[i]+' img').attr('id').replaceAt( $(iteration[i]+' img').attr('id').length - 1, 'E');
                     $(iteration[i]+' a img').attr('id', newId);
                     units[conquered].cell = units[conquered].cell.replaceAt(units[conquered].cell.length - 1, 'E');
-                    audio = new Audio('sounds/bar_conquest.mp3');
+                    audio = new Audio('./src/sounds/bar_conquest.mp3');
 
                     title = '['+units[conquered].name+']';
                 }
@@ -1303,13 +1302,13 @@ function destroyUnit(unit){
     let audio;
 
     if (unit.player === 'Roman'){
-        audio = new Audio('sounds/scream.mp3');
+        audio = new Audio('./src/sounds/scream.mp3');
         
     }else if (unit.player === 'Barbarian'){
-        audio = new Audio('sounds/kill.mp3');
+        audio = new Audio('./src/sounds/kill.mp3');
         
     }else if (unit.player === 'Neutral'){
-        audio = new Audio('sounds/wolf_scream.mp3');
+        audio = new Audio('./src/sounds/wolf_scream.mp3');
     }
 
     audio.play();
@@ -1370,7 +1369,7 @@ function upgradeMode(unit, upgrade){
 
     $(cell).html('<a id="tooltip'+unit.cell.replace('icon','')
             +'" href="#" data-toggle="tooltip" title="'+title+'">'
-            +'<img class="icon" id="'+unit.cell+'" src="images/'+image+'.png"></img></a>');
+            +'<img class="icon" id="'+unit.cell+'" src="./src/images/board/'+image+'.png"></img></a>');
 
     $('#info').hide();
     $('.icon').click(showIconData);
@@ -1401,13 +1400,13 @@ function checkVictoryCondition(){
     }
 
     if (alive[1] === 0){
-        audio = new Audio('sounds/victory.mp3');
+        audio = new Audio('./src/sounds/victory.mp3');
         alert(victory_message_eng);
         audio.play();
         goToNextMap();
 
     }else if (alive[0] === 0){
-        audio = new Audio('sounds/loose.mp3');
+        audio = new Audio('./src/sounds/loose.mp3');
         alert(defeat_message_eng);
         audio.play();
         //location.reload();
