@@ -1,84 +1,86 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Barbarians!</title>
-    <link rel="shortcut icon" type="image/png" href="src/images/favicon.ico"/>
-  </head>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Barbarians!</title>
+        <link rel="shortcut icon" type="image/png" href="src/images/favicon.ico"/>
+    </head>
 
-  <body>
-    <div class="container">
-      <div class="control-bar padding-sm margin-top-md row">
-    		<audio id="music-bar" class="music-control-bar control-bar-col col-sm-4" src="src/sounds/music.mp3" controls loop></audio>
-        <div class="control-bar-col col-sm-2">
-          <span class="gold-label">Gold: </span><input id="gold" class="gold-marker" value="1" type="text" readonly></input>
-        </div>
-        <button type="button" id="end_turn" class="control-bar-col col-sm-2"> End turn </button>
-        <button type="button" id="reset_map" class="control-bar-col col-sm-3"> Reset map </button>
-    	</div>
-
-      <div class="control-board margin-top-md row">
-        <div class="col-sm-6">
-          <table id="map"></table>F
+    <body>
+        <div class="container">
+            <div class="control-bar padding-sm margin-top-md row">
+                <audio id="music-bar" class="music-control-bar control-bar-col col-sm-4" src="src/sounds/music.mp3" controls loop></audio>
+                <div class="control-bar-col col-sm-2">
+                    <span class="gold-label">Gold: </span><input id="gold" class="gold-marker" value="1" type="text" readonly></input>
+            </div>
+            <button type="button" id="end_turn" class="control-bar-col col-sm-2"> End turn </button>
+            <button type="button" id="reset_map" class="control-bar-col col-sm-3"> Reset map </button>
         </div>
 
-        <div class="col-sm-1"></div>
+        <div class="control-board margin-top-md row">
+            <div class="col-sm-6">
+                <table id="map"></table>F
+            </div>
 
-        <div class="col-sm-4">
-          <div id="info">
-              <form class="padding-top-md">
-                  Faction:
-                  <br><input id="player" type="text" readonly></input>
-                  <br><br>
-                  Unit:
-                  <br><input id="type" type="text" readonly></input>
-                  <br><br>
-                  Name:
-                  <br><input id="name" type="text" readonly></input>
-                  <br><br><br>
-              </form>
-              <form id="town_info" class="hidden-div">
-                  <!--Town only -->
-                  <div id= "prod" type="text" readonly></div>
-                  <br>
-                  <button type="button" id="improve_quantity">Improve quantity (1 Gold)</button>
-                  <br><br>
-                  <button type="button" id="improve_quality">Improve quality (1 Gold)</button>
-                  <br><br>
-              </form>
-              <form id="soldier_info" class="hidden-div">
-                  <!--Soldier only -->
-                  <div id="movement" type="text" readonly></div>
-                  <br>
-                  <div id="strength" type="text" readonly></div>
-                  <br>
-                  <button type="button" id="destroy" class="hidden-div">Destroy</button>
-                  <br><br>
-              </form>
+            <div class="col-sm-1"></div>
 
-              <button type="button" id="close" class="close-button">Close</button>
-          </div>
+            <div class="col-sm-4">
+                <div id="info">
+                    <form class="padding-top-md">
+                        Faction:
+                        <br><input id="player" type="text" readonly></input>
+                    <br><br>
+                    Unit:
+                    <br><input id="type" type="text" readonly></input>
+                <br><br>
+                Name:
+                <br><input id="name" type="text" readonly></input>
+            <br><br><br>
+            </form>
+        <form id="town_info" class="hidden-div">
+            <!--Town only -->
+            <div id= "prod" type="text" readonly></div>
+            <br>
+            <button type="button" id="improve_quantity">Improve quantity (1 Gold)</button>
+            <br><br>
+            <button type="button" id="improve_quality">Improve quality (1 Gold)</button>
+            <br><br>
+        </form>
+        <form id="soldier_info" class="hidden-div">
+            <!--Soldier only -->
+            <div id="movement" type="text" readonly></div>
+            <br>
+            <div id="strength" type="text" readonly></div>
+            <br>
+            <button type="button" id="destroy" class="hidden-div">Destroy</button>
+            <br><br>
+        </form>
+
+        <button type="button" id="close" class="close-button">Close</button>
         </div>
-      </div>
     </div>
-  </body>
+</div>
+</body>
 
-    <link rel="stylesheet" type="text/css" href="lib/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="src/stylesheets/main.css"/>
-    <script type="text/javascript" src="lib/jquery-2.1.4.js"></script>
-    <script type="text/javascript" src="lib/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="lib/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="src/stylesheets/main.css"/>
+<script type="text/javascript" src="lib/jquery-2.1.4.js"></script>
+<script type="text/javascript" src="lib/bootstrap.min.js"></script>
 
-    <script type="text/javascript" src="src/scripts/map/mapBlueprints.js"></script>
-    <script type="text/javascript" src="src/scripts/map/mapGenerator.js"></script>
-    <script type="text/javascript" src="src/scripts/map/mapLevelsManager.js"></script>
-    <script type="text/javascript" src="src/scripts/map/randomMapGenerator.js"></script>
+<script type="text/javascript" src="src/scripts/map/MapDesign.js"></script>
+<script type="text/javascript" src="src/scripts/map/Map.js"></script>
+<script type="text/javascript" src="src/scripts/map/mapLevelsManager.js"></script>
+<script type="text/javascript" src="src/scripts/map/randomMapGenerator.js"></script>
 
-    <script type="text/javascript" src="src/scripts/turns/aiTurn.js"></script>
-    <script type="text/javascript" src="src/scripts/turns/playerTurn.js"></script>
-    <script type="text/javascript" src="src/scripts/turns/turn.js"></script>
+<script type="text/javascript" src="src/scripts/game/Game.js"></script>
+<script type="text/javascript" src="src/scripts/game/InfoLayer.js"></script>
+<script type="text/javascript" src="src/scripts/game/Encounter.js"></script>
 
-    <script type="text/javascript" src="src/scripts/units/infoLayerController.js"></script>
-    <script type="text/javascript" src="src/scripts/units/unitNames.js"></script>
-    
-    <script type="text/javascript" src="src/scripts/main.js"></script>
+<script type="text/javascript" src="src/scripts/players/Player.js"></script>
+<script type="text/javascript" src="src/scripts/players/AI.js"></script>
+<script type="text/javascript" src="src/scripts/players/Human.js"></script>
+<script type="text/javascript" src="src/scripts/players/Neutral.js"></script>
+
+<script type="text/javascript" src="src/scripts/units/unitNames.js"></script>
+<script type="text/javascript" src="src/scripts/main.js"></script>
 </html>

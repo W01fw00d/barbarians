@@ -1,34 +1,49 @@
-function updateDataLabels(unit) {
+function InfoLayer() {}
+
+InfoLayer.prototype.updateDataLabels = function(unit) {
     $('#player').val(unit.player);
     $('#type').val(unit.type);
     $('#name').val(unit.name);
 };
 
-// Shows data about the icon and, depending of the type of icon, allows to move it (soldier) or improve it (town)
-function showIconData(){
-    let i = 0,
-        unit,
-        icon = this.id,
-        type = icon.charAt(icon.length - 1),
-        color,
-        grey = 'RGB(135, 135, 135)',
-        red = 'RGB(255, 10, 10)',
-        blue = 'RGB(7, 168, 226)',
-        unitsLength = units.length;
-
-    $('.icon').off();
-
+InfoLayer.prototype.findUnit = function(icon, units) {
+    const unitsLength = units.length;
+    
+    let unit;
+    
     for(i = 0; i < unitsLength; i++){
         if (units[i].cell == icon){
             unit = units[i];
-            break;
+            return unit;
         }
     }
+    
+    return unit;
+}
 
-    switch(type){
+// Shows data about the icon and, depending of the type of icon, allows to move it (soldier) or improve it (town)
+InfoLayer.prototype.checkUnitInfo = function(event, players) {
+    let i = 0,
+        icon = event.target.id,
+        type = icon.charAt(icon.length - 1),
+        grey = 'RGB(135, 135, 135)',
+        red = 'RGB(255, 10, 10)',
+        blue = 'RGB(7, 168, 226)',
+        result = {
+            mode: null,
+            unit : null
+        },
+        color,
+        unit;
 
+    $('.icon').off();
+
+    switch(type){     
+        // Human roman town
         case 'A':
-            updateDataLabels(unit);
+            unit = this.findUnit(icon, players.human.units.towns);
+            
+            this.updateDataLabels(unit);
 
             $('#quantity_production').html(unit.quantity);
             $('#quality_production').html(unit.quality);
@@ -40,12 +55,12 @@ function showIconData(){
 
             $('#improve_quantity').off();
             $('#improve_quantity').click(function(){
-                upgradeMode(unit, 'improve_quantity');
+                players.human.upgradeMode(unit, 'improve_quantity');
             });
 
             $('#improve_quality').off();
             $('#improve_quality').click(function(){
-                upgradeMode(unit, 'improve_quality');
+                players.human.upgradeMode(unit, 'improve_quality');
             });
 
             //$('#improve_quality').click({unit : unit}, upgradeMode);
@@ -57,8 +72,11 @@ function showIconData(){
             color = 'red';
             break;
 
+        // AI barbarian town
         case 'E':
-            updateDataLabels(unit);
+            unit = this.findUnit(icon, players.ai.units.towns);
+            
+            this.updateDataLabels(unit);
 
             $('#town_info').hide();
             $('#soldier_info').hide();
@@ -66,8 +84,11 @@ function showIconData(){
             color = blue;
             break;
 
+        // Neutral town
         case 'N':
-            updateDataLabels(unit);
+            unit = this.findUnit(icon, players.neutral.units.towns);
+            
+            this.updateDataLabels(unit);
 
             $('#town_info').hide();
             $('#soldier_info').hide();
@@ -75,22 +96,31 @@ function showIconData(){
             color = grey;
             break;
 
+        // Human roman soldier (mob)
         case 'a':
-            updateDataLabels(unit);
+            unit = this.findUnit(icon, players.human.units.mobs);
+            
+            this.updateDataLabels(unit);
 
             $('#town_info').hide();
             $('#soldier_info').show();
             $('#destroy').show();
 
-            moveMode(icon, unit);
+            result.mode = 'move';
+            result.unit = unit;
+//            players.human.moveMode(unit);
+            
             $("#movement").html('Movements left: [' + unit.movements + ']');
             $("#strength").html('Combat strength: [' + unit.strength + '].');
 
             color = red;
             break;
 
+        // Ai barbarian soldier (mob)
         case 'e':
-            updateDataLabels(unit);
+            unit = this.findUnit(icon, players.ai.units.mobs);
+            
+            this.updateDataLabels(unit);
 
             $('#town_info').hide();
             $('#soldier_info').show();
@@ -102,13 +132,16 @@ function showIconData(){
             color = blue;
             break;
 
+        // Neutral wolf (mob)
         case 'n':
+            unit = this.findUnit(icon, players.neutral.units.mobs);
+            
             const move_message_eng = 'They protect their territory',
                   move_message_spa = 'Prefiere defender su territorio',
                   strength_message_eng = 'Can devour an undertrained human',
                   strength_message_spa = 'Puede devorar a alguien con poco entrenamiento';
             
-            updateDataLabels(unit);
+            this.updateDataLabels(unit);
 
             $('#town_info').hide();
             $('#soldier_info').show();
@@ -123,24 +156,6 @@ function showIconData(){
 
     $('#info').css({'background' : color});
     $('#info').show();
-}
-
-//
-function destroyUnit(unit){
-    $('#cell' + unit.cell.replace('icon','').replace('a', '').replace('e', '').replace('n','')).html('');
-    units.splice(units.indexOf(unit), 1);
-
-    let audio;
-
-    if (unit.player === 'Roman'){
-        audio = new Audio('./src/sounds/scream.mp3');
-        
-    }else if (unit.player === 'Barbarian'){
-        audio = new Audio('./src/sounds/kill.mp3');
-        
-    }else if (unit.player === 'Neutral'){
-        audio = new Audio('./src/sounds/wolf_scream.mp3');
-    }
-
-    audio.play();
+    
+    return result;
 }

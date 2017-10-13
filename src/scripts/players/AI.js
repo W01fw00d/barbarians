@@ -1,5 +1,10 @@
+function AI() {
+    Player.call(this);
+    this.gold = 1;
+}
+
 // Performs the AI enemy turn: it behaves quite randomly for now
-function turnAI(){
+AI.prototype.turnAI = function() {
     let i = 0,
         towns = [],
         nIterations = 0,
@@ -69,7 +74,7 @@ function turnAI(){
 }
 
 // Move enemy soldiers randomly
-function moveSoldierRandom(unit){
+AI.prototype.moveSoldierRandom = function(unit) {
     var randomIndex = 0,
         randomCell = '',
         equals = true,
@@ -100,14 +105,14 @@ function moveSoldierRandom(unit){
     // Randomly reorder posible directions array
     nIterations = Math.round(Math.random() * iterationLength);
 
-    while (nIterations > 0){
+    while (nIterations > 0) {
 
-        while (equals){
+        while (equals) {
             equals = false;
             randomCell1 = Math.abs(Math.round(Math.random() * (iteration.length - 1)))
             randomCell2 = Math.abs(Math.round(Math.random() * (iteration.length - 1)))
             
-            if (randomCell1 == randomCell2){
+            if (randomCell1 == randomCell2) {
                 equals = true;
             }
         }
@@ -121,7 +126,7 @@ function moveSoldierRandom(unit){
 
     var movements = unit.movements;
 
-    while ((unit.movements === movements) && (iteration.length > 0)){
+    while ((unit.movements === movements) && (iteration.length > 0)) {
 
         randomIndex = Math.abs(Math.round(Math.random() * (iteration.length - 1))) ;
         randomCell = iteration[randomIndex];
@@ -131,7 +136,7 @@ function moveSoldierRandom(unit){
 }
 
 // Move soldiers, first try to aproach neutral/human player towns, and then human player soldiers
-function moveSoldierIA(unit){
+AI.prototype.moveSoldierIA = function(unit) {
     var randomIndex = 0;
     var randomCell = '';
     var equals = true;

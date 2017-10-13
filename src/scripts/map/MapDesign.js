@@ -1,3 +1,5 @@
+function MapDesign() {}
+
 /*
 MAP CREATOR ICON ANNOTATION
 
@@ -27,9 +29,7 @@ OTHERS (NOT IMPLEMENTED YET)
 '[' = wall
 
 */
-
-//maps 8x8 (64 cells), 10 maps y 1 template
-const blueprints = [
+MapDesign.prototype.blueprints = [
     [
         "        ",
         "        ",
