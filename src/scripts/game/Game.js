@@ -1,23 +1,61 @@
-function Game(){}
+function Game(startingMapLevel){
+    this.namesManager = new NamesManager();
+    this.iconTemplates = new IconTemplates();
+    this.map = new Map(this.namesManager, this.iconTemplates);
+    this.infoLayer = new InfoLayer();
+    this.encounter = new Encounter(this.iconTemplates);
+    this.levelManager = new LevelManager();
+    this.turnManager = new TurnManager(this.encounter, this.levelManager, this.namesManager, this.iconTemplates);
 
-// You can set here a different starting level, for testing purposes
-Game.prototype.currentMapLevel = 1;
+    this.players = {
+        human: new Human(),
+        ai: new AI(),
+        neutral: new Neutral()
+    }
+
+    this.currentMapLevel = startingMapLevel;
+
+    this.map.generate(this.currentMapLevel, this.players);
+    this.bindIconClick();
+    this.bindAll();
+
+    /////////randomMapGenerator(x, A, E, N, a, e, n)///////
+    //console.log(randomMapGenerator(10, 2, 2, 3, 5, 5, 5));
+    //mapGenerator(randomMapGenerator(10, 2, 2, 3, 2, 3, 2)); // <= 64
+}
+
+Game.prototype.currentMapLevel;
 
 // Classes
+Game.prototype.namesManager;
+Game.prototype.iconTemplates;
 Game.prototype.map;
+Game.prototype.levelManager;
 Game.prototype.infoLayer;
+Game.prototype.turnManager;
 Game.prototype.encounter;
 Game.prototype.players;
 
 Game.prototype.onCellClick = function(event, unit){ 
-    target = event.target.id;
+    const target = event.target.id;
+
+    let newMapLevel;
 
     if ((unit.movements > 0) && (unit.cell.replace('icon', '').substring(0, 2) !== target.replace('cell', ''))){
         result = this.players.human.moveSoldier(unit, target);
 
         if (result) {
-            this.encounter.check(unit, this.players);
-            this.resetBoardBindings();
+            console.log(target);
+            this.encounter.check(unit, target, this.players);
+            newMapLevel = this.levelManager.checkEndOfLevelCondition(this.currentMapLevel, this.players);
+
+            if (newMapLevel) {
+                this.currentMapLevel = newMapLevel;
+                this.map.generate(this.currentMapLevel, this.players);
+
+            } else {
+                this.resetBoardBindings(); 
+            }
         }
 
         //            Player.prototype.moveSoldier.call(this, unit, target);
@@ -43,13 +81,22 @@ Game.prototype.moveMode = function(unit) {
     });
 
     $('#destroy').off();
-    $('#destroy').click(function(){
+    $('#destroy').click(() => {
         if (confirm('Do you want to destroy current soldier?')){
-            this.encounter.destroyUnit(unit);
-            $('.cell').off();
-            $('#info').hide();
-            $('.icon').off();
-            $('.icon').click(showIconData);
+            this.encounter.destroyUnit(unit, this.players);
+            newMapLevel = this.levelManager.checkEndOfLevelCondition(this.currentMapLevel, this.players);
+
+            if (newMapLevel) {
+                this.currentMapLevel = newMapLevel;
+                this.map.generate(this.currentMapLevel, this.players);
+
+            } else {
+                this.resetBoardBindings(); 
+            }
+//            $('.cell').off();
+//            $('#info').hide();
+//            $('.icon').off();
+//            $('.icon').click(showIconData);
         }
     });
 }
@@ -57,13 +104,10 @@ Game.prototype.moveMode = function(unit) {
 Game.prototype.bindIconClick = function() {
     $('.icon').one("click", event => {
         event.stopPropagation();
-        console.log('ICON SELECTED');
 
         let modeToActivate = this.infoLayer.checkUnitInfo(event, this.players);
 
         if (modeToActivate.mode === 'move') {
-            console.log(this.players);
-
             this.moveMode.call(this, modeToActivate.unit);
         }
     });
@@ -76,39 +120,32 @@ Game.prototype.resetBoardBindings = function() {
     $('#info').hide();
 }
 
-Game.prototype.start = function(startingMapLevel) {
-    this.map = new Map();
-    this.infoLayer = new InfoLayer();
-    this.encounter = new Encounter();
-
-    this.players = {
-        human: new Human(),
-        ai: new AI(),
-        neutral: new Neutral()
-    }
-
-    this.currentMapLevel = startingMapLevel;
-
-    this.map.generate(this.currentMapLevel, this.players);
-    this.bindIconClick();
-    this.bindAll();
-
-    /////////randomMapGenerator(x, A, E, N, a, e, n)///////
-    //console.log(randomMapGenerator(10, 2, 2, 3, 5, 5, 5));
-    //mapGenerator(randomMapGenerator(10, 2, 2, 3, 2, 3, 2)); // <= 64
-}
-
 Game.prototype.bindAll = function() {
-    $('#close').click(function(){
-        this.resetBoardBindings();
+    let newMapLevel;
+    
+    $('#close').click(() => {
+        this.resetBoardBindings.call(this);
     });
 
-    $('#reset_map').click(function(){
+    $('#reset_map').click(() => {
         if (confirm('Reset current map?')){
             this.map.generate(this.currentMapLevel, this.players);
             this.bindIconClick();
         }
     });
 
-    $('#end_turn').click(this.players.human.endTurn);
+    $('#end_turn').click(() => {
+        newMapLevel = this.turnManager.endTurn(this.players);
+
+        if (newMapLevel) {
+            this.currentMapLevel = newMapLevel;
+            this.map.generate(this.currentMapLevel, this.players);
+
+        } else {
+            this.resetBoardBindings(); 
+            //                        this.bindIconClick();
+        }
+    });
+
+    //    $('#end_turn').click(this.players.human.endTurn);
 }

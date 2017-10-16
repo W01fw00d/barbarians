@@ -7,8 +7,13 @@ function Player() {
     this.gold;
 }
 
+Player.prototype.name;
 Player.prototype.gold;
 Player.prototype.units;
+
+Player.prototype.setGold = function(gold) {
+    this.gold = gold;
+}
 
 // upgrade_auto is for AI turn use of this function. In other case, this is invoked by an event_handler
 Player.prototype.moveSoldier = function(unit, target) {
@@ -34,9 +39,12 @@ Player.prototype.moveSoldier = function(unit, target) {
         //$(unit.cell).css({'background': iconColor, 'border-radius' : iconShape, 'display' : display});
         //unit.cell = 'icon'+initialCell[2];
 
-        unit.cell = 'icon' + finalCell[0] + '' + finalCell[1] + initialCell[2];
-
+        unit.cell = finalCell[0] + '' + finalCell[1] + initialCell[2];
+        unit.movements -= movement;
+        
         result = unit;
+        
+        $('#cell' + initialCell[0] + '' + initialCell[1]).html('');
 
     } else {
         if (unit.player === 'Roman'){
@@ -53,7 +61,7 @@ Player.prototype.upgradeMode = function(unit, upgrade){
     const errorMessage = 'You don\'t have enough gold!';
 
     let money = 0,
-        cell = '',
+        cell,
         image = '',
         title = '';
 
@@ -69,24 +77,22 @@ Player.prototype.upgradeMode = function(unit, upgrade){
     if (upgrade === 'improve_quantity'){
 
         if (unit.stats.quantityUpgradePrice <= gold[index]){
-            gold[index] -= unit.stats.quantityUpgradePrice;
+            this.setGold(this.gold - unit.stats.quantityUpgradePrice);
             unit.stats.quantityUpgradePrice += unit.stats.quantityUpgradePrice;
             unit.stats.quantity++;
-            $('#gold').val(gold[index]);
 
-        } else{
+        } else {
             alert(errorMessage);
         }
 
     } else if (upgrade === 'improve_quality'){
 
         if (unit.stats.qualityUpgradePrice <= gold[index]){
-            gold[index] -= unit.stats.qualityUpgradePrice;
+            this.setGold(this.gold - unit.stats.qualityUpgradePrice);
             unit.stats.qualityUpgradePrice += unit.stats.qualityUpgradePrice;
             unit.stats.quality++;
-            $('#gold').val(gold[index]);
 
-        } else{
+        } else {
             alert(errorMessage);
         }
     }
@@ -95,16 +101,16 @@ Player.prototype.upgradeMode = function(unit, upgrade){
     cell = cell.substring(0, cell.length - 1);
 
     if (unit.player === 'Roman'){
-        title = '['+unit.name+']. Quantity: ['+unit.stats.quantity+'], Quality: ['+unit.stats.quality+']';
+        title = '[' + unit.name + ']. Quantity: [' + unit.stats.quantity + '], Quality: [' + unit.stats.quality + ']';
 
     } else if (unit.player === 'Barbarian'){
-        title = '['+unit.name+']';
+        title = '[' + unit.name + ']';
     }
 
-    $(cell).html('<a id="tooltip'+unit.cell.replace('icon','')
-                 +'" href="#" data-toggle="tooltip" title="'+title+'">'
-                 +'<img class="icon" id="'+unit.cell+'" src="./src/images/board/'+image+'.png"></img></a>');
+    $(cell).html('<a id="tooltip' + unit.cell.replace('icon','')
+                 + '" href="#" data-toggle="tooltip" title="' + title + '">'
+                 + '<img class="icon" id="' + unit.cell + '" src="./src/images/board/' + image + '.png"></img></a>');
 
     $('#info').hide();
-    $('.icon').click(showIconData);
+//    $('.icon').click(showIconData);
 }

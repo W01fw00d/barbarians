@@ -1,47 +1,54 @@
-function areFactionsDead() {
-    const unitsLength = units.length;
-    let dead = {roman: true, barbarian: true},
-        i;
+function LevelManager(){}
 
-    units.forEach(unit => {
-        if (dead.roman && (unit.type === 'Soldier') && (unit.player === 'Roman')){
-            dead.roman = false;
+LevelManager.prototype.getDeadFaction = function(players) {
+    let deadFaction;
 
-        } else if (dead.barbarian && unit.player === 'Barbarian'){
-            dead.barbarian = false;
-        }
-    });
-    return dead;
+    const humanMobsAlive = players.human.units.mobs.length,
+          humanTownsAlive = players.human.units.towns.length,
+          aiMobsAlive = players.ai.units.mobs.length;
+    
+    if (!humanMobsAlive || !humanTownsAlive) {
+        deadFaction = 'human';
+        
+    } else if (!aiMobsAlive) {
+        deadFaction = 'ai';
+    }
+    
+    return deadFaction;
 }
 
-function announceEndOfLevel(audioFile, alertMessage) {
+LevelManager.prototype.announceEndOfLevel = function(audioFile, alertMessage) {
     new Audio('./src/sounds/' + audioFile + '.mp3').play();
     alert(alertMessage);
 }
 
-// Check that there are still units in both sides; if not, victory one of the two factions wins 
-function checkEndOfLevelCondition(){
+// Check that there are still units in both sides; if not, victory one of the two factions wins
+LevelManager.prototype.checkEndOfLevelCondition = function(currentMapLevel, players) {
     const victory_message_eng = 'Victory! The area is safe again.',
           victory_message_spa = '¡Victoria! La zona vuelve a ser segura.',
           defeat_message_eng = 'The Barbarians are everywhere! Rome will fall...',
           defeat_message_spa = '¡Los Bárbaros están por todos lados! Roma caerá...',
 
-          dead = areFactionsDead();
+          deadFaction = this.getDeadFaction(players);
 
     // Player have to destroy all barbarians soldiers and towns. AI wins just by killing all roman soldiers. 
-    if (dead.roman){
-        announceEndOfLevel('defeat', defeat_message_eng);
-//        TODO
-        map(currentMapLevel);
+    if (deadFaction === 'human') {
+        this.announceEndOfLevel('defeat', defeat_message_eng);
+//        map(currentMapLevel);
 
-    } else if (dead.barbarian){
-        announceEndOfLevel('victory', victory_message_eng);
-        goToNextMap();
+    } else if (deadFaction === 'ai') {
+        this.announceEndOfLevel('victory', victory_message_eng);
+        currentMapLevel++;
+        this.showNextMapMsg(currentMapLevel);
+        
+    } else {
+        currentMapLevel = null;
     }
+    return currentMapLevel;
 }
 
 // Advance to the next level. If it's last level, show victory message and end game. Uses cookie for storing current level.
-function goToNextMap(){
+LevelManager.prototype.showNextMapMsg = function(currentMapLevel) {
     const maps_messages_eng = [
         '',
         'Welcome! You are a Roman General and you have been informed that some nasty Barbarians are assaulting little towns outside Rome. Use your soldiers to finish the enemy and recover control over those towns!',
@@ -74,16 +81,15 @@ function goToNextMap(){
 
           win_message_spa = '¡Felicidades, has completado el juego! Esos bárbaros no volverán a amenazar la bella Roma... ¿O tal vez ésto solo sea el principio?';
 
-    currentMapLevel++;
-
     if (currentMapLevel >= MapDesign.blueprints.length){
         alert(win_message_eng);
         //        document.cookie = "mapa=" + 1 + "; expires=Thu, 07 Dec 2017 12:00:00 UTC";
+        // Restart game
         location.reload();
 
     } else {
         //        document.cookie = "mapa=" + currentMapLevel + "; expires=Thu, 07 Dec 2017 12:00:00 UTC";
         alert(maps_messages_eng[currentMapLevel]);
-        map(currentMapLevel);
+//        map(currentMapLevel);
     }
 }

@@ -1,4 +1,8 @@
-function Encounter(){}
+function Encounter(iconTemplates){
+    this.iconTemplates = iconTemplates;
+}
+
+Encounter.prototype.iconTemplates;
 
 Encounter.prototype.compareStrengths = function(unit, adversary) {
     let results = {
@@ -73,52 +77,63 @@ Encounter.prototype.updateConqueredTown = function(iteration, unit, conqueredUni
     new Audio('./src/sounds/' + audio + '.mp3').play();
 }
 
-Encounter.prototype.changeIcon = function(unit, adversary, winner) {
-    const initialCell = unit.cell.replace('icon', '').split(""),
-          finalCell = adversary.replace('cell', '').replace('#', '').split("");
+Encounter.prototype.changeIcon = function(unit, winner) {
+    const unitCell = unit.cell.replace('icon', '').split("");
+    
+    console.log(unit.movements > 0 && winner !== unit);
 
-    let html;
+    let html, id, mobTemplate;
 
-    unit.movements = (result !== 'none') ? 0 : unit.movements - movement;
+//    unit.movements = (result !== 'none') ? 0 : unit.movements - movement;
 
     switch (unit.player) {
-        case 'Roman':
-            if (!winner){
-                img = 'SR_del_def';
-            } else if (winner.player === unit.player || unit.movements === 0){
-                img = 'SRUsed_del_def';
+        case 'human':
+            if (unit.movements > 0 && winner !== unit){
+//                img = 'SR_del_def';
+                mobTemplate = this.iconTemplates.getHumanMob;
+                
+            } else {
+//                img = 'SRUsed_del_def';
+                unit.movements = 0;
+                mobTemplate = this.iconTemplates.getUsedHumanMob;
             } 
             break;
 
-        case 'Barbarian':
+        case 'ai':
             if (winner && (winner.player === unit.player)){
-                img = 'SB_del_def';
+//                img = 'SB_del_def';
+                mobTemplate = this.iconTemplates.getAIMob;
             }
             break;
     }
 
-    html = img ? '<a id="tooltip' + finalCell[0] + '' + finalCell[1] + initialCell[2]
-        + '" href="#" data-toggle="tooltip" title="[' + unit.name + ']. movements: [' + unit.totalMovements + '], strength: [' + unit.strength + ']">'
-        + '<img class="icon" id="icon' + finalCell[0] + '' + finalCell[1] + initialCell[2] + '" src="./src/images/board/' + img + '.png"></img></a>' : '';
+    id = unitCell[0] + '' + unitCell[1] + unitCell[2];
+    
+    // Cal the function within the IconTemplates context, if a function has been chosen
+    html = mobTemplate ? mobTemplate.apply(this.iconTemplates, [id, unit.name, unit.movements, unit.strength]) : '';
+        
+//    html = mobTemplate ? mobTemplate(id, unit.name, unit.totalMovements, unit.strength) : '';
+    
+//    html = img ? '<a id="tooltip' + finalCell[0] + '' + finalCell[1] + initialCell[2]
+//        + '" href="#" data-toggle="tooltip" title="[' + unit.name + ']. movements: [' + unit.totalMovements + '], strength: [' + unit.strength + ']">'
+//        + '<img class="icon" id="icon' + finalCell[0] + '' + finalCell[1] + initialCell[2] + '" src="./src/images/board/' + img + '.png"></img></a>' : '';
 
-    $('#cell' + finalCell[0] + '' + finalCell[1]).html(html);
-    $('#cell' + initialCell[0] + '' + initialCell[1]).html('');
+    $('#cell' + unitCell[0] + '' + unitCell[1]).html(html);
+//    $('#cell' + initialCell[0] + '' + initialCell[1]).html('');
     
 //    $('.cell').off();
 //    $('.icon').click(showIconData);
 //    $('#info').hide();
-    
-    console.log('DONE');
-    
-    //TODO
-    checkEndOfLevelCondition();
+//    checkEndOfLevelCondition();
 }
 
 // Calculate the encounter result between a soldier and a soldier, or a soldier and a town; return true if unit wins.
 Encounter.prototype.check = function(unit, players) {
-    let adversary = '',
+    console.log(unit);
+    
+    let adversary,
         conquered = 0,
-        cell = unit.cell.replace('icon', '').split(""),
+        cell = unit.cell.split(""),
 
         iteration = [
             ('#cell' + (parseInt(cell[0]) + 1) + '' + parseInt(cell[1])), ('#cell' + parseInt(cell[0]) + '' + (parseInt(cell[1]) + 1)),
@@ -151,6 +166,8 @@ Encounter.prototype.check = function(unit, players) {
             A: 'human',
             N: 'neutral'
         };
+    
+    console.log(cell);
 
     // Look for fights with other soldiers next to itself
     for (i = 0; i < iterationLength; i++) {
@@ -159,8 +176,8 @@ Encounter.prototype.check = function(unit, players) {
         if (cellId !== undefined) {
             typeOfCollindantUnit = cellId.replace('icon', '').charAt(2);
 
-            if (((typeOfCollindantUnit === 'e') && (unit.player === 'Roman'))
-                || ((typeOfCollindantUnit === 'a') && (unit.player === 'Barbarian'))
+            if (((typeOfCollindantUnit === 'e') && (unit.player === 'human'))
+                || ((typeOfCollindantUnit === 'a') && (unit.player === 'ai'))
                 || typeOfCollindantUnit === 'n') {
 
                 units = players[mobsAnnotationCorralation[typeOfCollindantUnit]].units.mobs;
@@ -176,16 +193,17 @@ Encounter.prototype.check = function(unit, players) {
                 }
 
                 combatResults = this.compareStrengths(unit, adversary);
+                
+                console.log(combatResults.loser);
 
                 this.destroyUnit(combatResults.loser);
 
                 // Loot for killing soldiers
-                if (combatResults.winner.player === 'Roman' && combatResults.loser.player === 'Barbarian'){
-                    players.human.gold++;
-                    $('#gold').val(gold[0]);
+                if (combatResults.winner.player === 'human' && combatResults.loser.player === 'ai'){
+                    players.human.setGold(players.human.gold + 1);
 
-                } else if (combatResults.winner.player === 'Barbarian' && combatResults.loser.player === 'Roman'){
-                    players.ai.gold++;
+                } else if (combatResults.winner.player === 'ai' && combatResults.loser.player === 'human'){
+                    players.ai.setGold(players.ai.gold + 1);
                 }
 
                 // If not dead yet, keep looking for fights
@@ -204,13 +222,11 @@ Encounter.prototype.check = function(unit, players) {
             if (cellId !== undefined) {
                 typeOfCollindantUnit = cellId.replace('icon', '').charAt(2);
 
-                if (((typeOfCollindantUnit === 'E') && (unit.player === 'Roman'))
-                    || ((typeOfCollindantUnit === 'A') && (unit.player === 'Barbarian'))
+                if (((typeOfCollindantUnit === 'E') && (unit.player === 'human'))
+                    || ((typeOfCollindantUnit === 'A') && (unit.player === 'ai'))
                     || (typeOfCollindantUnit === 'N')) {    
 
                     result = 'wins';
-
-                    townsAnnotationCorralation
 
                     units = players[townsAnnotationCorralation[typeOfCollindantUnit]].units.mobs;
                     unitsLength = units.length;
@@ -228,33 +244,39 @@ Encounter.prototype.check = function(unit, players) {
                     //                units[conquered].name = getRandomName('Town', unit.player);
 
                     // A soldier can only conquest one town each turn 
-                    if (unit.player === 'Roman'){
+                    if (unit.player === 'human'){
                         this.updateConqueredRomanTown(iteration, unit, conqueredUnit);
 
-                    } else if (unit.player === 'Barbarian'){
+                    } else if (unit.player === 'ai'){
                         this.updateConqueredBarbarianTown(iteration, unit, conqueredUnit);
                     }
                 }
             }
         }
     }
-
-    this.changeIcon(unit, adversary, combatResults.winner);
+    
+    if (combatResults.loser !== unit){
+        this.changeIcon(unit, combatResults.winner);
+    }
 }
 
-Encounter.prototype.destroyUnit = function(unit) {
+Encounter.prototype.destroyUnit = function(unit, players) {
     $('#cell' + unit.cell.replace('icon','').replace('a', '').replace('e', '').replace('n','')).html('');
+    
+    console.log(unit);
+    
+    units = players[unit.player].units.mobs;
     units.splice(units.indexOf(unit), 1);
 
     let audio;
 
-    if (unit.player === 'Roman'){
+    if (unit.player === 'human'){
         audio = new Audio('./src/sounds/scream.mp3');
 
-    }else if (unit.player === 'Barbarian'){
+    }else if (unit.player === 'ai'){
         audio = new Audio('./src/sounds/kill.mp3');
 
-    }else if (unit.player === 'Neutral'){
+    }else if (unit.player === 'neutral'){
         audio = new Audio('./src/sounds/wolf_scream.mp3');
     }
 

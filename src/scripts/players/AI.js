@@ -1,10 +1,11 @@
 function AI() {
     Player.call(this);
+    this.name = 'ai';
     this.gold = 1;
 }
 
 // Performs the AI enemy turn: it behaves quite randomly for now
-AI.prototype.turnAI = function() {
+AI.prototype.performTurn = function() {
     let i = 0,
         towns = [],
         nIterations = 0,
@@ -59,7 +60,6 @@ AI.prototype.turnAI = function() {
 
     // Improve towns 
     for (i = 0; i < townsLength; i++){
-
         // If random number is 1, quality won't be improved; if it's 2, quantity won't be improved
         lazy = Math.round(Math.random() * 5);
 
@@ -89,14 +89,14 @@ AI.prototype.moveSoldierRandom = function(unit) {
     if (parseInt(cell[0]) === 7){
         iteration.splice(0, 1);
         
-    }else if (parseInt(cell[0]) === 0){
+    } else if (parseInt(cell[0]) === 0){
         iteration.splice(2, 1);
     }
 
     if (parseInt(cell[1]) === 7){
         iteration.splice(1, 1);
         
-    }else if (parseInt(cell[1]) === 0){
+    } else if (parseInt(cell[1]) === 0){
         iteration.splice(3, 1);
     }
 

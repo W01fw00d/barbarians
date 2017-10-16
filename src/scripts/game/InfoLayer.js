@@ -105,9 +105,12 @@ InfoLayer.prototype.checkUnitInfo = function(event, players) {
             $('#town_info').hide();
             $('#soldier_info').show();
             $('#destroy').show();
-
-            result.mode = 'move';
-            result.unit = unit;
+            
+            if (unit.movements) {
+                result.mode = 'move';
+                result.unit = unit;
+            }
+            
 //            players.human.moveMode(unit);
             
             $("#movement").html('Movements left: [' + unit.movements + ']');
