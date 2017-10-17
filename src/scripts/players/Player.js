@@ -39,7 +39,7 @@ Player.prototype.moveSoldier = function(unit, target) {
         //$(unit.cell).css({'background': iconColor, 'border-radius' : iconShape, 'display' : display});
         //unit.cell = 'icon'+initialCell[2];
 
-        unit.cell = finalCell[0] + '' + finalCell[1] + initialCell[2];
+        unit.cell = 'icon' + finalCell[0] + '' + finalCell[1] + initialCell[2];
         unit.movements -= movement;
         
         result = unit;
@@ -65,18 +65,17 @@ Player.prototype.upgradeMode = function(unit, upgrade){
         image = '',
         title = '';
 
-    if (unit.player === 'Roman'){
+    if (unit.player === 'human'){
         index = 0;
         image = 'AR_del_def';
 
-    } else if (unit.player === 'Barbarian'){
+    } else if (unit.player === 'ai'){
         index = 1;
         image = 'AB_del_def';
     }
 
     if (upgrade === 'improve_quantity'){
-
-        if (unit.stats.quantityUpgradePrice <= gold[index]){
+        if (unit.stats.quantityUpgradePrice <= this.gold){
             this.setGold(this.gold - unit.stats.quantityUpgradePrice);
             unit.stats.quantityUpgradePrice += unit.stats.quantityUpgradePrice;
             unit.stats.quantity++;
@@ -86,8 +85,7 @@ Player.prototype.upgradeMode = function(unit, upgrade){
         }
 
     } else if (upgrade === 'improve_quality'){
-
-        if (unit.stats.qualityUpgradePrice <= gold[index]){
+        if (unit.stats.qualityUpgradePrice <= this.gold){
             this.setGold(this.gold - unit.stats.qualityUpgradePrice);
             unit.stats.qualityUpgradePrice += unit.stats.qualityUpgradePrice;
             unit.stats.quality++;
@@ -100,16 +98,18 @@ Player.prototype.upgradeMode = function(unit, upgrade){
     cell = unit.cell.replace('icon', '#cell')
     cell = cell.substring(0, cell.length - 1);
 
-    if (unit.player === 'Roman'){
+    if (unit.player === 'human'){
         title = '[' + unit.name + ']. Quantity: [' + unit.stats.quantity + '], Quality: [' + unit.stats.quality + ']';
 
-    } else if (unit.player === 'Barbarian'){
+    } else if (unit.player === 'ai'){
         title = '[' + unit.name + ']';
     }
+    
+    $(cell + ' #tooltip').attr('title', title);
 
-    $(cell).html('<a id="tooltip' + unit.cell.replace('icon','')
-                 + '" href="#" data-toggle="tooltip" title="' + title + '">'
-                 + '<img class="icon" id="' + unit.cell + '" src="./src/images/board/' + image + '.png"></img></a>');
+//    $(cell).html('<a id="tooltip' + unit.cell.replace('icon','')
+//                 + '" href="#" data-toggle="tooltip" title="' + title + '">'
+//                 + '<img class="icon" id="' + unit.cell + '" src="./src/images/board/' + image + '.png"></img></a>');
 
     $('#info').hide();
 //    $('.icon').click(showIconData);

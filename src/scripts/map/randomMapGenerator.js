@@ -1,4 +1,4 @@
-// ON DEVELOPMENT
+// ON DEVELOPMENT (WIP)
 
 // Randomly generates a map using arguments (shall sum 64)
 function randomMapGenerator(x, A, E, N, a, e, n){

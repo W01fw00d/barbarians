@@ -43,8 +43,6 @@ TurnManager.prototype.generateSoldiers = function(player, players){
                 emptyCell = iteration.replace('#cell','').split("");
 
                 randomName = this.namesManager.getRandomName('Soldier', player);
-
-                console.log(player.name);
                 
                 if (player.name === 'human'){
                     annotation = 'a';
@@ -57,9 +55,9 @@ TurnManager.prototype.generateSoldiers = function(player, players){
                     mobTemplate = this.iconTemplates.getAIMob;
                 }
 
-//                id = 'icon' + emptyCell[0] + emptyCell[1] + annotation;
+                id = 'icon' + emptyCell[0] + emptyCell[1] + annotation;
                 
-                id = emptyCell[0] + emptyCell[1] + annotation;
+//                id = emptyCell[0] + emptyCell[1] + annotation;
                 $(iteration[iterationsIndex]).html(mobTemplate.apply(this.iconTemplates, [id, randomName, movements, town.stats.quality]));
                 
 //                $(iteration[j]).html('<a id="tooltip' + townsIndex + '' + iterationsIndex + cell
@@ -161,7 +159,7 @@ TurnManager.prototype.generateSoldiers = function(player, players){
 
 // TODO
 // End current player turn, and provides 3 gold to each player
-TurnManager.prototype.endTurn = function(players){
+TurnManager.prototype.endTurn = function(currentMapLevel, players){
     //    let unitsLength;
     //
     //    let i = 0,
@@ -169,7 +167,7 @@ TurnManager.prototype.endTurn = function(players){
     //        unit_i;
 
     let id;
-
+    
     this.generateSoldiers(players.human, players);
     players.ai.performTurn();
 
@@ -192,7 +190,7 @@ TurnManager.prototype.endTurn = function(players){
 
 //        id = $('#' + mob.cell).attr('id').replace('icon', '').split("");
         
-        id = $('#' + mob.cell).attr('id').replace('icon', '') + 'a';
+        id = mob.cell.replace('icon', '');
         
 
         // If it's a Roman Soldier, colour it in order to indicate that it can move again 
@@ -220,5 +218,5 @@ TurnManager.prototype.endTurn = function(players){
     //    $('.icon').off();
     //    $('.icon').click(showIconData);
 
-    return this.levelManager.checkEndOfLevelCondition();
+    return this.levelManager.checkEndOfLevelCondition(currentMapLevel, players);
 }

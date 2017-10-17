@@ -103,6 +103,7 @@ Map.prototype.generate = function(level, players) {
                     //                    iconShape = '0px 0px 0px 0px';
                     //                    display = 'block';
                     randomName = this.namesManager.getRandomName('Town', 'Barbarian');
+//                    randomName = 'NAME BY DEFAULT';
                     units.push(
                         {cell: 'icon'+i+j+cell, player: 'ai', type: 'Town', name: randomName, stats: {quantity: 1, quality: 1, quantityUpgradePrice: 1, qualityUpgradePrice: 1}});
                     icon = this.iconTemplates.getAITown(id, randomName);

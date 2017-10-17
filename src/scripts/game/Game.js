@@ -16,6 +16,7 @@ function Game(startingMapLevel){
     this.currentMapLevel = startingMapLevel;
 
     this.map.generate(this.currentMapLevel, this.players);
+    
     this.bindIconClick();
     this.bindAll();
 
@@ -36,17 +37,50 @@ Game.prototype.turnManager;
 Game.prototype.encounter;
 Game.prototype.players;
 
+Game.prototype.getUnit = function(icon) {
+    const unitsAnnotationCorralation = {
+        e: ['ai', 'mobs'],
+        E: ['ai', 'towns'],
+        a: ['human', 'mobs'],
+        A: ['human', 'towns'],
+        n: ['neutral', 'mobs'],
+        N: ['neutral', 'towns'],
+    },
+          annotation = icon[icon.length - 1];
+
+    let units = this.players[unitsAnnotationCorralation[annotation][0]].units[unitsAnnotationCorralation[annotation][1]],
+        unitsLength = units.length;
+
+    for (i = 0; i < unitsLength; i++) {
+        if (units[i].cell == icon) {
+            return units[i];
+        }
+    }
+}
+
 Game.prototype.onCellClick = function(event, unit){ 
     const target = event.target.id;
 
     let newMapLevel;
 
-    if ((unit.movements > 0) && (unit.cell.replace('icon', '').substring(0, 2) !== target.replace('cell', ''))){
+//    targetIcon = target.getElementsByClassName('icon')[0];
+
+    //if this cell has an icon and the icon represents unit or town data, show that data instead of moving unit
+    if (target.indexOf('icon') !== -1 && this.getUnit(target)) {
+//        showIconData.apply(targetIcon);
+        event.stopPropagation();
+
+        let modeToActivate = this.infoLayer.checkUnitInfo(event, this.players);
+
+        if (modeToActivate.mode === 'move') {
+            this.moveMode.call(this, modeToActivate.unit);
+        }
+
+    } else if ((unit.movements > 0) && (unit.cell.replace('icon', '').substring(0, 2) !== target.replace('cell', ''))){
         result = this.players.human.moveSoldier(unit, target);
 
         if (result) {
-            console.log(target);
-            this.encounter.check(unit, target, this.players);
+            this.encounter.check(unit, this.players);
             newMapLevel = this.levelManager.checkEndOfLevelCondition(this.currentMapLevel, this.players);
 
             if (newMapLevel) {
@@ -65,7 +99,6 @@ Game.prototype.onCellClick = function(event, unit){
 
 // Allows soldier to move while movements left
 Game.prototype.moveMode = function(unit) {
-    console.log('MOVE MODE ACTIVE');
     let target, result;
     //movements = unit.movements;
 
@@ -75,8 +108,6 @@ Game.prototype.moveMode = function(unit) {
     //movements = movements - $('.cell').click({unit: unit}, moveSoldier).data("result");
 
     $('.cell').one( "click", event => {
-        console.log('MOVING!');
-        //        console.log(event.currentTarget);
         this.onCellClick.call(this, event, unit);
     });
 
@@ -93,10 +124,10 @@ Game.prototype.moveMode = function(unit) {
             } else {
                 this.resetBoardBindings(); 
             }
-//            $('.cell').off();
-//            $('#info').hide();
-//            $('.icon').off();
-//            $('.icon').click(showIconData);
+            //            $('.cell').off();
+            //            $('#info').hide();
+            //            $('.icon').off();
+            //            $('.icon').click(showIconData);
         }
     });
 }
@@ -122,7 +153,7 @@ Game.prototype.resetBoardBindings = function() {
 
 Game.prototype.bindAll = function() {
     let newMapLevel;
-    
+
     $('#close').click(() => {
         this.resetBoardBindings.call(this);
     });
@@ -135,7 +166,7 @@ Game.prototype.bindAll = function() {
     });
 
     $('#end_turn').click(() => {
-        newMapLevel = this.turnManager.endTurn(this.players);
+        newMapLevel = this.turnManager.endTurn.call(this.turnManager, this.currentMapLevel, this.players);
 
         if (newMapLevel) {
             this.currentMapLevel = newMapLevel;

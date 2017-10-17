@@ -64,13 +64,13 @@ Encounter.prototype.updateConqueredBarbarianTown = function(iteration, unit, con
     this.updateConqueredTown(iteration, unit, conqueredUnit, 'E', 'AB_del_def', 'bar_conquest', '');
 }
 
-Encounter.prototype.updateConqueredTown = function(iteration, unit, conqueredUnit, annotation, img, audio, title) {
-    newId = $(iteration[i]+' img').attr('id').replaceAt($(iteration[i]+' img').attr('id').length - 1, annotation);
-    title = '[' +conqueredUnit.name + ']' + extraTitle;
+Encounter.prototype.updateConqueredTown = function(iteration, unit, conqueredUnit, annotation, img, audio, extraTitle) {
+    newId = $(iteration + ' img').attr('id').replaceAt($(iteration+' img').attr('id').length - 1, annotation);
+    title = '[' + conqueredUnit.name + ']' + extraTitle;
 
-    $(iteration[i]+' a img').attr('id', newId);
-    $(iteration[i]+' a img').attr('src', './src/images/board/' + img + '.png');
-    $(iteration[i]+' a').attr('title', title);
+    $(iteration + ' a img').attr('id', newId);
+    $(iteration + ' a img').attr('src', './src/images/board/' + img + '.png');
+    $(iteration + ' a').attr('title', title);
 
     conqueredUnit.cell = conqueredUnit.cell.replaceAt(conqueredUnit.cell.length - 1, annotation);
 
@@ -79,8 +79,6 @@ Encounter.prototype.updateConqueredTown = function(iteration, unit, conqueredUni
 
 Encounter.prototype.changeIcon = function(unit, winner) {
     const unitCell = unit.cell.replace('icon', '').split("");
-    
-    console.log(unit.movements > 0 && winner !== unit);
 
     let html, id, mobTemplate;
 
@@ -100,10 +98,10 @@ Encounter.prototype.changeIcon = function(unit, winner) {
             break;
 
         case 'ai':
-            if (winner && (winner.player === unit.player)){
+//            if (winner && (winner.player === unit.player)) {
 //                img = 'SB_del_def';
                 mobTemplate = this.iconTemplates.getAIMob;
-            }
+//            }
             break;
     }
 
@@ -129,11 +127,9 @@ Encounter.prototype.changeIcon = function(unit, winner) {
 
 // Calculate the encounter result between a soldier and a soldier, or a soldier and a town; return true if unit wins.
 Encounter.prototype.check = function(unit, players) {
-    console.log(unit);
-    
     let adversary,
-        conquered = 0,
-        cell = unit.cell.split(""),
+        conquered,
+        cell = unit.cell.replace('icon', '').split(""),
 
         iteration = [
             ('#cell' + (parseInt(cell[0]) + 1) + '' + parseInt(cell[1])), ('#cell' + parseInt(cell[0]) + '' + (parseInt(cell[1]) + 1)),
@@ -166,8 +162,6 @@ Encounter.prototype.check = function(unit, players) {
             A: 'human',
             N: 'neutral'
         };
-    
-    console.log(cell);
 
     // Look for fights with other soldiers next to itself
     for (i = 0; i < iterationLength; i++) {
@@ -193,8 +187,6 @@ Encounter.prototype.check = function(unit, players) {
                 }
 
                 combatResults = this.compareStrengths(unit, adversary);
-                
-                console.log(combatResults.loser);
 
                 this.destroyUnit(combatResults.loser);
 
@@ -215,8 +207,9 @@ Encounter.prototype.check = function(unit, players) {
     }
 
     // If unit is still alive, it can conquest towns
-    if (combatResults.winner === unit) {
-        for (i = 0; i < iterationLength; i++){
+    if (combatResults.loser !== unit) {
+        // A soldier can only conquest one town each turn 
+        for (i = 0; i < iterationLength && !conquered; i++){
             cellId = $(iteration[i]+' a img').attr('id');
 
             if (cellId !== undefined) {
@@ -226,9 +219,7 @@ Encounter.prototype.check = function(unit, players) {
                     || ((typeOfCollindantUnit === 'A') && (unit.player === 'ai'))
                     || (typeOfCollindantUnit === 'N')) {    
 
-                    result = 'wins';
-
-                    units = players[townsAnnotationCorralation[typeOfCollindantUnit]].units.mobs;
+                    units = players[townsAnnotationCorralation[typeOfCollindantUnit]].units.towns;
                     unitsLength = units.length;
 
                     // Find target unit in array 
@@ -241,15 +232,21 @@ Encounter.prototype.check = function(unit, players) {
 
                     conqueredUnit = units[conquered];
                     conqueredUnit.player = unit.player;
+                    //TODO -> getRandomName
                     //                units[conquered].name = getRandomName('Town', unit.player);
 
-                    // A soldier can only conquest one town each turn 
                     if (unit.player === 'human'){
-                        this.updateConqueredRomanTown(iteration, unit, conqueredUnit);
-
+                        this.updateConqueredRomanTown(iteration[i], unit, conqueredUnit);
+                        
                     } else if (unit.player === 'ai'){
-                        this.updateConqueredBarbarianTown(iteration, unit, conqueredUnit);
+                        this.updateConqueredBarbarianTown(iteration[i], unit, conqueredUnit);
                     }
+                    
+                    // Update units lists
+                    players[unit.player].units.towns.push(conqueredUnit);                    
+                    players[townsAnnotationCorralation[typeOfCollindantUnit]].units.towns = units.filter(unit => {
+                        return unit.player === "neutral";
+                    });
                 }
             }
         }
@@ -262,8 +259,6 @@ Encounter.prototype.check = function(unit, players) {
 
 Encounter.prototype.destroyUnit = function(unit, players) {
     $('#cell' + unit.cell.replace('icon','').replace('a', '').replace('e', '').replace('n','')).html('');
-    
-    console.log(unit);
     
     units = players[unit.player].units.mobs;
     units.splice(units.indexOf(unit), 1);
