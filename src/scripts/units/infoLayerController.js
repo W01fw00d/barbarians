@@ -13,17 +13,11 @@ function showIconData(){
         color,
         grey = 'RGB(135, 135, 135)',
         red = 'RGB(255, 10, 10)',
-        blue = 'RGB(7, 168, 226)',
-        unitsLength = units.length;
+        blue = 'RGB(7, 168, 226)';
 
-    $('.icon').off();
+    //$('.icon').off();
 
-    for(i = 0; i < unitsLength; i++){
-        if (units[i].cell == icon){
-            unit = units[i];
-            break;
-        }
-    }
+    unit = getUnit(icon);
 
     switch(type){
 
@@ -107,7 +101,7 @@ function showIconData(){
                   move_message_spa = 'Prefiere defender su territorio',
                   strength_message_eng = 'Can devour an undertrained human',
                   strength_message_spa = 'Puede devorar a alguien con poco entrenamiento';
-            
+
             updateDataLabels(unit);
 
             $('#town_info').hide();
@@ -134,13 +128,22 @@ function destroyUnit(unit){
 
     if (unit.player === 'Roman'){
         audio = new Audio('./src/sounds/scream.mp3');
-        
+
     }else if (unit.player === 'Barbarian'){
         audio = new Audio('./src/sounds/kill.mp3');
-        
+
     }else if (unit.player === 'Neutral'){
         audio = new Audio('./src/sounds/wolf_scream.mp3');
     }
 
     audio.play();
+}
+
+function getUnit(icon) {
+  var unitsLength = units.length;
+  for(i = 0; i < unitsLength; i++){
+      if (units[i].cell == icon){
+        return units[i];
+      }
+  }
 }

@@ -1,19 +1,19 @@
-// Returns a name string, chosen randomly from the names array 
+// Returns a name string, chosen randomly from the names array
 function getRandomName(type, faction){
     let names, randomNumber;
 
     switch(type){
 
         case 'Soldier':
-            names = faction === 'Roman' ? 
+            names = faction === 'Roman' ?
                 romanSoldierNames : barbarianSoldierNames;
 
             break;
-            
+
         case 'Town':
-            names = faction === 'Roman' ? 
+            names = faction === 'Roman' ?
                 romanTownNames : barbarianTownNames;
-            
+
             break;
     }
 
@@ -26,7 +26,7 @@ function getRandomName(type, faction){
 // End current player turn, and provides 3 gold to each player
 function endTurn(){
     let unitsLength;
-    
+
     let i = 0,
         id = '',
         unit_i;
@@ -37,7 +37,7 @@ function endTurn(){
     gold[1] += 3;
     gold[0] += 3;
     $('#gold').val(gold[0]);
-    
+
     unitsLength = units.length;
 
     for (i = 0; i < unitsLength; i++){
@@ -46,13 +46,13 @@ function endTurn(){
         // Soldiers will capture adjacent towns automatically if they are besides them at the end of turn
         if ((unit_i.player !== 'Neutral') && (unit_i.type === 'Soldier')){
             checkEncounter(unit_i);
-            
+
             unit_i.movements = unit_i.totalMovements;
 
-            // If it's a Roman Soldier, colour it in order to indicate that it can move again 
+            // If it's a Roman Soldier, colour it in order to indicate that it can move again
             if (unit_i.player === 'Roman'){
                 id = $('#'+unit_i.cell).attr('id').replace('icon', '').split("");
-                
+
                 $('#cell' + id[0] + id[1]).html('<a id="tooltip' + id[0] + id[1]
                     +'a" href="#" data-toggle="tooltip" title="['+unit_i.name+']. Moves: ['+unit_i.movements+'], Strength: ['+unit_i.strength+']">'
                         +'<img class="icon" id="icon'+id[0]+id[1]+'a" src="./src/images/board/SR_del_def.png"></img></a>');
@@ -112,7 +112,7 @@ function generateSoldiers(player){
             iterationLength = iteration.length;
 
 
-            //Will generate soldiers while free cells and dependant of quantity var of town 
+            //Will generate soldiers while free cells and dependant of quantity var of town
             for (j = 0; (j < iterationLength) && (soldiers > 0); j++){
 
                 if ( ($(iteration[j]+' img').attr('id') === undefined ) ){
@@ -131,7 +131,7 @@ function generateSoldiers(player){
                         movements = 1;
                         image = 'SB_del_def';
                     }
-                    
+
                     $(iteration[j]).html('<a id="tooltip'+i+''+j+cell
                         +'" href="#" data-toggle="tooltip" title="['+randomName+']. movements: ['+movements+'], strength: ['+units[i].stats.quality+']">'
                         +'<img class="icon" id="'+id+'" src="./src/images/board/' + image + '.png"></img></a>');
@@ -161,7 +161,13 @@ function moveMode(icon, unit){
 
     $('.cell').click(function(){
         var target = this.id;
-        if ((unit.movements > 0) && (unit.cell.replace('icon', '').substring(0, 2) !== this.id.replace('cell', ''))){
+        targetIcon = this.getElementsByClassName('icon')[0];
+        //if this cell has an icon and the icon represents unit or town data, show that data instead of moving unit
+        if(targetIcon && getUnit(targetIcon.id))
+        {
+          showIconData.apply(targetIcon);
+        }
+        else if ((unit.movements > 0) && (unit.cell.replace('icon', '').substring(0, 2) !== this.id.replace('cell', ''))){
             moveSoldier(unit, target);
         }
 
