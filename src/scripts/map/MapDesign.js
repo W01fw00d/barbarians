@@ -186,5 +186,5 @@ MapDesign.prototype.blueprints = [
         "  aaaa  ",
         "a A  N a",
         "        "
-    ],
+    ]
 ];

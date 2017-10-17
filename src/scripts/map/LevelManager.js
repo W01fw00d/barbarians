@@ -5,21 +5,19 @@ function LevelManager(mapDesign){
 LevelManager.prototype.mapDesign;
 
 LevelManager.prototype.getDeadFaction = function(players) {
-    console.log(players);
-    
     let deadFaction;
 
     const humanMobsAlive = players.human.units.mobs.length,
           humanTownsAlive = players.human.units.towns.length,
           aiMobsAlive = players.ai.units.mobs.length;
-    
+
     if (!humanMobsAlive || !humanTownsAlive) {
         deadFaction = 'human';
-        
+
     } else if (!aiMobsAlive) {
         deadFaction = 'ai';
     }
-    
+
     return deadFaction;
 }
 
@@ -40,13 +38,12 @@ LevelManager.prototype.checkEndOfLevelCondition = function(currentMapLevel, play
     // Player have to destroy all barbarians soldiers and towns. AI wins just by killing all roman soldiers. 
     if (deadFaction === 'human') {
         this.announceEndOfLevel('defeat', defeat_message_eng);
-//        map(currentMapLevel);
 
     } else if (deadFaction === 'ai') {
         this.announceEndOfLevel('victory', victory_message_eng);
         currentMapLevel++;
         this.showNextMapMsg(currentMapLevel);
-        
+
     } else {
         currentMapLevel = null;
     }
@@ -89,13 +86,10 @@ LevelManager.prototype.showNextMapMsg = function(currentMapLevel) {
 
     if (currentMapLevel >= this.mapDesign.blueprints.length){
         alert(win_message_eng);
-        //        document.cookie = "mapa=" + 1 + "; expires=Thu, 07 Dec 2017 12:00:00 UTC";
         // Restart game
         location.reload();
 
     } else {
-        //        document.cookie = "mapa=" + currentMapLevel + "; expires=Thu, 07 Dec 2017 12:00:00 UTC";
         alert(maps_messages_eng[currentMapLevel]);
-//        map(currentMapLevel);
     }
 }

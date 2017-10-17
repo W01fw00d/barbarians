@@ -43,30 +43,6 @@ AI.prototype.performTurn = function() {
             this.moveSoldierRandom(mob);
         }
     });
-
-    // Randomly reorder towns array
-//    nIterations = Math.round(Math.random() * towns.length);
-//
-//    while (nIterations > 0) {
-//        while (equals) {
-//            equals = false;
-//            randomTown1 = Math.round(Math.random() * (townsLength - 1));
-//            randomTown2 = Math.round(Math.random() * (townsLength - 1));
-//
-//            if (randomTown1 === randomTown2){
-//                equals = true;
-//            }
-//        }
-//
-//        console.log(randomTown1);
-//        console.log(randomTown2);
-//
-//        //        auxTown = towns[randomTown1];
-//        //        towns[randomTown1] = towns[randomTown2];
-//        //        towns[randomTown2] = auxTown;
-//
-//        nIterations--;
-//    }
     
 // Randomly reorder towns array
     towns = this.shuffle(towns);

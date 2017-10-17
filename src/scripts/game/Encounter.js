@@ -1,5 +1,6 @@
-function Encounter(iconTemplates){
+function Encounter(iconTemplates, namesManager){
     this.iconTemplates = iconTemplates;
+    this.namesManager = namesManager;
 }
 
 Encounter.prototype.iconTemplates;
@@ -19,7 +20,7 @@ Encounter.prototype.compareStrengths = function(unit, adversary) {
         results.winner = adversary;
         results.loser = unit;
 
-        // Random winner (50%)
+    // Random winner (50%)
     } else if (unit.strength === adversary.strength) {     
         if (Math.round(Math.random() * 1) === 1) {
             results.winner = unit;
@@ -30,7 +31,7 @@ Encounter.prototype.compareStrengths = function(unit, adversary) {
             results.loser = unit;
         }
 
-        // 25%    
+    // 25%    
     } else if (unit.strength + 1 === adversary.strength) {
         if (Math.round(Math.random() * 3) === 0) {
             results.winner = unit;
@@ -87,21 +88,16 @@ Encounter.prototype.changeIcon = function(unit, winner) {
     switch (unit.player) {
         case 'human':
             if (unit.movements > 0 && winner !== unit){
-//                img = 'SR_del_def';
                 mobTemplate = this.iconTemplates.getHumanMob;
                 
             } else {
-//                img = 'SRUsed_del_def';
                 unit.movements = 0;
                 mobTemplate = this.iconTemplates.getUsedHumanMob;
             } 
             break;
 
         case 'ai':
-//            if (winner && (winner.player === unit.player)) {
-//                img = 'SB_del_def';
-                mobTemplate = this.iconTemplates.getAIMob;
-//            }
+            mobTemplate = this.iconTemplates.getAIMob;
             break;
     }
 
@@ -109,20 +105,8 @@ Encounter.prototype.changeIcon = function(unit, winner) {
     
     // Cal the function within the IconTemplates context, if a function has been chosen
     html = mobTemplate ? mobTemplate.apply(this.iconTemplates, [id, unit.name, unit.movements, unit.strength]) : '';
-        
-//    html = mobTemplate ? mobTemplate(id, unit.name, unit.totalMovements, unit.strength) : '';
-    
-//    html = img ? '<a id="tooltip' + finalCell[0] + '' + finalCell[1] + initialCell[2]
-//        + '" href="#" data-toggle="tooltip" title="[' + unit.name + ']. movements: [' + unit.totalMovements + '], strength: [' + unit.strength + ']">'
-//        + '<img class="icon" id="icon' + finalCell[0] + '' + finalCell[1] + initialCell[2] + '" src="./src/images/board/' + img + '.png"></img></a>' : '';
 
     $('#cell' + unitCell[0] + '' + unitCell[1]).html(html);
-//    $('#cell' + initialCell[0] + '' + initialCell[1]).html('');
-    
-//    $('.cell').off();
-//    $('.icon').click(showIconData);
-//    $('#info').hide();
-//    checkEndOfLevelCondition();
 }
 
 // Calculate the encounter result between a soldier and a soldier, or a soldier and a town; return true if unit wins.
@@ -231,8 +215,8 @@ Encounter.prototype.check = function(unit, players) {
 
                     conqueredUnit = units[conquered];
                     conqueredUnit.player = unit.player;
-                    //TODO -> getRandomName
-                    //                units[conquered].name = getRandomName('Town', unit.player);
+                    
+                    units[conquered].name = this.namesManager.getRandomName('Town', unit.player);
 
                     if (unit.player === 'human'){
                         this.updateConqueredRomanTown(iteration[i], unit, conqueredUnit);
@@ -240,8 +224,6 @@ Encounter.prototype.check = function(unit, players) {
                     } else if (unit.player === 'ai'){
                         this.updateConqueredBarbarianTown(iteration[i], unit, conqueredUnit);
                     }
-                    
-                    
                     
                     // Update units lists
                     players[unit.player].units.towns.push(conqueredUnit);                    
@@ -269,10 +251,10 @@ Encounter.prototype.destroyUnit = function(unit, players) {
     if (unit.player === 'human'){
         audio = new Audio('./src/sounds/scream.mp3');
 
-    }else if (unit.player === 'ai'){
+    } else if (unit.player === 'ai'){
         audio = new Audio('./src/sounds/kill.mp3');
 
-    }else if (unit.player === 'neutral'){
+    } else if (unit.player === 'neutral'){
         audio = new Audio('./src/sounds/wolf_scream.mp3');
     }
 

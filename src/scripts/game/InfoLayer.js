@@ -74,8 +74,6 @@ InfoLayer.prototype.checkUnitInfo = function(event, players) {
 
         // AI barbarian town
         case 'E':
-            console.log(icon);
-            console.log(players.ai.units.towns);
             
             unit = this.findUnit(icon, players.ai.units.towns);
             
@@ -113,9 +111,7 @@ InfoLayer.prototype.checkUnitInfo = function(event, players) {
                 result.mode = 'move';
                 result.unit = unit;
             }
-            
-//            players.human.moveMode(unit);
-            
+                        
             $("#movement").html('Movements left: [' + unit.movements + ']');
             $("#strength").html('Combat strength: [' + unit.strength + '].');
 

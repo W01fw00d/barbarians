@@ -3,7 +3,7 @@ function Player() {
         mobs: [],
         towns: []
     };
-    
+
     this.gold;
 }
 
@@ -27,23 +27,14 @@ Player.prototype.moveSoldier = function(unit, target) {
     //Check how many cells have it move as a total
     movement = Math.abs(initialCell[0] - finalCell[0]) + Math.abs(finalCell[1] - initialCell[1]);
 
-    if ((icon === null) && (movement > 0) && (movement <= unit.movements)
-        /*
-        && ((initialCell[0] - finalCell[0] < unit.movements) || (finalCell[0] - initialCell[0] < unit.movements))
-        && ((initialCell[1] - finalCell[1] < unit.movements) || (finalCell[1] - initialCell[1] < unit.movements))
-        */
-       ){
+    if ((icon === null) && (movement > 0) && (movement <= unit.movements)){
 
         //Move the soldier icon to he selected cell, and calculate movements left 
-
-        //$(unit.cell).css({'background': iconColor, 'border-radius' : iconShape, 'display' : display});
-        //unit.cell = 'icon'+initialCell[2];
-
         unit.cell = 'icon' + finalCell[0] + '' + finalCell[1] + initialCell[2];
         unit.movements -= movement;
-        
+
         result = unit;
-        
+
         $('#cell' + initialCell[0] + '' + initialCell[1]).html('');
 
     } else {
@@ -52,7 +43,7 @@ Player.prototype.moveSoldier = function(unit, target) {
             result = null;
         }
     }
-    
+
     return result;
 }
 
@@ -97,20 +88,14 @@ Player.prototype.upgradeMode = function(unit, upgrade){
 
     cell = unit.cell.replace('icon', '#cell')
     cell = cell.substring(0, cell.length - 1);
-    
+
     if (unit.player === 'human') {
         title = '[' + unit.name + ']. Quantity: [' + unit.stats.quantity + '], Quality: [' + unit.stats.quality + ']';
 
     } else if (unit.player === 'ai') {
         title = '[' + unit.name + ']';
     }
-    
+
     $(cell + ' a').attr('title', title);
-
-//    $(cell).html('<a id="tooltip' + unit.cell.replace('icon','')
-//                 + '" href="#" data-toggle="tooltip" title="' + title + '">'
-//                 + '<img class="icon" id="' + unit.cell + '" src="./src/images/board/' + image + '.png"></img></a>');
-
     $('#info').hide();
-//    $('.icon').click(showIconData);
 }

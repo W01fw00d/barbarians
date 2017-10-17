@@ -21,14 +21,13 @@ function randomMapGenerator(x, A, E, N, a, e, n){
     var plan_random = '';
 
     while (total > 0){
-
         for (i = 0; (i < columnas && total > 0) ; i++){
-
             for (j = 0; (j < filas && total > 0) ; j++){
-
                 plan_random = Math.floor((Math.random() * planes.length));
 
-                if ( (planes[plan_random].num > 0) && comprobarIncompatibilidad(i, j, planes[plan_random].type, blueprint) ){;
+                if ((planes[plan_random].num > 0) && 
+                    comprobarIncompatibilidad(i, j, planes[plan_random].type, blueprint)){
+                    
                     blueprint[i] = blueprint[i].replaceAt(j, planes[plan_random].type);
                     planes[plan_random].num--;
                     total--;

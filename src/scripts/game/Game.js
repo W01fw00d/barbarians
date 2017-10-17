@@ -4,7 +4,7 @@ function Game(startingMapLevel){
     this.iconTemplates = new IconTemplates();
     this.map = new Map(this.mapDesign, this.namesManager, this.iconTemplates);
     this.infoLayer = new InfoLayer();
-    this.encounter = new Encounter(this.iconTemplates);
+    this.encounter = new Encounter(this.iconTemplates, this.namesManager);
     this.levelManager = new LevelManager(this.mapDesign);
     this.turnManager = new TurnManager(this.encounter, this.levelManager, this.namesManager, this.iconTemplates);
 
@@ -63,8 +63,6 @@ Game.prototype.onCellClick = function(event, unit){
     const target = event.target.id;
 
     let newMapLevel;
-    
-    //    targetIcon = target.getElementsByClassName('icon')[0];
 
     //if this cell has an icon and the icon represents unit or town data, show that data instead of moving unit
     if (target.indexOf('icon') !== -1 && this.getUnit(target)) {
@@ -92,21 +90,12 @@ Game.prototype.onCellClick = function(event, unit){
                 this.resetBoardBindings(); 
             }
         }
-
-        //            Player.prototype.moveSoldier.call(this, unit, target);
-        //            this.moveSoldier(unit, target);
     }
 }
 
 // Allows soldier to move while movements left
 Game.prototype.moveMode = function(unit) {
     let target, result;
-    //movements = unit.movements;
-
-    //$('#'+icon).html('<form><input readonly>'+movements+'</input></form>');
-
-    //    $('.cell').off();
-    //movements = movements - $('.cell').click({unit: unit}, moveSoldier).data("result");
 
     $('.cell').one( "click", event => {
         this.onCellClick.call(this, event, unit);
@@ -125,10 +114,6 @@ Game.prototype.moveMode = function(unit) {
             } else {
                 this.resetBoardBindings(); 
             }
-            //            $('.cell').off();
-            //            $('#info').hide();
-            //            $('.icon').off();
-            //            $('.icon').click(showIconData);
         }
     });
 }
@@ -143,26 +128,7 @@ Game.prototype.bindIconClick = function() {
             this.moveMode.call(this, modeToActivate.unit);
 
         } else {
-
-            this.bindIconClick();
-            //            $('.cell').one( "click", event => {
-            //                console.log(event.target);
-            //                
-            ////                if (event.target.className === 'icon' && this.getUnit(event.target.id)) {
-            ////                    event.stopPropagation();
-            ////
-            ////                    let modeToActivate = this.infoLayer.checkUnitInfo(event, this.players);
-            ////
-            ////                    if (modeToActivate.mode === 'move') {
-            ////                        this.moveMode.call(this, modeToActivate.unit);
-            ////                        
-            ////                    } else {
-            ////                        this.bindIconClick();
-            ////                    }
-            ////
-            ////                }
-            //
-            //            });
+            this.bindIconClick();           
         }
     });
 }
@@ -197,9 +163,6 @@ Game.prototype.bindAll = function() {
 
         } else {
             this.resetBoardBindings(); 
-            //                        this.bindIconClick();
         }
     });
-
-    //    $('#end_turn').click(this.players.human.endTurn);
 }
