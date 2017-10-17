@@ -8,16 +8,16 @@ InfoLayer.prototype.updateDataLabels = function(unit) {
 
 InfoLayer.prototype.findUnit = function(icon, units) {
     const unitsLength = units.length;
-    
+
     let unit;
-    
+
     for(i = 0; i < unitsLength; i++){
         if (units[i].cell == icon){
             unit = units[i];
             return unit;
         }
     }
-    
+
     return unit;
 }
 
@@ -36,13 +36,12 @@ InfoLayer.prototype.checkUnitInfo = function(event, players) {
         color,
         unit;
 
-    $('.icon').off();
+    switch(type){
 
-    switch(type){     
-        // Human roman town
+            // Human roman town
         case 'A':
             unit = this.findUnit(icon, players.human.units.towns);
-            
+
             this.updateDataLabels(unit);
 
             $('#quantity_production').html(unit.quantity);
@@ -69,14 +68,14 @@ InfoLayer.prototype.checkUnitInfo = function(event, players) {
             $("#improve_quality").html('Quality ('+unit.stats.qualityUpgradePrice+' Gold)');
             $("#prod").html('Producing ['+unit.stats.quantity+'] soldiers with ['+unit.stats.quality+'] strength each turn. Upgrade: ');
 
-            color = 'red';
+            color = red;
             break;
 
-        // AI barbarian town
+            // AI barbarian town
         case 'E':
-            
+
             unit = this.findUnit(icon, players.ai.units.towns);
-            
+
             this.updateDataLabels(unit);
 
             $('#town_info').hide();
@@ -85,10 +84,10 @@ InfoLayer.prototype.checkUnitInfo = function(event, players) {
             color = blue;
             break;
 
-        // Neutral town
+            // Neutral town
         case 'N':
             unit = this.findUnit(icon, players.neutral.units.towns);
-            
+
             this.updateDataLabels(unit);
 
             $('#town_info').hide();
@@ -97,31 +96,31 @@ InfoLayer.prototype.checkUnitInfo = function(event, players) {
             color = grey;
             break;
 
-        // Human roman soldier (mob)
+            // Human roman soldier (mob)
         case 'a':
             unit = this.findUnit(icon, players.human.units.mobs);
-            
+
             this.updateDataLabels(unit);
 
             $('#town_info').hide();
             $('#soldier_info').show();
             $('#destroy').show();
-            
+
             if (unit.movements) {
                 result.mode = 'move';
                 result.unit = unit;
             }
-                        
+
             $("#movement").html('Movements left: [' + unit.movements + ']');
             $("#strength").html('Combat strength: [' + unit.strength + '].');
 
             color = red;
             break;
 
-        // Ai barbarian soldier (mob)
+            // Ai barbarian soldier (mob)
         case 'e':
             unit = this.findUnit(icon, players.ai.units.mobs);
-            
+
             this.updateDataLabels(unit);
 
             $('#town_info').hide();
@@ -134,16 +133,18 @@ InfoLayer.prototype.checkUnitInfo = function(event, players) {
             color = blue;
             break;
 
-        // Neutral wolf (mob)
+            // Neutral wolf (mob)
         case 'n':
             unit = this.findUnit(icon, players.neutral.units.mobs);
-            
+
             const move_message_eng = 'They protect their territory',
                   move_message_spa = 'Prefiere defender su territorio',
                   strength_message_eng = 'Can devour an undertrained human',
                   strength_message_spa = 'Puede devorar a alguien con poco entrenamiento';
-            
+
             this.updateDataLabels(unit);
+
+            updateDataLabels(unit);
 
             $('#town_info').hide();
             $('#soldier_info').show();
@@ -158,6 +159,26 @@ InfoLayer.prototype.checkUnitInfo = function(event, players) {
 
     $('#info').css({'background' : color});
     $('#info').show();
-    
+
     return result;
+}
+
+//
+function destroyUnit(unit){
+    $('#cell' + unit.cell.replace('icon','').replace('a', '').replace('e', '').replace('n','')).html('');
+    units.splice(units.indexOf(unit), 1);
+
+    let audio;
+
+    if (unit.player === 'Roman'){
+        audio = new Audio('./src/sounds/scream.mp3');
+
+    }else if (unit.player === 'Barbarian'){
+        audio = new Audio('./src/sounds/kill.mp3');
+
+    }else if (unit.player === 'Neutral'){
+        audio = new Audio('./src/sounds/wolf_scream.mp3');
+    }
+
+    audio.play();
 }
