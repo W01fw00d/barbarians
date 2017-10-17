@@ -29,7 +29,7 @@ AI.prototype.shuffle = function(array) {
 
 // Performs the AI enemy turn: it behaves quite randomly for now
 AI.prototype.performTurn = function() {
-    let towns = this.units.towns.splice(),
+    let towns = this.units.towns,
         townsLength = towns.length,
         equals = true,
         nIterations,

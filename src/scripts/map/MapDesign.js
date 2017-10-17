@@ -30,6 +30,7 @@ OTHERS (NOT IMPLEMENTED YET)
 
 */
 MapDesign.prototype.blueprints = [
+    // 0. Blank template
     [
         "        ",
         "        ",
@@ -41,6 +42,7 @@ MapDesign.prototype.blueprints = [
         "        "
     ],
 
+    // 1. Fair start
     [
         "ID n  ID",
         "xA    Nx",
@@ -52,6 +54,7 @@ MapDesign.prototype.blueprints = [
         "IXD  nID"
     ],
 
+    // 2. Surrounded my mountains (easy)
     [
         "ID IXXXD",
         "x IXXD x",
@@ -63,9 +66,10 @@ MapDesign.prototype.blueprints = [
         "IXXXDeID"
     ],
 
+    // 3. Conquer fast
     [
-        "IXD IXXD",
-        "xaaaaaax",
+        "IXD AIXD",
+        "x aaaa x",
         "x      x",
         "x      x",
         "x   N  x",
@@ -74,6 +78,7 @@ MapDesign.prototype.blueprints = [
         "IXXDeIXD"
     ],
 
+    // 4. Snake mountains (hard and long)
     [
         "ID IXXXD",
         "xAa    x",
@@ -85,6 +90,7 @@ MapDesign.prototype.blueprints = [
         "IXXXXXXD"
     ],
 
+    // 5. Surrounded by foes
     [
         "xeee VID",
         "V e e eV",
@@ -96,6 +102,7 @@ MapDesign.prototype.blueprints = [
         "n Ve eeV"
     ],
 
+    // 6. Unfair match
     [
         "IXXXXXXD",
         "x E V   ",
@@ -107,6 +114,7 @@ MapDesign.prototype.blueprints = [
         "IXXXXXXD"
     ],
 
+    // 7. Wolves!
     [
         "V     AV",
         "  VE   V",
@@ -118,6 +126,7 @@ MapDesign.prototype.blueprints = [
         "VVV VE V"
     ],
 
+    // 8. Surrounded by mountains and foes (hard)
     [
         "IXDN IXD",
         "ID   e x",
@@ -129,19 +138,21 @@ MapDesign.prototype.blueprints = [
         "IDNIXXXD"
     ],
 
+    // 9. The Nature Wall
     [
         "V  a   n",
-        " N   nV ",
-        "    nNn ",
-        "VVVV    ",
-        "  n eeE ",
+        "     nV ",
+        "N   nAn ",
+        "VnVV    ",
+        "  n e E ",
         "x   E e ",
         "IDn eeE ",
         "IXD    V"
     ],
 
+    // 10. The Final Fight
     [
-        "IXXXXXDn",
+        "IXXXXXDA",
         "xe EEVID",
         "x e ee x",
         "nVe   ee",
@@ -149,5 +160,31 @@ MapDesign.prototype.blueprints = [
         "aaaaaaaa",
         "a  aa  a",
         "aaaaaaaa"
-    ]
+    ],
+    
+    // TEST MAPS
+    
+    // 11. Test1
+    [
+        " x      ",
+        "        ",
+        "        ",
+        "   eEn  ",
+        "        ",
+        "  aaaa  ",
+        "a A  N a",
+        "        "
+    ],
+
+    // 12. Test2
+    [
+        " xx     ",
+        "        ",
+        "        ",
+        "   ee   ",
+        "        ",
+        "  aaaa  ",
+        "a A  N a",
+        "        "
+    ],
 ];

@@ -10,13 +10,13 @@ NamesManager.prototype.getRandomName = function(type, faction) {
 
     switch(type){
         case 'Soldier':
-            names = faction === 'Roman' ? 
+            names = faction === 'human' ? 
                 this.unitNames.romanSoldierNames : this.unitNames.barbarianSoldierNames;
 
             break;
 
         case 'Town':
-            names = faction === 'Roman' ? 
+            names = faction === 'human' ? 
                 this.unitNames.romanTownNames : this.unitNames.barbarianTownNames;
 
             break;

@@ -1,6 +1,12 @@
-function LevelManager(){}
+function LevelManager(mapDesign){
+    this.mapDesign = mapDesign;
+}
+
+LevelManager.prototype.mapDesign;
 
 LevelManager.prototype.getDeadFaction = function(players) {
+    console.log(players);
+    
     let deadFaction;
 
     const humanMobsAlive = players.human.units.mobs.length,
@@ -81,7 +87,7 @@ LevelManager.prototype.showNextMapMsg = function(currentMapLevel) {
 
           win_message_spa = '¡Felicidades, has completado el juego! Esos bárbaros no volverán a amenazar la bella Roma... ¿O tal vez ésto solo sea el principio?';
 
-    if (currentMapLevel >= MapDesign.blueprints.length){
+    if (currentMapLevel >= this.mapDesign.blueprints.length){
         alert(win_message_eng);
         //        document.cookie = "mapa=" + 1 + "; expires=Thu, 07 Dec 2017 12:00:00 UTC";
         // Restart game

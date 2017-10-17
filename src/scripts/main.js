@@ -1,5 +1,5 @@
 function init() {
-    // You can set here a different starting level, for testing purposes
+    // You can set here a different starting level, for testing purposes (1 - 12)
     const game = new Game(1);
 }
 

@@ -40,9 +40,9 @@ TurnManager.prototype.generateSoldiers = function(player, players){
 
         iterations.some((iteration, iterationsIndex) => {
             if ($(iteration + ' img').attr('id') === undefined){
-                emptyCell = iteration.replace('#cell','').split("");
+                emptyCell = iteration.replace('#cell', '').split("");
 
-                randomName = this.namesManager.getRandomName('Soldier', player);
+                randomName = this.namesManager.getRandomName('Soldier', player.name);
                 
                 if (player.name === 'human'){
                     annotation = 'a';
@@ -65,7 +65,7 @@ TurnManager.prototype.generateSoldiers = function(player, players){
 //                                     + '<img class="icon" id="' + id + '" src="./src/images/board/' + image + '.png"></img></a>');
 
                 mobs.push(
-                    {cell: id, player: player, type: 'Soldier', name: randomName, movements: movements, totalMovements: movements, strength: quality});
+                    {cell: id, player: player.name, type: 'Soldier', name: randomName, movements: movements, totalMovements: movements, strength: quality});
 
                 // Resolve possible encounters when this unit appears besides other enemy unit
                 this.encounter.check(mobs[mobs.length - 1], players);
@@ -170,7 +170,7 @@ TurnManager.prototype.endTurn = function(currentMapLevel, players){
     
     this.generateSoldiers(players.human, players);
     players.ai.performTurn();
-
+    
     this.generateSoldiers(players.ai, players);
     players.human.setGold(players.human.gold + 3);
     players.ai.gold += 3;
@@ -192,7 +192,6 @@ TurnManager.prototype.endTurn = function(currentMapLevel, players){
         
         id = mob.cell.replace('icon', '');
         
-
         // If it's a Roman Soldier, colour it in order to indicate that it can move again 
         $('#cell' + id[0] + id[1]).html(this.iconTemplates.getHumanMob(id, mob.name, mob.movements, mob.strength));
     });

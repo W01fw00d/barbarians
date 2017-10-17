@@ -12,43 +12,43 @@ Encounter.prototype.compareStrengths = function(unit, adversary) {
 
     // 100% win
     if (unit.strength > adversary.strength + 1) {
-        winner = unit;
-        loser = adversary;
+        results.winner = unit;
+        results.loser = adversary;
 
     } else if (unit.strength + 1 < adversary.strength) {
-        winner = adversary;
-        loser = unit;
+        results.winner = adversary;
+        results.loser = unit;
 
         // Random winner (50%)
     } else if (unit.strength === adversary.strength) {     
         if (Math.round(Math.random() * 1) === 1) {
-            winner = unit;
-            loser = adversary;
+            results.winner = unit;
+            results.loser = adversary;
 
         } else {
-            winner = adversary;
-            loser = unit;
+            results.winner = adversary;
+            results.loser = unit;
         }
 
         // 25%    
     } else if (unit.strength + 1 === adversary.strength) {
         if (Math.round(Math.random() * 3) === 0) {
-            winner = unit;
-            loser = adversary;
+            results.winner = unit;
+            results.loser = adversary;
 
         } else {
-            winner = adversary;
-            loser = unit;
+            results.winner = adversary;
+            results.loser = unit;
         }
 
     } else if (unit.strength === adversary.strength + 1){
         if (Math.round(Math.random() * 3) !== 0) {
-            winner = unit;
-            loser = adversary;
+            results.winner = unit;
+            results.loser = adversary;
 
         } else {
-            winner = adversary;
-            loser = unit;
+            results.winner = adversary;
+            results.loser = unit;
         }
     }
 
@@ -179,7 +179,6 @@ Encounter.prototype.check = function(unit, players) {
 
                 // Find adversary
                 for (j = 0; j < unitsLength; j++){
-                    //console.log(units[j].cell.replace('icon', '').replace('a', '').replace('e','') + ' ===??? ' + iteration[i].replace('#cell', ''));
                     if (units[j].cell.replace('icon', '').replace('a', '').replace('e','').replace('n','') === iteration[i].replace('#cell', '')) {
                         adversary = units[j];
                         break;
@@ -188,7 +187,7 @@ Encounter.prototype.check = function(unit, players) {
 
                 combatResults = this.compareStrengths(unit, adversary);
 
-                this.destroyUnit(combatResults.loser);
+                this.destroyUnit(combatResults.loser, players);
 
                 // Loot for killing soldiers
                 if (combatResults.winner.player === 'human' && combatResults.loser.player === 'ai'){
@@ -242,10 +241,12 @@ Encounter.prototype.check = function(unit, players) {
                         this.updateConqueredBarbarianTown(iteration[i], unit, conqueredUnit);
                     }
                     
+                    
+                    
                     // Update units lists
                     players[unit.player].units.towns.push(conqueredUnit);                    
                     players[townsAnnotationCorralation[typeOfCollindantUnit]].units.towns = units.filter(unit => {
-                        return unit.player === "neutral";
+                        return unit.player === townsAnnotationCorralation[typeOfCollindantUnit];
                     });
                 }
             }

@@ -1,4 +1,5 @@
-function Map(namesManager, iconTemplates) {
+function Map(mapDesign, namesManager, iconTemplates) {
+    this.mapDesign = mapDesign;
     this.namesManager = namesManager;
     this.iconTemplates = iconTemplates;
 }
@@ -7,7 +8,7 @@ Map.prototype.namesManager;
 
 // Generates a map using the desing array as input
 Map.prototype.generate = function(level, players) {
-    const designArray = new MapDesign().blueprints[level], 
+    const designArray = this.mapDesign.blueprints[level], 
           designArrayLength = designArray.length,
           imageRoute = './src/images/board/',
           iconTagClosing = '.png"></img>';
@@ -34,7 +35,7 @@ Map.prototype.generate = function(level, players) {
 
         for (j = 0; j < row_length; j++) {
             cell = designArray[i].charAt(j);
-            icon = '<img id="icon' + i + j + cell + '" src="' + imageRoute;
+            icon = '<img id="obstacle' + i + j + cell + '" src="' + imageRoute;
             id = i + '' + j + cell;
             display = 'block';
 

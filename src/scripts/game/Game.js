@@ -1,10 +1,11 @@
 function Game(startingMapLevel){
+    this.mapDesign = new MapDesign();
     this.namesManager = new NamesManager();
     this.iconTemplates = new IconTemplates();
-    this.map = new Map(this.namesManager, this.iconTemplates);
+    this.map = new Map(this.mapDesign, this.namesManager, this.iconTemplates);
     this.infoLayer = new InfoLayer();
     this.encounter = new Encounter(this.iconTemplates);
-    this.levelManager = new LevelManager();
+    this.levelManager = new LevelManager(this.mapDesign);
     this.turnManager = new TurnManager(this.encounter, this.levelManager, this.namesManager, this.iconTemplates);
 
     this.players = {
@@ -16,7 +17,7 @@ function Game(startingMapLevel){
     this.currentMapLevel = startingMapLevel;
 
     this.map.generate(this.currentMapLevel, this.players);
-    
+
     this.bindIconClick();
     this.bindAll();
 
@@ -37,7 +38,7 @@ Game.prototype.turnManager;
 Game.prototype.encounter;
 Game.prototype.players;
 
-Game.prototype.getUnit = function(icon) {
+Game.prototype.getUnit = function(icon) {    
     const unitsAnnotationCorralation = {
         e: ['ai', 'mobs'],
         E: ['ai', 'towns'],
@@ -62,12 +63,12 @@ Game.prototype.onCellClick = function(event, unit){
     const target = event.target.id;
 
     let newMapLevel;
-
-//    targetIcon = target.getElementsByClassName('icon')[0];
+    
+    //    targetIcon = target.getElementsByClassName('icon')[0];
 
     //if this cell has an icon and the icon represents unit or town data, show that data instead of moving unit
     if (target.indexOf('icon') !== -1 && this.getUnit(target)) {
-//        showIconData.apply(targetIcon);
+        //        showIconData.apply(targetIcon);
         event.stopPropagation();
 
         let modeToActivate = this.infoLayer.checkUnitInfo(event, this.players);
@@ -140,6 +141,28 @@ Game.prototype.bindIconClick = function() {
 
         if (modeToActivate.mode === 'move') {
             this.moveMode.call(this, modeToActivate.unit);
+
+        } else {
+
+            this.bindIconClick();
+            //            $('.cell').one( "click", event => {
+            //                console.log(event.target);
+            //                
+            ////                if (event.target.className === 'icon' && this.getUnit(event.target.id)) {
+            ////                    event.stopPropagation();
+            ////
+            ////                    let modeToActivate = this.infoLayer.checkUnitInfo(event, this.players);
+            ////
+            ////                    if (modeToActivate.mode === 'move') {
+            ////                        this.moveMode.call(this, modeToActivate.unit);
+            ////                        
+            ////                    } else {
+            ////                        this.bindIconClick();
+            ////                    }
+            ////
+            ////                }
+            //
+            //            });
         }
     });
 }
