@@ -14,6 +14,8 @@ Greetings:
 
 To try it, just open the main.html file with your browser :)
 
+To launch the Jasmine unit tests, just open SpecRunner.html (plase check that all tests are green before launching a pull request ;) )
+
 [How to contribute](https://github.com/MarcDiethelm/contributing/blob/master/README.md) 
 
 Contributors:
