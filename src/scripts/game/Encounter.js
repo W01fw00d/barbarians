@@ -20,7 +20,7 @@ Encounter.prototype.compareStrengths = function(unit, adversary) {
         results.winner = adversary;
         results.loser = unit;
 
-    // Random winner (50%)
+        // Random winner (50%)
     } else if (unit.strength === adversary.strength) {     
         if (Math.round(Math.random() * 1) === 1) {
             results.winner = unit;
@@ -31,7 +31,7 @@ Encounter.prototype.compareStrengths = function(unit, adversary) {
             results.loser = unit;
         }
 
-    // 25%    
+        // 25%    
     } else if (unit.strength + 1 === adversary.strength) {
         if (Math.round(Math.random() * 3) === 0) {
             results.winner = unit;
@@ -83,13 +83,13 @@ Encounter.prototype.changeIcon = function(unit, winner) {
 
     let html, id, mobTemplate;
 
-//    unit.movements = (result !== 'none') ? 0 : unit.movements - movement;
+    //    unit.movements = (result !== 'none') ? 0 : unit.movements - movement;
 
     switch (unit.player) {
         case 'human':
             if (unit.movements > 0 && winner !== unit){
                 mobTemplate = this.iconTemplates.getHumanMob;
-                
+
             } else {
                 unit.movements = 0;
                 mobTemplate = this.iconTemplates.getUsedHumanMob;
@@ -97,12 +97,13 @@ Encounter.prototype.changeIcon = function(unit, winner) {
             break;
 
         case 'ai':
+            unit.movements = 1;
             mobTemplate = this.iconTemplates.getAIMob;
             break;
-    }
+                       }
 
     id = unitCell[0] + '' + unitCell[1] + unitCell[2];
-    
+
     // Cal the function within the IconTemplates context, if a function has been chosen
     html = mobTemplate ? mobTemplate.apply(this.iconTemplates, [id, unit.name, unit.movements, unit.strength]) : '';
 
@@ -215,16 +216,17 @@ Encounter.prototype.check = function(unit, players) {
 
                     conqueredUnit = units[conquered];
                     conqueredUnit.player = unit.player;
-                    
-                    units[conquered].name = this.namesManager.getRandomName('Town', unit.player);
+                    conqueredUnit.factionTag = unit.factionTag;
+
+                    units[conquered].name = this.namesManager.getRandomName('town', unit.player);
 
                     if (unit.player === 'human'){
                         this.updateConqueredRomanTown(iteration[i], unit, conqueredUnit);
-                        
+
                     } else if (unit.player === 'ai'){
                         this.updateConqueredBarbarianTown(iteration[i], unit, conqueredUnit);
                     }
-                    
+
                     // Update units lists
                     players[unit.player].units.towns.push(conqueredUnit);                    
                     players[townsAnnotationCorralation[typeOfCollindantUnit]].units.towns = units.filter(unit => {
@@ -234,7 +236,7 @@ Encounter.prototype.check = function(unit, players) {
             }
         }
     }
-    
+
     if (combatResults.loser !== unit){
         this.changeIcon(unit, combatResults.winner);
     }
@@ -242,21 +244,21 @@ Encounter.prototype.check = function(unit, players) {
 
 Encounter.prototype.destroyUnit = function(unit, players) {
     $('#cell' + unit.cell.replace('icon','').replace('a', '').replace('e', '').replace('n','')).html('');
-    
+
     units = players[unit.player].units.mobs;
     units.splice(units.indexOf(unit), 1);
 
-    let audio;
+    let soundFile;
 
     if (unit.player === 'human'){
-        audio = new Audio('./src/sounds/scream.mp3');
+        soundFile = 'scream';
 
     } else if (unit.player === 'ai'){
-        audio = new Audio('./src/sounds/kill.mp3');
+        soundFile = 'kill';
 
     } else if (unit.player === 'neutral'){
-        audio = new Audio('./src/sounds/wolf_scream.mp3');
+        soundFile = 'wolf_scream';
     }
 
-    audio.play();
+    new Audio('./src/sounds/' + soundFile + '.mp3').play();
 }

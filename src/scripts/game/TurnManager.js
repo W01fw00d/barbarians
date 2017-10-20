@@ -7,7 +7,7 @@ function TurnManager(encounter, levelManager, namesManager, iconTemplates) {
 
 // Iterates through towns array and, if possible, generate soldiers equals to the quantity variable; with strength equals to quality variable
 TurnManager.prototype.generateSoldiers = function(player, players){
-    let quantity, quality, cell, emptyCell, annotation, movements, image, iterations, html, mobTemplate,
+    let quantity, quality, cell, emptyCell, annotation, movements, image, iterations, html, mobTemplate, typeTag, factionTag,
         towns = player.units.towns,
         mobs = player.units.mobs;
 
@@ -42,16 +42,20 @@ TurnManager.prototype.generateSoldiers = function(player, players){
             if ($(iteration + ' img').attr('id') === undefined){
                 emptyCell = iteration.replace('#cell', '').split("");
 
-                randomName = this.namesManager.getRandomName('Soldier', player.name);
+                randomName = this.namesManager.getRandomName('mob', player.name);
 
                 if (player.name === 'human'){
                     annotation = 'a';
                     movements = 2;
+                    typeTag = 'Soldier';
+                    factionTag = 'Roman';
                     mobTemplate = this.iconTemplates.getHumanMob;
 
                 } else if (player.name === 'ai'){
                     annotation = 'e';
                     movements = 1;
+                    typeTag = 'Soldier';
+                    factionTag = 'Barbarian';
                     mobTemplate = this.iconTemplates.getAIMob;
                 }
 
@@ -60,7 +64,7 @@ TurnManager.prototype.generateSoldiers = function(player, players){
                 $(iteration[iterationsIndex]).html(mobTemplate.apply(this.iconTemplates, [id, randomName, movements, town.stats.quality]));
 
                 mobs.push(
-                    {cell: id, player: player.name, type: 'Soldier', name: randomName, movements: movements, totalMovements: movements, strength: quality});
+                    {cell: id, player: player.name, name: randomName, movements: movements, totalMovements: movements, strength: quality, typeTag: typeTag, factionTag: factionTag});
 
                 // Resolve possible encounters when this unit appears besides other enemy unit
                 this.encounter.check(mobs[mobs.length - 1], players);

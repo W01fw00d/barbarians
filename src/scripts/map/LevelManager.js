@@ -4,6 +4,10 @@ function LevelManager(mapDesign){
 
 LevelManager.prototype.mapDesign;
 
+LevelManager.prototype.resetGame = function() {
+    location.reload();
+}
+
 LevelManager.prototype.getDeadFaction = function(players) {
     let deadFaction;
 
@@ -63,7 +67,9 @@ LevelManager.prototype.showNextMapMsg = function(currentMapLevel) {
         'While our troops were in the valley, a giant wolf pack is causing chaos on nearby towns, lured by blood!',
         'Those Barbarians sure know how to ambush people on the mountains... but they\'ll never overcome the iron discipline of the Roman army!',
         'Finally... you arrive to the main Barbarian camp... but you are all alone. Regroup and finish the enemy!',
-        'Rome reinforcements are here! Time to finish with the lasts of the Barbarians... For Rome!'
+        'Rome reinforcements are here! Time to finish with the lasts of the Barbarians... For Rome!',
+        'test1',
+        'test2'
     ],
 
           maps_messages_spa = [
@@ -87,7 +93,7 @@ LevelManager.prototype.showNextMapMsg = function(currentMapLevel) {
     if (currentMapLevel >= this.mapDesign.blueprints.length){
         alert(win_message_eng);
         // Restart game
-        location.reload();
+        this.resetGame();
 
     } else {
         alert(maps_messages_eng[currentMapLevel]);
