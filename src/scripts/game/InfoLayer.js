@@ -1,8 +1,8 @@
 function InfoLayer() {}
 
 InfoLayer.prototype.updateDataLabels = function(unit) {
-    $('#player').val(unit.player);
-    $('#type').val(unit.type);
+    $('#player').val(unit.factionTag);
+    $('#type').val(unit.typeTag);
     $('#name').val(unit.name);
 };
 
@@ -143,8 +143,6 @@ InfoLayer.prototype.checkUnitInfo = function(event, players) {
                   strength_message_spa = 'Puede devorar a alguien con poco entrenamiento';
 
             this.updateDataLabels(unit);
-
-            updateDataLabels(unit);
 
             $('#town_info').hide();
             $('#soldier_info').show();
