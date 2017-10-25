@@ -18,6 +18,8 @@ function Game(startingMapLevel){
 
     this.map.generate(this.currentMapLevel, this.players);
 
+    this.soundManager = new SoundManager();
+
     this.bindIconClick();
     this.bindAll();
 
@@ -38,7 +40,7 @@ Game.prototype.turnManager;
 Game.prototype.encounter;
 Game.prototype.players;
 
-Game.prototype.getUnit = function(icon) {    
+Game.prototype.getUnit = function(icon) {
     const unitsAnnotationCorralation = {
         e: ['ai', 'mobs'],
         E: ['ai', 'towns'],
@@ -59,7 +61,7 @@ Game.prototype.getUnit = function(icon) {
     }
 }
 
-Game.prototype.onCellClick = function(event, unit){ 
+Game.prototype.onCellClick = function(event, unit){
     const target = event.target.id;
 
     let newMapLevel;
@@ -87,7 +89,7 @@ Game.prototype.onCellClick = function(event, unit){
                 this.map.generate(this.currentMapLevel, this.players);
 
             } else {
-                this.resetBoardBindings(); 
+                this.resetBoardBindings();
             }
         }
     }
@@ -112,7 +114,7 @@ Game.prototype.moveMode = function(unit) {
                 this.map.generate(this.currentMapLevel, this.players);
 
             } else {
-                this.resetBoardBindings(); 
+                this.resetBoardBindings();
             }
         }
     });
@@ -128,7 +130,7 @@ Game.prototype.bindIconClick = function() {
             this.moveMode.call(this, modeToActivate.unit);
 
         } else {
-            this.bindIconClick();           
+            this.bindIconClick();
         }
     });
 }
@@ -162,7 +164,18 @@ Game.prototype.bindAll = function() {
             this.map.generate(this.currentMapLevel, this.players);
 
         } else {
-            this.resetBoardBindings(); 
+            this.resetBoardBindings();
         }
     });
+
+    $('#mute_sound').click(function(evt){
+        if(!this.soundManager.isMuted()) {
+            evt.target.innerHTML = 'Unmute';
+            this.soundManager.mute();
+        }
+        else {
+          evt.target.innerHTML = 'Mute';
+          this.soundManager.unmute();
+        }
+    }.bind(this));
 }

@@ -9,7 +9,8 @@
     <body>
         <div class="container">
             <div class="control-bar padding-sm margin-top-md row">
-                <audio id="music-bar" class="music-control-bar control-bar-col col-sm-4" src="src/sounds/music.mp3" controls loop></audio>
+                <audio id="music-bar" class="music-control-bar control-bar-col col-sm-4" src="src/sounds/music.mp3" loop></audio>
+                <button type="button" id="mute_sound" class="control-bar-col col-sm-1">Mute</button>
                 <div class="control-bar-col col-sm-2">
                     <span class="gold-label">Gold: </span><input id="gold" class="gold-marker" value="1" type="text" readonly></input>
             </div>
@@ -76,6 +77,7 @@
 <script type="text/javascript" src="src/scripts/game/InfoLayer.js"></script>
 <script type="text/javascript" src="src/scripts/game/Encounter.js"></script>
 <script type="text/javascript" src="src/scripts/game/TurnManager.js"></script>
+<script type="text/javascript" src="src/scripts/game/SoundManager.js"></script>
 
 <script type="text/javascript" src="src/scripts/players/Player.js"></script>
 <script type="text/javascript" src="src/scripts/players/AI.js"></script>
