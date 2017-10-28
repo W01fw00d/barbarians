@@ -1,4 +1,6 @@
-function InfoLayer() {}
+function InfoLayer(soundManager) {
+    this.soundManager = soundManager;
+}
 
 InfoLayer.prototype.updateDataLabels = function(unit) {
     $('#player').val(unit.factionTag);
@@ -166,17 +168,17 @@ function destroyUnit(unit){
     $('#cell' + unit.cell.replace('icon','').replace('a', '').replace('e', '').replace('n','')).html('');
     units.splice(units.indexOf(unit), 1);
 
-    let audio;
+    let soundFile;
 
     if (unit.player === 'Roman'){
-        audio = new Audio('./src/sounds/scream.mp3');
+        soundFile = './src/sounds/scream.mp3';
 
     }else if (unit.player === 'Barbarian'){
-        audio = new Audio('./src/sounds/kill.mp3');
+        soundFile = './src/sounds/kill.mp3';
 
     }else if (unit.player === 'Neutral'){
-        audio = new Audio('./src/sounds/wolf_scream.mp3');
+        soundFile = './src/sounds/wolf_scream.mp3';
     }
 
-    audio.play();
+    this.soundManager.sfx.play(soundFile);
 }

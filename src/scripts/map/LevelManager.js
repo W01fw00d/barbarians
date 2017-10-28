@@ -1,5 +1,6 @@
-function LevelManager(mapDesign){
+function LevelManager(mapDesign, soundManager){
     this.mapDesign = mapDesign;
+    this.soundManager = soundManager;
 }
 
 LevelManager.prototype.mapDesign;
@@ -26,7 +27,7 @@ LevelManager.prototype.getDeadFaction = function(players) {
 }
 
 LevelManager.prototype.announceEndOfLevel = function(audioFile, alertMessage) {
-    new Audio('./src/sounds/' + audioFile + '.mp3').play();
+    this.soundManager.sfx.play(audioFile);
     alert(alertMessage);
 }
 
@@ -39,7 +40,7 @@ LevelManager.prototype.checkEndOfLevelCondition = function(currentMapLevel, play
 
           deadFaction = this.getDeadFaction(players);
 
-    // Player have to destroy all barbarians soldiers and towns. AI wins just by killing all roman soldiers. 
+    // Player have to destroy all barbarians soldiers and towns. AI wins just by killing all roman soldiers.
     if (deadFaction === 'human') {
         this.announceEndOfLevel('defeat', defeat_message_eng);
 
@@ -84,7 +85,7 @@ LevelManager.prototype.showNextMapMsg = function(currentMapLevel) {
               'Estos bárbaros son buenos tendiendo emboscadas en las montañas... ¡Pero nunca vencerán a la férrea disciplina del ejército Romano!',
               'Al fin... has llegado al campamento principal de los Bárbaros... aunque solo quedas tú. ¡Reúne fuerzas y acaba con ellos!',
               '¡Han llegado los refuerzos que Roma prometió...! Es hora de terminar con los últimos supervivientes bárbaros... ¡Por Roma!'
-          ],  
+          ],
 
           win_message_eng = 'Congratulations, you completed the game! Those Barbarians won\'t be a threat for our beloved Rome anymore... right?',
 

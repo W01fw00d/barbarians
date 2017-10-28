@@ -1,6 +1,7 @@
-function Encounter(iconTemplates, namesManager){
+function Encounter(iconTemplates, namesManager, soundManager){
     this.iconTemplates = iconTemplates;
     this.namesManager = namesManager;
+    this.soundManager = soundManager;
 }
 
 Encounter.prototype.iconTemplates;
@@ -21,7 +22,7 @@ Encounter.prototype.compareStrengths = function(unit, adversary) {
         results.loser = unit;
 
         // Random winner (50%)
-    } else if (unit.strength === adversary.strength) {     
+    } else if (unit.strength === adversary.strength) {
         if (Math.round(Math.random() * 1) === 1) {
             results.winner = unit;
             results.loser = adversary;
@@ -31,7 +32,7 @@ Encounter.prototype.compareStrengths = function(unit, adversary) {
             results.loser = unit;
         }
 
-        // 25%    
+        // 25%
     } else if (unit.strength + 1 === adversary.strength) {
         if (Math.round(Math.random() * 3) === 0) {
             results.winner = unit;
@@ -75,7 +76,7 @@ Encounter.prototype.updateConqueredTown = function(iteration, unit, conqueredUni
 
     conqueredUnit.cell = conqueredUnit.cell.replaceAt(conqueredUnit.cell.length - 1, annotation);
 
-    new Audio('./src/sounds/' + audio + '.mp3').play();
+    this.soundManager.sfx.play(audio);
 }
 
 Encounter.prototype.changeIcon = function(unit, winner) {
@@ -93,7 +94,7 @@ Encounter.prototype.changeIcon = function(unit, winner) {
             } else {
                 unit.movements = 0;
                 mobTemplate = this.iconTemplates.getUsedHumanMob;
-            } 
+            }
             break;
 
         case 'ai':
@@ -192,7 +193,7 @@ Encounter.prototype.check = function(unit, players) {
 
     // If unit is still alive, it can conquest towns
     if (combatResults.loser !== unit) {
-        // A soldier can only conquest one town each turn 
+        // A soldier can only conquest one town each turn
         for (i = 0; i < iterationLength && !conquered; i++){
             cellId = $(iteration[i]+' a img').attr('id');
 
@@ -201,12 +202,12 @@ Encounter.prototype.check = function(unit, players) {
 
                 if (((typeOfCollindantUnit === 'E') && (unit.player === 'human'))
                     || ((typeOfCollindantUnit === 'A') && (unit.player === 'ai'))
-                    || (typeOfCollindantUnit === 'N')) {    
+                    || (typeOfCollindantUnit === 'N')) {
 
                     units = players[townsAnnotationCorralation[typeOfCollindantUnit]].units.towns;
                     unitsLength = units.length;
 
-                    // Find target unit in array 
+                    // Find target unit in array
                     for (j = 0; j < unitsLength; j++){
                         if (units[j].cell === ($(iteration[i]+' img').attr('id'))) {
                             conquered = j;
@@ -228,7 +229,7 @@ Encounter.prototype.check = function(unit, players) {
                     }
 
                     // Update units lists
-                    players[unit.player].units.towns.push(conqueredUnit);                    
+                    players[unit.player].units.towns.push(conqueredUnit);
                     players[townsAnnotationCorralation[typeOfCollindantUnit]].units.towns = units.filter(unit => {
                         return unit.player === townsAnnotationCorralation[typeOfCollindantUnit];
                     });
@@ -260,5 +261,5 @@ Encounter.prototype.destroyUnit = function(unit, players) {
         soundFile = 'wolf_scream';
     }
 
-    new Audio('./src/sounds/' + soundFile + '.mp3').play();
+    this.soundManager.sfx.play(soundFile);
 }
