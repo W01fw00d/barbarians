@@ -15,7 +15,7 @@ Map.prototype.getTownObject = function(id, player, name, typeTag, factionTag) {
     return result;
 }
 
-Map.prototype.getMobObject = function(id, player, name, movements, strength, typeTag, factionTag) {    
+Map.prototype.getMobObject = function(id, player, name, movements, strength, typeTag, factionTag) {
     let result = this.getUnitObject(id, player, name, typeTag, factionTag);
     result.totalMovements = movements;
     result.movements = movements;
@@ -33,11 +33,11 @@ Map.prototype.generateCell = function(players, cell, rowIndex, columnIndex) {
           imageRoute = './src/images/board/',
           iconTagClosing = '.png"></img>',
           ground = 'H_def.png';
-    
+
     let display = 'block',
         icon = '<img id="obstacle' + id + '" src="' + imageRoute,
         randomName;
-        
+
     switch (cell) {
         case ' ':
             display = 'none';
@@ -65,7 +65,7 @@ Map.prototype.generateCell = function(players, cell, rowIndex, columnIndex) {
             break;
 
         case 'N':
-            units = players.neutral.units.towns; 
+            units = players.neutral.units.towns;
             units.push(this.getTownObject(id, 'neutral', 'Free Town', 'Town', 'Nature'));
             icon = this.iconTemplates.getNeutralTown(id);
             break;
@@ -99,7 +99,7 @@ Map.prototype.generateCell = function(players, cell, rowIndex, columnIndex) {
 
         case 'e':
             randomName = this.namesManager.getRandomName('mob', 'ai');
-            units = players.ai.units.mobs; 
+            units = players.ai.units.mobs;
             units.push(this.getMobObject(id, 'ai', randomName, 1, 1, 'Soldier', 'Barbarian'));
             icon = this.iconTemplates.getStarterAIMob(id, randomName);
             break;
@@ -117,11 +117,11 @@ Map.prototype.generateCell = function(players, cell, rowIndex, columnIndex) {
 
 // Generates a map using the desing array as input
 Map.prototype.generate = function(level, players) {
-    const designArray = this.mapDesign.blueprints[level], 
+    const designArray = this.mapDesign.blueprints[level],
           designArrayLength = designArray.length;
 
     // Pause the music by default, TODO improve the UX with an options menu with sound / song mute option
-    document.getElementById("music-bar").pause();
+    //document.getElementById("music-bar").pause();
 
     // Print starting gold on screen
     players.human.setGold(players.human.gold);
@@ -130,7 +130,7 @@ Map.prototype.generate = function(level, players) {
 
     designArray.forEach((row, rowIndex) => {
         $('#map').append('<tr id="row' + rowIndex + '"></tr>');
-        
+
         row.split('').forEach((cell, columnIndex) => {
             this.generateCell(players, cell, rowIndex, columnIndex);
         });

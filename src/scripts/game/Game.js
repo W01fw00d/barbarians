@@ -2,23 +2,22 @@ function Game(startingMapLevel){
     this.mapDesign = new MapDesign();
     this.namesManager = new NamesManager();
     this.iconTemplates = new IconTemplates();
+    this.soundManager = new SoundManager();
     this.map = new Map(this.mapDesign, this.namesManager, this.iconTemplates);
-    this.infoLayer = new InfoLayer();
-    this.encounter = new Encounter(this.iconTemplates, this.namesManager);
-    this.levelManager = new LevelManager(this.mapDesign);
+    this.infoLayer = new InfoLayer(this.soundManager);
+    this.encounter = new Encounter(this.iconTemplates, this.namesManager, this.soundManager);
+    this.levelManager = new LevelManager(this.mapDesign, this.soundManager);
     this.turnManager = new TurnManager(this.encounter, this.levelManager, this.namesManager, this.iconTemplates);
 
     this.players = {
         human: new Human(),
         ai: new AI(),
         neutral: new Neutral()
-    }
+    };
 
     this.currentMapLevel = startingMapLevel;
 
     this.map.generate(this.currentMapLevel, this.players);
-
-    this.soundManager = new SoundManager();
 
     this.bindIconClick();
     this.bindAll();
@@ -168,14 +167,27 @@ Game.prototype.bindAll = function() {
         }
     });
 
-    $('#mute_sound').click(function(evt){
-        if(!this.soundManager.isMuted()) {
-            evt.target.innerHTML = 'Unmute';
-            this.soundManager.mute();
+    $('#mute_music').click(function(evt){
+        var music = this.soundManager.getMusic();
+        if(!music.isMuted()) {
+            evt.target.innerHTML = 'Unmute Music';
+            music.mute();
         }
         else {
-          evt.target.innerHTML = 'Mute';
-          this.soundManager.unmute();
+          evt.target.innerHTML = 'Mute Music';
+          music.unmute();
         }
+    }.bind(this));
+
+    $('#mute_sfx').click(function(evt) {
+      var sfx = this.soundManager.getSFX();
+      if(!sfx.isMuted) {
+        evt.target.innerHTML = 'Unmute SFX';
+        sfx.mute();
+      }
+      else {
+        evt.target.innerHTML = 'Mute SFX';
+        sfx.unmute();
+      }
     }.bind(this));
 }
