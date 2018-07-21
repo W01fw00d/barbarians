@@ -39,11 +39,6 @@ Map.prototype.generateCell = function(players, cell, rowIndex, columnIndex) {
         randomName;
 
     switch (cell) {
-        case ' ':
-            display = 'none';
-            icon = '';
-            break;
-
         case 'x':
             icon += 'MS_def' + iconTagClosing;
             break;
@@ -104,6 +99,7 @@ Map.prototype.generateCell = function(players, cell, rowIndex, columnIndex) {
             icon = this.iconTemplates.getStarterAIMob(id, randomName);
             break;
 
+        case ' ':
         default:
             icon = '';
             display = 'none';
