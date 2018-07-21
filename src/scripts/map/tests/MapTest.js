@@ -203,7 +203,7 @@ describe("Map", ()=> {
             }
         });
 
-        it("a Roman Human Soldier shall be created", ()=> {
+        it("a Barbarian AI Soldier shall be created", ()=> {
             spyOn(namesManager, 'getRandomName').and.returnValue(name);
             spyOn(iconTemplates, 'getStarterAIMob');
 

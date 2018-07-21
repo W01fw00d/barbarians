@@ -82,31 +82,34 @@ Encounter.prototype.updateConqueredTown = function(iteration, unit, conqueredUni
 Encounter.prototype.changeIcon = function(unit, winner) {
     const unitCell = unit.cell.replace('icon', '').split("");
 
-    let html, id, mobTemplate;
+    let html, mobTemplate;
+    
+    let id = unitCell[0] + '' + unitCell[1] + unitCell[2];
 
     //    unit.movements = (result !== 'none') ? 0 : unit.movements - movement;
-
+    
     switch (unit.player) {
         case 'human':
             if (unit.movements > 0 && winner !== unit){
-                mobTemplate = this.iconTemplates.getHumanMob;
+                html = this.iconTemplates.getHumanMob(id, unit.name, unit.movements, unit.strength);
 
             } else {
                 unit.movements = 0;
-                mobTemplate = this.iconTemplates.getUsedHumanMob;
+                html = this.iconTemplates.getUsedHumanMob(id, unit.name, unit.movements, unit.strength);
             }
             break;
 
         case 'ai':
             unit.movements = 1;
             mobTemplate = this.iconTemplates.getAIMob;
+            
+            html = this.iconTemplates.getAIMob(id, unit.name, unit.movements, unit.strength);
+            
             break;
+            
+        default:
+            html = '';
                        }
-
-    id = unitCell[0] + '' + unitCell[1] + unitCell[2];
-
-    // Cal the function within the IconTemplates context, if a function has been chosen
-    html = mobTemplate ? mobTemplate.apply(this.iconTemplates, [id, unit.name, unit.movements, unit.strength]) : '';
 
     $('#cell' + unitCell[0] + '' + unitCell[1]).html(html);
 }

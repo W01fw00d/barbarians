@@ -1,120 +1,124 @@
-describe("LevelManager", ()=> {
-    let currentMapLevel,
-        levelManager,
-        players;
+describe("Encounter", ()=> {
+    let iconTemplates,
+        namesManager,
+        soundManager,
+        encounter;
 
     beforeEach(()=> {
-        currentMapLevel = 1;
-
-        mapDesign = new MapDesign();
-        levelManager = new LevelManager(mapDesign);
-
-        players = {
-            human: {
-                units: {
-                    mobs: [],
-                    towns: []
-                }
-            },
-            ai: {
-                units: {
-                    mobs: [],
-                    towns: []
-                }
-            }
-        };
-
-        spyOn(window, 'alert');
+        iconTemplates = new IconTemplates();
+        namesManager = new NamesManager();
+        soundManager = new SoundManager();
+        
+        encounter = new Encounter(iconTemplates, namesManager, soundManager);
     });
 
-    //  checkEndOfLevelCondition
-    describe("when there aren't any barbarian units", ()=> {
-        beforeEach(()=> {            
-            players.human.units.mobs.push(
-                {player: 'human', type: 'Soldier', name: 'Mock Name'}
-            );
-
-            players.human.units.towns.push(
-                {player: 'human', type: 'Town', name: 'Mock Name'}
-            );
-        });
-
-        it("next map shall be shown and victory message shall appear", ()=> {
-            const victory_message_eng = 'Victory! The area is safe again.';
-
-            let currentMapLevelResult;
-
-            spyOn(levelManager, 'announceEndOfLevel');
-            spyOn(levelManager, 'showNextMapMsg');
-
-            currentMapLevelResult = levelManager.checkEndOfLevelCondition(currentMapLevel, players);
-
-            expect(levelManager.announceEndOfLevel).toHaveBeenCalledWith('victory', victory_message_eng);
-            expect(levelManager.showNextMapMsg).toHaveBeenCalledWith(currentMapLevelResult);
-
-            expect(currentMapLevelResult).toBe(currentMapLevel + 1);
+    //  compareStrengths
+    describe("when unit strength is at least 2 points higher that adversary", ()=> {
+        it("unit shall always win", ()=> {
+            spyOn(Math, 'random');
+            unit = {strength: 3};
+            adversary = {strength: 1};
+            
+            let result = encounter.compareStrengths(unit, adversary);
+            
+            expect(result.winner).toBe(unit);
         });
     });
-
-    describe("when there aren't any roman soldiers", ()=> {
-        beforeEach(()=> {
-            players.ai.units.mobs.push(
-                {player: 'ai', type: 'Soldier', name: 'Mock Name'}
-            );
-        });
-
-        it("reset map and defeat message shall appear", ()=> {
-            const defeat_message_eng = 'The Barbarians are everywhere! Rome will fall...';
-
-            let currentMapLevelResult;
-
-            spyOn(levelManager, 'announceEndOfLevel');
-
-            currentMapLevelResult = levelManager.checkEndOfLevelCondition(currentMapLevel, players);
-
-            expect(levelManager.announceEndOfLevel).toHaveBeenCalledWith('defeat', defeat_message_eng);
-
-            expect(currentMapLevelResult).toBe(currentMapLevel);
-
+    
+    describe("when unit strength is at least 2 points lower that adversary", ()=> {
+        it("unit shall always loose", ()=> {
+            spyOn(Math, 'random');
+            unit = {strength: 1};
+            adversary = {strength: 3};
+            
+            let result = encounter.compareStrengths(unit, adversary);
+            
+            expect(result.winner).toBe(adversary);
         });
     });
-
-    describe("when there are roman units and barbarian soldiers", ()=> {
-        beforeEach(()=> {
-            players.human.units.mobs.push(
-                {player: 'human', type: 'Soldier', name: 'Mock Name'}
-            );
-
-            players.human.units.towns.push(
-                {player: 'human', type: 'Town', name: 'Mock Name'}
-            );
-
-            players.ai.units.mobs.push(
-                {player: 'ai', type: 'Soldier', name: 'Mock Name'}
-            );
-        });
-
-        it("end of game shall not happen, no message shall be shown", ()=> {
-            spyOn(levelManager, 'announceEndOfLevel');
-
-            currentMapLevelResult = levelManager.checkEndOfLevelCondition(currentMapLevel, players);
-
-            expect(levelManager.announceEndOfLevel).not.toHaveBeenCalled();
-
-            expect(currentMapLevelResult).toBe(null);
+    
+    describe("when unit strength is equal to adversary strength", ()=> {
+        it("a random number shall be generated", ()=> {
+            spyOn(Math, 'random');
+            unit = {strength: 1};
+            adversary = {strength: 1};
+            
+            let result = encounter.compareStrengths(unit, adversary);
+            
+            expect(Math.random).toHaveBeenCalled();
         });
     });
-
-    describe("when there are no more levels left", ()=> {
-
-        it("next map shall be shown and victory message shall appear", ()=> {
-            const win_message_eng = 'Congratulations, you completed the game! Those Barbarians won\'t be a threat for our beloved Rome anymore... right?'; 
-
-           spyOn(levelManager, 'resetGame'); levelManager.showNextMapMsg(mapDesign.blueprints.length);
-
-            expect(window.alert).toHaveBeenCalledWith(win_message_eng);
-
-            expect(levelManager.resetGame).toHaveBeenCalledWith();
+    
+    describe("when unit strength is exactly one point higher that adversary strength", ()=> {
+        it("a random number shall be generated", ()=> {
+            spyOn(Math, 'random');
+            unit = {strength: 2};
+            adversary = {strength: 1};
+            
+            let result = encounter.compareStrengths(unit, adversary);
+            
+            expect(Math.random).toHaveBeenCalled();
         });
     });
+    
+    describe("when unit strength is exactly one point lower that adversary strength", ()=> {
+        it("a random number shall be generated", ()=> {
+            spyOn(Math, 'random');
+            unit = {strength: 1};
+            adversary = {strength: 2};
+            
+            let result = encounter.compareStrengths(unit, adversary);
+            
+            expect(Math.random).toHaveBeenCalled();
+        });
+    });
+    
+    // changeIcon
+    describe("when human unit have movements left and haven´t fought", ()=> {
+        it("HumanMob template shall be used", ()=> {
+            unit = {player: 'human', movements: 1, cell: 'icon'};
+            
+            spyOn(iconTemplates, 'getHumanMob');
+            
+            encounter.changeIcon(unit, {});
+           expect(iconTemplates.getHumanMob).toHaveBeenCalled();
+        });
+    });
+    
+    describe("when human unit have NO movements left", ()=> {
+        it("UsedHumanMob template shall be used", ()=> {
+            unit = {player: 'human', movements: 0, cell: 'icon'};
+            
+            spyOn(iconTemplates, 'getUsedHumanMob');
+            
+            encounter.changeIcon(unit, {});
+           expect(iconTemplates.getUsedHumanMob).toHaveBeenCalled();
+        });
+    });
+    
+    describe("when human unit have won a fight", ()=> {
+        it("UsedHumanMob template shall be used", ()=> {
+            unit = {player: 'human', movements: 2, cell: 'icon'};
+            
+            spyOn(iconTemplates, 'getUsedHumanMob');
+            
+            encounter.changeIcon(unit, unit);
+           expect(iconTemplates.getUsedHumanMob).toHaveBeenCalled();
+        });
+    });
+    
+    describe("when unit is AI", ()=> {
+        it("getAIMob template shall be used", ()=> {
+            unit = {player: 'ai', cell: 'icon'};
+            
+            spyOn(iconTemplates, 'getAIMob');
+            
+            encounter.changeIcon(unit, unit);
+           expect(iconTemplates.getAIMob).toHaveBeenCalled();
+        });
+    });
+    
+    //check TODO
+    
+    //destroyUnit TODO
 });
