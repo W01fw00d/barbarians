@@ -66,7 +66,7 @@ html {
   display: block;
 }
 
-#info div{
+#info div, form{
     color: White;
 }
 
