@@ -13,7 +13,7 @@
                 <button type="button" id="mute_music" class="control-bar-col col-sm-2">Mute Music</button>
                 <button type="button" id="mute_sfx" class="control-bar-col col-sm-2">Mute SFX</button>
                 <div class="control-bar-col col-sm-2">
-                    <span class="gold-label">Gold: </span><input id="gold" class="gold-marker" value="1" type="text" readonly></input>
+                    <span class="gold-label">Gold: </span><input id="gold" class="gold-marker" value="1" type="text" readonly disabled></input>
             </div>
             <button type="button" id="end_turn" class="control-bar-col col-sm-2"> End turn </button>
             <button type="button" id="reset_map" class="control-bar-col col-sm-3"> Reset map </button>
@@ -30,13 +30,13 @@
                 <div id="info">
                     <form class="padding-top-md">
                         Faction:
-                        <br><input id="player" type="text" readonly></input>
+                        <br><input id="player" type="text" readonly disabled></input>
                     <br><br>
                     Unit:
-                    <br><input id="type" type="text" readonly></input>
+                    <br><input id="type" type="text" readonly disabled></input>
                 <br><br>
                 Name:
-                <br><input id="name" type="text" readonly></input>
+                <br><input id="name" type="text" readonly disabled></input>
             <br><br><br>
             </form>
         <form id="town_info" class="hidden-div">
