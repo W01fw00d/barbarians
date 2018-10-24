@@ -20,3 +20,8 @@ To launch the Jasmine unit tests, just open SpecRunner.html (plase check that al
 
 Contributors:
 @tattarrattat
+@dakotahavel
+@ccmetz
+@W01fw00d
+
+Thanks! ;)
