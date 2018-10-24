@@ -29,8 +29,8 @@ InfoLayer.prototype.checkUnitInfo = function(event, players) {
         icon = event.target.id,
         type = icon.charAt(icon.length - 1),
         grey = 'RGB(135, 135, 135)',
-        red = 'RGB(255, 10, 10)',
-        blue = 'RGB(7, 168, 226)',
+        red = 'RGB(213, 28, 31)',
+        blue = 'RGB(28, 31, 213)',
         result = {
             mode: null,
             unit : null
