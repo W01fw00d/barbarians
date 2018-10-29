@@ -6,6 +6,7 @@ InfoLayer.prototype.updateDataLabels = function(unit) {
     $('#player').val(unit.factionTag);
     $('#type').val(unit.typeTag);
     $('#name').val(unit.name);
+    $('#improve_strength').val(unit.strength);
 };
 
 InfoLayer.prototype.findUnit = function(icon, units) {
