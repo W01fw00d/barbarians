@@ -26,6 +26,9 @@ Contributors:
 
 [@ccmetz](https://github.com/ccmetz)
 
+[@MHase](https://github.com/MHase)
+
+
 [@W01fw00d](https://github.com/W01fw00d)
 
 Thanks! ;)
