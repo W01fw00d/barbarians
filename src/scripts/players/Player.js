@@ -84,6 +84,17 @@ Player.prototype.upgradeMode = function(unit, upgrade){
         } else {
             alert(errorMessage);
         }
+    } else if (upgrade === 'improve_strength') {
+        if (unit.strength <= this.gold){
+            this.setGold(this.gold - unit.strength);
+            unit.strength += unit.strength;
+
+            $("#strength").html('Combat strength: [' + unit.strength + '].');
+            $("#improve_strength").html('Improve Strength (' + unit.strength + ' Gold)');
+        } else {
+            alert(errorMessage);
+        }
+        return;
     }
 
     cell = unit.cell.replace('icon', '#cell')
