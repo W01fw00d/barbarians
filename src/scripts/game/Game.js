@@ -117,6 +117,11 @@ Game.prototype.moveMode = function(unit) {
             }
         }
     });
+
+    $('#improve_strength').off();
+    $('#improve_strength').click(() => {
+        this.encounter.improveUnitStrength(unit, this.players);
+    });
 }
 
 Game.prototype.bindIconClick = function() {

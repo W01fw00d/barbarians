@@ -266,3 +266,7 @@ Encounter.prototype.destroyUnit = function(unit, players) {
 
     this.soundManager.sfx.play(soundFile);
 }
+
+Encounter.prototype.improveUnitStrength = function(unit, players) {
+    players.human.upgradeMode(unit, 'improve_strength');
+}
