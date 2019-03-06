@@ -1,21 +1,20 @@
 // TODO disengage all functionality related to html tags, wrap it so browser characteristics are hidden
-function Map(mapDesign, namesManager, iconTemplates) {
+function Map(mapPainter, detailsPanelPainter, mapDesign, namesManager, iconTemplates) {
   // Generates a map using the desing array as input
   this.generate = function(level, players) {
     const designArray = mapDesign.blueprints[level],
       designArrayLength = designArray.length;
 
     // Pause the music by default, TODO improve the UX with an options menu with sound / song mute option
-    //document.getElementById("music-bar").pause();
+    // document.getElementById("music-bar").pause();
 
-    // TODO disengage this block of code from here, wrap it so browser characteristics are hidden
     // Print starting gold on screen
     players.human.setGold(players.human.gold);
-    $('#info').hide();
-    $('#map').html('');
+    detailsPanelPainter.hide();
+    mapPainter.eraseMap();
 
     designArray.forEach((row, rowIndex) => {
-      $('#map').append('<tr id="row' + rowIndex + '"></tr>');
+      mapPainter.paintRow(rowIndex);
 
       row.split('').forEach((cell, columnIndex) => {
         this.generateCell(players, cell, rowIndex, columnIndex);
@@ -35,6 +34,7 @@ function Map(mapDesign, namesManager, iconTemplates) {
       icon = '<img id="obstacle' + id + '" src="' + imageRoute,
       randomName;
 
+    //TODO use a map structure or similar to map character to function
     switch (cell) {
       case 'x':
         icon += 'MS_def' + iconTagClosing;
@@ -57,6 +57,7 @@ function Map(mapDesign, namesManager, iconTemplates) {
         break;
 
       case 'N':
+        //TODO disengage units list management from icon choosing for cell painting
         units = players.neutral.units.towns;
         units.push(getTownObject(id, 'neutral', 'Free Town', 'Town', 'Nature'));
         icon = iconTemplates.getNeutralTown(id);
@@ -103,20 +104,20 @@ function Map(mapDesign, namesManager, iconTemplates) {
         break;
       };
 
-    $('#row' + rowIndex).append(
-      '<th class="cell" id="cell' + rowIndex + '' + columnIndex + '">' + icon + '</th>'
+    mapPainter.paintCell(
+      id, rowIndex, columnIndex, icon, imageRoute, ground, display
     );
-    $('#cell' + rowIndex + '' + columnIndex).css({
-      'background-image': 'url(' + imageRoute + ground + ')'
-    });
-    $('#icon' + id).css({'display' : display});
   }
 
   var getTownObject = function(
     id, player, name, typeTag, factionTag
   ) {
-    const stats =
-      {quantity: 1, quality: 1, quantityUpgradePrice: 1, qualityUpgradePrice: 1};
+    const stats = {
+      quantity: 1,
+      quality: 1,
+      quantityUpgradePrice: 1,
+      qualityUpgradePrice: 1
+    };
 
     let result = getUnitObject(id, player, name, typeTag, factionTag);
     result.stats = stats;
@@ -139,7 +140,11 @@ function Map(mapDesign, namesManager, iconTemplates) {
     id, player, name, typeTag, factionTag
   ) {
     return {
-      cell: 'icon' + id, player: player, name: name, typeTag: typeTag, factionTag: factionTag
+      cell: 'icon' + id,
+      player: player,
+      name: name,
+      typeTag: typeTag,
+      factionTag: factionTag
     };
   }
 }

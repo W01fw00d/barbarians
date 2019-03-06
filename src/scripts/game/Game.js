@@ -1,31 +1,33 @@
 function Game(startingMapLevel) {
   this.browserUtils = new BrowserUtils();
-    this.mapDesign = new MapDesign();
-    this.namesManager = new NamesManager();
-    this.iconTemplates = new IconTemplates();
-    this.soundManager = new SoundManager();
-    this.map = new Map(this.mapDesign, this.namesManager, this.iconTemplates);
-    this.infoLayer = new InfoLayer(this.soundManager);
-    this.encounter = new Encounter(this.iconTemplates, this.namesManager, this.soundManager);
-    this.levelManager = new LevelManager(this.browserUtils, this.mapDesign, this.soundManager);
-    this.turnManager = new TurnManager(this.encounter, this.levelManager, this.namesManager, this.iconTemplates);
+  this.mapPainter = new MapPainter();
+  this.detailsPanelPainter = new DetailsPanelPainter();
+  this.mapDesign = new MapDesign();
+  this.namesManager = new NamesManager();
+  this.iconTemplates = new IconTemplates();
+  this.soundManager = new SoundManager();
+  this.map = new Map(this.mapPainter, this.detailsPanelPainter, this.mapDesign, this.namesManager, this.iconTemplates);
+  this.infoLayer = new InfoLayer(this.soundManager);
+  this.encounter = new Encounter(this.iconTemplates, this.namesManager, this.soundManager);
+  this.levelManager = new LevelManager(this.browserUtils, this.mapDesign, this.soundManager);
+  this.turnManager = new TurnManager(this.encounter, this.levelManager, this.namesManager, this.iconTemplates);
 
-    this.players = {
-        human: new Human(),
-        ai: new AI(),
-        neutral: new Neutral()
-    };
+  this.players = {
+      human: new Human(),
+      ai: new AI(),
+      neutral: new Neutral()
+  };
 
-    this.currentMapLevel = startingMapLevel;
+  this.currentMapLevel = startingMapLevel;
 
-    this.map.generate(this.currentMapLevel, this.players);
+  this.map.generate(this.currentMapLevel, this.players);
 
-    this.bindIconClick();
-    this.bindAll();
+  this.bindIconClick();
+  this.bindAll();
 
-    /////////randomMapGenerator(x, A, E, N, a, e, n)///////
-    //console.log(randomMapGenerator(10, 2, 2, 3, 5, 5, 5));
-    //mapGenerator(randomMapGenerator(10, 2, 2, 3, 2, 3, 2)); // <= 64
+  /////////randomMapGenerator(x, A, E, N, a, e, n)///////
+  //console.log(randomMapGenerator(10, 2, 2, 3, 5, 5, 5));
+  //mapGenerator(randomMapGenerator(10, 2, 2, 3, 2, 3, 2)); // <= 64
 }
 
 Game.prototype.currentMapLevel;

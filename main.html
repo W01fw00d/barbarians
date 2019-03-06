@@ -21,7 +21,7 @@
 
         <div class="control-board margin-top-md row">
             <div class="col-sm-6">
-                <table id="map"></table>F
+                <table id="map"></table>
             </div>
 
             <div class="col-sm-1"></div>
@@ -71,7 +71,10 @@
 <script type="text/javascript" src="lib/jquery-2.1.4.js"></script>
 <script type="text/javascript" src="lib/bootstrap.min.js"></script>
 
-<script type="text/javascript" src="src/scripts/utils/BrowserUtils.js"></script>
+<!--//TODO extract this 'dependencies' to a common script to be used by SpecRunner too -->
+<script type="text/javascript" src="src/scripts/browser/BrowserUtils.js"></script>
+<script type="text/javascript" src="src/scripts/browser/MapPainter.js"></script>
+<script type="text/javascript" src="src/scripts/browser/DetailsPanelPainter.js"></script>
 
 <script type="text/javascript" src="src/scripts/map/MapDesign.js"></script>
 <script type="text/javascript" src="src/scripts/map/Map.js"></script>

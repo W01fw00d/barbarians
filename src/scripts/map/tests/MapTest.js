@@ -1,5 +1,7 @@
 describe("Map", ()=> {
-  let mapDesign,
+  let mapPainter,
+    detailsPanelPainter,
+    mapDesign,
     namesManager,
     iconTemplates,
     map,
@@ -10,10 +12,12 @@ describe("Map", ()=> {
     resultObject;
 
   beforeEach(()=> {
+    mapPainter = new MapPainter();
+    detailsPanelPainter = new DetailsPanelPainter();
     mapDesign = new MapDesign();
     namesManager = new NamesManager();
     iconTemplates = new IconTemplates();
-    map = new Map(mapDesign, namesManager, iconTemplates);
+    map = new Map(mapPainter, detailsPanelPainter, mapDesign, namesManager, iconTemplates);
 
     //TODO this "PlayerList" shall be a data class of its own and have a constructor for create empty
     //TODO repeated structure 'units'
