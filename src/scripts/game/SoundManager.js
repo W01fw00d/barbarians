@@ -13,7 +13,7 @@ function SoundManager() {
   };
 
   this.sfx = {
-    isMuted: false,
+    isMuted: true,
     mute: function() {
       this.isMuted = true;
     },

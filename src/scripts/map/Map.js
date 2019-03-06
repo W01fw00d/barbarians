@@ -5,9 +5,6 @@ function Map(mapPainter, detailsPanelPainter, mapDesign, namesManager, iconTempl
     const designArray = mapDesign.blueprints[level],
       designArrayLength = designArray.length;
 
-    // Pause the music by default, TODO improve the UX with an options menu with sound / song mute option
-    // document.getElementById("music-bar").pause();
-
     // Print starting gold on screen
     players.human.setGold(players.human.gold);
     detailsPanelPainter.hide();
@@ -107,6 +104,11 @@ function Map(mapPainter, detailsPanelPainter, mapDesign, namesManager, iconTempl
     mapPainter.paintCell(
       id, rowIndex, columnIndex, icon, imageRoute, ground, display
     );
+  }
+
+  //TODO create a Map object which stores all possible position on map and what is there
+  this.getCellId = function(iteration) {
+    $(iteration + ' a img').attr('id');
   }
 
   var getTownObject = function(
