@@ -1,4 +1,5 @@
-function Game(startingMapLevel){
+function Game(startingMapLevel) {
+  this.browserUtils = new BrowserUtils();
     this.mapDesign = new MapDesign();
     this.namesManager = new NamesManager();
     this.iconTemplates = new IconTemplates();
@@ -6,7 +7,7 @@ function Game(startingMapLevel){
     this.map = new Map(this.mapDesign, this.namesManager, this.iconTemplates);
     this.infoLayer = new InfoLayer(this.soundManager);
     this.encounter = new Encounter(this.iconTemplates, this.namesManager, this.soundManager);
-    this.levelManager = new LevelManager(this.mapDesign, this.soundManager);
+    this.levelManager = new LevelManager(this.browserUtils, this.mapDesign, this.soundManager);
     this.turnManager = new TurnManager(this.encounter, this.levelManager, this.namesManager, this.iconTemplates);
 
     this.players = {
