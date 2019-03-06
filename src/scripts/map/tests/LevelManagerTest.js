@@ -1,120 +1,134 @@
 describe("LevelManager", ()=> {
-    let currentMapLevel,
-        levelManager,
-        players;
+  let currentMapLevel,
+    levelManager,
+    soundManager,
+    players;
 
-    beforeEach(()=> {
-        currentMapLevel = 1;
+  beforeEach(()=> {
+    currentMapLevel = 1;
 
-        mapDesign = new MapDesign();
-        levelManager = new LevelManager(mapDesign);
+    mapDesign = new MapDesign();
+    soundManager = new SoundManager();
+    levelManager = new LevelManager(mapDesign, soundManager);
 
-        players = {
-            human: {
-                units: {
-                    mobs: [],
-                    towns: []
-                }
-            },
-            ai: {
-                units: {
-                    mobs: [],
-                    towns: []
-                }
-            }
-        };
+    players = {
+      human: {
+        units: {
+          mobs: [],
+          towns: []
+        }
+      },
+      ai: {
+        units: {
+          mobs: [],
+          towns: []
+        }
+      }
+    };
 
-        spyOn(window, 'alert');
-    });
+    spyOn(window, 'alert');
+    spyOn(soundManager.sfx, 'play');
+  });
 
     //  checkEndOfLevelCondition
     describe("when there aren't any barbarian units", ()=> {
-        beforeEach(()=> {            
-            players.human.units.mobs.push(
-                {player: 'human', type: 'Soldier', name: 'Mock Name'}
-            );
+      beforeEach(()=> {
+        players.human.units.mobs.push(
+          {player: 'human', type: 'Soldier', name: 'Mock Name'}
+        );
 
-            players.human.units.towns.push(
-                {player: 'human', type: 'Town', name: 'Mock Name'}
-            );
-        });
+        players.human.units.towns.push(
+          {player: 'human', type: 'Town', name: 'Mock Name'}
+        );
+      });
 
-        it("next map shall be shown and victory message shall appear", ()=> {
-            const victory_message_eng = 'Victory! The area is safe again.';
+      it("next map shall be shown and victory message shall appear", ()=> {
+        const victory_message_eng = 'Victory! The area is safe again.';
+        const level_2_message_eng =
+          'Even little mountain towns have the right to be protected against the sadistic Barbarians!';
 
-            let currentMapLevelResult;
+        const currentMapLevelResult = levelManager.checkEndOfLevelCondition(
+          currentMapLevel, players
+        );
 
-            spyOn(levelManager, 'announceEndOfLevel');
-            spyOn(levelManager, 'showNextMapMsg');
-
-            currentMapLevelResult = levelManager.checkEndOfLevelCondition(currentMapLevel, players);
-
-            expect(levelManager.announceEndOfLevel).toHaveBeenCalledWith('victory', victory_message_eng);
-            expect(levelManager.showNextMapMsg).toHaveBeenCalledWith(currentMapLevelResult);
-
-            expect(currentMapLevelResult).toBe(currentMapLevel + 1);
-        });
+        expect(window.alert).toHaveBeenCalledWith(victory_message_eng);
+        expect(window.alert).toHaveBeenCalledWith(level_2_message_eng);
+        expect(soundManager.sfx.play).toHaveBeenCalledWith('victory');
+        expect(currentMapLevelResult).toBe(currentMapLevel + 1);
+      });
     });
 
     describe("when there aren't any roman soldiers", ()=> {
-        beforeEach(()=> {
-            players.ai.units.mobs.push(
-                {player: 'ai', type: 'Soldier', name: 'Mock Name'}
-            );
-        });
+      beforeEach(()=> {
+        players.ai.units.mobs.push(
+          {player: 'ai', type: 'Soldier', name: 'Mock Name'}
+        );
+      });
 
-        it("reset map and defeat message shall appear", ()=> {
-            const defeat_message_eng = 'The Barbarians are everywhere! Rome will fall...';
+      it("reset map and defeat message shall appear", ()=> {
+        const defeat_message_eng =
+          'The Barbarians are everywhere! Rome will fall...';
 
-            let currentMapLevelResult;
+        const currentMapLevelResult =
+          levelManager.checkEndOfLevelCondition(currentMapLevel, players);
 
-            spyOn(levelManager, 'announceEndOfLevel');
+        expect(window.alert).toHaveBeenCalledWith(defeat_message_eng);
+        expect(soundManager.sfx.play).toHaveBeenCalledWith('defeat');
+        expect(currentMapLevelResult).toBe(currentMapLevel);
+    });
+  });
 
-            currentMapLevelResult = levelManager.checkEndOfLevelCondition(currentMapLevel, players);
+  describe("when there are roman units and barbarian soldiers", ()=> {
+    beforeEach(()=> {
+      players.human.units.mobs.push(
+        {player: 'human', type: 'Soldier', name: 'Mock Name'}
+      );
 
-            expect(levelManager.announceEndOfLevel).toHaveBeenCalledWith('defeat', defeat_message_eng);
+      players.human.units.towns.push(
+        {player: 'human', type: 'Town', name: 'Mock Name'}
+      );
 
-            expect(currentMapLevelResult).toBe(currentMapLevel);
-
-        });
+      players.ai.units.mobs.push(
+        {player: 'ai', type: 'Soldier', name: 'Mock Name'}
+      );
     });
 
-    describe("when there are roman units and barbarian soldiers", ()=> {
-        beforeEach(()=> {
-            players.human.units.mobs.push(
-                {player: 'human', type: 'Soldier', name: 'Mock Name'}
-            );
+    it("end of game shall not happen, no message shall be shown", ()=> {
+      const currentMapLevelResult =
+        levelManager.checkEndOfLevelCondition(currentMapLevel, players);
 
-            players.human.units.towns.push(
-                {player: 'human', type: 'Town', name: 'Mock Name'}
-            );
-
-            players.ai.units.mobs.push(
-                {player: 'ai', type: 'Soldier', name: 'Mock Name'}
-            );
-        });
-
-        it("end of game shall not happen, no message shall be shown", ()=> {
-            spyOn(levelManager, 'announceEndOfLevel');
-
-            currentMapLevelResult = levelManager.checkEndOfLevelCondition(currentMapLevel, players);
-
-            expect(levelManager.announceEndOfLevel).not.toHaveBeenCalled();
-
-            expect(currentMapLevelResult).toBe(null);
-        });
+      expect(window.alert).not.toHaveBeenCalled();
+      expect(currentMapLevelResult).toBe(null);
     });
+  });
 
-    describe("when there are no more levels left", ()=> {
+  describe(
+    "when there aren't any barbarian units and there are no more levels left",
+    ()=> {
+      beforeEach(()=> {
+        players.human.units.mobs.push(
+          {player: 'human', type: 'Soldier', name: 'Mock Name'}
+        );
 
-        it("next map shall be shown and victory message shall appear", ()=> {
-            const win_message_eng = 'Congratulations, you completed the game! Those Barbarians won\'t be a threat for our beloved Rome anymore... right?'; 
+        players.human.units.towns.push(
+          {player: 'human', type: 'Town', name: 'Mock Name'}
+        );
+      });
 
-           spyOn(levelManager, 'resetGame'); levelManager.showNextMapMsg(mapDesign.blueprints.length);
+      it("next map shall be shown and victory message shall appear", ()=> {
+        //TODO wrap location.reload() on a custom class so we can mock it instead of resetGame
+        spyOn(levelManager, 'resetGame');
 
-            expect(window.alert).toHaveBeenCalledWith(win_message_eng);
+        const win_message_eng =
+          'Congratulations, you completed the game! Those Barbarians won\'t be a threat for our beloved Rome anymore... right?';
+        const currentMapLevel = mapDesign.blueprints.length - 1;
 
-            expect(levelManager.resetGame).toHaveBeenCalledWith();
-        });
-    });
+        const currentMapLevelResult = levelManager.checkEndOfLevelCondition(
+          currentMapLevel, players
+        );
+
+        expect(window.alert).toHaveBeenCalledWith(win_message_eng);
+        expect(levelManager.resetGame).toHaveBeenCalled();
+      });
+  });
 });
