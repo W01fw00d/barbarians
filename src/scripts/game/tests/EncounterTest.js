@@ -42,7 +42,6 @@ describe("Encounter", ()=> {
     spyOn(soundManager.sfx, 'play');
   });
 
-  //  check
   describe("when unit strength is at least 2 points higher than adversary", ()=> {
     it("unit shall always win", ()=> {
       players.human.units.mobs.push({
@@ -83,6 +82,7 @@ describe("Encounter", ()=> {
     });
   });
 
+//TODO refactor next tests
   describe("when unit strength is at least 2 points lower that adversary", ()=> {
     it("unit shall always loose", ()=> {
       unit = {strength: 1};
