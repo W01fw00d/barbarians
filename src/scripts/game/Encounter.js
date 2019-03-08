@@ -1,8 +1,10 @@
-function Encounter(iconTemplates, namesManager, soundManager, map){
+//TODO EncounterManager
+function Encounter(iconTemplates, namesManager, soundManager, map, mapPainter){
   this.iconTemplates = iconTemplates;
   this.namesManager = namesManager;
   this.soundManager = soundManager;
   this.map = map;
+  this.mapPainter = mapPainter;
 }
 
 Encounter.prototype.iconTemplates;
@@ -64,6 +66,7 @@ Encounter.prototype.updateConqueredRomanTown = function(
   unit,
   conqueredUnit
 ) {
+  //TODO only extraTitle setting is different from BarbarianTown function
   const extraTitle =
     '. quantity: [' + conqueredUnit.stats.quantity
     + ']. quality: [' + conqueredUnit.stats.quality + ']';
@@ -103,17 +106,14 @@ Encounter.prototype.updateConqueredTown = function(
   audio,
   extraTitle
 ) {
-  newId = $(iteration + ' img')
-    .attr('id')
-    .replaceAt(
-      $(iteration + ' img').attr('id').length - 1,
-      annotation
-    );
-  title = '[' + conqueredUnit.name + ']' + extraTitle;
-
-  $(iteration + ' a img').attr('id', newId);
-  $(iteration + ' a img').attr('src', './src/images/board/' + img + '.png');
-  $(iteration + ' a').attr('title', title);
+  this.mapPainter.repaintTown(
+    iteration,
+    unit,
+    conqueredUnit,
+    annotation,
+    img,
+    extraTitle
+  );
 
   conqueredUnit.cell = conqueredUnit.cell.replaceAt(
     conqueredUnit.cell.length - 1,
@@ -269,8 +269,9 @@ Encounter.prototype.check = function(unit, players) {
   // If unit is still alive, it can conquest towns
   if (combatResults.loser !== unit) {
     // A soldier can only conquest one town each turn
+
     for (i = 0; i < iterationLength && !conquered; i++) {
-      cellId = $(iteration[i] + ' a img').attr('id');
+      cellId = this.map.getCellId(iteration[i])
 
       if (cellId !== undefined) {
         typeOfCollindantUnit = cellId.replace('icon', '').charAt(2);
@@ -278,15 +279,14 @@ Encounter.prototype.check = function(unit, players) {
         if (((typeOfCollindantUnit === 'E') && (unit.player === 'human'))
           || ((typeOfCollindantUnit === 'A') && (unit.player === 'ai'))
           || (typeOfCollindantUnit === 'N')) {
-
           units = players[townsAnnotationCorralation[typeOfCollindantUnit]]
             .units
             .towns;
           unitsLength = units.length;
 
           // Find target unit in array
-          for (j = 0; j < unitsLength; j++){
-            if (units[j].cell === ($(iteration[i]+' img').attr('id'))) {
+          for (j = 0; j < unitsLength; j++) {
+            if (units[j].cell === this.map.getCellId(iteration[i])) { // it used to be $(iteration + ' img').attr('id'); , without a
               conquered = j;
               break;
             }

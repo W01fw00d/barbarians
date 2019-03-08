@@ -1,4 +1,5 @@
 // TODO disengage all functionality related to html tags, wrap it so browser characteristics are hidden
+//TODO Named it MapManager, as Map is the logic information about the Browser/Board
 function Map(mapPainter, detailsPanelPainter, mapDesign, namesManager, iconTemplates) {
   // Generates a map using the desing array as input
   this.generate = function(level, players) {
