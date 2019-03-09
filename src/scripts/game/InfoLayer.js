@@ -164,7 +164,7 @@ InfoLayer.prototype.checkUnitInfo = function(event, players) {
     return result;
 }
 
-//
+//TODO this almost same function is replicated on Encounter.js (it even has same name)
 function destroyUnit(unit){
     $('#cell' + unit.cell.replace('icon','').replace('a', '').replace('e', '').replace('n','')).html('');
     units.splice(units.indexOf(unit), 1);
