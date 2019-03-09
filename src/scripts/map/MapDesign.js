@@ -10,6 +10,7 @@ X = mountain range center
 D = end (Right) of horizontal mountain range
 V = vegetation
 
+//TODO I think it would be easier to read if we used _ as empty
 ' ' = empty cell
 
 Units:
@@ -161,9 +162,9 @@ MapDesign.prototype.blueprints = [
         "a  aa  a",
         "aaaaaaaa"
     ],
-    
+
     // TEST MAPS
-    
+
     // 11. Test1
     [
         " x      ",
@@ -178,11 +179,11 @@ MapDesign.prototype.blueprints = [
 
     // 12. Test2
     [
-        " xx     ",
-        "        ",
-        "        ",
+        "E A     ",
+        "     E  ",
+        "  N     ",
         "   ee   ",
-        "        ",
+        "n    x  ",
         "  aaaa  ",
         "a A  N a",
         "        "
