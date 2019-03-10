@@ -1,29 +1,32 @@
+//TODO move this into literals/
 function NamesManager() {
-    this.unitNames = new UnitNames();
+  this.unitNames = new UnitNames();
 }
 
 NamesManager.prototype.unitNames;
 
-// Returns a name string, chosen randomly from the names array 
+// Returns a name string, chosen randomly from the names array
 NamesManager.prototype.getRandomName = function(type, faction) {
-    let names, randomNumber;
+  let names, randomNumber;
 
-    switch(type){
-        case 'mob':
-            names = faction === 'human' ? 
-                this.unitNames.romanSoldierNames : this.unitNames.barbarianSoldierNames;
+  switch(type){
+    case 'mob':
+      names = faction === 'human'
+        ? this.unitNames.romanSoldierNames
+        : this.unitNames.barbarianSoldierNames;
 
-            break;
+      break;
 
-        case 'town':
-            names = faction === 'human' ? 
-                this.unitNames.romanTownNames : this.unitNames.barbarianTownNames;
+    case 'town':
+      names = faction === 'human'
+        ? this.unitNames.romanTownNames
+        : this.unitNames.barbarianTownNames;
 
-            break;
-    }
+      break;
+  }
 
-    randomNumber = Math.floor(Math.random() * (names.length - 1));
-    names.splice(randomNumber, 1);
+  randomNumber = Math.floor(Math.random() * (names.length - 1));
+  names.splice(randomNumber, 1);
 
-    return names[randomNumber];
+  return names[randomNumber];
 }

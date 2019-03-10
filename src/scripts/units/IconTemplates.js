@@ -1,3 +1,4 @@
+//TODO all this should probably go into browser/
 function IconTemplates() {}
 
 IconTemplates.prototype.getBase = function(id, title, img) {
@@ -7,7 +8,7 @@ IconTemplates.prototype.getBase = function(id, title, img) {
 
 IconTemplates.prototype.getMob = function(id, name, movements, strength, img) {
     const title = '[' + name + ']. Moves: [' + movements + '], Strength: [' + strength + ']';
-    
+
     return this.getBase(id, title, img);
 }
 
@@ -31,7 +32,7 @@ IconTemplates.prototype.getUsedHumanMob = function(id, name, movements, strength
     return this.getMob(id, name, movements, strength, 'SRUsed_del_def');
 }
 
-IconTemplates.prototype.getNeutralMob = function(id) {    
+IconTemplates.prototype.getNeutralMob = function(id) {
     return this.getBase(id, 'Hungry wolfs', 'L_del_def');
 }
 
@@ -41,7 +42,7 @@ IconTemplates.prototype.getNeutralTown = function(id) {
 
 IconTemplates.prototype.getTown = function(id, name, img) {
     const title = '[' + name + ']. quantity: [1], quality: [1]';
-    
+
     return this.getBase(id, title, img);
 }
 

@@ -1,3 +1,4 @@
+//TODO the functions inside this class need some refactoring work
 function DetailsPanelPainter() {
   //TODO this colors should be defined in the CSS, and DetailsPanelPainter should be the one knowing about the name on the color, which would be the name of the css class to be used on the panel
   const grey = 'RGB(135, 135, 135)',

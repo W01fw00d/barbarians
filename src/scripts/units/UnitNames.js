@@ -1,3 +1,4 @@
+//TODO move this into literals/
 function UnitNames() {}
 
 UnitNames.prototype.romanSoldierNames = [
