@@ -10,7 +10,7 @@ function Game(startingMapLevel) {
   this.infoLayer = new InfoLayer(this.detailsPanelPainter);
   this.encounter = new Encounter(this.iconTemplates, this.namesManager, this.soundManager, this.map, this.mapPainter);
   this.levelManager = new LevelManager(this.browserUtils, this.mapDesign, this.soundManager);
-  this.turnManager = new TurnManager(this.encounter, this.levelManager, this.namesManager, this.iconTemplates);
+  this.turnManager = new TurnManager(this.encounter, this.levelManager, this.namesManager, this.iconTemplates, this.map, this.mapPainter);
 
   this.players = {
       human: new Human(),

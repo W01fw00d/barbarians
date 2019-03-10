@@ -1,5 +1,9 @@
 //TODO Name it BoardPainter
 function MapPainter() {
+  this.paint = function(selector, content) {
+    $(selector).html(content);
+  }
+
   this.eraseMap = function() {
     $('#map').html('');
   }
