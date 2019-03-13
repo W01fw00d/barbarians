@@ -23,7 +23,7 @@ describe("TurnManager", ()=> {
     human.setGold(1);
     human.units = {
       mobs: [],
-      towns: []
+      towns: [],
     };
 
     const ai = new AI();
@@ -31,7 +31,7 @@ describe("TurnManager", ()=> {
     ai.setGold(1);
     ai.units = {
       mobs: [],
-      towns: []
+      towns: [],
     };
 
     // const neutral = new Player();
@@ -64,7 +64,7 @@ describe("TurnManager", ()=> {
         cell: unitCell,
         stats: {
           quantity: 1,
-          quality: 1
+          quality: 1,
         },
       });
 
@@ -94,7 +94,7 @@ describe("TurnManager", ()=> {
         cell: unitCell,
         stats: {
           quantity: 1,
-          quality: 1
+          quality: 1,
         },
       });
 
@@ -104,6 +104,7 @@ describe("TurnManager", ()=> {
       expect(encounter.check).not.toHaveBeenCalled();
       expect(players.human.units.mobs.length).toBe(0);
     });
+
     it("A new Soldier will NOT be created on out-of-top-bounds", ()=> {
       spyOn(iconTemplates, 'getHumanMob');
       spyOn(encounter, 'check');
@@ -121,7 +122,7 @@ describe("TurnManager", ()=> {
         cell: unitCell,
         stats: {
           quantity: 1,
-          quality: 1
+          quality: 1,
         },
       });
 
@@ -131,6 +132,7 @@ describe("TurnManager", ()=> {
       expect(encounter.check).not.toHaveBeenCalled();
       expect(players.human.units.mobs.length).toBe(0);
     });
+
     it("A new Soldier will NOT be created on out-of-right-bounds", ()=> {
       spyOn(iconTemplates, 'getHumanMob');
       spyOn(encounter, 'check');
@@ -148,7 +150,7 @@ describe("TurnManager", ()=> {
         cell: unitCell,
         stats: {
           quantity: 1,
-          quality: 1
+          quality: 1,
         },
       });
 
@@ -158,6 +160,7 @@ describe("TurnManager", ()=> {
       expect(encounter.check).not.toHaveBeenCalled();
       expect(players.human.units.mobs.length).toBe(0);
     });
+
     it("A new Soldier will NOT be created on out-of-left-bounds", ()=> {
       spyOn(iconTemplates, 'getHumanMob');
       spyOn(encounter, 'check');
@@ -175,7 +178,7 @@ describe("TurnManager", ()=> {
         cell: unitCell,
         stats: {
           quantity: 1,
-          quality: 1
+          quality: 1,
         },
       });
 
@@ -198,7 +201,7 @@ describe("TurnManager", ()=> {
         cell: unitCell,
         stats: {
           quantity: 1,
-          quality: 1
+          quality: 1,
         },
       });
 
@@ -221,7 +224,7 @@ describe("TurnManager", ()=> {
         cell: unitCell,
         stats: {
           quantity: 1,
-          quality: 1
+          quality: 1,
         },
       });
 
@@ -232,35 +235,77 @@ describe("TurnManager", ()=> {
       expect(players.ai.units.mobs.length).toBe(1);
     });
   });
-  //
-  // describe("When turn is finished", ()=> {
-  //   it("Human and AI will gain 3 gold", ()=> {
-  //     // expect(players.ai.gold).toBe(4);
-  //     expect(players.human.setGold).toHaveBeenCalledWith(4);
-  //   });
-  //
-  //   it("The End of Level Condition is checked", ()=> {
-  //
-  //   });
-  // });
-  //
-  // describe("When turn is finished and a Human Soldier exists", ()=> {
-  //   it("They recover all their movements and they are painted as active", ()=> {
-  // players.human.units.mobs.push({
-  //   cell: 'icon00a',
-  //   player: 'human',
-  //   name: 'name',
-  //   typeTag: 'Soldier',
-  //   factionTag: 'Roman',
-  //   movements: 3,
-  //   strength: 3,
-  // });
-  //   });
-  // });
-  //
-  // describe("When turn is finished and an AI Soldier exists", ()=> {
-  //   it("They recover all their movements", ()=> {
-  //   });
-  // });
+  //TODO implement on Class and improve test as:
+  // When turn is finished [and Level is not Ended]
+  // Turn should finish after ai.performTurn if conditions are met
+  describe("When turn is finished and Level is not Ended", ()=> {
+    it("Human and AI will gain 3 gold", ()=> {
+      spyOn(encounter, 'check');
+
+      turnManager.endTurn(currentMapLevel, players);
+
+      expect(players.ai.gold).toBe(4);
+      expect(players.human.setGold).toHaveBeenCalledWith(4);
+    });
+
+    it("The End of Level Condition is checked", ()=> {
+      spyOn(encounter, 'check');
+
+      turnManager.endTurn(currentMapLevel, players);
+
+      expect(levelManager.checkEndOfLevelCondition).toHaveBeenCalled();
+    });
+  });
+  //TODO same as privous test, no need to paint and recover movements if level is finished
+  describe("When turn is finished and a Human Soldier exists", ()=> {
+    it("They recover all their movements and they are painted as active", ()=> {
+      spyOn(iconTemplates, 'getHumanMob');
+      spyOn(encounter, 'check');
+
+      const totalMovements = 3,
+        id = '00a',
+        name = 'name',
+        strength = 1,
+        movements = 1;
+
+      players.human.units.mobs.push({
+        cell: 'icon' + id,
+        name: name,
+        strength: strength,
+        movements: movements,
+        totalMovements: totalMovements,
+      });
+
+      turnManager.endTurn(currentMapLevel, players);
+
+      expect(players.human.units.mobs[0].movements).toBe(totalMovements);
+      expect(iconTemplates.getHumanMob).toHaveBeenCalledWith(
+        id,
+        name,
+        totalMovements,
+        strength
+      );
+    });
+  });
+
+  describe("When turn is finished and an AI Soldier exists", ()=> {
+    it("They recover all their movements", ()=> {
+      spyOn(iconTemplates, 'getHumanMob');
+      spyOn(encounter, 'check');
+
+      const totalMovements = 3;
+
+      players.ai.units.mobs.push({
+        cell: 'icon00e',
+        movements: 1,
+        totalMovements: totalMovements,
+      });
+
+      turnManager.endTurn(currentMapLevel, players);
+
+      expect(players.ai.units.mobs[0].movements)
+        .toBe(totalMovements);
+    });
+  });
 
 });
