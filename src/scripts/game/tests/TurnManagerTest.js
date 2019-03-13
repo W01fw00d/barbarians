@@ -34,16 +34,9 @@ describe("TurnManager", ()=> {
       towns: [],
     };
 
-    // const neutral = new Player();
-    // neutral.units = {
-    //   mobs: [],
-    //   towns: []
-    // };
-
     players = {
       human: human,
       ai: ai,
-      // neutral: neutral,
     };
 
     spyOn(namesManager, 'getRandomName');

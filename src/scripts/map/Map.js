@@ -109,7 +109,7 @@ function Map(mapPainter, detailsPanelPainter, mapDesign, namesManager, iconTempl
 
   //TODO create a Map object which stores all possible position on map and what is there
   this.getCellId = function(cell) {
-    return $(cell + ' a img').attr('id');
+    return $(cell + ' img').attr('id');
   }
 
   var getTownObject = function(

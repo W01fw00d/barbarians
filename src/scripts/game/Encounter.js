@@ -155,7 +155,7 @@ function Encounter(
 
             // Find target unit in array
             for (j = 0; j < unitsLength; j++) {
-              if (units[j].cell === map.getCellId(iteration[i])) { // it used to be $(iteration + ' img').attr('id'); , without a
+              if (units[j].cell === map.getCellId(iteration[i])) {
                 conquered = j;
                 break;
               }
