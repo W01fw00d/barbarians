@@ -3,12 +3,14 @@ function TurnManager(
   levelManager,
   namesManager,
   iconTemplates,
+  map,
   mapPainter
 ) {
   this.encounter = encounter;
   this.levelManager = levelManager;
   this.namesManager = namesManager;
   this.iconTemplates = iconTemplates;
+  this.map = map;
   this.mapPainter = mapPainter;
 }
 
@@ -51,25 +53,21 @@ TurnManager.prototype.generateSoldiers = function(player, players) {
 
     //bottom limit
     if (parseInt(cell[0]) === 7){
-      console.log('bottom limit');
       iterations.splice(0, 1);
     //top limit
     } else if (parseInt(cell[0]) === 0){
-      console.log('top limit');
       iterations.splice(2, 1);
     }
     //right limit
     if (parseInt(cell[1]) === 7){
-      console.log('right limit');
       iterations.splice(1, 1);
     //left limit
     } else if (parseInt(cell[1]) === 0){
-      console.log('left limit');
       iterations.splice(3, 1);
     }
 
     iterations.some((iteration, iterationsIndex) => {
-      if (map.getCellId(iteration) === undefined) {
+      if (this.map.getCellId(iteration) === undefined) {
         emptyCell = iteration.replace('#cell', '').split("");
 
         randomName = this.namesManager.getRandomName('mob', player.name);
@@ -91,7 +89,7 @@ TurnManager.prototype.generateSoldiers = function(player, players) {
 
         id = 'icon' + emptyCell[0] + emptyCell[1] + annotation;
 
-        mapPainter.paint(
+        this.mapPainter.paint(
           iteration[iterationsIndex],
           mobTemplate.apply(
             this.iconTemplates,

@@ -29,7 +29,7 @@ Player.prototype.moveSoldier = function(unit, target) {
 
     if ((icon === null) && (movement > 0) && (movement <= unit.movements)){
 
-        //Move the soldier icon to he selected cell, and calculate movements left 
+        //Move the soldier icon to he selected cell, and calculate movements left
         unit.cell = 'icon' + finalCell[0] + '' + finalCell[1] + initialCell[2];
         unit.movements -= movement;
 
@@ -84,6 +84,8 @@ Player.prototype.upgradeMode = function(unit, upgrade){
         } else {
             alert(errorMessage);
         }
+
+    // This is only used by AlliedMobs.
     } else if (upgrade === 'improve_strength') {
         if (unit.strength <= this.gold){
             this.setGold(this.gold - unit.strength);
