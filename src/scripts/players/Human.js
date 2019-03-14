@@ -1,5 +1,5 @@
-function Human() {
-    Player.call(this);
+function Human(map, mapPainter) {
+    Player.call(this, map, mapPainter);
     this.name = 'human';
     this.gold = 1;
 }

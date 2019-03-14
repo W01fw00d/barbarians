@@ -1,4 +1,5 @@
 function Game(startingMapLevel) {
+  //TODO why define vars on this?
   this.browserUtils = new BrowserUtils();
   this.mapPainter = new MapPainter();
   this.detailsPanelPainter = new DetailsPanelPainter();
@@ -13,8 +14,8 @@ function Game(startingMapLevel) {
   this.turnManager = new TurnManager(this.encounter, this.levelManager, this.namesManager, this.iconTemplates, this.map, this.mapPainter);
 
   this.players = {
-      human: new Human(),
-      ai: new AI(),
+      human: new Human(this.map, this.mapPainter),
+      ai: new AI(this.map, this.mapPainter),
       neutral: new Neutral()
   };
 

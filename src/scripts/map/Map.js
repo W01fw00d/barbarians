@@ -107,11 +107,6 @@ function Map(mapPainter, detailsPanelPainter, mapDesign, namesManager, iconTempl
     );
   }
 
-  //TODO create a Map object which stores all possible position on map and what is there
-  this.getCellId = function(cell) {
-    return $(cell + ' img').attr('id');
-  }
-
   var getTownObject = function(
     id, player, name, typeTag, factionTag
   ) {
@@ -150,4 +145,14 @@ function Map(mapPainter, detailsPanelPainter, mapDesign, namesManager, iconTempl
       factionTag: factionTag
     };
   }
+
+  //TODO create a Map object which stores all possible position on map and what is there, to be able to refactor those functions
+  this.getCellId = function(cell) {
+    return $(cell + ' img').attr('id');
+  }
+
+  this.getIcon = function(id) {
+    return document.getElementById(id).lastElementChild;
+  }
+
 }

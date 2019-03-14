@@ -1,10 +1,13 @@
-function Player() {
+//TODO map as mapManager renamed here only to avoid crash with other var named map
+function Player(mapManager, mapPainter) {
     this.units = {
         mobs: [],
         towns: []
     };
 
     this.gold;
+    this.mapManager = mapManager;
+    this.mapPainter = mapPainter;
 }
 
 Player.prototype.name;
@@ -20,22 +23,21 @@ Player.prototype.moveSoldier = function(unit, target) {
     const initialCell = unit.cell.replace('icon', '').split(""),
           finalCell = target.replace('cell', '').replace('#', '').split("");
 
-    let icon = document.getElementById(target).lastElementChild,
+    let icon = this.mapManager.getIcon(target),
         movement,
         result;
 
     //Check how many cells have it move as a total
     movement = Math.abs(initialCell[0] - finalCell[0]) + Math.abs(finalCell[1] - initialCell[1]);
 
-    if ((icon === null) && (movement > 0) && (movement <= unit.movements)){
-
+    if ((icon === null) && (movement > 0) && (movement <= unit.movements)) {
         //Move the soldier icon to he selected cell, and calculate movements left
         unit.cell = 'icon' + finalCell[0] + '' + finalCell[1] + initialCell[2];
         unit.movements -= movement;
 
         result = unit;
 
-        $('#cell' + initialCell[0] + '' + initialCell[1]).html('');
+        this.mapPainter.clearCell(initialCell[0], initialCell[1]);
 
     } else {
         if (unit.player === 'Roman'){

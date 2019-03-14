@@ -1,5 +1,5 @@
-function AI() {
-    Player.call(this);
+function AI(map, mapPainter) {
+    Player.call(this, map, mapPainter);
     this.name = 'ai';
     this.gold = 1;
 }
@@ -7,8 +7,8 @@ function AI() {
 AI.prototype = Object.create(Player.prototype);
 
 AI.prototype.shuffle = function(array) {
-    let currentIndex = array.length, 
-        temporaryValue, 
+    let currentIndex = array.length,
+        temporaryValue,
         randomIndex;
 
     // While there remain elements to shuffle...
@@ -43,7 +43,7 @@ AI.prototype.performTurn = function() {
             this.moveSoldierRandom(mob);
         }
     });
-    
+
 // Randomly reorder towns array
     towns = this.shuffle(towns);
 

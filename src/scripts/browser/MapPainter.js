@@ -4,6 +4,10 @@ function MapPainter() {
     $(selector).html(content);
   }
 
+  this.clearCell = function(y, x) {
+    $('#cell' + y + '' + x).html('');
+  }
+
   this.eraseMap = function() {
     $('#map').html('');
   }
