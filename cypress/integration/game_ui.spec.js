@@ -72,7 +72,7 @@ context('Game UI', () => {
     cy.on('window:alert', stub);
     cy.on("window:confirm", () => true).then(() => {
       expect(stub.getCall(0)).to.be.calledWith("The Barbarians are everywhere! Rome will fall...");
-      //cy.get('#gold').should('have.value', 1); //TODO: This is a bug, currently game is not reseting gold or units (after first turn, dead units appear again)
+      //cy.get('#gold').should('have.value', 1); //TODO: (github issue #12) This is a bug, currently game is not reseting gold or units (after first turn, dead units appear again)
       cy.get('#icon32a').should('exist');
     });
   })
