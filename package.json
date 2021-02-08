@@ -1,0 +1,27 @@
+{
+  "name": "barbarians",
+  "version": "1.0.0",
+  "description": "![alt text](https://github.com/W01fw00d/barbarians/blob/master/src/images/gifs/barbarians_demo.gif \"\")",
+  "main": "main.html",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "cypress": "^6.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "f-test": "cypress run",
+    "f-test-ui": "cypress open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/W01fw00d/barbarians.git"
+  },
+  "author": "W01fw00d",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/W01fw00d/barbarians/issues"
+  },
+  "homepage": "https://github.com/W01fw00d/barbarians#readme"
+}
