@@ -68,10 +68,12 @@ context('Game UI', () => {
 
     cy.get('#destroy').click();
 
+    const stub = cy.stub()
+    cy.on('window:alert', stub);
     cy.on("window:confirm", () => true).then(() => {
-      //cy.get('#gold').should('have.value', 1); //This is a bug, currently game is not reseting gold
+      expect(stub.getCall(0)).to.be.calledWith("The Barbarians are everywhere! Rome will fall...");
+      //cy.get('#gold').should('have.value', 1); //TODO: This is a bug, currently game is not reseting gold
       cy.get('#icon32a').should('exist');
     });
-    cy.on("window:alert", () => true);
   })
 })
