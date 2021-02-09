@@ -188,15 +188,40 @@ MapDesign.prototype.blueprints = [
         "a A  N a",
         "        "
     ],
-    // 13. Test 3 (combat ftest)
+
+    // 13. Test 3 (versus mobs)
     [
         "        ",
-        "   x    ",
-        "  xex   ",
-        "   xEx  ",
-        "   x x  ",
         "        ",
-        "x   a   ",
+        "        ",
+        "        ",
+        "  x n x ",
+        " xE   Ex",
+        "xex a x ",
+        "Ax      "
+    ],
+
+    // 14. Test 4 (capture)
+    [
+        "        ",
+        "        ",
+        "        ",
+        "        ",
+        "    N   ",
+        " x E E  ",
+        "xex a   ",
+        "Ax      "
+    ],
+
+    // 15. Test 5 (auto-capture)
+    [
+        "        ",
+        "        ",
+        "        ",
+        "        ",
+        "   xNx  ",
+        " xxEaEx ",
+        "xexx x  ",
         "Ax      "
     ],
 ];

@@ -52,4 +52,8 @@ context('Different ways to finish a map or the whole game', () => {
       cy.get('#icon32a').should('exist');
     });
   })
+
+  //TODO: go to next map
+
+  //TODO: finish last map, game over: player victory
 })
