@@ -14,6 +14,9 @@ Greetings:
 
 To try it, just open the main.html file with your browser :)
 
+* You can choose the level by using params like this: main.html?level=2
+(1 - 10 are for the main campaign, 0 and 11 - XX are for testing)
+
 To launch the Jasmine unit tests, just open SpecRunner.html (please check that all tests are green before launching a pull request :) )
 
 

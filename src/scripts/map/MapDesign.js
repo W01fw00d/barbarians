@@ -165,7 +165,7 @@ MapDesign.prototype.blueprints = [
 
     // TEST MAPS
 
-    // 11. Test1
+    // 11. Test 1 (manual)
     [
         " x      ",
         "        ",
@@ -177,7 +177,7 @@ MapDesign.prototype.blueprints = [
         "        "
     ],
 
-    // 12. Test2
+    // 12. Test 2 (manual)
     [
         "E A     ",
         "     E  ",
@@ -187,5 +187,16 @@ MapDesign.prototype.blueprints = [
         "  aaaa  ",
         "a A  N a",
         "        "
+    ],
+    // 13. Test 3 (combat ftest)
+    [
+        "        ",
+        "   x    ",
+        "  xex   ",
+        "   xEx  ",
+        "   x x  ",
+        "        ",
+        "x   a   ",
+        "Ax      "
     ]
 ];

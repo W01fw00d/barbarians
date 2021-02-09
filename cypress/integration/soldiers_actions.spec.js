@@ -6,9 +6,9 @@ context('Soldiers actions', () => {
   })
 
   it('Improve soldier strength if enough gold', () => {
-    cy.get('#info').should('not.be.visible');
+    cy.get('#soldier_info').should('not.be.visible');
     cy.get('#icon32a').click();
-    cy.get('#info').should('be.visible');
+    cy.get('#soldier_info').should('be.visible');
 
     cy.get('#strength').should('contain', "Combat strength: [1].");
     cy.get('#improve_strength').click();
@@ -16,9 +16,9 @@ context('Soldiers actions', () => {
   })
 
   it('Do NOT improve soldier strength if NOT enough gold', () => {
-    cy.get('#info').should('not.be.visible');
+    cy.get('#soldier_info').should('not.be.visible');
     cy.get('#icon32a').click();
-    cy.get('#info').should('be.visible');
+    cy.get('#soldier_info').should('be.visible');
 
     cy.get('#strength').should('contain', "Combat strength: [1].");
     cy.get('#improve_strength').click();
@@ -39,7 +39,7 @@ context('Soldiers actions', () => {
     cy.get('#end_turn').click();
 
     cy.get('#icon32a').click();
-    cy.get('#info').should('be.visible');
+    cy.get('#soldier_info').should('be.visible');
 
     cy.on("window:confirm", () => true);
     cy.get('#destroy').click();
@@ -51,7 +51,7 @@ context('Soldiers actions', () => {
     cy.get('#end_turn').click();
 
     cy.get('#icon32a').click();
-    cy.get('#info').should('be.visible');
+    cy.get('#soldier_info').should('be.visible');
 
     cy.on("window:confirm", () => false);
     cy.get('#destroy').click();
