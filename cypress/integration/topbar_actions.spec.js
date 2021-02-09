@@ -1,19 +1,19 @@
 /// <reference types="cypress" />
 
-context('Toolbar actions', () => {
-  beforeEach(() => {
-    cy.visit('main.html');
-  })
+import { start, click, endTurn } from '../utils/ui.js';
+
+context('Topbar actions', () => {
+  beforeEach(() => start());
 
   it('When user clicks on unmute music button, music gets unmuted and then, it can me muted again', () => {
     cy.get('#mute_music').should('contain', 'Unmute Music');
 
-    cy.get('#mute_music').click();
+    click('#mute_music');
 
     cy.get('#mute_music').should('contain', 'Mute Music');
     //TODO: demonstrate that sound is actually emited
 
-    cy.get('#mute_music').click();
+    click('#mute_music');
 
     cy.get('#mute_music').should('contain', 'Unmute Music');
   })
@@ -21,12 +21,12 @@ context('Toolbar actions', () => {
   it('When user clicks on unmute SFX button, SFX gets unmuted and then, it can me muted again', () => {
     cy.get('#mute_sfx').should('contain', 'Unmute SFX');
 
-    cy.get('#mute_sfx').click();
+    click('#mute_sfx');
 
     cy.get('#mute_sfx').should('contain', 'Mute SFX');
     //TODO: demonstrate that sound is actually emited
 
-    cy.get('#mute_sfx').click();
+    click('#mute_sfx');
 
     cy.get('#mute_sfx').should('contain', 'Unmute SFX');
   })
@@ -40,7 +40,7 @@ context('Toolbar actions', () => {
       .find('img[src="./src/images/board/SB_del_def.png"]')
       .should('have.length', 1);
 
-    cy.get('#end_turn').click();
+    endTurn();
 
     cy.get('#gold').should('have.value', 4);
     cy.get('#map')

@@ -1,1 +1,10 @@
-{}
+{
+    "testFiles": [
+        "topbar_actions.spec.js",
+        "map_info.spec.js",
+        "soldiers_actions.spec.js",
+        "movement.spec.js",
+        "combat.spec.js",
+        "map_over.spec.js"
+    ]
+}

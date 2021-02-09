@@ -1,33 +1,33 @@
 /// <reference types="cypress" />
 
+import { start, click, canSeeSoldierInfo, moreStrength, endTurn } from '../utils/ui.js';
+
 context('Soldiers actions', () => {
-  beforeEach(() => {
-    cy.visit('main.html');
-  })
+  beforeEach(() => start());
 
   it('Improve soldier strength if enough gold', () => {
     cy.get('#soldier_info').should('not.be.visible');
-    cy.get('#icon32a').click();
-    cy.get('#soldier_info').should('be.visible');
+    click('#icon32a');
+    canSeeSoldierInfo();
 
     cy.get('#strength').should('contain', "Combat strength: [1].");
-    cy.get('#improve_strength').click();
+    moreStrength();
     cy.get('#strength').should('contain', "Combat strength: [2].");
   })
 
   it('Do NOT improve soldier strength if NOT enough gold', () => {
     cy.get('#soldier_info').should('not.be.visible');
-    cy.get('#icon32a').click();
-    cy.get('#soldier_info').should('be.visible');
+    click('#icon32a');
+    canSeeSoldierInfo();
 
     cy.get('#strength').should('contain', "Combat strength: [1].");
-    cy.get('#improve_strength').click();
+    moreStrength();
     cy.get('#strength').should('contain', "Combat strength: [2].");
-    cy.get('#improve_strength').click();
+    moreStrength();
 
     const stub = cy.stub()
     cy.on('window:alert', stub);
-    cy.get('#improve_strength').click()
+    click('#improve_strength')
     .then(() => {
       expect(stub.getCall(0)).to.be.calledWith("You don't have enough gold!");
     });
@@ -36,25 +36,25 @@ context('Soldiers actions', () => {
   })
 
   it('Destroy one of the soldiers after confirmation', () => {
-    cy.get('#end_turn').click();
+    endTurn();
 
-    cy.get('#icon32a').click();
-    cy.get('#soldier_info').should('be.visible');
+    click('#icon32a');
+    canSeeSoldierInfo();
 
     cy.on("window:confirm", () => true);
-    cy.get('#destroy').click();
+    click('#destroy');
 
     cy.get('#icon32a').should('not.exist');
   })
 
   it('Do not destroy one of the soldiers after confirmation', () => {
-    cy.get('#end_turn').click();
+    endTurn();
 
-    cy.get('#icon32a').click();
-    cy.get('#soldier_info').should('be.visible');
+    click('#icon32a');
+    canSeeSoldierInfo();
 
     cy.on("window:confirm", () => false);
-    cy.get('#destroy').click();
+    click('#destroy');
 
     cy.get('#icon32a').should('exist');
   })

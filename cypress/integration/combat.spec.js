@@ -1,21 +1,23 @@
 /// <reference types="cypress" />
 
-context('Soldiers actions', () => {
-  it('Player soldier defeats AI soldier if it has more than 1 strength that it', () => {
-    cy.visit('main.html?level=13');
+import { start, endTurn, click, moreStrength, canSeeSoldierInfo } from '../utils/ui.js';
 
-    cy.get('#end_turn').click();
+context('Combat', () => {
+  it('Player soldier always defeats AI soldier if it has more than 1 strength that it', () => {
+    start(13);
+
+    endTurn();
     
-    cy.get('#icon64a').click();
-    cy.get('#soldier_info').should('be.visible');
-    cy.get('#improve_strength').click();
-    cy.get('#improve_strength').click();
+    click('#icon64a');
+    canSeeSoldierInfo();
+    moreStrength();
+    moreStrength();
     cy.get('#strength').should('contain', "Combat strength: [4].");
 
-    cy.get('#icon44e').should('exist')
+    cy.get('#icon44e').should('exist');
 
-    cy.get('#cell54').click();
+    click('#cell54');
 
-    cy.get('#icon44e').should('not.exist')
+    cy.get('#icon44e').should('not.exist');
   })
 })
