@@ -5,16 +5,6 @@ context('Soldiers actions', () => {
     cy.visit('main.html');
   })
 
-  it('Open and close player soldier UI', () => {
-    cy.get('#info').should('not.be.visible');
-
-    cy.get('#icon32a').click();
-    cy.get('#info').should('be.visible');
-
-    cy.get('#close').click();
-    cy.get('#info').should('not.be.visible');
-  })
-
   it('Improve soldier strength if enough gold', () => {
     cy.get('#info').should('not.be.visible');
     cy.get('#icon32a').click();
