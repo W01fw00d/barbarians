@@ -224,4 +224,16 @@ MapDesign.prototype.blueprints = [
         "xexx x  ",
         "Ax      "
     ],
+
+    // 16. Test 6 (towns)
+    [
+        "        ",
+        " A      ",
+        "        ",
+        "        ",
+        "x       ",
+        "ex    x ",
+        "x    xEx",
+        "ax      "
+    ],
 ];

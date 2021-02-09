@@ -22,4 +22,6 @@ context('User can display more info about map units', () => {
     cy.get('#info').should('not.be.visible');
     cy.get('#soldier_info').should('not.be.visible');
   })
+
+  //TODO: test tooltips when hovering units
 })

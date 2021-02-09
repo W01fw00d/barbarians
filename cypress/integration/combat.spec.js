@@ -3,6 +3,7 @@
 import { start, endTurn, click, moreStrength, canSeeSoldierInfo } from '../utils/ui.js';
 
 context('Combat', () => {
+  //TODO: test that every barbarian killed gives the player 1 gold, but the wolfs give 0
   it(
     'Soldier defeats 3 mobs if it has more than 1 strength than them, and cannot move anymore.' +
     ' Also, next turn new recruits are auto-killed',

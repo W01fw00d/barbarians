@@ -5,6 +5,8 @@ import { start, click, canSeeSoldierInfo, moreStrength, endTurn } from '../utils
 context('Soldiers actions', () => {
   beforeEach(() => start());
 
+  //TODO: test and bug: when a soldier strength is updated, the displayed price rises for other soldiers as well, but the correct amount of gold is actually expend when clicked
+
   it('Improve soldier strength if enough gold', () => {
     cy.get('#soldier_info').should('not.be.visible');
     click('#icon32a');

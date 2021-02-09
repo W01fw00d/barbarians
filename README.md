@@ -7,15 +7,12 @@ Includes:
 * Jquery 
 * Bootstrap.
 * Jasmine
+* Cypress
 
-Greetings:
-* Art by Juanju (JJ)
-* Programming by W01fw00d
+To play it, just open the main.html file with your browser :)
 
-To try it, just open the main.html file with your browser :)
-
-* You can choose the level by using params like this: main.html?level=2
-(1 - 10 are for the main campaign, 0 and 11 - XX are for testing)
+* You can choose the level by using params like this: 'main.html?level=2'
+(1 - 10 are used for the main campaign, 0 and 11 - XX are used for testing)
 
 To launch the Jasmine unit tests, just open SpecRunner.html (please check that all tests are green before launching a pull request :) )
 
@@ -37,6 +34,12 @@ npm run f-test-ui
 
 Contributors:
 
+* Art
+
+Juanju (JJ)
+
+* Programming
+
 [@tattarrattat](https://github.com/tattarrattat)
 
 [@dakotahavel](https://github.com/dakotahavel)
@@ -45,7 +48,11 @@ Contributors:
 
 [@MHase](https://github.com/MHase)
 
+[@W01fw00d](https://github.com/W01fw00d)
+
+* Game design
 
 [@W01fw00d](https://github.com/W01fw00d)
 
-Thanks! ;)
+
+Thanks everyone! ;)
