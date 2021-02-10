@@ -24,4 +24,9 @@ context('User can display more info about map units', () => {
   })
 
   //TODO: test tooltips when hovering units
+/*   it('Hover soldier to get tooltip', () => {
+    cy.get('#tooltip32a').trigger('mouseover');
+
+    cy.get('#map').should('contain', /.*Moves\: \[2\]\, Strength\: \[1\]/);
+  }) */
 })

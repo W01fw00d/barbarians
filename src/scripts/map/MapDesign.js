@@ -260,4 +260,28 @@ MapDesign.prototype.blueprints = [
         "xxAx    ",
         "aax     "
     ],
+
+    // 19. Test 8.1 (complete map)
+    [
+        "        ",
+        "        ",
+        "    x   ",
+        "   xEx  ",
+        "        ",
+        "        ",
+        "x   a   ",
+        "Ax      "
+    ],
+
+    // 20. Test 8.2 (new map)
+    [
+        "        ",
+        "        ",
+        "        ",
+        "    E   ",
+        "        ",
+        "        ",
+        "        ",
+        "Aa      "
+    ],
 ];

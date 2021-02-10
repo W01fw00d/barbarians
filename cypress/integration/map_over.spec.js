@@ -3,9 +3,9 @@
 import { start, click, endTurn, moreStrength } from '../utils/ui.js';
 
 context('Different ways to finish a map or the whole game', () => {
-  beforeEach(() => start());
-
   it('When user clicks reset map, units and golds gets reset', () => {
+    start();
+
     cy.get('#gold').should('have.value', 1);
     cy.get('#map')
       .find('img[src="./src/images/board/SR_del_def.png"]')
@@ -36,6 +36,8 @@ context('Different ways to finish a map or the whole game', () => {
   })
 
   it('Destroy all player soldiers and it\'s game over, after that games resets units and gold', () => {
+    start();
+
     click('#icon32a');
     cy.get('#info').should('be.visible');
 
@@ -53,7 +55,31 @@ context('Different ways to finish a map or the whole game', () => {
     });
   })
 
-  //TODO: go to next map
+  it('User completes a map and visits the next one with reset gold', () => {
+    start(19);
 
-  //TODO: finish last map, game over: player victory
+    cy.get('#icon71a').should('not.exist');
+    cy.get('#gold').should('have.value', 1);
+
+    endTurn();
+
+    click('#icon64a');
+    moreStrength();
+    moreStrength();
+
+    cy.get('#gold').should('have.value', 1);
+
+    const stub = cy.stub()
+    cy.on('window:alert', stub);
+    click('#cell54').then(() => {
+      expect(stub.getCall(0)).to.be.calledWith("Victory! The area is safe again.");
+      cy.get('#icon71a').should('exist');
+      //cy.get('#gold').should('have.value', 1); //This is a bug, gold is not being reset
+
+      endTurn();
+      //cy.get('#icon54a').should('not.exist');// and if you click on endTurn, old map units appear
+    });
+  })
+
+  //TODO: finish map 10 or last map in list, game over: player victory, go back to map 1
 })
