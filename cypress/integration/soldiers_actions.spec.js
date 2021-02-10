@@ -3,11 +3,9 @@
 import { start, click, canSeeSoldierInfo, moreStrength, endTurn } from '../utils/ui.js';
 
 context('Soldiers actions', () => {
-  beforeEach(() => start());
-
-  //TODO: test and bug: when a soldier strength is updated, the displayed price rises for other soldiers as well, but the correct amount of gold is actually expend when clicked
-
   it('Improve soldier strength if enough gold', () => {
+    start();
+
     cy.get('#soldier_info').should('not.be.visible');
     click('#icon32a');
     canSeeSoldierInfo();
@@ -18,6 +16,8 @@ context('Soldiers actions', () => {
   })
 
   it('Do NOT improve soldier strength if NOT enough gold', () => {
+    start();
+
     cy.get('#soldier_info').should('not.be.visible');
     click('#icon32a');
     canSeeSoldierInfo();
@@ -37,7 +37,31 @@ context('Soldiers actions', () => {
     cy.get('#strength').should('contain', "Combat strength: [2].");
   })
 
+  it('When a soldier strength is updated, the price raises only for that soldier', () => {
+    start(18);
+    endTurn();
+
+    click('#icon70a');
+
+    cy.get('#strength').should('contain', "Combat strength: [1].");
+    cy.get('#improve_strength').should('contain', "Improve Strength (1 Gold)");
+    cy.get('#gold').should('have.value', 4);
+    moreStrength();
+    cy.get('#gold').should('have.value', 3);
+    cy.get('#strength').should('contain', "Combat strength: [2].");
+    cy.get('#improve_strength').should('contain', "Improve Strength (2 Gold)");
+
+    click('#icon71a');
+    cy.get('#strength').should('contain', "Combat strength: [1].");
+    //cy.get('#improve_strength').should('contain', "Improve Strength (1 Gold)"); //bug: when a soldier strength is updated, the displayed price rises for other soldiers as well, but the correct amount of gold is actually expend when clicked
+    moreStrength();
+    cy.get('#gold').should('have.value', 2);
+    cy.get('#strength').should('contain', "Combat strength: [2].");
+    cy.get('#improve_strength').should('contain', "Improve Strength (2 Gold)");
+  })
+
   it('Destroy one of the soldiers after confirmation', () => {
+    start();
     endTurn();
 
     click('#icon32a');
@@ -50,6 +74,7 @@ context('Soldiers actions', () => {
   })
 
   it('Do not destroy one of the soldiers after confirmation', () => {
+    start();
     endTurn();
 
     click('#icon32a');

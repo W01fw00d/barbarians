@@ -248,4 +248,16 @@ MapDesign.prototype.blueprints = [
         "x       ",
         "ax      "
     ],
+
+    // 18. Test 7 (soldiers upgrade strength)
+    [
+        "        ",
+        "        ",
+        "        ",
+        "        ",
+        "x       ",
+        "exx     ",
+        "xxAx    ",
+        "aax     "
+    ],
 ];
