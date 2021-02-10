@@ -20,7 +20,7 @@ context('Towns upgrades and unit generation', () => {
       .find('img[src="./src/images/board/SR_del_def.png"]')
       .should('have.length', 2);
 
-    //AI randonmly chooses between improving quantity or quality, so 1 - 2 units can spawn in first turn.
+    // AI randonmly chooses between improving quantity or quality, so 1 - 2 units can spawn in first turn.
     // We limited available space in this map to 1 to avoid this randomness.
     cy.get('#map')
       .find('img[src="./src/images/board/SR_del_def.png"]')
