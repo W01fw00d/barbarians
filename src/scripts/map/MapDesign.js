@@ -236,4 +236,16 @@ MapDesign.prototype.blueprints = [
         "x    xEx",
         "ax      "
     ],
+
+    // 17. Test 6 (towns upgrade quality)
+    [
+        " x      ",
+        "xAx     ",
+        "        ",
+        "        ",
+        "x       ",
+        "ex      ",
+        "x       ",
+        "ax      "
+    ],
 ];

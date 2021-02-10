@@ -35,9 +35,11 @@ context('Towns upgrades and unit generation', () => {
       .should('have.length', 1);
 
     click('#icon11A');
-    cy.get('#town_info').should('be.visible');
+    cy.get('#prod').should('contain', 'Producing [1] soldiers with [1] strength each turn. Upgrade: ');
     click('#improve_quantity');
-    //TODO: check displayed text about quantity
+    click('#icon11A');
+    cy.get('#prod').should('contain', 'Producing [2] soldiers with [1] strength each turn. Upgrade: ');
+
     endTurn();
 
     cy.get('#map')
@@ -45,5 +47,32 @@ context('Towns upgrades and unit generation', () => {
       .should('have.length', 3);
   })
 
-  //TODO: test quality upgrade
+  it(
+    'Player town generates unit with 1 strength when quality is 1;' +
+    'and unit with 2 strength when quality is 2',
+  () => {
+    start(17);
+
+    cy.get('#map')
+      .find('img[src="./src/images/board/SR_del_def.png"]')
+      .should('have.length', 1);
+
+    click('#icon11A');
+    cy.get('#prod').should('contain', 'Producing [1] soldiers with [1] strength each turn. Upgrade: ');
+    endTurn();
+
+    click('#icon21a');
+    cy.get('#strength').should('contain', "Combat strength: [1].");
+    click('#cell22');
+
+    click('#icon11A');
+    click('#improve_quality');
+    click('#icon11A');
+    cy.get('#prod').should('contain', 'Producing [1] soldiers with [2] strength each turn. Upgrade: ');
+
+    endTurn();
+
+    click('#icon21a');
+    cy.get('#strength').should('contain', "Combat strength: [2].");
+  })
 })
