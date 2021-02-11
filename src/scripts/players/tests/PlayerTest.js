@@ -30,7 +30,7 @@ describe("Player", ()=> {
     //   }
     // };
     //
-    // spyOn(browserUtils, 'reloadLocation');
+    // spyOn(browserUtils, 'navigateToDefaultMap');
     // spyOn(browserUtils, 'showMessage');
 
   });
@@ -148,7 +148,7 @@ describe("Player", ()=> {
   //       );
   //
   //       expect(browserUtils.showMessage).toHaveBeenCalledWith(win_message_eng);
-  //       expect(browserUtils.reloadLocation).toHaveBeenCalled();
+  //       expect(browserUtils.navigateToDefaultMap).toHaveBeenCalled();
   //     });
   // });
 });

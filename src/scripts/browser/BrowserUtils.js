@@ -1,6 +1,6 @@
 function BrowserUtils() {
-  this.reloadLocation = function() {
-    location.reload();
+  this.navigateToDefaultMap = function() {
+    window.location.href = './main.html'
   }
 
   this.showMessage = function(message) {

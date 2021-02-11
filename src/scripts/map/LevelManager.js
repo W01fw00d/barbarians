@@ -105,6 +105,6 @@ function LevelManager(
   }
 
   var resetGame = function() {
-    browserUtils.reloadLocation();
+    browserUtils.navigateToDefaultMap();
   }
 }
