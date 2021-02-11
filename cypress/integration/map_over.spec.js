@@ -105,7 +105,8 @@ context('Different ways to finish a map or the whole game', () => {
     click('#cell54').then(() => {
       expect(stub.getCall(0)).to.be.calledWith("Victory! The area is safe again.");
       expect(stub.getCall(1)).to.be.calledWith(
-        'Congratulations, you completed the game! Those Barbarians won\'t be a threat for our beloved Rome anymore... right?'
+        'Congratulations, you completed the game!' +
+        ' Those Barbarians won\'t be a threat for our beloved Rome anymore... right?'
       );
 
       cy.location().should((location) => {
