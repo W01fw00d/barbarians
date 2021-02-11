@@ -86,7 +86,7 @@ MapDesign.prototype.blueprints = [
         "IXXXDN x",
         "xNn    x",
         "x    nNx",
-        "x EIXXXD",
+        "xeEIXXXD",
         "x     Ex",
         "IXXXXXXD"
     ],
@@ -124,7 +124,7 @@ MapDesign.prototype.blueprints = [
         " nVVVNnn",
         "       n",
         "N a     ",
-        "VVV VE V"
+        "VVV VEeV"
     ],
 
     // 8. Surrounded by mountains and foes (hard)
@@ -297,15 +297,15 @@ MapDesign.prototype.blueprints = [
         "Ax      "
     ],
 
-    // 22. Test 9.2 (game over, victory)
+    // 22. Chess tribute
     [
+        "eeeeEeee",
+        "eeeeeeee",
         "        ",
         "        ",
         "        ",
-        "    E   ",
         "        ",
-        "        ",
-        "        ",
-        "Aa      "
+        "aaaaaaaa",
+        "aaaAaaaa"
     ],
 ];

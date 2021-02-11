@@ -7,6 +7,8 @@ context('Combat', () => {
     'Soldier defeats 3 mobs if it has more than 1 strength than them, and cannot move anymore.' +
     ' Also, next turn new recruits are auto-killed',
   () => {
+    // TODO: this test breaks sometimes, when AI decides to improve quality so human soldier can die at hands of new barbarian recruits...
+    // Improve strength more to avoid this possibility
     start(13);
 
     endTurn();
