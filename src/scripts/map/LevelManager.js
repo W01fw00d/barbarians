@@ -89,7 +89,13 @@ function LevelManager(
     win_message_eng = 'Congratulations, you completed the game! Those Barbarians won\'t be a threat for our beloved Rome anymore... right?',
     win_message_spa = '¡Felicidades, has completado el juego! Esos bárbaros no volverán a amenazar la bella Roma... ¿O tal vez ésto solo sea el principio?';
 
-    if (currentMapLevel >= mapDesign.blueprints.length){
+    const lastCampaignMap = 10;
+    const endGameTestMap = 21;
+    if (
+      currentMapLevel == (lastCampaignMap + 1) ||
+      currentMapLevel == (endGameTestMap + 1) ||
+      currentMapLevel >= mapDesign.blueprints.length
+    ){
       browserUtils.showMessage(win_message_eng);
       resetGame();
 

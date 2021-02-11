@@ -284,4 +284,28 @@ MapDesign.prototype.blueprints = [
         "        ",
         "Aa      "
     ],
+
+    // 21. Test 9.1 (game over, victory)
+    [
+        "        ",
+        "        ",
+        "    x   ",
+        "   xEx  ",
+        "        ",
+        "        ",
+        "x   a   ",
+        "Ax      "
+    ],
+
+    // 22. Test 9.2 (game over, victory)
+    [
+        "        ",
+        "        ",
+        "        ",
+        "    E   ",
+        "        ",
+        "        ",
+        "        ",
+        "Aa      "
+    ],
 ];
