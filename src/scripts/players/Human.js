@@ -1,7 +1,6 @@
 function Human(map, mapPainter) {
     Player.call(this, map, mapPainter);
     this.name = 'human';
-    this.gold = 0;
 }
 
 Human.prototype = Object.create(Player.prototype);

@@ -5,11 +5,17 @@ function Map(mapPainter, detailsPanelPainter, mapDesign, namesManager, iconTempl
 
   // Generates a map using the desing array as input
   this.generate = function(level, players) {
+    const resetMapState = () => {
+      players.human.setGold(STARTING_GOLD);
+      players.human.reset();
+      players.ai.reset();
+      players.neutral.reset();
+    }
+
     const designArray = mapDesign.blueprints[level],
       designArrayLength = designArray.length;
 
-    // Print starting gold on screen
-    players.human.setGold(STARTING_GOLD);
+    resetMapState();
     detailsPanelPainter.hide();
     mapPainter.eraseMap();
 

@@ -1,5 +1,6 @@
 function Neutral() {
     Player.call(this);
     this.name = 'neutral';
-    this.gold = 1;
 }
+
+Neutral.prototype = Object.create(Player.prototype);
