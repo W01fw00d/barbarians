@@ -50,16 +50,14 @@ context('Combat', () => {
 
     click('#cell54');
 
-    //TODO: Bug: When capturing, soldier should loose all movement left.
     cy.get('#icon44A[src="./src/images/board/AR_del_def.png"]').should('exist');
     cy.get('#icon53A[src="./src/images/board/AR_del_def.png"]').should('exist');
     cy.get('#icon55A[src="./src/images/board/AR_del_def.png"]').should('exist');
-    //click('#icon54a[src="./src/images/board/SRUsed_del_def.png"]');
-    //cy.get('#movement').should('contain', 'Movements left: [0]');
+    click('#icon54a[src="./src/images/board/SRUsed_del_def.png"]');
+    cy.get('#movement').should('contain', 'Movements left: [0]');
   })
 
-  //TODO: bug, sometimes only one town is conquered, instead of the 3
-  /* it('Soldier captures 3 towns automatically at beginning of second turn', () => {
+  it('Soldier captures 3 towns automatically at beginning of second turn', () => {
     start(15);
 
     cy.get('#icon44N[src="./src/images/board/AN_del_def.png"]').should('exist');
@@ -71,5 +69,5 @@ context('Combat', () => {
     cy.get('#icon44A[src="./src/images/board/AR_del_def.png"]').should('exist');
     cy.get('#icon53A[src="./src/images/board/AR_del_def.png"]').should('exist');
     cy.get('#icon55A[src="./src/images/board/AR_del_def.png"]').should('exist');
-  }) */
+  })
 })

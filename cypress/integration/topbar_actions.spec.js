@@ -50,6 +50,6 @@ context('Topbar actions', () => {
       .should('have.length', 2);
     cy.get('#map')
       .find('img[src="./src/images/board/SB_del_def.png"]')
-      .should('have.length', 2);
+      .should('have.length.at.least', 2); // AI randomly upgrades quantity, resulting in +2 barbarians instead of +1
   })
 })

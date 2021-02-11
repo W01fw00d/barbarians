@@ -159,6 +159,7 @@ function Encounter(
             for (j = 0; j < unitsLength; j++) {
               if (units[j].cell === map.getCellId(iteration[i])) {
                 conquered = j;
+                combatResults.winner = unit;
                 break;
               }
             }
@@ -189,9 +190,7 @@ function Encounter(
           }
         }
       }
-    }
 
-    if (combatResults.loser !== unit){
       changeIcon(unit, combatResults.winner);
     }
   }
