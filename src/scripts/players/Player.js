@@ -91,6 +91,8 @@ Player.prototype.upgradeMode = function(unit, upgrade) {
             unit.stats.quantity++;
 
             updateTownHtml();
+
+            //TODO refactor: move all this DOM acceses to DetailsPanelPainter
             $("#improve_quantity").html(
                 `Quantity (${unit.stats.quantityUpgradePrice} Gold)`
             );
