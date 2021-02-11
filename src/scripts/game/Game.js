@@ -80,7 +80,10 @@ Game.prototype.onCellClick = function(event, unit){
             this.moveMode.call(this, modeToActivate.unit);
         }
 
-    } else if ((unit.movements > 0) && (unit.cell.replace('icon', '').substring(0, 2) !== target.replace('cell', ''))){
+    } else if (
+        (unit.movements > 0) &&
+        (unit.cell.replace('icon', '').substring(0, 2) !== target.replace('cell', ''))
+    ){
         result = this.players.human.moveSoldier(unit, target);
 
         if (result) {
@@ -100,8 +103,6 @@ Game.prototype.onCellClick = function(event, unit){
 
 // Allows soldier to move while movements left
 Game.prototype.moveMode = function(unit) {
-    let target, result;
-
     $('.cell').one( "click", event => {
         this.onCellClick.call(this, event, unit);
     });

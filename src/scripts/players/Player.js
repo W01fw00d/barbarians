@@ -57,13 +57,23 @@ Player.prototype.moveSoldier = function(unit, target) {
 }
 
 // upgrade_auto is for AI turn use of this function. In other case, this is invoked by an event_handler
-Player.prototype.upgradeMode = function(unit, upgrade){
+Player.prototype.upgradeMode = function(unit, upgrade) {
     const errorMessage = 'You don\'t have enough gold!';
 
-    let money = 0,
-        cell,
+    let cell,
         image = '',
         title = '';
+
+    const updateTownHtml = () => {
+        $("#prod").html(
+            `Producing [${unit.stats.quantity}] soldiers with [${unit.stats.quality}] strength each turn. Upgrade: `
+        );
+
+        cell = unit.cell.replace('icon', '#cell');
+        cell = cell.substring(0, cell.length - 1);
+        title = `[${unit.name}]. Quantity: [${unit.stats.quantity}], Quality: [${unit.stats.quality}]`;
+        $(cell + ' a').attr('title', title);
+    }
 
     if (unit.player === 'human'){
         index = 0;
@@ -80,6 +90,11 @@ Player.prototype.upgradeMode = function(unit, upgrade){
             unit.stats.quantityUpgradePrice += unit.stats.quantityUpgradePrice;
             unit.stats.quantity++;
 
+            updateTownHtml();
+            $("#improve_quantity").html(
+                `Quantity (${unit.stats.quantityUpgradePrice} Gold)`
+            );
+
         } else {
             alert(errorMessage);
         }
@@ -90,34 +105,36 @@ Player.prototype.upgradeMode = function(unit, upgrade){
             unit.stats.qualityUpgradePrice += unit.stats.qualityUpgradePrice;
             unit.stats.quality++;
 
+            updateTownHtml();
+            $("#improve_quality").html(
+                `Quality (${unit.stats.qualityUpgradePrice} Gold)`
+            );
+
         } else {
             alert(errorMessage);
         }
 
     // This is only used by AlliedMobs.
     } else if (upgrade === 'improve_strength') {
-        if (unit.strength <= this.gold){
+        if (unit.strength <= this.gold) {
+            const updateTooltip = () => {
+                cell = unit.cell.replace('icon', '#cell');
+                cell = cell.substring(0, cell.length - 1);
+                $(cell + ' a').attr(
+                    'title',
+                    `[${unit.name}]. Moves: [${unit.movements}], Strength: [${unit.strength}]`
+                );
+            }
+
             this.setGold(this.gold - unit.strength);
             unit.strength += unit.strength;
 
             $("#strength").html('Combat strength: [' + unit.strength + '].');
             $("#improve_strength").html('Improve Strength (' + unit.strength + ' Gold)');
+            updateTooltip();
+
         } else {
             alert(errorMessage);
         }
-        return;
     }
-
-    cell = unit.cell.replace('icon', '#cell')
-    cell = cell.substring(0, cell.length - 1);
-
-    if (unit.player === 'human') {
-        title = '[' + unit.name + ']. Quantity: [' + unit.stats.quantity + '], Quality: [' + unit.stats.quality + ']';
-
-    } else if (unit.player === 'ai') {
-        title = '[' + unit.name + ']';
-    }
-
-    $(cell + ' a').attr('title', title);
-    $('#info').hide();
 }
