@@ -1,13 +1,13 @@
 {
     "testFiles": [
-        "jasmine.spec.js",
+        "core/jasmine.spec.js",
         "topbar_actions.spec.js",
         "map_info.spec.js",
-        "soldiers_actions.spec.js",
-        "towns.spec.js",
-        "movement.spec.js",
-        "combat.spec.js",
-        "map_over.spec.js",
+        "core/soldiers_actions.spec.js",
+        "core/towns.spec.js",
+        "core/movement.spec.js",
+        "core/combat.spec.js",
+        "core/map_over.spec.js",
         "manual.spec.js"
     ]
 }

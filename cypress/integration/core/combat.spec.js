@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { start, endTurn, click, moreStrength, canSeeSoldierInfo } from '../utils/ui.js';
+import { start, endTurn, click, moreStrength, canSeeSoldierInfo } from '../../utils/ui.js';
 
 context('Combat', () => {
   it(

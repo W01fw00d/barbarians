@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { start, endTurn, click } from '../utils/ui.js';
+import { start, endTurn, click } from '../../utils/ui.js';
 
 context('Towns upgrades and unit generation', () => {
   // TODO: improvement, location for new recruit should be randomized between all possible ones, currently is always the south space

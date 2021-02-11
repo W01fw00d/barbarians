@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { start, click, endTurn, moreStrength } from '../utils/ui.js';
+import { start, click, endTurn, moreStrength } from '../../utils/ui.js';
 
 context('Different ways to finish a map or the whole game', () => {
   it('When user clicks reset map, units and golds gets reset', () => {

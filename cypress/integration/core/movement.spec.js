@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { start, click, endTurn } from '../utils/ui.js';
+import { start, click, endTurn } from '../../utils/ui.js';
 
 context('Units movements', () => {
   beforeEach(() => start());

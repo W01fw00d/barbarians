@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { start, click, canSeeSoldierInfo, moreStrength, endTurn } from '../utils/ui.js';
+import { start, click, canSeeSoldierInfo, moreStrength, endTurn } from '../../utils/ui.js';
 
 context('Soldiers actions', () => {
   it('Improve soldier strength if enough gold', () => {
