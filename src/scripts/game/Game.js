@@ -91,9 +91,9 @@ Game.prototype.onCellClick = function(event, unit){
                 this.currentMapLevel = newMapLevel;
                 this.map.generate(this.currentMapLevel, this.players);
 
-            } else {
-                this.resetBoardBindings();
             }
+
+            this.resetBoardBindings();
         }
     }
 }
@@ -115,10 +115,9 @@ Game.prototype.moveMode = function(unit) {
             if (newMapLevel) {
                 this.currentMapLevel = newMapLevel;
                 this.map.generate(this.currentMapLevel, this.players);
-
-            } else {
-                this.resetBoardBindings();
             }
+
+            this.resetBoardBindings();
         }
     });
 
@@ -170,10 +169,9 @@ Game.prototype.bindAll = function() {
         if (newMapLevel) {
             this.currentMapLevel = newMapLevel;
             this.map.generate(this.currentMapLevel, this.players);
-
-        } else {
-            this.resetBoardBindings();
         }
+
+        this.resetBoardBindings();
     });
 
     $('#mute_music').click(function(evt){
