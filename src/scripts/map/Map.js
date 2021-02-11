@@ -12,13 +12,11 @@ function Map(mapPainter, detailsPanelPainter, mapDesign, namesManager, iconTempl
       players.neutral.reset();
     }
 
-    const designArray = mapDesign.blueprints[level],
-      designArrayLength = designArray.length;
-
     resetMapState();
     detailsPanelPainter.hide();
     mapPainter.eraseMap();
 
+    const designArray = mapDesign.blueprints[level];
     designArray.forEach((row, rowIndex) => {
       mapPainter.paintRow(rowIndex);
 
@@ -162,5 +160,4 @@ function Map(mapPainter, detailsPanelPainter, mapDesign, namesManager, iconTempl
   this.getIcon = function(id) {
     return document.getElementById(id).lastElementChild;
   }
-
 }

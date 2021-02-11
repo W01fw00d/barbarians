@@ -50,9 +50,9 @@ context('Combat', () => {
 
     click('#cell54');
 
-    //TODO: Bug: When capturing, soldier should loose all movement left. Also, all towns should be captured
-    //cy.get('#icon44A[src="./src/images/board/AR_del_def.png"]').should('exist');
-    //cy.get('#icon53A[src="./src/images/board/AR_del_def.png"]').should('exist');
+    //TODO: Bug: When capturing, soldier should loose all movement left.
+    cy.get('#icon44A[src="./src/images/board/AR_del_def.png"]').should('exist');
+    cy.get('#icon53A[src="./src/images/board/AR_del_def.png"]').should('exist');
     cy.get('#icon55A[src="./src/images/board/AR_del_def.png"]').should('exist');
     //click('#icon54a[src="./src/images/board/SRUsed_del_def.png"]');
     //cy.get('#movement').should('contain', 'Movements left: [0]');

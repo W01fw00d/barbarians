@@ -6,6 +6,7 @@ context('Topbar actions', () => {
   beforeEach(() => start());
 
   it('When user clicks on unmute music button, music gets unmuted and then, it can me muted again', () => {
+    // Try to mute sound in browser, so no sound will really be heard when launching this test with ui
     cy.get('#mute_music').should('contain', 'Unmute Music');
 
     click('#mute_music');
@@ -19,6 +20,7 @@ context('Topbar actions', () => {
   })
 
   it('When user clicks on unmute SFX button, SFX gets unmuted and then, it can me muted again', () => {
+    // Try to mute sound in browser, so no sound will really be heard when launching this test with ui
     cy.get('#mute_sfx').should('contain', 'Unmute SFX');
 
     click('#mute_sfx');

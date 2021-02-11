@@ -2,19 +2,16 @@ const STARTING_GOLD = 1;
 
 //TODO map as mapManager renamed here only to avoid crash with other var named map
 function Player(mapManager, mapPainter) {
-    this.units = {
-        mobs: [],
-        towns: [],
-    };
+    Faction.call(this);
 
     this.gold = STARTING_GOLD;
     this.mapManager = mapManager;
     this.mapPainter = mapPainter;
 }
 
-Player.prototype.name;
+Player.prototype = Object.create(Faction.prototype);
+
 Player.prototype.gold;
-Player.prototype.units;
 
 Player.prototype.reset = function() {
     this.units = {

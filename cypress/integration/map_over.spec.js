@@ -76,10 +76,13 @@ context('Different ways to finish a map or the whole game', () => {
       cy.get('#icon71a').should('exist');
       cy.get('#gold').should('have.value', 1);
 
-      //TODO test: that units can be selected and moved after reset
-
       endTurn();
-      //cy.get('#icon54a').should('not.exist');// and if you click on endTurn, old map units appear
+      cy.get('#icon54a').should('not.exist');
+
+      click('#icon71a');
+      click('#cell72');
+
+      cy.get('#icon72a').should('exist');
     });
   })
 
@@ -101,7 +104,9 @@ context('Different ways to finish a map or the whole game', () => {
     cy.on('window:alert', stub);
     click('#cell54').then(() => {
       expect(stub.getCall(0)).to.be.calledWith("Victory! The area is safe again.");
-      expect(stub.getCall(1)).to.be.calledWith('Congratulations, you completed the game! Those Barbarians won\'t be a threat for our beloved Rome anymore... right?');
+      expect(stub.getCall(1)).to.be.calledWith(
+        'Congratulations, you completed the game! Those Barbarians won\'t be a threat for our beloved Rome anymore... right?'
+      );
 
       cy.location().should((location) => {
         expect(location.search).to.eq('');

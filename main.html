@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>Barbarians!</title>
-        <link rel="shortcut icon" type="image/png" href="src/images/favicon.ico"/>
-    </head>
 
-    <body>
-        <div class="container">
-            <div class="control-bar padding-sm margin-top-md row">
-                <audio id="music-bar" class="music-control-bar" src="src/sounds/music.mp3" muted="true" autoplay loop></audio>
-                <button type="button" id="mute_music" class="control-bar-col col-sm-2">Unmute Music</button>
-                <button type="button" id="mute_sfx" class="control-bar-col col-sm-2">Unmute SFX</button>
-                <div class="control-bar-col col-sm-2">
-                    <span class="gold-label">Gold: </span><input id="gold" class="gold-marker" value="1" type="text" readonly disabled></input>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Barbarians!</title>
+    <link rel="shortcut icon" type="image/png" href="src/images/favicon.ico" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="control-bar padding-sm margin-top-md row">
+            <audio id="music-bar" class="music-control-bar" src="src/sounds/music.mp3" muted="true" autoplay
+                loop></audio>
+            <button type="button" id="mute_music" class="control-bar-col col-sm-2">Unmute Music</button>
+            <button type="button" id="mute_sfx" class="control-bar-col col-sm-2">Unmute SFX</button>
+            <div class="control-bar-col col-sm-2">
+                <span class="gold-label">Gold: </span><input id="gold" class="gold-marker" value="1" type="text"
+                    readonly disabled></input>
             </div>
             <button type="button" id="end_turn" class="control-bar-col col-sm-2"> End turn </button>
             <button type="button" id="reset_map" class="control-bar-col col-sm-3"> Reset map </button>
@@ -31,43 +34,43 @@
                     <form class="padding-top-md">
                         Faction:
                         <br><input id="player" type="text" readonly disabled></input>
-                    <br><br>
-                    Unit:
-                    <br><input id="type" type="text" readonly disabled></input>
-                <br><br>
-                Name:
-                <br><input id="name" type="text" readonly disabled></input>
-            <br><br><br>
-            </form>
-        <form id="town_info" class="hidden-div">
-            <!--Town only -->
-            <div id= "prod" type="text" readonly></div>
-            <br>
-            <button type="button" id="improve_quantity">Improve quantity (1 Gold)</button>
-            <br><br>
-            <button type="button" id="improve_quality">Improve quality (1 Gold)</button>
-            <br><br>
-        </form>
-        <form id="soldier_info" class="hidden-div">
-            <!--Soldier only -->
-            <div id="movement" type="text" readonly></div>
-            <br>
-            <div id="strength" type="text" readonly></div>
-            <br>
-            <button type="button" id="improve_strength">Improve Strength (1 Gold)</button>
-            <br>
-            <button type="button" id="destroy" class="hidden-div">Destroy</button>
-            <br><br>
-        </form>
+                        <br><br>
+                        Unit:
+                        <br><input id="type" type="text" readonly disabled></input>
+                        <br><br>
+                        Name:
+                        <br><input id="name" type="text" readonly disabled></input>
+                        <br><br><br>
+                    </form>
+                    <form id="town_info" class="hidden-div">
+                        <!--Town only -->
+                        <div id="prod" type="text" readonly></div>
+                        <br>
+                        <button type="button" id="improve_quantity">Improve quantity (1 Gold)</button>
+                        <br><br>
+                        <button type="button" id="improve_quality">Improve quality (1 Gold)</button>
+                        <br><br>
+                    </form>
+                    <form id="soldier_info" class="hidden-div">
+                        <!--Soldier only -->
+                        <div id="movement" type="text" readonly></div>
+                        <br>
+                        <div id="strength" type="text" readonly></div>
+                        <br>
+                        <button type="button" id="improve_strength">Improve Strength (1 Gold)</button>
+                        <br>
+                        <button type="button" id="destroy" class="hidden-div">Destroy</button>
+                        <br><br>
+                    </form>
 
-        <button type="button" id="close" class="close-button">Close</button>
+                    <button type="button" id="close" class="close-button">Close</button>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
 </body>
 
-<link rel="stylesheet" type="text/css" href="lib/bootstrap.min.css"/>
-<link rel="stylesheet" type="text/css" href="src/stylesheets/main.css"/>
+<link rel="stylesheet" type="text/css" href="lib/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="src/stylesheets/main.css" />
 <script type="text/javascript" src="lib/jquery-2.1.4.js"></script>
 <script type="text/javascript" src="lib/bootstrap.min.js"></script>
 
@@ -87,6 +90,7 @@
 <script type="text/javascript" src="src/scripts/game/TurnManager.js"></script>
 <script type="text/javascript" src="src/scripts/game/SoundManager.js"></script>
 
+<script type="text/javascript" src="src/scripts/players/Faction.js"></script>
 <script type="text/javascript" src="src/scripts/players/Player.js"></script>
 <script type="text/javascript" src="src/scripts/players/AI.js"></script>
 <script type="text/javascript" src="src/scripts/players/Human.js"></script>
@@ -97,4 +101,5 @@
 <script type="text/javascript" src="src/scripts/units/IconTemplates.js"></script>
 
 <script type="text/javascript" src="src/scripts/main.js"></script>
+
 </html>

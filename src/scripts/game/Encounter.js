@@ -137,17 +137,19 @@ function Encounter(
 
     // If unit is still alive, it can conquest towns
     if (combatResults.loser !== unit) {
-      // A soldier can only conquest one town each turn
 
-      for (i = 0; i < iterationLength && !conquered; i++) {
+      // A soldier conquest all nearby towns
+      for (i = 0; i < iterationLength; i++) {
         cellId = map.getCellId(iteration[i])
 
         if (cellId !== undefined) {
           typeOfCollindantUnit = cellId.replace('icon', '').charAt(2);
 
-          if (((typeOfCollindantUnit === 'E') && (unit.player === 'human'))
+          if (
+            ((typeOfCollindantUnit === 'E') && (unit.player === 'human'))
             || ((typeOfCollindantUnit === 'A') && (unit.player === 'ai'))
-            || (typeOfCollindantUnit === 'N')) {
+            || (typeOfCollindantUnit === 'N')
+          ) {
             units = players[townsAnnotationCorralation[typeOfCollindantUnit]]
               .units
               .towns;
