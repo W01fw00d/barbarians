@@ -2,3 +2,5 @@ node_modules
 cypress/integration/examples
 cypress/fixtures/example.json
 cypress/videos
+
+notes.txt

@@ -1,12 +1,14 @@
 /// <reference types="cypress" />
 
-import { start, endTurn, click, moreStrength, canSeeSoldierInfo } from '../utils/ui.js';
+import { start, endTurn, click, moreStrength, canSeeSoldierInfo } from '../../utils/ui.js';
 
 context('Combat', () => {
   it(
     'Soldier defeats 3 mobs if it has more than 1 strength than them, and cannot move anymore.' +
     ' Also, next turn new recruits are auto-killed',
   () => {
+    // TODO: this test breaks sometimes, when AI decides to improve quality so human soldier can die at hands of new barbarian recruits...
+    // Improve strength more to avoid this possibility
     start(13);
 
     endTurn();
@@ -50,16 +52,14 @@ context('Combat', () => {
 
     click('#cell54');
 
-    //TODO: Bug: When capturing, soldier should loose all movement left. Also, all towns should be captured
-    //cy.get('#icon44A[src="./src/images/board/AR_del_def.png"]').should('exist');
-    //cy.get('#icon53A[src="./src/images/board/AR_del_def.png"]').should('exist');
+    cy.get('#icon44A[src="./src/images/board/AR_del_def.png"]').should('exist');
+    cy.get('#icon53A[src="./src/images/board/AR_del_def.png"]').should('exist');
     cy.get('#icon55A[src="./src/images/board/AR_del_def.png"]').should('exist');
-    //click('#icon54a[src="./src/images/board/SRUsed_del_def.png"]');
-    //cy.get('#movement').should('contain', 'Movements left: [0]');
+    click('#icon54a[src="./src/images/board/SRUsed_del_def.png"]');
+    cy.get('#movement').should('contain', 'Movements left: [0]');
   })
 
-  //TODO: bug, sometimes only one town is conquered, instead of the 3
-  /* it('Soldier captures 3 towns automatically at beginning of second turn', () => {
+  it('Soldier captures 3 towns automatically at beginning of second turn', () => {
     start(15);
 
     cy.get('#icon44N[src="./src/images/board/AN_del_def.png"]').should('exist');
@@ -71,5 +71,5 @@ context('Combat', () => {
     cy.get('#icon44A[src="./src/images/board/AR_del_def.png"]').should('exist');
     cy.get('#icon53A[src="./src/images/board/AR_del_def.png"]').should('exist');
     cy.get('#icon55A[src="./src/images/board/AR_del_def.png"]').should('exist');
-  }) */
+  })
 })

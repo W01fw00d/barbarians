@@ -6,6 +6,7 @@ context('Topbar actions', () => {
   beforeEach(() => start());
 
   it('When user clicks on unmute music button, music gets unmuted and then, it can me muted again', () => {
+    // Try to mute sound in browser, so no sound will really be heard when launching this test with ui
     cy.get('#mute_music').should('contain', 'Unmute Music');
 
     click('#mute_music');
@@ -19,6 +20,7 @@ context('Topbar actions', () => {
   })
 
   it('When user clicks on unmute SFX button, SFX gets unmuted and then, it can me muted again', () => {
+    // Try to mute sound in browser, so no sound will really be heard when launching this test with ui
     cy.get('#mute_sfx').should('contain', 'Unmute SFX');
 
     click('#mute_sfx');
@@ -48,6 +50,6 @@ context('Topbar actions', () => {
       .should('have.length', 2);
     cy.get('#map')
       .find('img[src="./src/images/board/SB_del_def.png"]')
-      .should('have.length', 2);
+      .should('have.length.at.least', 2); // AI randomly upgrades quantity, resulting in +2 barbarians instead of +1
   })
 })

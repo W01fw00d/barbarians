@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { start, endTurn, click } from '../utils/ui.js';
+import { start, endTurn, click } from '../../utils/ui.js';
 
 context('Towns upgrades and unit generation', () => {
   // TODO: improvement, location for new recruit should be randomized between all possible ones, currently is always the south space
@@ -37,7 +37,6 @@ context('Towns upgrades and unit generation', () => {
     click('#icon11A');
     cy.get('#prod').should('contain', 'Producing [1] soldiers with [1] strength each turn. Upgrade: ');
     click('#improve_quantity');
-    click('#icon11A');
     cy.get('#prod').should('contain', 'Producing [2] soldiers with [1] strength each turn. Upgrade: ');
 
     endTurn();

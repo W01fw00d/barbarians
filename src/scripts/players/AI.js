@@ -1,7 +1,6 @@
 function AI(map, mapPainter) {
     Player.call(this, map, mapPainter);
     this.name = 'ai';
-    this.gold = 1;
 }
 
 AI.prototype = Object.create(Player.prototype);

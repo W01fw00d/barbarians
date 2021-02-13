@@ -5,7 +5,7 @@ A little web-browser turn-based strategy game.
 
 Includes:
 * Jquery 
-* Bootstrap.
+* Bootstrap
 * Jasmine
 * Cypress
 

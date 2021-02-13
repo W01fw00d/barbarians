@@ -1,16 +1,22 @@
 // TODO disengage all functionality related to html tags, wrap it so browser characteristics are hidden
 //TODO Named it MapManager, as Map is the logic information about the Browser/Board
 function Map(mapPainter, detailsPanelPainter, mapDesign, namesManager, iconTemplates) {
+  const STARTING_GOLD = 1;
+
   // Generates a map using the desing array as input
   this.generate = function(level, players) {
-    const designArray = mapDesign.blueprints[level],
-      designArrayLength = designArray.length;
+    const resetMapState = () => {
+      players.human.setGold(STARTING_GOLD);
+      players.human.reset();
+      players.ai.reset();
+      players.neutral.reset();
+    }
 
-    // Print starting gold on screen
-    players.human.setGold(players.human.gold);
+    resetMapState();
     detailsPanelPainter.hide();
     mapPainter.eraseMap();
 
+    const designArray = mapDesign.blueprints[level];
     designArray.forEach((row, rowIndex) => {
       mapPainter.paintRow(rowIndex);
 
@@ -154,5 +160,4 @@ function Map(mapPainter, detailsPanelPainter, mapDesign, namesManager, iconTempl
   this.getIcon = function(id) {
     return document.getElementById(id).lastElementChild;
   }
-
 }

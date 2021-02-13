@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { start, click, canSeeSoldierInfo, moreStrength, endTurn } from '../utils/ui.js';
+import { start, click, canSeeSoldierInfo, moreStrength, endTurn } from '../../utils/ui.js';
 
 context('Soldiers actions', () => {
   it('Improve soldier strength if enough gold', () => {
@@ -53,7 +53,7 @@ context('Soldiers actions', () => {
 
     click('#icon71a');
     cy.get('#strength').should('contain', "Combat strength: [1].");
-    //cy.get('#improve_strength').should('contain', "Improve Strength (1 Gold)"); //bug: when a soldier strength is updated, the displayed price rises for other soldiers as well, but the correct amount of gold is actually expend when clicked
+    cy.get('#improve_strength').should('contain', "Improve Strength (1 Gold)");
     moreStrength();
     cy.get('#gold').should('have.value', 2);
     cy.get('#strength').should('contain', "Combat strength: [2].");

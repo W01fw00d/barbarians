@@ -191,27 +191,25 @@ function DetailsPanelPainter() {
     });
 
     $("#improve_quantity").html(
-      'Quantity (' + quantityUpgradePrice + ' Gold)'
+      `Quantity (${quantityUpgradePrice} Gold)`
     );
     $("#improve_quality").html(
-      'Quality (' + qualityUpgradePrice + ' Gold)'
+      `Quality (${qualityUpgradePrice} Gold)`
     );
     $("#prod").html(
-      'Producing [' + quantity
-      + '] soldiers with [' + quality
-      + '] strength each turn. Upgrade: '
-    );
+      `Producing [${quantity}] soldiers with [${quality}] strength each turn. Upgrade: `);
     $("#prod").show();
   }
 
   var updateHumanSoldierStats = function(movements, strength) {
-    $("#movement").html('Movements left: [' + movements + ']');
-    $("#strength").html('Combat strength: [' + strength + '].');
+    $("#movement").html(`Movements left: [${movements}]`);
+    $("#strength").html(`Combat strength: [${strength}].`);
+    $("#improve_strength").html(`Improve Strength (${strength} Gold)`);
   }
 
   var updateAISoldierStats = function(strength) {
     $("#movement").html('');
-    $("#strength").html('Combat strength: [' + strength + '].');
+    $("#strength").html(`Combat strength: [${strength}].`);
   }
 
   var updateNeutralSoldierStats = function() {
@@ -228,5 +226,4 @@ function DetailsPanelPainter() {
   var paintBackground = function(color) {
     $('#info').css({'background' : color});
   }
-
 }
