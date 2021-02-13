@@ -49,10 +49,10 @@ SoundManager.prototype.narrate = function() {
         human: 'roman',
         ai: 'barbarian',
         neutral: 'a wolf',
-      }
+      };
 
       this.narrator.text = `${victim.name}, the ${playerMap[victim.player]}, ` +
-        `was defeated by ${killer.name}, the ${playerMap[killer.player]}.`;
+        `was defeated that day by ${killer.name}, the ${playerMap[killer.player]}.`;
       this.speaker.speak(this.narrator);
     },
   }

@@ -308,4 +308,16 @@ MapDesign.prototype.blueprints = [
         "aaaaaaaa",
         "aaaAaaaa"
     ],
+
+    // 23. Test 10 (narrator)
+    [
+        " n      ",
+        "     x  ",
+        " a   Ex ",
+        "  N  x  ",
+        "        ",
+        "      x ",
+        "x    xex",
+        "A     x ",
+    ],
 ];
