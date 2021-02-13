@@ -21,7 +21,7 @@ function SoundManager() {
       this.isMuted = false;
     },
     play: function(audio) {
-      if(!this.isMuted){
+      if (!this.isMuted) {
         new Audio('./src/sounds/' + audio + '.mp3').play();
       }
     }
@@ -30,6 +30,7 @@ function SoundManager() {
   this.narrator =  new SpeechSynthesisUtterance();
   this.narrator.lang = 'en';
   this.speaker = window.speechSynthesis;
+  this.diaryGenerator = new DiaryGenerator();
 }
 
 SoundManager.prototype.getMusic = function() {
@@ -45,15 +46,10 @@ SoundManager.prototype.narrate = function() {
 
   return {
     dead: (killer, victim) => {
-      const playerMap = {
-        human: 'roman',
-        ai: 'barbarian',
-        neutral: 'a wolf',
-      };
-
-      this.narrator.text = `${victim.name}, the ${playerMap[victim.player]}, ` +
-        `was defeated that day by ${killer.name}, the ${playerMap[killer.player]}.`;
-      this.speaker.speak(this.narrator);
+      if (!this.sfx.isMuted) {
+        this.narrator.text = this.diaryGenerator.dead(killer, victim);
+        this.speaker.speak(this.narrator);
+      }
     },
   }
 };

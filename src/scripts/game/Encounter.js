@@ -38,7 +38,7 @@ function Encounter(
 
     //TODO add sound for capturing new ai town, neutral town or loosing it to ai
 
-    soundManager.sfx.play(soundFile);
+    //soundManager.sfx.play(soundFile);
   }
 
   // Calculate the encounter result between a soldier and a soldier, or a soldier and a town; return true if unit wins.
