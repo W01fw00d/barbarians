@@ -112,6 +112,7 @@ function Encounter(
           combatResults = compareStrengths(unit, adversary);
 
           this.destroyUnit(combatResults.loser, players);
+          soundManager.narrate().dead(combatResults.winner, combatResults.loser);
 
           // Loot for killing soldiers
           if (

@@ -26,6 +26,10 @@ function SoundManager() {
       }
     }
   };
+
+  this.narrator =  new SpeechSynthesisUtterance();
+  this.narrator.lang = 'en';
+  this.speaker = window.speechSynthesis;
 }
 
 SoundManager.prototype.getMusic = function() {
@@ -34,4 +38,22 @@ SoundManager.prototype.getMusic = function() {
 
 SoundManager.prototype.getSFX = function() {
   return this.sfx;
+};
+
+SoundManager.prototype.narrate = function() {
+  this.speaker.cancel();
+
+  return {
+    dead: (killer, victim) => {
+      const playerMap = {
+        human: 'roman',
+        ai: 'barbarian',
+        neutral: 'a wolf',
+      }
+
+      this.narrator.text = `${victim.name}, the ${playerMap[victim.player]}, ` +
+        `was defeated by ${killer.name}, the ${playerMap[killer.player]}.`;
+      this.speaker.speak(this.narrator);
+    },
+  }
 };
