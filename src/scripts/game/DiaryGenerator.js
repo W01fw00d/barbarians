@@ -10,16 +10,35 @@ DiaryGenerator.prototype.dead = function(killer, victim) {
   };
 
   const humanAi = () => {
-    return `A barbarian was defeated that day by ${killer.name}.`;
+    const getPostPhrase = () => {
+      const phrases = [
+        '',
+        ' We put its head on a pike in front on our camp as a warning.',
+        ' I personally congratulated the lad.',
+      ];
+
+      return phrases[getRandomInt(0, phrases.length)];
+    };
+
+    return `A barbarian was defeated that day by ${killer.name}.${getPostPhrase()}`;
   };
 
   const humanNeutral = () => {
-    return `A wolf pack attacked ${killer.name}. Luckily, our soldier slayed the beast.`
+    const getPostPhrase = () => {
+      const phrases = [
+        ', but the human won.',
+        '. Luckily, our soldier slayed the beast.',
+      ];
+
+      return phrases[getRandomInt(0, phrases.length)];
+    };
+
+    return `A wolf pack attacked ${killer.name}${getPostPhrase()}`
   };
 
   const aiHuman = () => {
     const getPostPhrase = () => {
-      const postPhrases = [
+      const phrases = [
         '',
         ' I forgot to send flowers to the widow.',
         ' I think the soldier had a son.',
@@ -32,29 +51,49 @@ DiaryGenerator.prototype.dead = function(killer, victim) {
         " The soldier lived, went back home, got chased by inner demons, became a drunk.",
       ];
 
-      return postPhrases[getRandomInt(0, postPhrases.length)];
-    }
+      return phrases[getRandomInt(0, phrases.length)];
+    };
 
     return `${victim.name}, one of our own, was killed today by a damn barbarian.${getPostPhrase()}`;
   };
 
   const aiNeutral = () => {
-    return `It seems that the barbarians are hungry, there have been reports of them hunting some wolves.`;
+    const getPhrase = () => {
+      const phrases = [
+        `It seems that the barbarians are hungry, there have been reports of them hunting some wolves.`,
+        `A barbarian killed some wolves today. At least they are good for something.`,
+        `It's funny to see beast fighting. Today, the barbarian won.`,
+      ];
+
+      return phrases[getRandomInt(0, phrases.length)];
+    };
+
+    return getPhrase();
   };
 
   const neutralHuman = () => {
-    return `A misfortune happened today. A wolf pack attacked ${victim.name} out of the camp: we found the soldier already dead.`
+    const getPhrase = () => {
+      const phrases = [
+        `A misfortune happened today. A wolf pack attacked ${victim.name} out of the camp: we found the soldier already dead.`,
+        `${victim.name} went to drive away some wolves, but the soldier never came back...`,
+        `${victim.name} was devoured by wolves... better to explain a more glorious dead to the family.`,
+      ];
+
+      return phrases[getRandomInt(0, phrases.length)];
+    };
+
+    return getPhrase();
   };
 
   const neutralAi = () => {
     const getPostPhrase = () => {
-      const postPhrases = [
+      const phrases = [
         '',
         ' Even nature hate them.',
         ' Beasts killing beasts.',
       ];
 
-      return postPhrases[getRandomInt(0, postPhrases.length)];
+      return phrases[getRandomInt(0, phrases.length)];
     }
 
     return `It seems that some wolves ate a barbarian alive today.${getPostPhrase()}`;
