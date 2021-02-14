@@ -9,7 +9,7 @@ NamesManager.prototype.unitNames;
 NamesManager.prototype.getRandomName = function(type, faction) {
   let names, randomNumber;
 
-  switch(type){
+  switch (type) {
     case 'mob':
       names = faction === 'human'
         ? this.unitNames.romanSoldierNames
@@ -25,7 +25,7 @@ NamesManager.prototype.getRandomName = function(type, faction) {
       break;
   }
 
-  randomNumber = Math.floor(Math.random() * (names.length - 1));
+  randomNumber = Math.floor(Math.random() * names.length);
   names.splice(randomNumber, 1);
 
   return names[randomNumber];

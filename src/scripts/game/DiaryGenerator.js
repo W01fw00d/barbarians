@@ -3,12 +3,6 @@ function DiaryGenerator() {}
 DiaryGenerator.prototype.dead = function(killer, victim) {
   const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 
-  const playerMobMap = {
-    human: 'roman',
-    ai: 'barbarian',
-    neutral: 'a wolf',
-  };
-
   const humanAi = () => {
     const getPostPhrase = () => {
       const phrases = [

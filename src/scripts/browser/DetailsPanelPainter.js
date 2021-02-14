@@ -49,8 +49,7 @@ function DetailsPanelPainter() {
   this.showNeutralTownPanel = function(name) {
     showAdversaryTownPanel(
       'Nature',
-      'Town',
-      name
+      'Free Town'
     );
 
     paintBackground(grey);
@@ -84,8 +83,7 @@ function DetailsPanelPainter() {
   ) {
     updateDataLabels(
       'Barbarian',
-      'Soldier',
-      name
+      'Soldier'
     );
     updateAISoldierStats(strength);
 
@@ -100,8 +98,7 @@ function DetailsPanelPainter() {
   this.showNeutralSoldierPanel = function(name) {
     updateDataLabels(
       'Nature',
-      'Beast',
-      name
+      'Wolves'
     );
     updateNeutralSoldierStats();
 
@@ -157,7 +154,15 @@ function DetailsPanelPainter() {
   var updateDataLabels = function(faction, type, name) {
     $('#player').val(faction);
     $('#type').val(type);
-    $('#name').val(name);
+
+    if (name) {
+      $('#name').val(name);
+      $('#name_descriptor').show();
+      $('#name').show();
+    } else {
+      $('#name_descriptor').hide();
+      $('#name').hide();
+    }
   };
 
   var showImproveStrengthButton = function(strength) {
