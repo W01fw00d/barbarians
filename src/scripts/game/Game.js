@@ -205,7 +205,7 @@ Game.prototype.bindAll = function() {
     });
 
     $('#mute_music').click(function(evt){
-        var music = this.soundManager.getMusic();
+        var music = this.soundManager.music;
         if (!music.isMuted()) {
             evt.target.innerHTML = 'Unmute Music';
             music.mute();
@@ -216,7 +216,7 @@ Game.prototype.bindAll = function() {
     }.bind(this));
 
     $('#mute_narration').click(function(evt) {
-      var narrator = this.soundManager.getNarrator();
+      var narrator = this.soundManager.narrator;
       if (!narrator.isMuted) {
           evt.target.innerHTML = 'Unmute Narration';
           narrator.mute();

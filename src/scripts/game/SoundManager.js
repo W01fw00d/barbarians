@@ -28,14 +28,6 @@ function SoundManager() {
   this.diaryGenerator = new DiaryGenerator();
 }
 
-SoundManager.prototype.getMusic = function() {
-  return this.music;
-};
-
-SoundManager.prototype.getNarrator = function() {
-  return this.narrator;
-};
-
 SoundManager.prototype.narrate = function() {
   this.speaker.cancel();
 
