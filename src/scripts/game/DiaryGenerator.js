@@ -110,3 +110,77 @@ DiaryGenerator.prototype.dead = function(killer, victim) {
 
   return killerVictimMap[killer.player][victim.player]();
 }
+
+DiaryGenerator.prototype.conquered = function(conqueror, town, newTownName) {
+  const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min)) + min;
+
+  const humanAi = () => {
+    const getPostPhrase = () => {
+      const phrases = [
+        '',
+        ' Now, its people is safe.',
+        ' It\'s an important strategic point.',
+        ` It\'ll be known as ${newTownName} from now one.`,
+      ];
+
+      return phrases[getRandomInt(0, phrases.length)];
+    };
+
+    return `We captured a barbarian town previously known as ${town.name}.${getPostPhrase()}`;
+  };
+
+  const humanNeutral = () => {
+    const getPostPhrase = () => {
+      const phrases = [
+        '',
+        ' Roman way of life has arrived for them.',
+        ' They seem happy to be protected by our mighty empire.',
+      ];
+
+      return phrases[getRandomInt(0, phrases.length)];
+    };
+
+    return `We conquered a free town and named it ${newTownName}.${getPostPhrase()}`
+  };
+
+  const aiHuman = () => {
+    const getPostPhrase = () => {
+      const phrases = [
+        '',
+        ' I don\'t want to imagine how they are treating them.',
+        ' It\'s an obscure day for Rome.',
+        ` They renamed it as ${newTownName} or something like that.`,
+      ];
+
+      return phrases[getRandomInt(0, phrases.length)];
+    };
+
+    return `${town.name}, our town, was captured by those damn barbarians.${getPostPhrase()}`;
+  };
+
+  const aiNeutral = () => {
+    const getPhrase = () => {
+      const phrases = [
+        `The barbarians captured a free town, savages understand each other I guess. ` +
+        `They call it ${newTownName} or something like that.`,
+      ];
+
+      return phrases[getRandomInt(0, phrases.length)];
+    };
+
+    return getPhrase();
+  };
+
+  const conquerorTownMap = {
+    human: {
+      ai: humanAi,
+      neutral: humanNeutral,
+    },
+    ai: {
+      human: aiHuman,
+      neutral: aiNeutral,
+    },
+  };
+
+  return conquerorTownMap[conqueror.player][town.player]();
+}

@@ -150,16 +150,17 @@ function Encounter(
             }
 
             conqueredUnit = units[conquered];
+            const newName = namesManager.getRandomName('town', unit.player);
+            soundManager.narrate().conquered(unit, conqueredUnit, newName);
             conqueredUnit.player = unit.player;
             conqueredUnit.factionTag = unit.factionTag;
 
-            units[conquered].name = namesManager
-              .getRandomName('town', unit.player);
+            units[conquered].name = newName;
 
-            if (unit.player === 'human'){
+            if (unit.player === 'human') {
               updateConqueredRomanTown(iteration[i], unit, conqueredUnit);
 
-            } else if (unit.player === 'ai'){
+            } else if (unit.player === 'ai') {
               updateConqueredBarbarianTown(iteration[i], unit, conqueredUnit);
             }
 
@@ -239,8 +240,7 @@ function Encounter(
   ) {
     //TODO only extraTitle setting is different from BarbarianTown function
     const extraTitle =
-      '. quantity: [' + conqueredUnit.stats.quantity
-      + ']. quality: [' + conqueredUnit.stats.quality + ']';
+      `. quantity: [${conqueredUnit.stats.quantity}]. quality: [${conqueredUnit.stats.quality}]`;
     updateConqueredTown(
       iteration,
       unit,
@@ -279,7 +279,6 @@ function Encounter(
   ) {
     mapPainter.repaintTown(
       iteration,
-      unit,
       conqueredUnit,
       annotation,
       img,
@@ -302,7 +301,7 @@ function Encounter(
 
     switch (unit.player) {
       case 'human':
-        if (unit.movements > 0 && winner !== unit){
+        if (unit.movements > 0 && winner !== unit) {
           html = iconTemplates.getHumanMob(
             id,
             unit.name,
@@ -338,7 +337,6 @@ function Encounter(
         html = '';
     }
 
-    $('#cell' + unitCell[0] + '' + unitCell[1]).html(html);
+    $(`#cell${unitCell[0]}${unitCell[1]}`).html(html);
   }
-
 }

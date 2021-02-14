@@ -38,5 +38,11 @@ SoundManager.prototype.narrate = function() {
         this.speaker.speak(this.speech);
       }
     },
+    conquered: (conqueror, town, newTownName) => {
+      if (!this.narrator.isMuted) {
+        this.speech.text = this.diaryGenerator.conquered(conqueror, town, newTownName);
+        this.speaker.speak(this.speech);
+      }
+    },
   }
 };

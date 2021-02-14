@@ -43,6 +43,44 @@ context('Narrator', () => {
     });
   })
 
+  it('Roman captures barbarian town', () => {
+    start(23);
+    click('#mute_narration');
+
+    endTurn();
+
+    click('#icon21a');
+    canSeeSoldierInfo();
+
+    cy.window().then(({ speechSynthesis }) => {
+      expect(speechSynthesis.speaking).to.be.false;
+    });
+    click('#cell30').then(() => {
+      cy.window().then(({ speechSynthesis }) => {
+        expect(speechSynthesis.speaking).to.be.true;
+      });
+    });
+  })
+
+  it('Roman captures free town', () => {
+    start(23);
+    click('#mute_narration');
+
+    endTurn();
+
+    click('#icon21a');
+    canSeeSoldierInfo();
+
+    cy.window().then(({ speechSynthesis }) => {
+      expect(speechSynthesis.speaking).to.be.false;
+    });
+    click('#cell31').then(() => {
+      cy.window().then(({ speechSynthesis }) => {
+        expect(speechSynthesis.speaking).to.be.true;
+      });
+    });
+  })
+
   it('Barbarian kills roman soldier', () => {
     start(23);
     click('#mute_narration');
@@ -63,6 +101,37 @@ context('Narrator', () => {
 
   it('Barbarian vs wolves', () => {
     start(24);
+    click('#mute_narration');
+
+    cy.window().then(({ speechSynthesis }) => {
+      expect(speechSynthesis.speaking).to.be.false;
+    });
+    endTurn().then(() => {
+      cy.window().then(({ speechSynthesis }) => {
+        expect(speechSynthesis.speaking).to.be.true;
+      });
+    });
+  })
+
+  it.skip('Barbarian captures roman town', () => {
+    // TODO bug and test: seems that it isnt possible for a barbarian to capture a roman town
+    // (as it gets captured back by the new roman recruit at beginning of next turn),
+    // because of how AI turn order works different from player
+    start(26);
+    click('#mute_narration');
+
+    cy.window().then(({ speechSynthesis }) => {
+      expect(speechSynthesis.speaking).to.be.false;
+    });
+    endTurn().then(() => {
+      cy.window().then(({ speechSynthesis }) => {
+        expect(speechSynthesis.speaking).to.be.true;
+      });
+    });
+  })
+
+  it('Barbarian captures free town', () => {
+    start(25);
     click('#mute_narration');
 
     cy.window().then(({ speechSynthesis }) => {

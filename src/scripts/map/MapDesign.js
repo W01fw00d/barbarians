@@ -315,7 +315,7 @@ MapDesign.prototype.blueprints = [
         "     x  ",
         " a   Ex ",
         "  N  x  ",
-        "        ",
+        "E       ",
         "      x ",
         "x    xex",
         "A     x ",
@@ -327,6 +327,30 @@ MapDesign.prototype.blueprints = [
         "    nx  ",
         " a   Ex ",
         "  N  x  ",
+        "        ",
+        "      x ",
+        "x    xex",
+        "A     x ",
+    ],
+
+    // 25. Test 12 (narrator, AI conquers free town)
+    [
+        "a       ",
+        "    Nx  ",
+        "     Ex ",
+        "     x  ",
+        "        ",
+        "      x ",
+        "x    xex",
+        "A     x ",
+    ],
+
+    // 26. Test 13 (narrator, AI conquers player town)
+    [
+        "a       ",
+        "     x  ",
+        "     Ex ",
+        "    Ax  ",
         "        ",
         "      x ",
         "x    xex",
