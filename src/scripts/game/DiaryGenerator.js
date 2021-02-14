@@ -70,7 +70,7 @@ DiaryGenerator.prototype.dead = function(killer, victim) {
       const phrases = [
         `A misfortune happened today. A wolf pack attacked ${victim.name} out of the camp: we found the soldier already dead.`,
         `${victim.name} went to drive away some wolves, but the soldier never came back...`,
-        `${victim.name} was devoured by wolves... better to explain a more glorious dead to the family.`,
+        `${victim.name} was devoured by wolves... better to tell a more glorious death to the family.`,
       ];
 
       return phrases[getRandomInt(0, phrases.length)];
@@ -83,7 +83,7 @@ DiaryGenerator.prototype.dead = function(killer, victim) {
     const getPostPhrase = () => {
       const phrases = [
         '',
-        ' Even nature hate them.',
+        ' Even nature hates them.',
         ' Beasts killing beasts.',
       ];
 

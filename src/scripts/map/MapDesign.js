@@ -320,4 +320,16 @@ MapDesign.prototype.blueprints = [
         "x    xex",
         "A     x ",
     ],
+
+    // 24. Test 11 (narrator, barbarian vs wolves)
+    [
+        "        ",
+        "    nx  ",
+        " a   Ex ",
+        "  N  x  ",
+        "        ",
+        "      x ",
+        "x    xex",
+        "A     x ",
+    ],
 ];

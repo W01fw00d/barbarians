@@ -3,12 +3,10 @@
 import { start, endTurn, click, canSeeSoldierInfo, moreStrength } from '../utils/ui.js';
 
 context('Narrator', () => {
-  beforeEach(() =>{
+  it('Roman soldier kills barbarian', () => {
     start(23);
     click('#mute_narration');
-  });
 
-  it('Roman soldier kills barbarian', () => {
     endTurn();
 
     click('#icon21a');
@@ -20,6 +18,25 @@ context('Narrator', () => {
       expect(speechSynthesis.speaking).to.be.false;
     });
     click('#cell23').then(() => {
+      cy.window().then(({ speechSynthesis }) => {
+        expect(speechSynthesis.speaking).to.be.true;
+      });
+    });
+  })
+
+  it('Roman vs wolves', () => {
+    start(23);
+    click('#mute_narration');
+
+    endTurn();
+
+    click('#icon21a');
+    canSeeSoldierInfo();
+
+    cy.window().then(({ speechSynthesis }) => {
+      expect(speechSynthesis.speaking).to.be.false;
+    });
+    click('#cell11').then(() => {
       cy.window().then(({ speechSynthesis }) => {
         expect(speechSynthesis.speaking).to.be.true;
       });
@@ -27,6 +44,9 @@ context('Narrator', () => {
   })
 
   it('Barbarian kills roman soldier', () => {
+    start(23);
+    click('#mute_narration');
+
     endTurn();
 
     click('#icon21a');
@@ -41,18 +61,14 @@ context('Narrator', () => {
     });
   })
 
-  it('Roman soldier kills wolves', () => {
-    endTurn();
-
-    click('#icon21a');
-    canSeeSoldierInfo();
-    moreStrength();
-    moreStrength();
+  it('Barbarian vs wolves', () => {
+    start(24);
+    click('#mute_narration');
 
     cy.window().then(({ speechSynthesis }) => {
       expect(speechSynthesis.speaking).to.be.false;
     });
-    click('#cell11').then(() => {
+    endTurn().then(() => {
       cy.window().then(({ speechSynthesis }) => {
         expect(speechSynthesis.speaking).to.be.true;
       });
