@@ -31,7 +31,7 @@ describe("LevelManager", ()=> {
 
     spyOn(browserUtils, 'navigateToDefaultMap');
     spyOn(browserUtils, 'showMessage');
-    spyOn(soundManager.sfx, 'play');
+    //spyOn(soundManager, 'narrate');
   });
 
   describe("when there are roman units and barbarian soldiers", ()=> {

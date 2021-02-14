@@ -46,7 +46,7 @@ describe("Encounter", ()=> {
       neutral: neutral,
     };
 
-    spyOn(soundManager.sfx, 'play');
+    //spyOn(soundManager, 'narrate');
   });
 
   describe("when unit strength is at least 2 points higher than adversary", ()=> {

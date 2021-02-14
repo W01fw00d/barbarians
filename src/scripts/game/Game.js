@@ -206,25 +206,23 @@ Game.prototype.bindAll = function() {
 
     $('#mute_music').click(function(evt){
         var music = this.soundManager.getMusic();
-        if(!music.isMuted()) {
+        if (!music.isMuted()) {
             evt.target.innerHTML = 'Unmute Music';
             music.mute();
-        }
-        else {
-          evt.target.innerHTML = 'Mute Music';
-          music.unmute();
+        } else {
+            evt.target.innerHTML = 'Mute Music';
+            music.unmute();
         }
     }.bind(this));
 
-    $('#mute_sfx').click(function(evt) {
-      var sfx = this.soundManager.getSFX();
-      if(!sfx.isMuted) {
-        evt.target.innerHTML = 'Unmute SFX';
-        sfx.mute();
-      }
-      else {
-        evt.target.innerHTML = 'Mute SFX';
-        sfx.unmute();
+    $('#mute_narration').click(function(evt) {
+      var narrator = this.soundManager.getNarrator();
+      if (!narrator.isMuted) {
+          evt.target.innerHTML = 'Unmute Narration';
+          narrator.mute();
+      } else {
+          evt.target.innerHTML = 'Mute Narration';
+          narrator.unmute();
       }
     }.bind(this));
 }

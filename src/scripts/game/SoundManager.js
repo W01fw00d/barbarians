@@ -12,7 +12,7 @@ function SoundManager() {
     }
   };
 
-  this.sfx = {
+  this.narrator = {
     isMuted: true,
     mute: function() {
       this.isMuted = true;
@@ -20,15 +20,10 @@ function SoundManager() {
     unmute: function() {
       this.isMuted = false;
     },
-    play: function(audio) {
-      if (!this.isMuted) {
-        new Audio('./src/sounds/' + audio + '.mp3').play();
-      }
-    }
   };
 
-  this.narrator =  new SpeechSynthesisUtterance();
-  this.narrator.lang = 'en';
+  this.speech =  new SpeechSynthesisUtterance();
+  this.speech.lang = 'en';
   this.speaker = window.speechSynthesis;
   this.diaryGenerator = new DiaryGenerator();
 }
@@ -37,8 +32,8 @@ SoundManager.prototype.getMusic = function() {
   return this.music;
 };
 
-SoundManager.prototype.getSFX = function() {
-  return this.sfx;
+SoundManager.prototype.getNarrator = function() {
+  return this.narrator;
 };
 
 SoundManager.prototype.narrate = function() {
@@ -46,9 +41,9 @@ SoundManager.prototype.narrate = function() {
 
   return {
     dead: (killer, victim) => {
-      if (!this.sfx.isMuted) {
-        this.narrator.text = this.diaryGenerator.dead(killer, victim);
-        this.speaker.speak(this.narrator);
+      if (!this.narrator.isMuted) {
+        this.speech.text = this.diaryGenerator.dead(killer, victim);
+        this.speaker.speak(this.speech);
       }
     },
   }
