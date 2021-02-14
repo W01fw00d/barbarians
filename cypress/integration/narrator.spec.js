@@ -5,7 +5,7 @@ import { start, endTurn, click, canSeeSoldierInfo, moreStrength } from '../utils
 context('Narrator', () => {
   beforeEach(() =>{
     start(23);
-    click('#mute_sfx');
+    click('#mute_narration');
   });
 
   it('Roman soldier kills barbarian', () => {

@@ -50,7 +50,6 @@ function LevelManager(
   }
 
   var announceEndOfLevel = function(audioFile, message) {
-    soundManager.sfx.play(audioFile);
     browserUtils.showMessage(message);
   }
 

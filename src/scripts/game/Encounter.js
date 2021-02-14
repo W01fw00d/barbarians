@@ -23,22 +23,6 @@ function Encounter(
 
     units = players[unit.player].units.mobs;
     units.splice(units.indexOf(unit), 1);
-
-    let soundFile;
-
-    if (unit.player === 'human'){
-      soundFile = 'scream';
-
-    } else if (unit.player === 'ai'){
-      soundFile = 'kill';
-
-    } else if (unit.player === 'neutral'){
-      soundFile = 'wolf_scream';
-    }
-
-    //TODO add sound for capturing new ai town, neutral town or loosing it to ai
-
-    //soundManager.sfx.play(soundFile);
   }
 
   // Calculate the encounter result between a soldier and a soldier, or a soldier and a town; return true if unit wins.
@@ -306,8 +290,6 @@ function Encounter(
       conqueredUnit.cell.length - 1,
       annotation
     );
-
-    soundManager.sfx.play(audio);
   }
 
   var changeIcon = function(unit, winner) {

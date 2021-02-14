@@ -7,11 +7,30 @@ function Game(startingMapLevel) {
   this.namesManager = new NamesManager();
   this.iconTemplates = new IconTemplates();
   this.soundManager = new SoundManager();
-  this.map = new Map(this.mapPainter, this.detailsPanelPainter, this.mapDesign, this.namesManager, this.iconTemplates);
+  this.map = new Map(
+      this.mapPainter,
+      this.detailsPanelPainter,
+      this.mapDesign,
+      this.namesManager,
+      this.iconTemplates
+    );
   this.infoLayer = new InfoLayer(this.detailsPanelPainter);
-  this.encounter = new Encounter(this.iconTemplates, this.namesManager, this.soundManager, this.map, this.mapPainter);
+  this.encounter = new Encounter(
+      this.iconTemplates,
+      this.namesManager,
+      this.soundManager,
+      this.map,
+      this.mapPainter
+    );
   this.levelManager = new LevelManager(this.browserUtils, this.mapDesign, this.soundManager);
-  this.turnManager = new TurnManager(this.encounter, this.levelManager, this.namesManager, this.iconTemplates, this.map, this.mapPainter);
+  this.turnManager = new TurnManager(
+      this.encounter,
+      this.levelManager,
+      this.namesManager,
+      this.iconTemplates,
+      this.map,
+      this.mapPainter
+    );
 
   this.players = {
       human: new Human(this.map, this.mapPainter),
@@ -54,8 +73,9 @@ Game.prototype.getUnit = function(icon) {
     },
           annotation = icon[icon.length - 1];
 
-    let units = this.players[unitsAnnotationCorralation[annotation][0]].units[unitsAnnotationCorralation[annotation][1]],
-        unitsLength = units.length;
+    let units = this.players[unitsAnnotationCorralation[annotation][0]]
+        .units[unitsAnnotationCorralation[annotation][1]];
+    let unitsLength = units.length;
 
     for (i = 0; i < unitsLength; i++) {
         if (units[i].cell == icon) {
@@ -88,12 +108,14 @@ Game.prototype.onCellClick = function(event, unit){
 
         if (result) {
             this.encounter.check(unit, this.players);
-            newMapLevel = this.levelManager.checkEndOfLevelCondition(this.currentMapLevel, this.players);
+            newMapLevel = this.levelManager.checkEndOfLevelCondition(
+                this.currentMapLevel,
+                this.players
+            );
 
             if (newMapLevel) {
                 this.currentMapLevel = newMapLevel;
                 this.map.generate(this.currentMapLevel, this.players);
-
             }
 
             this.resetBoardBindings();
@@ -111,7 +133,10 @@ Game.prototype.moveMode = function(unit) {
     $('#destroy').click(() => {
         if (confirm('Do you want to destroy current soldier?')){
             this.encounter.destroyUnit(unit, this.players);
-            newMapLevel = this.levelManager.checkEndOfLevelCondition(this.currentMapLevel, this.players);
+            newMapLevel = this.levelManager.checkEndOfLevelCondition(
+                this.currentMapLevel,
+                this.players
+            );
 
             if (newMapLevel) {
                 this.currentMapLevel = newMapLevel;
@@ -165,7 +190,11 @@ Game.prototype.bindAll = function() {
     });
 
     $('#end_turn').click(() => {
-        newMapLevel = this.turnManager.endTurn.call(this.turnManager, this.currentMapLevel, this.players);
+        newMapLevel = this.turnManager.endTurn.call(
+            this.turnManager,
+            this.currentMapLevel,
+            this.players
+        );
 
         if (newMapLevel) {
             this.currentMapLevel = newMapLevel;

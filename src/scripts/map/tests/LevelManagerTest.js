@@ -74,7 +74,6 @@ describe("LevelManager", ()=> {
         levelManager.checkEndOfLevelCondition(currentMapLevel, players);
 
       expect(browserUtils.showMessage).toHaveBeenCalledWith(defeat_message_eng);
-      expect(soundManager.sfx.play).toHaveBeenCalledWith('defeat');
       expect(currentMapLevelResult).toBe(currentMapLevel);
     });
   });
@@ -101,7 +100,6 @@ describe("LevelManager", ()=> {
 
       expect(browserUtils.showMessage).toHaveBeenCalledWith(victory_message_eng);
       expect(browserUtils.showMessage).toHaveBeenCalledWith(level_2_message_eng);
-      expect(soundManager.sfx.play).toHaveBeenCalledWith('victory');
       expect(currentMapLevelResult).toBe(currentMapLevel + 1);
     });
   });

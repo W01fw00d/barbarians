@@ -7,4 +7,10 @@ context('Jasmine Unit Tests', () => {
 
     cy.get('.jasmine-overall-result.jasmine-passed').should('exist');
   })
+
+  afterEach(function() {
+    if (this.currentTest.state === 'failed') {
+      Cypress.runner.stop();
+    }
+  });
 })

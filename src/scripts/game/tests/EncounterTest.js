@@ -86,7 +86,6 @@ describe("Encounter", ()=> {
 
       expect(players.human.units.mobs.length).toBe(1);
       expect(players.ai.units.mobs.length).toBe(0);
-      //expect(soundManager.sfx.play).toHaveBeenCalledWith('kill');
 
       expect(iconTemplates.getUsedHumanMob).toHaveBeenCalled();
 
@@ -129,7 +128,6 @@ describe("Encounter", ()=> {
 
       expect(players.human.units.mobs.length).toBe(1);
       expect(players.neutral.units.mobs.length).toBe(0);
-      //expect(soundManager.sfx.play).toHaveBeenCalledWith('wolf_scream');
 
       expect(players.human.gold).toBe(0);
     });
@@ -170,7 +168,6 @@ describe("Encounter", ()=> {
       encounter.check(players.ai.units.mobs[0], players);
       expect(players.human.units.mobs.length).toBe(0);
       expect(players.ai.units.mobs.length).toBe(1);
-      //expect(soundManager.sfx.play).toHaveBeenCalledWith('scream');
 
       expect(iconTemplates.getAIMob).toHaveBeenCalled();
 
@@ -392,7 +389,6 @@ describe("Encounter", ()=> {
       expect(players.human.units.towns.length).toBe(1);
 
       expect(mapPainter.repaintTown).toHaveBeenCalled();
-      //expect(soundManager.sfx.play).toHaveBeenCalledWith('rom_conquest');
 
       // TODO cuando se captura una ciudad, se deberían perder los movimientos restantes
     });
@@ -442,7 +438,6 @@ describe("Encounter", ()=> {
       expect(players.human.units.towns.length).toBe(1);
 
       expect(mapPainter.repaintTown).toHaveBeenCalled();
-      //expect(soundManager.sfx.play).toHaveBeenCalledWith('rom_conquest');
       // TODO cuando se captura una ciudad, se deberían perder los movimientos restantes
     });
   });
@@ -490,8 +485,6 @@ describe("Encounter", ()=> {
       expect(players.human.units.towns.length).toBe(0);
 
       expect(mapPainter.repaintTown).toHaveBeenCalled();
-      //expect(soundManager.sfx.play).toHaveBeenCalledWith('bar_conquest');
-
       // TODO cuando se captura una ciudad, se deberían perder los movimientos restantes
     });
   });
