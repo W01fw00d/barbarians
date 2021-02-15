@@ -200,7 +200,7 @@ describe("Map", ()=> {
       cell = 'e';
       id = '11e';
       player = 'ai';
-      name = 'Test AI Soldier';
+      name = null;
       resultObject = {
         cell: 'icon' + id,
         player: player,
@@ -214,11 +214,9 @@ describe("Map", ()=> {
     });
 
     it("a Barbarian AI Soldier shall be created", ()=> {
-      spyOn(namesManager, 'getRandomName').and.returnValue(name);
       spyOn(iconTemplates, 'getStarterAIMob');
 
       map.generateCell(players, cell, 1, 1);
-      expect(namesManager.getRandomName).toHaveBeenCalledWith('mob', player);
       expect(iconTemplates.getStarterAIMob).toHaveBeenCalledWith(id, name);
       expect(JSON.stringify(players.ai.units.mobs[0]))
         .toBe(JSON.stringify(resultObject));

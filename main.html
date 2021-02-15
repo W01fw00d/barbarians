@@ -8,15 +8,27 @@
 </head>
 
 <body>
+    <div id="modal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div id="modal-content" class="modal-body"></div>
+                <div class="modal-footer">
+                    <button id="modal-ok" type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Ok
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container">
         <div class="control-bar padding-sm margin-top-md row">
             <audio id="music-bar" class="music-control-bar" src="src/sounds/music.mp3" muted="true" autoplay
                 loop></audio>
             <button type="button" id="mute_music" class="control-bar-col col-sm-2">Unmute Music</button>
-            <button type="button" id="mute_sfx" class="control-bar-col col-sm-2">Unmute SFX</button>
+            <button type="button" id="mute_narration" class="control-bar-col col-sm-2">Mute Narration</button>
             <div class="control-bar-col col-sm-2">
-                <span class="gold-label">Gold: </span><input id="gold" class="gold-marker" value="1" type="text"
-                    readonly disabled></input>
+                <span class="gold-label">Gold: </span>
+                <input id="gold" class="gold-marker" value="1" type="text" readonly disabled></input>
             </div>
             <button type="button" id="end_turn" class="control-bar-col col-sm-2"> End turn </button>
             <button type="button" id="reset_map" class="control-bar-col col-sm-3"> Reset map </button>
@@ -38,7 +50,7 @@
                         Unit:
                         <br><input id="type" type="text" readonly disabled></input>
                         <br><br>
-                        Name:
+                        <span id="name_descriptor">Name: </span>
                         <br><input id="name" type="text" readonly disabled></input>
                         <br><br><br>
                     </form>
@@ -67,6 +79,7 @@
                 </div>
             </div>
         </div>
+    </div>
 </body>
 
 <link rel="stylesheet" type="text/css" href="lib/bootstrap.min.css" />
@@ -88,6 +101,7 @@
 <script type="text/javascript" src="src/scripts/game/InfoLayer.js"></script>
 <script type="text/javascript" src="src/scripts/game/Encounter.js"></script>
 <script type="text/javascript" src="src/scripts/game/TurnManager.js"></script>
+<script type="text/javascript" src="src/scripts/game/DiaryGenerator.js"></script>
 <script type="text/javascript" src="src/scripts/game/SoundManager.js"></script>
 
 <script type="text/javascript" src="src/scripts/players/Faction.js"></script>

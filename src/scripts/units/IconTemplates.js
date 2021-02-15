@@ -7,7 +7,7 @@ IconTemplates.prototype.getBase = function(id, title, img) {
 }
 
 IconTemplates.prototype.getMob = function(id, name, movements, strength, img) {
-    const title = '[' + name + ']. Moves: [' + movements + '], Strength: [' + strength + ']';
+    const title = `[${name}]. Moves: [${movements}], Strength: [${strength}]`;
 
     return this.getBase(id, title, img);
 }
@@ -16,8 +16,8 @@ IconTemplates.prototype.getStarterAIMob = function(id, name) {
     return this.getAIMob(id, name, 1, 1);
 }
 
-IconTemplates.prototype.getAIMob = function(id, name, movements, strength) {
-    return this.getMob(id, name, movements, strength, 'SB_del_def');
+IconTemplates.prototype.getAIMob = function(id, _, movements, strength) {
+    return this.getMob(id, 'Barbarian', movements, strength, 'SB_del_def');
 }
 
 IconTemplates.prototype.getStarterHumanMob = function(id, name) {
@@ -41,7 +41,7 @@ IconTemplates.prototype.getNeutralTown = function(id) {
 }
 
 IconTemplates.prototype.getTown = function(id, name, img) {
-    const title = '[' + name + ']. quantity: [1], quality: [1]';
+    const title = `[${name}]. quantity: [1], quality: [1]`;
 
     return this.getBase(id, title, img);
 }

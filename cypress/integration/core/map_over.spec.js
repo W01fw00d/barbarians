@@ -26,7 +26,9 @@ context('Different ways to finish a map or the whole game', () => {
 
   })
 
-  it('Destroy all player soldiers and it\'s game over, after that games resets units and gold', () => {
+  it(
+    'Destroy all player soldiers and it\'s game over, after that games resets units and gold',
+    () => {
     start();
 
     click('#icon32a');
@@ -46,7 +48,9 @@ context('Different ways to finish a map or the whole game', () => {
     });
   })
 
-  it('User completes a map and visits the next one with reset units and gold, and can move units', () => {
+  it(
+    'User completes a map and visits the next one with reset units and gold, and can move units',
+    () => {
     start(19);
 
     cy.get('#icon71a').should('not.exist');
@@ -64,6 +68,13 @@ context('Different ways to finish a map or the whole game', () => {
     cy.on('window:alert', stub);
     click('#cell54').then(() => {
       expect(stub.getCall(0)).to.be.calledWith("Victory! The area is safe again.");
+
+      cy.get('#modal-content').should(
+        'contain',
+        'A new map awaits you...'
+      );
+      click('#modal-ok');
+
       cy.get('#icon71a').should('exist');
       cy.get('#gold').should('have.value', 1);
 
@@ -77,7 +88,9 @@ context('Different ways to finish a map or the whole game', () => {
     });
   })
 
-  it('User completes a map and completes the whole game, reseting to map 1 with reset gold', () => {
+  it(
+    'User completes a map and completes the whole game, reseting to map 1 with reset gold',
+    () => {
     start(21);
 
     cy.get('#icon03n').should('not.exist'); // wolf in map 1

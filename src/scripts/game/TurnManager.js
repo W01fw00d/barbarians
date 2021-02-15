@@ -28,6 +28,7 @@ TurnManager.prototype.generateSoldiers = function(player, players) {
     mobTemplate,
     typeTag,
     factionTag,
+    randomName,
     towns = player.units.towns,
     mobs = player.units.mobs;
 
@@ -70,16 +71,16 @@ TurnManager.prototype.generateSoldiers = function(player, players) {
       if (this.map.getCellId(iteration) === undefined) {
         emptyCell = iteration.replace('#cell', '').split("");
 
-        randomName = this.namesManager.getRandomName('mob', player.name);
-
-        if (player.name === 'human'){
+        if (player.name === 'human') {
           annotation = 'a';
           movements = 2;
           typeTag = 'Soldier';
           factionTag = 'Roman';
           mobTemplate = this.iconTemplates.getHumanMob;
 
-        } else if (player.name === 'ai'){
+          randomName = this.namesManager.getRandomName('mob', player.name);
+
+        } else if (player.name === 'ai') {
           annotation = 'e';
           movements = 1;
           typeTag = 'Soldier';

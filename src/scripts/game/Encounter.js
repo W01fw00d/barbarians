@@ -23,22 +23,6 @@ function Encounter(
 
     units = players[unit.player].units.mobs;
     units.splice(units.indexOf(unit), 1);
-
-    let soundFile;
-
-    if (unit.player === 'human'){
-      soundFile = 'scream';
-
-    } else if (unit.player === 'ai'){
-      soundFile = 'kill';
-
-    } else if (unit.player === 'neutral'){
-      soundFile = 'wolf_scream';
-    }
-
-    //TODO add sound for capturing new ai town, neutral town or loosing it to ai
-
-    soundManager.sfx.play(soundFile);
   }
 
   // Calculate the encounter result between a soldier and a soldier, or a soldier and a town; return true if unit wins.
@@ -112,6 +96,7 @@ function Encounter(
           combatResults = compareStrengths(unit, adversary);
 
           this.destroyUnit(combatResults.loser, players);
+          soundManager.narrate().dead(combatResults.winner, combatResults.loser);
 
           // Loot for killing soldiers
           if (
@@ -165,16 +150,17 @@ function Encounter(
             }
 
             conqueredUnit = units[conquered];
+            const newName = namesManager.getRandomName('town', unit.player);
+            soundManager.narrate().conquered(unit, conqueredUnit, newName);
             conqueredUnit.player = unit.player;
             conqueredUnit.factionTag = unit.factionTag;
 
-            units[conquered].name = namesManager
-              .getRandomName('town', unit.player);
+            units[conquered].name = newName;
 
-            if (unit.player === 'human'){
+            if (unit.player === 'human') {
               updateConqueredRomanTown(iteration[i], unit, conqueredUnit);
 
-            } else if (unit.player === 'ai'){
+            } else if (unit.player === 'ai') {
               updateConqueredBarbarianTown(iteration[i], unit, conqueredUnit);
             }
 
@@ -254,8 +240,7 @@ function Encounter(
   ) {
     //TODO only extraTitle setting is different from BarbarianTown function
     const extraTitle =
-      '. quantity: [' + conqueredUnit.stats.quantity
-      + ']. quality: [' + conqueredUnit.stats.quality + ']';
+      `. quantity: [${conqueredUnit.stats.quantity}]. quality: [${conqueredUnit.stats.quality}]`;
     updateConqueredTown(
       iteration,
       unit,
@@ -294,7 +279,6 @@ function Encounter(
   ) {
     mapPainter.repaintTown(
       iteration,
-      unit,
       conqueredUnit,
       annotation,
       img,
@@ -305,8 +289,6 @@ function Encounter(
       conqueredUnit.cell.length - 1,
       annotation
     );
-
-    soundManager.sfx.play(audio);
   }
 
   var changeIcon = function(unit, winner) {
@@ -319,7 +301,7 @@ function Encounter(
 
     switch (unit.player) {
       case 'human':
-        if (unit.movements > 0 && winner !== unit){
+        if (unit.movements > 0 && winner !== unit) {
           html = iconTemplates.getHumanMob(
             id,
             unit.name,
@@ -355,7 +337,6 @@ function Encounter(
         html = '';
     }
 
-    $('#cell' + unitCell[0] + '' + unitCell[1]).html(html);
+    $(`#cell${unitCell[0]}${unitCell[1]}`).html(html);
   }
-
 }

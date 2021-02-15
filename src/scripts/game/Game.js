@@ -1,4 +1,4 @@
-function Game(startingMapLevel) {
+function Game(startingMapLevel, muteNarration) {
   //TODO why define vars on this?
   this.browserUtils = new BrowserUtils();
   this.mapPainter = new MapPainter();
@@ -6,12 +6,36 @@ function Game(startingMapLevel) {
   this.mapDesign = new MapDesign();
   this.namesManager = new NamesManager();
   this.iconTemplates = new IconTemplates();
-  this.soundManager = new SoundManager();
-  this.map = new Map(this.mapPainter, this.detailsPanelPainter, this.mapDesign, this.namesManager, this.iconTemplates);
+  this.soundManager = new SoundManager(muteNarration);
+  this.map = new Map(
+      this.mapPainter,
+      this.detailsPanelPainter,
+      this.mapDesign,
+      this.namesManager,
+      this.iconTemplates
+    );
   this.infoLayer = new InfoLayer(this.detailsPanelPainter);
-  this.encounter = new Encounter(this.iconTemplates, this.namesManager, this.soundManager, this.map, this.mapPainter);
-  this.levelManager = new LevelManager(this.browserUtils, this.mapDesign, this.soundManager);
-  this.turnManager = new TurnManager(this.encounter, this.levelManager, this.namesManager, this.iconTemplates, this.map, this.mapPainter);
+  this.encounter = new Encounter(
+      this.iconTemplates,
+      this.namesManager,
+      this.soundManager,
+      this.map,
+      this.mapPainter
+    );
+  this.levelManager = new LevelManager(
+      this.browserUtils,
+      this.mapDesign,
+      this.soundManager,
+      startingMapLevel
+    );
+  this.turnManager = new TurnManager(
+      this.encounter,
+      this.levelManager,
+      this.namesManager,
+      this.iconTemplates,
+      this.map,
+      this.mapPainter
+    );
 
   this.players = {
       human: new Human(this.map, this.mapPainter),
@@ -54,8 +78,9 @@ Game.prototype.getUnit = function(icon) {
     },
           annotation = icon[icon.length - 1];
 
-    let units = this.players[unitsAnnotationCorralation[annotation][0]].units[unitsAnnotationCorralation[annotation][1]],
-        unitsLength = units.length;
+    let units = this.players[unitsAnnotationCorralation[annotation][0]]
+        .units[unitsAnnotationCorralation[annotation][1]];
+    let unitsLength = units.length;
 
     for (i = 0; i < unitsLength; i++) {
         if (units[i].cell == icon) {
@@ -88,12 +113,14 @@ Game.prototype.onCellClick = function(event, unit){
 
         if (result) {
             this.encounter.check(unit, this.players);
-            newMapLevel = this.levelManager.checkEndOfLevelCondition(this.currentMapLevel, this.players);
+            newMapLevel = this.levelManager.checkEndOfLevelCondition(
+                this.currentMapLevel,
+                this.players
+            );
 
             if (newMapLevel) {
                 this.currentMapLevel = newMapLevel;
                 this.map.generate(this.currentMapLevel, this.players);
-
             }
 
             this.resetBoardBindings();
@@ -111,7 +138,10 @@ Game.prototype.moveMode = function(unit) {
     $('#destroy').click(() => {
         if (confirm('Do you want to destroy current soldier?')){
             this.encounter.destroyUnit(unit, this.players);
-            newMapLevel = this.levelManager.checkEndOfLevelCondition(this.currentMapLevel, this.players);
+            newMapLevel = this.levelManager.checkEndOfLevelCondition(
+                this.currentMapLevel,
+                this.players
+            );
 
             if (newMapLevel) {
                 this.currentMapLevel = newMapLevel;
@@ -165,7 +195,11 @@ Game.prototype.bindAll = function() {
     });
 
     $('#end_turn').click(() => {
-        newMapLevel = this.turnManager.endTurn.call(this.turnManager, this.currentMapLevel, this.players);
+        newMapLevel = this.turnManager.endTurn.call(
+            this.turnManager,
+            this.currentMapLevel,
+            this.players
+        );
 
         if (newMapLevel) {
             this.currentMapLevel = newMapLevel;
@@ -176,26 +210,24 @@ Game.prototype.bindAll = function() {
     });
 
     $('#mute_music').click(function(evt){
-        var music = this.soundManager.getMusic();
-        if(!music.isMuted()) {
+        var music = this.soundManager.music;
+        if (!music.isMuted()) {
             evt.target.innerHTML = 'Unmute Music';
             music.mute();
-        }
-        else {
-          evt.target.innerHTML = 'Mute Music';
-          music.unmute();
+        } else {
+            evt.target.innerHTML = 'Mute Music';
+            music.unmute();
         }
     }.bind(this));
 
-    $('#mute_sfx').click(function(evt) {
-      var sfx = this.soundManager.getSFX();
-      if(!sfx.isMuted) {
-        evt.target.innerHTML = 'Unmute SFX';
-        sfx.mute();
-      }
-      else {
-        evt.target.innerHTML = 'Mute SFX';
-        sfx.unmute();
+    $('#mute_narration').click(function(evt) {
+      var narrator = this.soundManager.narrator;
+      if (!narrator.isMuted) {
+          evt.target.innerHTML = 'Unmute Narration';
+          narrator.mute();
+      } else {
+          evt.target.innerHTML = 'Mute Narration';
+          narrator.unmute();
       }
     }.bind(this));
 }

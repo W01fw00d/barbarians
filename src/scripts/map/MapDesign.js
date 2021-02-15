@@ -308,4 +308,52 @@ MapDesign.prototype.blueprints = [
         "aaaaaaaa",
         "aaaAaaaa"
     ],
+
+    // 23. Test 10 (narrator)
+    [
+        " n      ",
+        "     x  ",
+        " a   Ex ",
+        "  N  x  ",
+        "E       ",
+        "      x ",
+        "x    xex",
+        "A     x ",
+    ],
+
+    // 24. Test 11 (narrator, barbarian vs wolves)
+    [
+        "        ",
+        "    nx  ",
+        " a   Ex ",
+        "  N  x  ",
+        "        ",
+        "      x ",
+        "x    xex",
+        "A     x ",
+    ],
+
+    // 25. Test 12 (narrator, AI conquers free town)
+    [
+        "a       ",
+        "    Nx  ",
+        "     Ex ",
+        "     x  ",
+        "        ",
+        "      x ",
+        "x    xex",
+        "A     x ",
+    ],
+
+    // 26. Test 13 (narrator, AI conquers player town)
+    [
+        "a       ",
+        "     x  ",
+        "     Ex ",
+        "    Ax  ",
+        "        ",
+        "      x ",
+        "x    xex",
+        "A     x ",
+    ],
 ];

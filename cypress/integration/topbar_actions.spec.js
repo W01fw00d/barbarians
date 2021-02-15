@@ -19,18 +19,18 @@ context('Topbar actions', () => {
     cy.get('#mute_music').should('contain', 'Unmute Music');
   })
 
-  it('When user clicks on unmute SFX button, SFX gets unmuted and then, it can me muted again', () => {
+  it('When user clicks on unmute Narration button, Narration gets unmuted and then, it can me muted again', () => {
     // Try to mute sound in browser, so no sound will really be heard when launching this test with ui
-    cy.get('#mute_sfx').should('contain', 'Unmute SFX');
+    cy.get('#mute_narration').should('contain', 'Unmute Narration');
 
-    click('#mute_sfx');
+    click('#mute_narration');
 
-    cy.get('#mute_sfx').should('contain', 'Mute SFX');
+    cy.get('#mute_narration').should('contain', 'Mute Narration');
     //TODO: demonstrate that sound is actually emited
 
-    click('#mute_sfx');
+    click('#mute_narration');
 
-    cy.get('#mute_sfx').should('contain', 'Unmute SFX');
+    cy.get('#mute_narration').should('contain', 'Unmute Narration');
   })
 
   it('When user clicks next turn, a new player and AI unit should spawn and player gains 3 gold', () => {

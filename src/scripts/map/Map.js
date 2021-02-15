@@ -95,10 +95,9 @@ function Map(mapPainter, detailsPanelPainter, mapDesign, namesManager, iconTempl
         break;
 
       case 'e':
-        randomName = namesManager.getRandomName('mob', 'ai');
         units = players.ai.units.mobs;
-        units.push(getMobObject(id, 'ai', randomName, 1, 1, 'Soldier', 'Barbarian'));
-        icon = iconTemplates.getStarterAIMob(id, randomName);
+        units.push(getMobObject(id, 'ai', null, 1, 1, 'Soldier', 'Barbarian'));
+        icon = iconTemplates.getStarterAIMob(id, null);
         break;
 
       case ' ':

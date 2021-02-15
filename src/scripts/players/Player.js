@@ -25,6 +25,11 @@ Player.prototype.setGold = function(gold) {
     this.gold = gold;
 }
 
+Player.prototype.showModal = function(message) {
+    $('#modal-content').html(message);
+    $('#modal').modal('show');
+}
+
 // upgrade_auto is for AI turn use of this function. In other case, this is invoked by an event_handler
 Player.prototype.moveSoldier = function(unit, target) {
     const initialCell = unit.cell.replace('icon', '').split(""),
@@ -48,7 +53,7 @@ Player.prototype.moveSoldier = function(unit, target) {
 
     } else {
         if (unit.player === 'Roman'){
-            alert('Invalid movement');
+            this.showModal('Invalid movement');
             result = null;
         }
     }
@@ -98,7 +103,7 @@ Player.prototype.upgradeMode = function(unit, upgrade) {
             );
 
         } else {
-            alert(errorMessage);
+            this.showModal(errorMessage);
         }
 
     } else if (upgrade === 'improve_quality'){
@@ -113,7 +118,7 @@ Player.prototype.upgradeMode = function(unit, upgrade) {
             );
 
         } else {
-            alert(errorMessage);
+            this.showModal(errorMessage);
         }
 
     // This is only used by AlliedMobs.
@@ -136,7 +141,7 @@ Player.prototype.upgradeMode = function(unit, upgrade) {
             updateTooltip();
 
         } else {
-            alert(errorMessage);
+            this.showModal(errorMessage);
         }
     }
 }
