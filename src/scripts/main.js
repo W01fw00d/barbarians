@@ -1,6 +1,15 @@
 function init() {
     const urlParams = new URLSearchParams(window.location.search);
-    const game = new Game(urlParams.get('level') || 1);
+    const muteNarration = urlParams.get('muteNarration') !== null;
+
+    if (muteNarration) {
+        $("#mute_narration").html('Unmute Narration');
+    }
+
+    new Game(
+        urlParams.get('level') || 1,
+        muteNarration
+    );
 }
 
 String.prototype.replaceAt = function(index, character) {

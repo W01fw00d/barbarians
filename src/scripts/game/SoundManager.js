@@ -1,4 +1,4 @@
-function SoundManager() {
+function SoundManager(muteNarration) {
   this.music = {
     audio: $('#music-bar'),
     isMuted: function () {
@@ -13,8 +13,9 @@ function SoundManager() {
   };
 
   this.narrator = {
-    isMuted: true,
+    isMuted: muteNarration,
     mute: function() {
+      window.speechSynthesis.cancel();
       this.isMuted = true;
     },
     unmute: function() {

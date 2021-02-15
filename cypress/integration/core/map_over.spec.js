@@ -68,6 +68,13 @@ context('Different ways to finish a map or the whole game', () => {
     cy.on('window:alert', stub);
     click('#cell54').then(() => {
       expect(stub.getCall(0)).to.be.calledWith("Victory! The area is safe again.");
+
+      cy.get('#modal-content').should(
+        'contain',
+        'A new map awaits you...'
+      );
+      click('#modal-ok');
+
       cy.get('#icon71a').should('exist');
       cy.get('#gold').should('have.value', 1);
 

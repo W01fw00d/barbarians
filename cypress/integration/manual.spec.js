@@ -10,7 +10,6 @@ context('Manual testing', () => {
       () => click('#modal-ok')
     );
 
-    click('#mute_narration');
     cy.on('window:alert', cy.stub());
   })
 })
