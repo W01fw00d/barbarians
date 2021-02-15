@@ -44,5 +44,11 @@ SoundManager.prototype.narrate = function() {
         this.speaker.speak(this.speech);
       }
     },
+    read: (text) => {
+      if (!this.narrator.isMuted) {
+        this.speech.text = text;
+        this.speaker.speak(this.speech);
+      }
+    },
   }
 };

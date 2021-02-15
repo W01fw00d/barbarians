@@ -2,7 +2,31 @@ function LevelManager(
   browserUtils,
   mapDesign,
   soundManager
-){
+) {
+  let showSecondModal = true;
+
+  const showMessage = function(message) {
+    $('#modal-content').html(message);
+    $('#modal').modal('show');
+  }
+  const announce = function(message) {
+    soundManager.narrate().read(message);
+    browserUtils.showMessage(message);
+  }
+
+  showMessage(
+    'Welcome to Barbarians, a strategy turn based game. Click on your roman soldiers and try to defeat the barbarian soldiers and towns.'
+  );
+
+  $('#modal').on('hidden.bs.modal', function() {
+    if (showSecondModal) {
+      announce(
+        'You are a Roman General and you have been informed that some nasty Barbarians are assaulting little towns outside Rome.'
+      );
+      showSecondModal = false;
+    }
+  });
+
   // Check that there are still units in both sides; if not, victory one of the two factions wins
   this.checkEndOfLevelCondition = function(currentMapLevel, players) {
     /*TODO this is not the place for message strings.
@@ -17,10 +41,10 @@ function LevelManager(
 
     // Player have to destroy all barbarians soldiers and towns. AI wins just by killing all roman soldiers.
     if (deadFaction === 'human') {
-      announceEndOfLevel('defeat', defeat_message_eng);
+      browserUtils.alert(defeat_message_eng);
 
     } else if (deadFaction === 'ai') {
-      announceEndOfLevel('victory', victory_message_eng);
+      browserUtils.alert(victory_message_eng);
       currentMapLevel++;
       showNextMapMsg(currentMapLevel);
 
@@ -49,10 +73,6 @@ function LevelManager(
     return deadFaction;
   }
 
-  var announceEndOfLevel = function(audioFile, message) {
-    browserUtils.showMessage(message);
-  }
-
   // Advance to the next level. If it's last level, show victory message and end game. Uses cookie for storing current level.
   var showNextMapMsg = function(currentMapLevel) {
     const maps_messages_eng = [
@@ -68,7 +88,7 @@ function LevelManager(
       'Finally... you arrive to the main Barbarian camp... but you are all alone. Regroup and finish the enemy!',
       'Rome reinforcements are here! Time to finish with the lasts of the Barbarians... For Rome!',
       'test1',
-      'test2'
+      'test2',
     ],
 
     maps_messages_spa = [
@@ -82,7 +102,7 @@ function LevelManager(
       '¡Mientras nuestras tropas estaban destacadas en el valle, una manada gigantesca de lobos rodean los poblados cercanos atraidos por la sangre!',
       'Estos bárbaros son buenos tendiendo emboscadas en las montañas... ¡Pero nunca vencerán a la férrea disciplina del ejército Romano!',
       'Al fin... has llegado al campamento principal de los Bárbaros... aunque solo quedas tú. ¡Reúne fuerzas y acaba con ellos!',
-      '¡Han llegado los refuerzos que Roma prometió...! Es hora de terminar con los últimos supervivientes bárbaros... ¡Por Roma!'
+      '¡Han llegado los refuerzos que Roma prometió...! Es hora de terminar con los últimos supervivientes bárbaros... ¡Por Roma!',
     ],
 
     win_message_eng = 'Congratulations, you completed the game! Those Barbarians won\'t be a threat for our beloved Rome anymore... right?',
@@ -95,11 +115,11 @@ function LevelManager(
       currentMapLevel == (endGameTestMap + 1) ||
       currentMapLevel >= mapDesign.blueprints.length
     ){
-      browserUtils.showMessage(win_message_eng);
+      browserUtils.alert(win_message_eng);
       resetGame();
 
     } else {
-      browserUtils.showMessage(maps_messages_eng[currentMapLevel]);
+      browserUtils.alert(maps_messages_eng[currentMapLevel]);
     }
   }
 

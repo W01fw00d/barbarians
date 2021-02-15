@@ -8,6 +8,18 @@
 </head>
 
 <body>
+    <div id="modal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div id="modal-content" class="modal-body"></div>
+                <div class="modal-footer">
+                    <button id="modal-ok" type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Ok
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container">
         <div class="control-bar padding-sm margin-top-md row">
             <audio id="music-bar" class="music-control-bar" src="src/sounds/music.mp3" muted="true" autoplay
@@ -67,6 +79,7 @@
                 </div>
             </div>
         </div>
+    </div>
 </body>
 
 <link rel="stylesheet" type="text/css" href="lib/bootstrap.min.css" />

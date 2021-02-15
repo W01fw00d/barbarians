@@ -3,7 +3,12 @@ function BrowserUtils() {
     window.location.href = './main.html'
   }
 
-  this.showMessage = function(message) {
+  this.alert = function(message) {
     alert(message);
+  }
+
+  this.showMessage = function(message) {
+    $('#modal-content').html(message);
+    $('#modal').modal('show');
   }
 }

@@ -27,12 +27,8 @@ context('Soldiers actions', () => {
     cy.get('#strength').should('contain', "Combat strength: [2].");
     moreStrength();
 
-    const stub = cy.stub()
-    cy.on('window:alert', stub);
-    click('#improve_strength')
-    .then(() => {
-      expect(stub.getCall(0)).to.be.calledWith("You don't have enough gold!");
-    });
+    cy.get('#modal-content').should('contain', "You don't have enough gold!");
+    click('#modal-ok');
 
     cy.get('#strength').should('contain', "Combat strength: [2].");
   })
