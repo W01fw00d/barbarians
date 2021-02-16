@@ -1,6 +1,7 @@
-function AI(map, mapPainter) {
+function AI(map, mapPainter, instaAITurn) {
     Player.call(this, map, mapPainter);
     this.name = 'ai';
+    this.instaAITurn = instaAITurn;
 }
 
 AI.prototype = Object.create(Player.prototype);
@@ -12,7 +13,6 @@ AI.prototype.shuffle = function(array) {
 
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
-
         // Pick a remaining element...
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
@@ -27,37 +27,60 @@ AI.prototype.shuffle = function(array) {
 }
 
 // Performs the AI enemy turn: it behaves quite randomly for now
-AI.prototype.performTurn = function() {
-    let towns = this.units.towns,
-        townsLength = towns.length,
-        equals = true,
-        nIterations,
-        auxTown,
-        lazy;
+AI.prototype.performTurn = function(endAITurn, checkEncounter) {
+    function sleep(miliseconds) {
+        return new Promise(resolve => setTimeout(resolve, miliseconds));
+    }
 
+    const improveTowns = () => {
+        // Randomly reorder towns array
+        let towns = this.shuffle(this.units.towns);
+        towns.forEach(town => {
+            // If random number is 1, quality won't be improved; if it's 2, quantity won't be improved
+            lazy = Math.round(Math.random() * 5);
+
+            if ((this.gold >= town.stats.qualityUpgradePrice) && (lazy !== 1)){
+                this.upgradeMode(town, 'improve_quality');
+            }
+
+            if ((this.gold >= town.stats.quantityUpgradePrice) && (lazy !== 2)){
+                this.upgradeMode(town, 'improve_quantity');
+            }
+        });
+    }
+
+    let lazy;
+    let activeSoldiers = [];
     this.units.mobs.forEach(mob => {
         lazy = Math.round(Math.random() * 5);
 
-        if (lazy != 1){
-            this.moveSoldierRandom(mob);
+        if (lazy != 1) {
+            activeSoldiers.push(mob);
         }
     });
 
-// Randomly reorder towns array
-    towns = this.shuffle(towns);
+    const awaitMiliseconds = this.instaAITurn ? 0 : 2000;
 
-    towns.forEach(town => {
-        // If random number is 1, quality won't be improved; if it's 2, quantity won't be improved
-        lazy = Math.round(Math.random() * 5);
+    let currentSoldier;
+    const performNextMovement = () => {
+        sleep(awaitMiliseconds).then(() => {
+            currentSoldier = activeSoldiers.pop();
+            this.moveSoldierRandom(currentSoldier);
+            checkEncounter(currentSoldier);
 
-        if ((this.gold >= town.stats.qualityUpgradePrice) && (lazy !== 1)){
-            this.upgradeMode(town, 'improve_quality');
-        }
+            if (activeSoldiers.length > 0) {
+                performNextMovement();
 
-        if ((this.gold >= town.stats.quantityUpgradePrice) && (lazy !== 2)){
-            this.upgradeMode(town, 'improve_quantity');
-        }
-    });
+            } else {
+                sleep(awaitMiliseconds).then(() => {
+                    improveTowns();
+                    endAITurn();
+                });
+            }
+        });
+    }
+
+    performNextMovement();
 }
 
 // Move enemy soldiers randomly

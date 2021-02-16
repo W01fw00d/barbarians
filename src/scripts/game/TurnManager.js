@@ -121,40 +121,47 @@ TurnManager.prototype.generateSoldiers = function(player, players) {
 }
 
 // End current player turn, and provides 3 gold to each player
-TurnManager.prototype.endTurn = function(currentMapLevel, players){
-  let id;
+TurnManager.prototype.endTurn = function(currentMapLevel, players, startHumanTurn) {
+  const endAITurn = () => {
+    let id;
+
+    this.generateSoldiers(players.ai, players);
+    players.human.setGold(players.human.gold + 3);
+    players.ai.gold += 3;
+
+    players.ai.units.mobs.forEach(mob => {
+      this.encounter.check(mob, players);
+    });
+
+    players.human.units.mobs.forEach(mob => {
+      this.encounter.check(mob, players);
+
+      mob.movements = mob.totalMovements;
+
+      id = mob.cell.replace('icon', '');
+
+      // If it's a Roman Soldier, colour it in order to indicate that it can move again
+      $('#cell' + id[0] + id[1]).html(
+        this.iconTemplates.getHumanMob(
+          id,
+          mob.name,
+          mob.movements,
+          mob.strength
+        )
+      );
+    });
+
+    startHumanTurn(
+      this.levelManager.checkEndOfLevelCondition(currentMapLevel, players)
+    );
+  }
+
+  const checkEncounter = (mob) => {
+    this.encounter.check(mob, players);
+    mob.movements = mob.totalMovements;
+  }
 
   this.generateSoldiers(players.human, players);
 
-  players.ai.performTurn();
-
-  this.generateSoldiers(players.ai, players);
-  players.human.setGold(players.human.gold + 3);
-  players.ai.gold += 3;
-
-  players.ai.units.mobs.forEach(mob => {
-    this.encounter.check(mob, players);
-
-    mob.movements = mob.totalMovements;
-  });
-
-  players.human.units.mobs.forEach(mob => {
-    this.encounter.check(mob, players);
-
-    mob.movements = mob.totalMovements;
-
-    id = mob.cell.replace('icon', '');
-
-    // If it's a Roman Soldier, colour it in order to indicate that it can move again
-    $('#cell' + id[0] + id[1]).html(
-      this.iconTemplates.getHumanMob(
-        id,
-        mob.name,
-        mob.movements,
-        mob.strength
-      )
-    );
-  });
-
-  return this.levelManager.checkEndOfLevelCondition(currentMapLevel, players);
+  players.ai.performTurn(endAITurn, checkEncounter);
 }

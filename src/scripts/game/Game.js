@@ -1,4 +1,8 @@
-function Game(startingMapLevel, muteNarration) {
+function Game(
+    startingMapLevel,
+    muteNarration,
+    instaAITurn
+) {
   //TODO why define vars on this?
   this.browserUtils = new BrowserUtils();
   this.mapPainter = new MapPainter();
@@ -39,7 +43,7 @@ function Game(startingMapLevel, muteNarration) {
 
   this.players = {
       human: new Human(this.map, this.mapPainter),
-      ai: new AI(this.map, this.mapPainter),
+      ai: new AI(this.map, this.mapPainter, instaAITurn),
       neutral: new Neutral()
   };
 
@@ -195,18 +199,21 @@ Game.prototype.bindAll = function() {
     });
 
     $('#end_turn').click(() => {
-        newMapLevel = this.turnManager.endTurn.call(
-            this.turnManager,
-            this.currentMapLevel,
-            this.players
-        );
+        const startHumanTurn = (newMapLevel) => {
+            if (newMapLevel) {
+                this.currentMapLevel = newMapLevel;
+                this.map.generate(this.currentMapLevel, this.players);
+            }
 
-        if (newMapLevel) {
-            this.currentMapLevel = newMapLevel;
-            this.map.generate(this.currentMapLevel, this.players);
+            this.resetBoardBindings();
         }
 
-        this.resetBoardBindings();
+        this.turnManager.endTurn.call(
+            this.turnManager,
+            this.currentMapLevel,
+            this.players,
+            startHumanTurn
+        );
     });
 
     $('#mute_music').click(function(evt){

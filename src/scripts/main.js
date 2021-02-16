@@ -1,14 +1,20 @@
 function init() {
     const urlParams = new URLSearchParams(window.location.search);
-    const muteNarration = urlParams.get('muteNarration') !== null;
 
+    const muteNarration = urlParams.get('muteNarration') !== null;
     if (muteNarration) {
         $("#mute_narration").html('Unmute Narration');
     }
 
+    const instaAITurn = urlParams.get('instaAITurn') !== null;
+    if (instaAITurn) {
+        $("#insta_ai_turn").prop('checked', true);
+    }
+
     new Game(
         urlParams.get('level') || 1,
-        muteNarration
+        muteNarration,
+        instaAITurn
     );
 }
 
