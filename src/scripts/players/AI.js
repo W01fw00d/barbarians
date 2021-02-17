@@ -34,19 +34,20 @@ AI.prototype.performTurn = function(endAITurn, checkEncounter) {
 
     const improveTowns = () => {
         // Randomly reorder towns array
-        let towns = this.shuffle(this.units.towns);
-        towns.forEach(town => {
-            // If random number is 1, quality won't be improved; if it's 2, quantity won't be improved
-            lazy = Math.round(Math.random() * 5);
+        this.shuffle(this.units.towns)
+            .forEach(town => {
+                // If random number is 1, quality won't be improved; if it's 2, quantity won't be improved
+                const lazy = Math.round(Math.random() * 5);
+                const stats = town.stats;
 
-            if ((this.gold >= town.stats.qualityUpgradePrice) && (lazy !== 1)){
-                this.upgradeMode(town, 'improve_quality');
-            }
+                if ((this.gold >= stats.qualityUpgradePrice) && (lazy !== 1)) {
+                    this.upgradeMode(town, 'improve_quality');
+                }
 
-            if ((this.gold >= town.stats.quantityUpgradePrice) && (lazy !== 2)){
-                this.upgradeMode(town, 'improve_quantity');
-            }
-        });
+                if ((this.gold >= stats.quantityUpgradePrice) && (lazy !== 2)) {
+                    this.upgradeMode(town, 'improve_quantity');
+                }
+            });
     }
 
     let lazy;
@@ -60,11 +61,10 @@ AI.prototype.performTurn = function(endAITurn, checkEncounter) {
     });
 
     const awaitMiliseconds = this.disableAnimations ? 0 : 2000;
+    const selectionAwaitMiliseconds = this.disableAnimations ? 0 : awaitMiliseconds / 2;
 
     let currentSoldier;
     const performNextMovement = () => {
-        const selectionAwaitMiliseconds = 1000;
-
         sleep(awaitMiliseconds).then(() => {
             currentSoldier = activeSoldiers.pop();
             if (currentSoldier) {

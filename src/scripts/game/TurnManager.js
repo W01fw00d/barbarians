@@ -53,17 +53,17 @@ TurnManager.prototype.generateSoldiers = function(player, players) {
     // Stop soldiers appearing in non-existant cells
 
     //bottom limit
-    if (parseInt(cell[0]) === 7){
+    if (parseInt(cell[0]) === 7) {
       iterations.splice(0, 1);
     //top limit
-    } else if (parseInt(cell[0]) === 0){
+    } else if (parseInt(cell[0]) === 0) {
       iterations.splice(2, 1);
     }
     //right limit
-    if (parseInt(cell[1]) === 7){
+    if (parseInt(cell[1]) === 7) {
       iterations.splice(1, 1);
     //left limit
-    } else if (parseInt(cell[1]) === 0){
+    } else if (parseInt(cell[1]) === 0) {
       iterations.splice(3, 1);
     }
 
