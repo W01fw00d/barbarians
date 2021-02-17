@@ -1,7 +1,7 @@
-function AI(map, mapPainter, instaAITurn) {
+function AI(map, mapPainter, disableAnimations) {
     Player.call(this, map, mapPainter);
     this.name = 'ai';
-    this.instaAITurn = instaAITurn;
+    this.disableAnimations = disableAnimations;
 }
 
 AI.prototype = Object.create(Player.prototype);
@@ -59,14 +59,16 @@ AI.prototype.performTurn = function(endAITurn, checkEncounter) {
         }
     });
 
-    const awaitMiliseconds = this.instaAITurn ? 0 : 2000;
+    const awaitMiliseconds = this.disableAnimations ? 0 : 2000;
 
     let currentSoldier;
     const performNextMovement = () => {
         sleep(awaitMiliseconds).then(() => {
             currentSoldier = activeSoldiers.pop();
-            this.moveSoldierRandom(currentSoldier);
-            checkEncounter(currentSoldier);
+            if (currentSoldier) {
+                this.moveSoldierRandom(currentSoldier);
+                checkEncounter(currentSoldier);
+            }
 
             if (activeSoldiers.length > 0) {
                 performNextMovement();

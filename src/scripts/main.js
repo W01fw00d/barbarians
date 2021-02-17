@@ -6,15 +6,15 @@ function init() {
         $("#mute_narration").html('Unmute Narration');
     }
 
-    const instaAITurn = urlParams.get('instaAITurn') !== null;
-    if (instaAITurn) {
-        $("#insta_ai_turn").prop('checked', true);
+    const disableAnimations = urlParams.get('disableAnimations') !== null;
+    if (disableAnimations) {
+        $("#disable_animations").prop('checked', true);
     }
 
     new Game(
         urlParams.get('level') || 1,
         muteNarration,
-        instaAITurn
+        disableAnimations
     );
 }
 

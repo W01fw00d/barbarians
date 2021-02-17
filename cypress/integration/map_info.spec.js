@@ -23,10 +23,10 @@ context('User can display more info about map units', () => {
     cy.get('#soldier_info').should('not.be.visible');
   })
 
-   it.skip('Hover soldier to get tooltip', () => {
+   /* it('Hover soldier to get tooltip', () => {
     //TODO: test tooltips when hovering units
     cy.get('#tooltip32a').trigger('mouseover');
 
     cy.get('#map').should('contain', /.*Moves\: \[2\]\, Strength\: \[1\]/);
-  })
+  }) */
 })

@@ -1,7 +1,7 @@
 function Game(
     startingMapLevel,
     muteNarration,
-    instaAITurn
+    disableAnimations
 ) {
   //TODO why define vars on this?
   this.browserUtils = new BrowserUtils();
@@ -43,7 +43,7 @@ function Game(
 
   this.players = {
       human: new Human(this.map, this.mapPainter),
-      ai: new AI(this.map, this.mapPainter, instaAITurn),
+      ai: new AI(this.map, this.mapPainter, disableAnimations),
       neutral: new Neutral()
   };
 
