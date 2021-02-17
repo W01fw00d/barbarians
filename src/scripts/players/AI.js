@@ -63,11 +63,19 @@ AI.prototype.performTurn = function(endAITurn, checkEncounter) {
 
     let currentSoldier;
     const performNextMovement = () => {
+        const selectionAwaitMiliseconds = 1000;
+
         sleep(awaitMiliseconds).then(() => {
             currentSoldier = activeSoldiers.pop();
             if (currentSoldier) {
-                this.moveSoldierRandom(currentSoldier);
-                checkEncounter(currentSoldier);
+                const currentCell = currentSoldier.cell;
+                $(`#${currentCell}`).addClass('selected-cell');
+
+                sleep(selectionAwaitMiliseconds).then(() => {
+                    this.moveSoldierRandom(currentSoldier);
+                    $(`#${currentCell}`).removeClass('selected-cell');
+                    checkEncounter(currentSoldier);
+                });
             }
 
             if (activeSoldiers.length > 0) {

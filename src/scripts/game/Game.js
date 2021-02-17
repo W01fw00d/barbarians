@@ -206,7 +206,14 @@ Game.prototype.bindAll = function() {
             }
 
             this.resetBoardBindings();
+            $('#end_turn').html('End turn');
+            $('#end_turn').prop('disabled', false);
+            $('#reset_map').prop('disabled', false);
         }
+
+        $('#end_turn').html('AI Turn...');
+        $('#end_turn').prop('disabled', true);
+        $('#reset_map').prop('disabled', true);
 
         this.turnManager.endTurn.call(
             this.turnManager,
