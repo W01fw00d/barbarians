@@ -8,13 +8,13 @@ function init() {
 
     const disableAnimations = urlParams.get('disableAnimations') !== null;
     if (disableAnimations) {
-        $("#disable_animations").prop('checked', true);
+        $("#enable_animations").prop('checked', false);
     }
 
     new Game(
         urlParams.get('level') || 1,
         muteNarration,
-        disableAnimations
+        !disableAnimations
     );
 }
 

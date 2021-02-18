@@ -1,7 +1,8 @@
-function AI(map, mapPainter, disableAnimations) {
+function AI(map, mapPainter, animationManager) {
     Player.call(this, map, mapPainter);
+    this.animationManager = animationManager;
+
     this.name = 'ai';
-    this.disableAnimations = disableAnimations;
 }
 
 AI.prototype = Object.create(Player.prototype);
@@ -28,10 +29,6 @@ AI.prototype.shuffle = function(array) {
 
 // Performs the AI enemy turn: it behaves quite randomly for now
 AI.prototype.performTurn = function(endAITurn, checkEncounter) {
-    function sleep(miliseconds) {
-        return new Promise(resolve => setTimeout(resolve, miliseconds));
-    }
-
     const improveTowns = () => {
         // Randomly reorder towns array
         this.shuffle(this.units.towns)
@@ -60,18 +57,15 @@ AI.prototype.performTurn = function(endAITurn, checkEncounter) {
         }
     });
 
-    const awaitMiliseconds = this.disableAnimations ? 0 : 2000;
-    const selectionAwaitMiliseconds = this.disableAnimations ? 0 : awaitMiliseconds / 2;
-
     let currentSoldier;
     const performNextMovement = () => {
-        sleep(awaitMiliseconds).then(() => {
+        this.animationManager.sleepOneStep().then(() => {
             currentSoldier = activeSoldiers.pop();
             if (currentSoldier) {
                 const currentCell = currentSoldier.cell;
                 $(`#${currentCell}`).addClass('selected-cell');
 
-                sleep(selectionAwaitMiliseconds).then(() => {
+                this.animationManager.sleepHalfStep().then(() => {
                     this.moveSoldierRandom(currentSoldier);
                     $(`#${currentCell}`).removeClass('selected-cell');
                     checkEncounter(currentSoldier);
@@ -82,7 +76,7 @@ AI.prototype.performTurn = function(endAITurn, checkEncounter) {
                 performNextMovement();
 
             } else {
-                sleep(awaitMiliseconds).then(() => {
+                this.animationManager.sleepOneStep().then(() => {
                     improveTowns();
                     endAITurn();
                 });

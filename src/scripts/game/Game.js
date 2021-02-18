@@ -1,7 +1,7 @@
 function Game(
     startingMapLevel,
     muteNarration,
-    disableAnimations
+    enableAnimations
 ) {
   //TODO why define vars on this?
   this.browserUtils = new BrowserUtils();
@@ -11,6 +11,7 @@ function Game(
   this.namesManager = new NamesManager();
   this.iconTemplates = new IconTemplates();
   this.soundManager = new SoundManager(muteNarration);
+  this.animationManager = new AnimationManager(enableAnimations);
   this.map = new Map(
       this.mapPainter,
       this.detailsPanelPainter,
@@ -43,7 +44,7 @@ function Game(
 
   this.players = {
       human: new Human(this.map, this.mapPainter),
-      ai: new AI(this.map, this.mapPainter, disableAnimations),
+      ai: new AI(this.map, this.mapPainter, this.animationManager),
       neutral: new Neutral()
   };
 
@@ -192,7 +193,7 @@ Game.prototype.bindAll = function() {
     });
 
     $('#reset_map').click(() => {
-        if (confirm('Reset current map?')){
+        if (confirm('Reset current map?')) {
             this.map.generate(this.currentMapLevel, this.players);
             this.bindIconClick();
         }
@@ -223,25 +224,31 @@ Game.prototype.bindAll = function() {
         );
     });
 
-    $('#mute_music').click(function(evt){
+    $('#mute_music').click(function(event) {
         var music = this.soundManager.music;
         if (!music.isMuted()) {
-            evt.target.innerHTML = 'Unmute Music';
+            event.target.innerHTML = 'Unmute Music';
             music.mute();
         } else {
-            evt.target.innerHTML = 'Mute Music';
+            event.target.innerHTML = 'Mute Music';
             music.unmute();
         }
     }.bind(this));
 
-    $('#mute_narration').click(function(evt) {
-      var narrator = this.soundManager.narrator;
-      if (!narrator.isMuted) {
-          evt.target.innerHTML = 'Unmute Narration';
-          narrator.mute();
-      } else {
-          evt.target.innerHTML = 'Mute Narration';
-          narrator.unmute();
+    $('#mute_narration').click(function(event) {
+        var narrator = this.soundManager.narrator;
+        if (!narrator.isMuted) {
+            event.target.innerHTML = 'Unmute Narration';
+            narrator.mute();
+        } else {
+            event.target.innerHTML = 'Mute Narration';
+            narrator.unmute();
       }
     }.bind(this));
+
+    const enableAnimationsCheckbox = document.getElementById('enable_animations');
+    enableAnimationsCheckbox && enableAnimationsCheckbox
+        .addEventListener('change', ({ currentTarget }) => {
+            this.animationManager.enableAnimations = currentTarget.checked;
+        });
 }
