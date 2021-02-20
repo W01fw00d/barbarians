@@ -62,11 +62,12 @@ AI.prototype.performTurn = function (endAITurn, checkEncounter) {
       currentSoldier = activeSoldiers.pop();
       if (currentSoldier) {
         const currentCell = currentSoldier.cell;
-        this.mapPainter.selectCell(currentCell);
+        const currentFaction = currentSoldier.factionTag;
+        this.mapPainter.selectCell(currentCell, currentFaction);
 
         this.animationManager.sleepHalfStep().then(() => {
           this.moveSoldierRandom(currentSoldier);
-          this.mapPainter.unselectCell(currentCell);
+          this.mapPainter.unselectCell(currentCell, currentFaction);
           checkEncounter(currentSoldier);
         });
       }

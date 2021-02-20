@@ -125,8 +125,11 @@ TurnManager.prototype.generateSoldiers = function (player, players, callback) {
 
     index++;
     if (index < towns.length) {
-      this.animationManager.sleepOneStep().then(() => {
-        spawnMobsFromTown(towns[index]);
+      const town = towns[index];
+      this.mapPainter.selectCell(town.cell, town.factionTag);
+      this.animationManager.sleepHalfStep().then(() => {
+        spawnMobsFromTown(town);
+        this.mapPainter.unselectCell(town.cell, town.factionTag);
       });
     } else {
       callback();
@@ -134,8 +137,11 @@ TurnManager.prototype.generateSoldiers = function (player, players, callback) {
   };
 
   if (towns.length > 0) {
-    this.animationManager.sleepOneStep().then(() => {
+    const town = towns[index];
+    this.mapPainter.selectCell(town.cell, town.factionTag);
+    this.animationManager.sleepHalfStep().then(() => {
       spawnMobsFromTown(towns[index]);
+      this.mapPainter.unselectCell(town.cell, town.factionTag);
     });
   } else {
     callback();
