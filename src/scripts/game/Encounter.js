@@ -1,68 +1,58 @@
 //TODO EncounterManager
-function Encounter(
-  iconTemplates,
-  namesManager,
-  soundManager,
-  map,
-  mapPainter
-){
+function Encounter(iconTemplates, namesManager, soundManager, map, mapPainter) {
   //TODO this class doesnt seem to be the correct place for this functionality
   //TODO improving the strenght of a unit should remove its left movements
-  this.improveUnitStrength = function(unit, players) {
-    players.human.upgradeMode(unit, 'improve_strength');
-  }
+  this.improveUnitStrength = function (unit, players) {
+    players.human.upgradeMode(unit, "improve_strength");
+  };
 
   //TODO refactor this, currently is being used by this Encounter and by the destroy button too
-  this.destroyUnit = function(unit, players) {
-    $('#cell' + unit.cell
-      .replace('icon','')
-      .replace('a', '')
-      .replace('e', '')
-      .replace('n','')
-    ).html('');
+  this.destroyUnit = function (unit, players) {
+    $(
+      "#cell" +
+        unit.cell
+          .replace("icon", "")
+          .replace("a", "")
+          .replace("e", "")
+          .replace("n", "")
+    ).html("");
 
     units = players[unit.player].units.mobs;
     units.splice(units.indexOf(unit), 1);
-  }
+  };
 
   // Calculate the encounter result between a soldier and a soldier, or a soldier and a town; return true if unit wins.
-  this.check = function(unit, players) {
+  this.check = function (unit, players) {
     let adversary,
       conquered,
-      cell = unit.cell.replace('icon', '').split(""),
-
+      cell = unit.cell.replace("icon", "").split(""),
       iteration = [
-        ('#cell' + (parseInt(cell[0]) + 1) + '' + parseInt(cell[1])),
-        ('#cell' + parseInt(cell[0]) + '' + (parseInt(cell[1]) + 1)),
-        ('#cell' + (parseInt(cell[0]) - 1) + '' + parseInt(cell[1])),
-        ('#cell' + parseInt(cell[0]) + '' + (parseInt(cell[1]) - 1))
+        "#cell" + (parseInt(cell[0]) + 1) + "" + parseInt(cell[1]),
+        "#cell" + parseInt(cell[0]) + "" + (parseInt(cell[1]) + 1),
+        "#cell" + (parseInt(cell[0]) - 1) + "" + parseInt(cell[1]),
+        "#cell" + parseInt(cell[0]) + "" + (parseInt(cell[1]) - 1),
       ],
-
       iterationLength = iteration.length,
       conqueredUnit,
       units,
       unitsLength,
-      combatResults = results = {
+      combatResults = (results = {
         winner: null,
-        loser: null
-      },
+        loser: null,
+      }),
       i = 0,
       j = 0,
-      k = 0,
-      newId = '',
-      title = '',
-      audio = '',
       cellId,
       typeOfCollindantUnit,
       mobsAnnotationCorralation = {
-        e: 'ai',
-        a: 'human',
-        n: 'neutral'
+        e: "ai",
+        a: "human",
+        n: "neutral",
       },
       townsAnnotationCorralation = {
-        E: 'ai',
-        A: 'human',
-        N: 'neutral'
+        E: "ai",
+        A: "human",
+        N: "neutral",
       };
 
     // Look for fights with other soldiers next to itself
@@ -70,24 +60,24 @@ function Encounter(
       cellId = map.getCellId(iteration[i]);
 
       if (cellId !== undefined) {
-        typeOfCollindantUnit = cellId.replace('icon', '').charAt(2);
-        if (((typeOfCollindantUnit === 'e') && (unit.player === 'human'))
-          || ((typeOfCollindantUnit === 'a') && (unit.player === 'ai'))
-          || typeOfCollindantUnit === 'n') {
-
-          units = players[mobsAnnotationCorralation[typeOfCollindantUnit]].units.mobs;
+        typeOfCollindantUnit = cellId.replace("icon", "").charAt(2);
+        if (
+          (typeOfCollindantUnit === "e" && unit.player === "human") ||
+          (typeOfCollindantUnit === "a" && unit.player === "ai") ||
+          typeOfCollindantUnit === "n"
+        ) {
+          units =
+            players[mobsAnnotationCorralation[typeOfCollindantUnit]].units.mobs;
           unitsLength = units.length;
 
           // Find adversary
-          for (j = 0; j < unitsLength; j++){
+          for (j = 0; j < unitsLength; j++) {
             if (
               units[j].cell
-                .replace('icon', '')
-                .replace('a', '')
-                .replace('e','')
-                .replace('n','')
-              === iteration[i]
-                .replace('#cell', '')
+                .replace("icon", "")
+                .replace("a", "")
+                .replace("e", "")
+                .replace("n", "") === iteration[i].replace("#cell", "")
             ) {
               adversary = units[j];
               break;
@@ -96,24 +86,25 @@ function Encounter(
           combatResults = compareStrengths(unit, adversary);
 
           this.destroyUnit(combatResults.loser, players);
-          soundManager.narrate().dead(combatResults.winner, combatResults.loser);
+          soundManager
+            .narrate()
+            .dead(combatResults.winner, combatResults.loser);
 
           // Loot for killing soldiers
           if (
-            combatResults.winner.player === 'human'
-            && combatResults.loser.player === 'ai'
-          ){
+            combatResults.winner.player === "human" &&
+            combatResults.loser.player === "ai"
+          ) {
             players.human.setGold(players.human.gold + 1);
-
           } else if (
-            combatResults.winner.player === 'ai'
-            && combatResults.loser.player === 'human'
-          ){
+            combatResults.winner.player === "ai" &&
+            combatResults.loser.player === "human"
+          ) {
             players.ai.setGold(players.ai.gold + 1);
           }
 
           // If not dead yet, keep looking for fights
-          if (combatResults.loser === unit){
+          if (combatResults.loser === unit) {
             break;
           }
         }
@@ -122,22 +113,21 @@ function Encounter(
 
     // If unit is still alive, it can conquest towns
     if (combatResults.loser !== unit) {
-
       // A soldier conquest all nearby towns
       for (i = 0; i < iterationLength; i++) {
-        cellId = map.getCellId(iteration[i])
+        cellId = map.getCellId(iteration[i]);
 
         if (cellId !== undefined) {
-          typeOfCollindantUnit = cellId.replace('icon', '').charAt(2);
+          typeOfCollindantUnit = cellId.replace("icon", "").charAt(2);
 
           if (
-            ((typeOfCollindantUnit === 'E') && (unit.player === 'human'))
-            || ((typeOfCollindantUnit === 'A') && (unit.player === 'ai'))
-            || (typeOfCollindantUnit === 'N')
+            (typeOfCollindantUnit === "E" && unit.player === "human") ||
+            (typeOfCollindantUnit === "A" && unit.player === "ai") ||
+            typeOfCollindantUnit === "N"
           ) {
-            units = players[townsAnnotationCorralation[typeOfCollindantUnit]]
-              .units
-              .towns;
+            units =
+              players[townsAnnotationCorralation[typeOfCollindantUnit]].units
+                .towns;
             unitsLength = units.length;
 
             // Find target unit in array
@@ -150,80 +140,74 @@ function Encounter(
             }
 
             conqueredUnit = units[conquered];
-            const newName = namesManager.getRandomName('town', unit.player);
+            const newName = namesManager.getRandomName("town", unit.player);
             soundManager.narrate().conquered(unit, conqueredUnit, newName);
             conqueredUnit.player = unit.player;
             conqueredUnit.factionTag = unit.factionTag;
 
             units[conquered].name = newName;
 
-            if (unit.player === 'human') {
-              updateConqueredRomanTown(iteration[i], unit, conqueredUnit);
-
-            } else if (unit.player === 'ai') {
-              updateConqueredBarbarianTown(iteration[i], unit, conqueredUnit);
+            if (unit.player === "human") {
+              updateConqueredRomanTown(iteration[i], conqueredUnit);
+            } else if (unit.player === "ai") {
+              updateConqueredBarbarianTown(iteration[i], conqueredUnit);
             }
 
             // Update units lists
-            players[unit.player]
-              .units
-              .towns.push(conqueredUnit);
-            players[townsAnnotationCorralation[typeOfCollindantUnit]]
-              .units
-              .towns = units.filter(unit => {
-                return unit.player === townsAnnotationCorralation[typeOfCollindantUnit];
-              });
+            players[unit.player].units.towns.push(conqueredUnit);
+            players[
+              townsAnnotationCorralation[typeOfCollindantUnit]
+            ].units.towns = units.filter((unit) => {
+              return (
+                unit.player === townsAnnotationCorralation[typeOfCollindantUnit]
+              );
+            });
           }
         }
       }
 
       changeIcon(unit, combatResults.winner);
     }
-  }
+  };
 
-  var compareStrengths = function(unit, adversary) {
+  var compareStrengths = function (unit, adversary) {
     let results = {
       winner: null,
-      loser: null
-    }
+      loser: null,
+    };
 
     // 100% win
     if (unit.strength > adversary.strength + 1) {
       results.winner = unit;
       results.loser = adversary;
-
     } else if (unit.strength + 1 < adversary.strength) {
       results.winner = adversary;
       results.loser = unit;
 
-    // Random winner (50%)
+      // Random winner (50%)
     } else if (unit.strength === adversary.strength) {
       //TODO wrap Math.random() so we can describe our game luck checks and properly test
       if (Math.round(Math.random() * 1) === 1) {
         results.winner = unit;
         results.loser = adversary;
-
       } else {
         results.winner = adversary;
         results.loser = unit;
       }
 
-    // 25%
+      // 25%
     } else if (unit.strength + 1 === adversary.strength) {
       if (Math.round(Math.random() * 3) === 0) {
         results.winner = unit;
         results.loser = adversary;
-
       } else {
         results.winner = adversary;
         results.loser = unit;
       }
-
-    } else if (unit.strength === adversary.strength + 1){
+    } else if (unit.strength === adversary.strength + 1) {
       if (Math.round(Math.random() * 3) !== 0) {
         results.winner = unit;
         results.loser = adversary;
-
       } else {
         results.winner = adversary;
         results.loser = unit;
@@ -231,50 +215,29 @@ function Encounter(
     }
 
     return results;
-  }
+  };
 
-  var updateConqueredRomanTown = function(
-    iteration,
-    unit,
-    conqueredUnit
-  ) {
+  var updateConqueredRomanTown = function (iteration, conqueredUnit) {
     //TODO only extraTitle setting is different from BarbarianTown function
-    const extraTitle =
-      `. quantity: [${conqueredUnit.stats.quantity}]. quality: [${conqueredUnit.stats.quality}]`;
+    const extraTitle = `. quantity: [${conqueredUnit.stats.quantity}]. quality: [${conqueredUnit.stats.quality}]`;
     updateConqueredTown(
       iteration,
-      unit,
       conqueredUnit,
-      'A',
-      'AR_del_def',
-      'rom_conquest',
+      "A",
+      "AR_del_def",
       extraTitle
     );
-  }
+  };
 
-  var updateConqueredBarbarianTown = function(
-    iteration,
-    unit,
-    conqueredUnit
-  ) {
-    updateConqueredTown(
-      iteration,
-      unit,
-      conqueredUnit,
-      'E',
-      'AB_del_def',
-      'bar_conquest',
-      ''
-    );
-  }
+  var updateConqueredBarbarianTown = function (iteration, conqueredUnit) {
+    updateConqueredTown(iteration, conqueredUnit, "E", "AB_del_def", "");
+  };
 
-  var updateConqueredTown = function(
+  var updateConqueredTown = function (
     iteration,
-    unit,
     conqueredUnit,
     annotation,
     img,
-    audio,
     extraTitle
   ) {
     mapPainter.repaintTown(
@@ -289,18 +252,18 @@ function Encounter(
       conqueredUnit.cell.length - 1,
       annotation
     );
-  }
+  };
 
-  var changeIcon = function(unit, winner) {
-    const unitCell = unit.cell.replace('icon', '').split("");
+  var changeIcon = function (unit, winner) {
+    const unitCell = unit.cell.replace("icon", "").split("");
 
-    let html, mobTemplate;
-    let id = unitCell[0] + '' + unitCell[1] + unitCell[2];
+    let html;
+    let id = unitCell[0] + "" + unitCell[1] + unitCell[2];
 
     //    unit.movements = (result !== 'none') ? 0 : unit.movements - movement;
 
     switch (unit.player) {
-      case 'human':
+      case "human":
         if (unit.movements > 0 && winner !== unit) {
           html = iconTemplates.getHumanMob(
             id,
@@ -308,7 +271,6 @@ function Encounter(
             unit.movements,
             unit.strength
           );
-
         } else {
           unit.movements = 0;
           html = iconTemplates.getUsedHumanMob(
@@ -320,9 +282,8 @@ function Encounter(
         }
         break;
 
-      case 'ai':
+      case "ai":
         unit.movements = 1;
-        mobTemplate = iconTemplates.getAIMob;
 
         html = iconTemplates.getAIMob(
           id,
@@ -334,9 +295,9 @@ function Encounter(
         break;
 
       default:
-        html = '';
+        html = "";
     }
 
     $(`#cell${unitCell[0]}${unitCell[1]}`).html(html);
-  }
+  };
 }
