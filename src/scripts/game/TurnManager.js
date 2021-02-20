@@ -17,7 +17,11 @@ function TurnManager(
 }
 
 // Iterates through towns array and, if possible, generate soldiers equals to the quantity variable; with strength equals to quality variable
-TurnManager.prototype.generateSoldiers = function(player, players) {
+TurnManager.prototype.generateSoldiers = function(
+  player,
+  players,
+  callback
+) {
   let quantity,
     quality,
     cell,
@@ -124,13 +128,16 @@ TurnManager.prototype.generateSoldiers = function(player, players) {
 
     index++;
     if (index < towns.length) {
-      console.log('loop', index, towns);
       spawnMobsFromTown(towns[index]);
+    } else {
+      callback();
     }
   }
 
   if (towns.length > 0) {
     spawnMobsFromTown(towns[index]);
+  } else {
+    callback();
   }
 }
 
@@ -139,35 +146,38 @@ TurnManager.prototype.endTurn = function(currentMapLevel, players, startHumanTur
   const endAITurn = () => {
     let id;
 
-    this.generateSoldiers(players.ai, players);
-    players.human.setGold(players.human.gold + 3);
-    players.ai.gold += 3;
+    const prepareNextHumanTurn = () => {
+      players.human.setGold(players.human.gold + 3);
+      players.ai.gold += 3;
 
-    players.ai.units.mobs.forEach(mob => {
-      this.encounter.check(mob, players);
-    });
+      players.ai.units.mobs.forEach(mob => {
+        this.encounter.check(mob, players);
+      });
 
-    players.human.units.mobs.forEach(mob => {
-      this.encounter.check(mob, players);
+      players.human.units.mobs.forEach(mob => {
+        this.encounter.check(mob, players);
 
-      mob.movements = mob.totalMovements;
+        mob.movements = mob.totalMovements;
 
-      id = mob.cell.replace('icon', '');
+        id = mob.cell.replace('icon', '');
 
-      // If it's a Roman Soldier, colour it in order to indicate that it can move again
-      $('#cell' + id[0] + id[1]).html(
-        this.iconTemplates.getHumanMob(
-          id,
-          mob.name,
-          mob.movements,
-          mob.strength
-        )
+        // If it's a Roman Soldier, colour it in order to indicate that it can move again
+        $('#cell' + id[0] + id[1]).html(
+          this.iconTemplates.getHumanMob(
+            id,
+            mob.name,
+            mob.movements,
+            mob.strength
+          )
+        );
+      });
+
+      startHumanTurn(
+        this.levelManager.checkEndOfLevelCondition(currentMapLevel, players)
       );
-    });
+    }
 
-    startHumanTurn(
-      this.levelManager.checkEndOfLevelCondition(currentMapLevel, players)
-    );
+    this.generateSoldiers(players.ai, players, prepareNextHumanTurn);
   }
 
   const checkEncounter = (mob) => {
@@ -175,7 +185,11 @@ TurnManager.prototype.endTurn = function(currentMapLevel, players, startHumanTur
     mob.movements = mob.totalMovements;
   }
 
-  this.generateSoldiers(players.human, players);
-
-  players.ai.performTurn(endAITurn, checkEncounter);
+  this.generateSoldiers(
+    players.human,
+    players,
+    () => {
+      players.ai.performTurn(endAITurn, checkEncounter);
+    }
+  );
 }
