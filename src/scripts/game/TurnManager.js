@@ -125,14 +125,18 @@ TurnManager.prototype.generateSoldiers = function (player, players, callback) {
 
     index++;
     if (index < towns.length) {
-      spawnMobsFromTown(towns[index]);
+      this.animationManager.sleepOneStep().then(() => {
+        spawnMobsFromTown(towns[index]);
+      });
     } else {
       callback();
     }
   };
 
   if (towns.length > 0) {
-    spawnMobsFromTown(towns[index]);
+    this.animationManager.sleepOneStep().then(() => {
+      spawnMobsFromTown(towns[index]);
+    });
   } else {
     callback();
   }
