@@ -39,7 +39,8 @@ function Game(
       this.namesManager,
       this.iconTemplates,
       this.map,
-      this.mapPainter
+      this.mapPainter,
+      this.animationManager
     );
 
   this.players = {

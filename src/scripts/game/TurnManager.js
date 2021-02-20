@@ -4,7 +4,8 @@ function TurnManager(
   namesManager,
   iconTemplates,
   map,
-  mapPainter
+  mapPainter,
+  animationManager
 ) {
   this.encounter = encounter;
   this.levelManager = levelManager;
@@ -12,6 +13,7 @@ function TurnManager(
   this.iconTemplates = iconTemplates;
   this.map = map;
   this.mapPainter = mapPainter;
+  this.animationManager = animationManager;
 }
 
 // Iterates through towns array and, if possible, generate soldiers equals to the quantity variable; with strength equals to quality variable
@@ -32,7 +34,9 @@ TurnManager.prototype.generateSoldiers = function(player, players) {
     towns = player.units.towns,
     mobs = player.units.mobs;
 
-  towns.forEach((town, townsIndex) => {
+  let index = 0;
+
+  const spawnMobsFromTown = (town) => {
     quantity = town.stats.quantity;
     quality = town.stats.quality;
 
@@ -117,7 +121,17 @@ TurnManager.prototype.generateSoldiers = function(player, players) {
         return quantity <= 0;
       }
     });
-  });
+
+    index++;
+    if (index < towns.length) {
+      console.log('loop', index, towns);
+      spawnMobsFromTown(towns[index]);
+    }
+  }
+
+  if (towns.length > 0) {
+    spawnMobsFromTown(towns[index]);
+  }
 }
 
 // End current player turn, and provides 3 gold to each player
