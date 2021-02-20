@@ -1,21 +1,22 @@
 # Barbarians! v1.3
-![alt text](https://github.com/W01fw00d/barbarians/blob/master/src/images/gifs/barbarians_demo.gif "")
+
+![alt text](https://github.com/W01fw00d/barbarians/blob/master/src/images/gifs/barbarians_demo.gif)
 
 A little web-browser turn-based strategy game.
 
 Includes:
-* Jquery 
-* Bootstrap
-* Jasmine
-* Cypress
+
+- Jquery
+- Bootstrap
+- Jasmine
+- Cypress
 
 To play it, just open the main.html file with your browser :)
 
-* You can choose the level by using params like this: 'main.html?level=2'
-(1 - 10 are used for the main campaign, 0 and 11 - XX are used for testing)
+- You can choose the level by using params like this: 'main.html?level=2'
+  (1 - 10 are used for the main campaign, 0 and 11 - XX are used for testing)
 
 To launch the Jasmine unit tests, just open SpecRunner.html (please check that all tests are green before launching a pull request :) )
-
 
 - Launch Cypress (Functional Tests)
 
@@ -29,16 +30,17 @@ Launch with ui
 npm run f-test-ui
 ```
 
+- This project code has been formatted by default prettier
 
-[How to contribute](https://github.com/MarcDiethelm/contributing/blob/master/README.md) 
+[How to contribute](https://github.com/MarcDiethelm/contributing/blob/master/README.md)
 
 Contributors:
 
-* Art
+- Art
 
 Juanju (JJ)
 
-* Programming
+- Programming
 
 [@tattarrattat](https://github.com/tattarrattat)
 
@@ -50,9 +52,8 @@ Juanju (JJ)
 
 [@W01fw00d](https://github.com/W01fw00d)
 
-* Game design
+- Game design
 
 [@W01fw00d](https://github.com/W01fw00d)
-
 
 Thanks everyone! ;)
