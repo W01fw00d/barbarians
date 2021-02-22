@@ -1,35 +1,35 @@
 function SoundManager(muteNarration) {
   this.music = {
-    audio: $('#music-bar'),
+    audio: $("#music-bar"),
     isMuted: function () {
-      return this.audio.prop('muted');
+      return this.audio.prop("muted");
     },
     mute: function () {
-      this.audio.prop('muted', true);
+      this.audio.prop("muted", true);
     },
-    unmute: function() {
-      this.audio.prop('muted', false);
-    }
+    unmute: function () {
+      this.audio.prop("muted", false);
+    },
   };
 
   this.narrator = {
     isMuted: muteNarration,
-    mute: function() {
+    mute: function () {
       window.speechSynthesis.cancel();
       this.isMuted = true;
     },
-    unmute: function() {
+    unmute: function () {
       this.isMuted = false;
     },
   };
 
-  this.speech =  new SpeechSynthesisUtterance();
-  this.speech.lang = 'en';
+  this.speech = new SpeechSynthesisUtterance();
+  this.speech.lang = "en";
   this.speaker = window.speechSynthesis;
   this.diaryGenerator = new DiaryGenerator();
 }
 
-SoundManager.prototype.narrate = function() {
+SoundManager.prototype.narrate = function () {
   this.speaker.cancel();
 
   return {
@@ -41,7 +41,11 @@ SoundManager.prototype.narrate = function() {
     },
     conquered: (conqueror, town, newTownName) => {
       if (!this.narrator.isMuted) {
-        this.speech.text = this.diaryGenerator.conquered(conqueror, town, newTownName);
+        this.speech.text = this.diaryGenerator.conquered(
+          conqueror,
+          town,
+          newTownName
+        );
         this.speaker.speak(this.speech);
       }
     },
@@ -51,5 +55,5 @@ SoundManager.prototype.narrate = function() {
         this.speaker.speak(this.speech);
       }
     },
-  }
+  };
 };

@@ -6,21 +6,23 @@ function NamesManager() {
 NamesManager.prototype.unitNames;
 
 // Returns a name string, chosen randomly from the names array
-NamesManager.prototype.getRandomName = function(type, faction) {
+NamesManager.prototype.getRandomName = function (type, faction) {
   let names, randomNumber;
 
   switch (type) {
-    case 'mob':
-      names = faction === 'human'
-        ? this.unitNames.romanSoldierNames
-        : this.unitNames.barbarianSoldierNames;
+    case "mob":
+      names =
+        faction === "human"
+          ? this.unitNames.romanSoldierNames
+          : this.unitNames.barbarianSoldierNames;
 
       break;
 
-    case 'town':
-      names = faction === 'human'
-        ? this.unitNames.romanTownNames
-        : this.unitNames.barbarianTownNames;
+    case "town":
+      names =
+        faction === "human"
+          ? this.unitNames.romanTownNames
+          : this.unitNames.barbarianTownNames;
 
       break;
   }
@@ -29,4 +31,4 @@ NamesManager.prototype.getRandomName = function(type, faction) {
   names.splice(randomNumber, 1);
 
   return names[randomNumber];
-}
+};

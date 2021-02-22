@@ -1,8 +1,8 @@
 function Faction() {
-    this.units = {
-        mobs: [],
-        towns: [],
-    };
+  this.units = {
+    mobs: [],
+    towns: [],
+  };
 }
 
 Faction.prototype.name;

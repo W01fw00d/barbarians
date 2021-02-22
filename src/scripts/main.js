@@ -1,25 +1,23 @@
 function init() {
-    const urlParams = new URLSearchParams(window.location.search);
+  const urlParams = new URLSearchParams(window.location.search);
 
-    const muteNarration = urlParams.get('muteNarration') !== null;
-    if (muteNarration) {
-        $("#mute_narration").html('Unmute Narration');
-    }
+  const muteNarration = urlParams.get("muteNarration") !== null;
+  if (muteNarration) {
+    $("#mute_narration").html("Unmute Narration");
+  }
 
-    const disableAnimations = urlParams.get('disableAnimations') !== null;
-    if (disableAnimations) {
-        $("#enable_animations").prop('checked', false);
-    }
+  const disableAnimations = urlParams.get("disableAnimations") !== null;
+  if (disableAnimations) {
+    $("#enable_animations").prop("checked", false);
+  }
 
-    new Game(
-        urlParams.get('level') || 1,
-        muteNarration,
-        !disableAnimations
-    );
+  new Game(urlParams.get("level") || 1, muteNarration, !disableAnimations);
 }
 
-String.prototype.replaceAt = function(index, character) {
-    return this.substr(0, index) + character + this.substr(index + character.length);
-}
+String.prototype.replaceAt = function (index, character) {
+  return (
+    this.substr(0, index) + character + this.substr(index + character.length)
+  );
+};
 
 $(document).ready(init);
