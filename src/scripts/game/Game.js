@@ -202,15 +202,20 @@ Game.prototype.bindAll = function () {
         this.map.generate(this.currentMapLevel, this.players);
       }
 
-      this.resetBoardBindings();
-      $("#end_turn").html("End turn");
+      $("#end_turn").html("<b>End turn</b> (+3 gold)");
       $("#end_turn").prop("disabled", false);
       $("#reset_map").prop("disabled", false);
+      $("#enable_animations").prop("disabled", false);
+      this.bindIconClick();
     };
 
     $("#end_turn").html("AI Turn...");
     $("#end_turn").prop("disabled", true);
     $("#reset_map").prop("disabled", true);
+    $("#enable_animations").prop("disabled", true);
+    $(".cell").off();
+    $(".icon").off();
+    $("#info").hide();
 
     this.turnManager.endTurn.call(
       this.turnManager,

@@ -126,10 +126,13 @@ TurnManager.prototype.generateSoldiers = function (player, players, callback) {
     index++;
     if (index < towns.length) {
       const town = towns[index];
-      this.mapPainter.selectCell(town.cell, town.factionTag);
+      this.animationManager.enableAnimations &&
+        this.mapPainter.selectCell(town.cell, town.factionTag);
+
       this.animationManager.sleepHalfStep().then(() => {
         spawnMobsFromTown(town);
-        this.mapPainter.unselectCell(town.cell, town.factionTag);
+        this.animationManager.enableAnimations &&
+          this.mapPainter.unselectCell(town.cell, town.factionTag);
       });
     } else {
       callback();
@@ -138,10 +141,13 @@ TurnManager.prototype.generateSoldiers = function (player, players, callback) {
 
   if (towns.length > 0) {
     const town = towns[index];
-    this.mapPainter.selectCell(town.cell, town.factionTag);
+    this.animationManager.enableAnimations &&
+      this.mapPainter.selectCell(town.cell, town.factionTag);
+
     this.animationManager.sleepHalfStep().then(() => {
       spawnMobsFromTown(towns[index]);
-      this.mapPainter.unselectCell(town.cell, town.factionTag);
+      this.animationManager.enableAnimations &&
+        this.mapPainter.unselectCell(town.cell, town.factionTag);
     });
   } else {
     callback();
