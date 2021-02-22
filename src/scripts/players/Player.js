@@ -52,7 +52,6 @@ Player.prototype.moveSoldier = function (unit, target) {
     result = unit;
 
     this.mapPainter.clearCell(initialCell[0], initialCell[1]);
-    //this.mapPainter.generateCell(unit);
   } else {
     if (unit.player === "Roman") {
       this.showModal("Invalid movement");
