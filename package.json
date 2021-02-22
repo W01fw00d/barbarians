@@ -9,7 +9,6 @@
   "dependencies": {
     "cypress": "^6.4.0"
   },
-  "devDependencies": {},
   "scripts": {
     "f-test": "cypress run",
     "f-test-ui": "cypress open"

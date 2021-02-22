@@ -1,14 +1,20 @@
 function init() {
     const urlParams = new URLSearchParams(window.location.search);
-    const muteNarration = urlParams.get('muteNarration') !== null;
 
+    const muteNarration = urlParams.get('muteNarration') !== null;
     if (muteNarration) {
         $("#mute_narration").html('Unmute Narration');
     }
 
+    const disableAnimations = urlParams.get('disableAnimations') !== null;
+    if (disableAnimations) {
+        $("#enable_animations").prop('checked', false);
+    }
+
     new Game(
         urlParams.get('level') || 1,
-        muteNarration
+        muteNarration,
+        !disableAnimations
     );
 }
 

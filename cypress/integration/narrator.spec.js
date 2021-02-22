@@ -138,6 +138,7 @@ context('Narrator', () => {
       expect(speechSynthesis.speaking).to.be.false;
     });
     endTurn().then(() => {
+      cy.wait(500);
       cy.window().then(({ speechSynthesis }) => {
         expect(speechSynthesis.speaking).to.be.true;
       });

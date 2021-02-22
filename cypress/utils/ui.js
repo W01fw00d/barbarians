@@ -1,7 +1,7 @@
 export const click = (selector) => cy.get(selector).click();
 
 export const start = (level) => {
-    cy.visit(`main.html${level ? `?level=${level}&muteNarration` : `?muteNarration`}`);
+    cy.visit(`main.html${level ? `?level=${level}&` : `?`}muteNarration&disableAnimations`);
     click('#modal-ok').then(
         () => click('#modal-ok')
     );
