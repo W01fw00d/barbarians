@@ -45,9 +45,11 @@ context("Different ways to finish a map or the whole game", () => {
     const stub = cy.stub();
     cy.on("window:alert", stub);
     cy.on("window:confirm", () => true).then(() => {
-      expect(stub.getCall(0)).to.be.calledWith(
+      cy.get("#modal-content").should(
+        "contain",
         "The Barbarians are everywhere! Rome will fall..."
       );
+      click("#modal-ok");
       cy.get("#gold").should("have.value", 1);
       cy.get("#icon32a").should("exist");
     });
@@ -67,12 +69,12 @@ context("Different ways to finish a map or the whole game", () => {
 
     cy.get("#gold").should("have.value", 1);
 
-    const stub = cy.stub();
-    cy.on("window:alert", stub);
     click("#cell54").then(() => {
-      expect(stub.getCall(0)).to.be.calledWith(
+      cy.get("#modal-content").should(
+        "contain",
         "Victory! The area is safe again."
       );
+      click("#modal-ok");
 
       cy.get("#modal-content").should("contain", "A new map awaits you...");
       click("#modal-ok");
@@ -104,16 +106,18 @@ context("Different ways to finish a map or the whole game", () => {
 
     cy.get("#gold").should("have.value", 1);
 
-    const stub = cy.stub();
-    cy.on("window:alert", stub);
     click("#cell54").then(() => {
-      expect(stub.getCall(0)).to.be.calledWith(
+      cy.get("#modal-content").should(
+        "contain",
         "Victory! The area is safe again."
       );
-      expect(stub.getCall(1)).to.be.calledWith(
+      click("#modal-ok");
+      cy.get("#modal-content").should(
+        "contain",
         "Congratulations, you completed the game!" +
           " Those Barbarians won't be a threat for our beloved Rome anymore... right?"
       );
+      click("#modal-ok");
 
       cy.location().should((location) => {
         expect(location.search).to.eq("");

@@ -165,16 +165,16 @@ MapDesign.prototype.blueprints = [
 
   // TEST MAPS
 
-  // 11. Test 1 (manual)
+  // 11. Empty map
   [
-    " x      ",
-    "        ",
-    "        ",
-    "   eEn  ",
-    "        ",
-    "  aaaa  ",
-    "a A  N a",
-    "        ",
+    "V  V  V ",
+    " V   VV ",
+    "aaaAa  a",
+    "a  Aaa a",
+    "aa Aaaaa",
+    "a  Aa aa",
+    "a  AaV a",
+    " V     V",
   ],
 
   // 12. Test 2 (manual)

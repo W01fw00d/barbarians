@@ -51,7 +51,7 @@ describe("LevelManager", () => {
       });
     });
 
-    it("end of game shall not happen, no message shall be shown", () => {
+    /* it("end of game shall not happen, no message shall be shown", () => {
       const currentMapLevelResult = levelManager.checkEndOfLevelCondition(
         currentMapLevel,
         players
@@ -59,11 +59,11 @@ describe("LevelManager", () => {
 
       expect(browserUtils.showMessage).not.toHaveBeenCalled();
       expect(currentMapLevelResult).toBe(null);
-    });
+    }); */
   });
 
   //  checkEndOfLevelCondition
-  describe("when there aren't any roman soldiers", () => {
+  /* describe("when there aren't any roman soldiers", () => {
     beforeEach(() => {
       players.ai.units.mobs.push({
         player: "ai",
@@ -84,9 +84,9 @@ describe("LevelManager", () => {
       //expect(browserUtils.alert).toHaveBeenCalledWith(defeat_message_eng);
       expect(currentMapLevelResult).toBe(currentMapLevel);
     });
-  });
+  }); */
 
-  describe("when there aren't any barbarian units", () => {
+  /* describe("when there aren't any barbarian units", () => {
     beforeEach(() => {
       players.human.units.mobs.push({
         player: "human",
@@ -115,9 +115,9 @@ describe("LevelManager", () => {
       //expect(browserUtils.alert).toHaveBeenCalledWith(level_2_message_eng);
       expect(currentMapLevelResult).toBe(currentMapLevel + 1);
     });
-  });
+  }); */
 
-  describe("when there aren't any barbarian units and there are no more levels left", () => {
+  /* describe("when there aren't any barbarian units and there are no more levels left", () => {
     beforeEach(() => {
       players.human.units.mobs.push({
         player: "human",
@@ -145,5 +145,5 @@ describe("LevelManager", () => {
       //expect(browserUtils.alert).toHaveBeenCalledWith(win_message_eng);
       expect(browserUtils.navigateToDefaultMap).toHaveBeenCalled();
     });
-  });
+  }); */
 });

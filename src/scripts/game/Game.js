@@ -115,17 +115,19 @@ Game.prototype.onCellClick = function (event, unit) {
 
     if (result) {
       this.encounter.check(unit, this.players);
-      newMapLevel = this.levelManager.checkEndOfLevelCondition(
+
+      this.levelManager.checkEndOfLevelCondition(
         this.currentMapLevel,
-        this.players
+        this.players,
+        (newMapLevel) => {
+          if (newMapLevel) {
+            this.currentMapLevel = newMapLevel;
+            this.map.generate(this.currentMapLevel, this.players);
+          }
+
+          this.resetBoardBindings();
+        }
       );
-
-      if (newMapLevel) {
-        this.currentMapLevel = newMapLevel;
-        this.map.generate(this.currentMapLevel, this.players);
-      }
-
-      this.resetBoardBindings();
     }
   }
 };
@@ -140,17 +142,18 @@ Game.prototype.moveMode = function (unit) {
   $("#destroy").click(() => {
     if (confirm("Do you want to destroy current soldier?")) {
       this.encounter.destroyUnit(unit, this.players);
-      newMapLevel = this.levelManager.checkEndOfLevelCondition(
+      this.levelManager.checkEndOfLevelCondition(
         this.currentMapLevel,
-        this.players
+        this.players,
+        (newMapLevel) => {
+          if (newMapLevel) {
+            this.currentMapLevel = newMapLevel;
+            this.map.generate(this.currentMapLevel, this.players);
+          }
+
+          this.resetBoardBindings();
+        }
       );
-
-      if (newMapLevel) {
-        this.currentMapLevel = newMapLevel;
-        this.map.generate(this.currentMapLevel, this.players);
-      }
-
-      this.resetBoardBindings();
     }
   });
 

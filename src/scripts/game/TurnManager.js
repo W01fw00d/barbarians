@@ -189,8 +189,10 @@ TurnManager.prototype.endTurn = function (
         );
       });
 
-      startHumanTurn(
-        this.levelManager.checkEndOfLevelCondition(currentMapLevel, players)
+      this.levelManager.checkEndOfLevelCondition(
+        currentMapLevel,
+        players,
+        startHumanTurn
       );
     };
 

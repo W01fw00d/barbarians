@@ -7,7 +7,5 @@ context("Manual testing", () => {
     // This is a hack to allow developer to manually test the game inside cypress window with auto-closing alerts
     cy.visit("main.html?muteNarration");
     click("#modal-ok").then(() => click("#modal-ok"));
-
-    cy.on("window:alert", cy.stub());
   });
 });
