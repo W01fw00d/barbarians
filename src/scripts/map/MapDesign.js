@@ -165,7 +165,7 @@ MapDesign.prototype.blueprints = [
 
   // TEST MAPS
 
-  // 11. Empty map
+  // 11. Ending map (non-functional, only for display)
   [
     "V  V  V ",
     " V   VV ",

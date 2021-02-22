@@ -40,30 +40,6 @@ function MapPainter() {
     $(`#icon${id}`).css({ display: display });
   };
 
-  this.paintUnit = function (unit) {
-    console.log("unit", unit);
-    cell: "icon32a";
-    factionTag: "Roman";
-    movements: 0;
-    name: "Dionisio";
-    player: "human";
-    strength: 1;
-    totalMovements: 2;
-    typeTag: "Soldier";
-
-    const cellAndType = cell.replace("icon", "");
-
-    this.paintCell(
-      cellAndType,
-      cellAndType[0],
-      cellAndType[1],
-      icon,
-      imageRoute,
-      ground,
-      display
-    );
-  };
-
   this.repaintTown = function (
     iteration,
     conqueredUnit,
