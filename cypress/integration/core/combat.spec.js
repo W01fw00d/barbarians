@@ -37,7 +37,7 @@ context("Combat", () => {
       cy.get("#icon44n").should("not.exist");
       cy.get("#icon53e").should("not.exist");
       cy.get("#icon55e").should("not.exist");
-      click('#icon54a[src="./src/images/board/SRUsed_del_def.png"]');
+      click('#icon54a[src="./src/images/board/SR_del_def_grey.png"]');
       cy.get("#movement").should("contain", "Movements left: [0]");
       cy.get("#gold").should("have.value", 3); // + 2 because 2 barbarians killed, + 0 because 1 wolf killed
 
@@ -62,7 +62,7 @@ context("Combat", () => {
     cy.get('#icon44A[src="./src/images/board/AR_del_def.png"]').should("exist");
     cy.get('#icon53A[src="./src/images/board/AR_del_def.png"]').should("exist");
     cy.get('#icon55A[src="./src/images/board/AR_del_def.png"]').should("exist");
-    click('#icon54a[src="./src/images/board/SRUsed_del_def.png"]');
+    click('#icon54a[src="./src/images/board/SR_del_def_grey.png"]');
     cy.get("#movement").should("contain", "Movements left: [0]");
   });
 

@@ -10,11 +10,11 @@ context("Units movements", () => {
     cy.get("#movement").should("contain", "Movements left: [2]");
     click("#cell30");
 
-    click('#icon30a[src="./src/images/board/SRUsed_del_def.png"]');
+    click('#icon30a[src="./src/images/board/SR_del_def_grey.png"]');
     cy.get("#movement").should("contain", "Movements left: [0]");
     click("#cell32");
 
-    cy.get('#icon30a[src="./src/images/board/SRUsed_del_def.png"]').should(
+    cy.get('#icon30a[src="./src/images/board/SR_del_def_grey.png"]').should(
       "exist"
     );
 
@@ -23,7 +23,7 @@ context("Units movements", () => {
     cy.get("#movement").should("contain", "Movements left: [2]");
     click("#cell32");
 
-    cy.get('#icon32a[src="./src/images/board/SRUsed_del_def.png"]').should(
+    cy.get('#icon32a[src="./src/images/board/SR_del_def_grey.png"]').should(
       "exist"
     );
   });
@@ -38,10 +38,10 @@ context("Units movements", () => {
     cy.get("#movement").should("contain", "Movements left: [1]");
     click("#cell30");
 
-    click('#icon30a[src="./src/images/board/SRUsed_del_def.png"]');
+    click('#icon30a[src="./src/images/board/SR_del_def_grey.png"]');
     cy.get("#movement").should("contain", "Movements left: [0]");
     click("#cell31");
-    cy.get('#icon30a[src="./src/images/board/SRUsed_del_def.png"]').should(
+    cy.get('#icon30a[src="./src/images/board/SR_del_def_grey.png"]').should(
       "exist"
     );
   });
