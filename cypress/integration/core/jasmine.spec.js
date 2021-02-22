@@ -1,16 +1,16 @@
 /// <reference types="cypress" />
 
-context('Jasmine Unit Tests', () => {
-  it('Check if tests are green', () => {
+context("Jasmine Unit Tests", () => {
+  it("Check if tests are green", () => {
     // This is a hack to allow executing all utests and ftests faster
-    cy.visit('SpecRunner.html');
+    cy.visit("SpecRunner.html");
 
-    cy.get('.jasmine-overall-result.jasmine-passed').should('exist');
-  })
+    cy.get(".jasmine-overall-result.jasmine-passed").should("exist");
+  });
 
-  afterEach(function() {
-    if (this.currentTest.state === 'failed') {
+  afterEach(function () {
+    if (this.currentTest.state === "failed") {
       Cypress.runner.stop();
     }
   });
-})
+});

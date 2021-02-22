@@ -1,64 +1,106 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Jasmine Spec Runner v3.3.0</title>
 
-<head>
-  <meta charset="utf-8">
-  <title>Jasmine Spec Runner v3.3.0</title>
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="lib/jasmine-3.3.0/jasmine_favicon.png"
+    />
+    <link rel="stylesheet" href="lib/jasmine-3.3.0/jasmine.css" />
 
-  <link rel="shortcut icon" type="image/png" href="lib/jasmine-3.3.0/jasmine_favicon.png">
-  <link rel="stylesheet" href="lib/jasmine-3.3.0/jasmine.css">
+    <script src="lib/jasmine-3.3.0/jasmine.js"></script>
+    <script src="lib/jasmine-3.3.0/jasmine-html.js"></script>
+    <script src="lib/jasmine-3.3.0/boot.js"></script>
 
-  <script src="lib/jasmine-3.3.0/jasmine.js"></script>
-  <script src="lib/jasmine-3.3.0/jasmine-html.js"></script>
-  <script src="lib/jasmine-3.3.0/boot.js"></script>
+    <!-- include source files here... -->
+    <script type="text/javascript" src="lib/jquery-2.1.4.js"></script>
+    <script type="text/javascript" src="lib/bootstrap.min.js"></script>
 
-  <!-- include source files here... -->
-  <script type="text/javascript" src="lib/jquery-2.1.4.js"></script>
-  <script type="text/javascript" src="lib/bootstrap.min.js"></script>
+    <script
+      type="text/javascript"
+      src="src/scripts/browser/BrowserUtils.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="src/scripts/browser/MapPainter.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="src/scripts/browser/DetailsPanelPainter.js"
+    ></script>
 
-  <script type="text/javascript" src="src/scripts/browser/BrowserUtils.js"></script>
-  <script type="text/javascript" src="src/scripts/browser/MapPainter.js"></script>
-  <script type="text/javascript" src="src/scripts/browser/DetailsPanelPainter.js"></script>
+    <script type="text/javascript" src="src/scripts/map/MapDesign.js"></script>
+    <script type="text/javascript" src="src/scripts/map/Map.js"></script>
+    <script
+      type="text/javascript"
+      src="src/scripts/map/LevelManager.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="src/scripts/map/randomMapGenerator.js"
+    ></script>
 
-  <script type="text/javascript" src="src/scripts/map/MapDesign.js"></script>
-  <script type="text/javascript" src="src/scripts/map/Map.js"></script>
-  <script type="text/javascript" src="src/scripts/map/LevelManager.js"></script>
-  <script type="text/javascript" src="src/scripts/map/randomMapGenerator.js"></script>
+    <script type="text/javascript" src="src/scripts/game/Game.js"></script>
+    <script type="text/javascript" src="src/scripts/game/InfoLayer.js"></script>
+    <script type="text/javascript" src="src/scripts/game/Encounter.js"></script>
+    <script
+      type="text/javascript"
+      src="src/scripts/game/TurnManager.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="src/scripts/game/DiaryGenerator.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="src/scripts/game/SoundManager.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="src/scripts/game/AnimationManager.js"
+    ></script>
 
-  <script type="text/javascript" src="src/scripts/game/Game.js"></script>
-  <script type="text/javascript" src="src/scripts/game/InfoLayer.js"></script>
-  <script type="text/javascript" src="src/scripts/game/Encounter.js"></script>
-  <script type="text/javascript" src="src/scripts/game/TurnManager.js"></script>
-  <script type="text/javascript" src="src/scripts/game/DiaryGenerator.js"></script>
-  <script type="text/javascript" src="src/scripts/game/SoundManager.js"></script>
-  <script type="text/javascript" src="src/scripts/game/AnimationManager.js"></script>
+    <script
+      type="text/javascript"
+      src="src/scripts/players/Faction.js"
+    ></script>
+    <script type="text/javascript" src="src/scripts/players/Player.js"></script>
+    <script type="text/javascript" src="src/scripts/players/AI.js"></script>
+    <script type="text/javascript" src="src/scripts/players/Human.js"></script>
+    <script
+      type="text/javascript"
+      src="src/scripts/players/Neutral.js"
+    ></script>
 
-  <script type="text/javascript" src="src/scripts/players/Faction.js"></script>
-  <script type="text/javascript" src="src/scripts/players/Player.js"></script>
-  <script type="text/javascript" src="src/scripts/players/AI.js"></script>
-  <script type="text/javascript" src="src/scripts/players/Human.js"></script>
-  <script type="text/javascript" src="src/scripts/players/Neutral.js"></script>
+    <script
+      type="text/javascript"
+      src="src/scripts/units/UnitNames.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="src/scripts/units/NamesManager.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="src/scripts/units/IconTemplates.js"
+    ></script>
 
-  <script type="text/javascript" src="src/scripts/units/UnitNames.js"></script>
-  <script type="text/javascript" src="src/scripts/units/NamesManager.js"></script>
-  <script type="text/javascript" src="src/scripts/units/IconTemplates.js"></script>
+    <!-- //TODO main.js is only included because of replaceAt String custom function that is defined there, move to a proper class  -->
+    <script type="text/javascript" src="src/scripts/main.js"></script>
 
-  <!-- //TODO main.js is only included because of replaceAt String custom function that is defined there, move to a proper class  -->
-  <script type="text/javascript" src="src/scripts/main.js"></script>
+    <!-- include spec files here... -->
+    <script src="src/scripts/map/tests/LevelManagerTest.js"></script>
+    <script src="src/scripts/map/tests/MapTest.js"></script>
 
-  <!-- include spec files here... -->
-  <script src="src/scripts/map/tests/LevelManagerTest.js"></script>
-  <script src="src/scripts/map/tests/MapTest.js"></script>
+    <script src="src/scripts/game/tests/EncounterTest.js"></script>
+    <script src="src/scripts/game/tests/InfoLayerTest.js"></script>
+    <script src="src/scripts/game/tests/TurnManagerTest.js"></script>
 
-  <script src="src/scripts/game/tests/EncounterTest.js"></script>
-  <script src="src/scripts/game/tests/InfoLayerTest.js"></script>
-  <script src="src/scripts/game/tests/TurnManagerTest.js"></script>
+    <script src="src/scripts/players/tests/PlayerTest.js"></script>
+  </head>
 
-  <script src="src/scripts/players/tests/PlayerTest.js"></script>
-
-</head>
-
-<body>
-</body>
-
+  <body></body>
 </html>

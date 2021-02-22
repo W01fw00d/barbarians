@@ -1,20 +1,20 @@
 //TODO refactor, change its name or even remove this class, its merely a mapping between Units and their Painter
 function InfoLayer(painter) {
   // Shows data about the icon and, depending of the type of icon, allows to move it (soldier) or improve it (town)
-  this.checkUnitInfo = function(event, players) {
+  this.checkUnitInfo = function (event, players) {
     const icon = event.target.id,
       type = icon.charAt(icon.length - 1);
 
     let result = {
         mode: null,
-        unit: null
+        unit: null,
       },
       color,
       unit;
 
     switch (type) {
       // Human roman town
-      case 'A':
+      case "A":
         unit = findUnit(icon, players.human.units.towns);
         //TODO Consider if we need to pass all this info to painter, or Define an object model for passing data for painting
         //TODO maybe quantity and qualityUpgradePrice could be deduced from the current quantity and quality?
@@ -32,47 +32,40 @@ function InfoLayer(painter) {
         break;
 
       // AI barbarian town
-      case 'E':
+      case "E":
         unit = findUnit(icon, players.ai.units.towns);
         painter.showAITownPanel(unit.name);
 
         break;
 
       // Neutral town
-      case 'N':
+      case "N":
         unit = findUnit(icon, players.neutral.units.towns);
         painter.showNeutralTownPanel(unit.name);
         break;
 
       // Human roman soldier (mob)
-      case 'a':
+      case "a":
         unit = findUnit(icon, players.human.units.mobs);
 
-        painter.showHumanSoldierPanel(
-          unit.name,
-          unit.strength,
-          unit.movements
-        );
+        painter.showHumanSoldierPanel(unit.name, unit.strength, unit.movements);
 
         if (unit.movements) {
-          result.mode = 'move';
+          result.mode = "move";
           result.unit = unit;
         }
 
         break;
 
       // Ai barbarian soldier (mob)
-      case 'e':
+      case "e":
         unit = findUnit(icon, players.ai.units.mobs);
-        painter.showAISoldierPanel(
-          unit.name,
-          unit.strength,
-        );
+        painter.showAISoldierPanel(unit.name, unit.strength);
 
         break;
 
       // Neutral wolf (mob)
-      case 'n':
+      case "n":
         unit = findUnit(icon, players.neutral.units.mobs);
         painter.showNeutralSoldierPanel(unit.name);
 
@@ -80,9 +73,9 @@ function InfoLayer(painter) {
     }
 
     return result;
-  }
+  };
 
-  var findUnit = function(icon, units) {
+  var findUnit = function (icon, units) {
     const unitsLength = units.length;
 
     let unit;
@@ -96,6 +89,5 @@ function InfoLayer(painter) {
     }
 
     return unit;
-  }
-
+  };
 }

@@ -1,16 +1,22 @@
 // TODO disengage all functionality related to html tags, wrap it so browser characteristics are hidden
 //TODO Named it MapManager, as Map is the logic information about the Browser/Board
-function Map(mapPainter, detailsPanelPainter, mapDesign, namesManager, iconTemplates) {
+function Map(
+  mapPainter,
+  detailsPanelPainter,
+  mapDesign,
+  namesManager,
+  iconTemplates
+) {
   const STARTING_GOLD = 1;
 
   // Generates a map using the desing array as input
-  this.generate = function(level, players) {
+  this.generate = function (level, players) {
     const resetMapState = () => {
       players.human.setGold(STARTING_GOLD);
       players.human.reset();
       players.ai.reset();
       players.neutral.reset();
-    }
+    };
 
     resetMapState();
     detailsPanelPainter.hide();
@@ -20,116 +26,130 @@ function Map(mapPainter, detailsPanelPainter, mapDesign, namesManager, iconTempl
     designArray.forEach((row, rowIndex) => {
       mapPainter.paintRow(rowIndex);
 
-      row.split('').forEach((cell, columnIndex) => {
+      row.split("").forEach((cell, columnIndex) => {
         this.generateCell(players, cell, rowIndex, columnIndex);
       });
     });
-  }
+  };
 
   //TODO this function shall return players, to explicit that it modifies it
   //TODO maybe this function should go in another class, "Cell"
-  this.generateCell = function(players, cell, rowIndex, columnIndex) {
-    const id = rowIndex + '' + columnIndex + cell,
-      imageRoute = './src/images/board/',
+  this.generateCell = function (players, cell, rowIndex, columnIndex) {
+    const id = rowIndex + "" + columnIndex + cell,
+      imageRoute = "./src/images/board/",
       iconTagClosing = '.png"></img>',
-      ground = 'H_def.png';
+      ground = "H_def.png";
 
-    let display = 'block',
+    let display = "block",
       icon = '<img id="obstacle' + id + '" src="' + imageRoute,
       randomName;
 
     //TODO use a map structure or similar to map character to function
     switch (cell) {
-      case 'x':
-        icon += 'MS_def' + iconTagClosing;
+      case "x":
+        icon += "MS_def" + iconTagClosing;
         break;
 
-      case 'I':
-        icon += 'MI_defl' + iconTagClosing;
+      case "I":
+        icon += "MI_defl" + iconTagClosing;
         break;
 
-      case 'X':
-        icon += 'M_def' + iconTagClosing;
+      case "X":
+        icon += "M_def" + iconTagClosing;
         break;
 
-      case 'D':
-        icon += 'MD_def' + iconTagClosing;
+      case "D":
+        icon += "MD_def" + iconTagClosing;
         break;
 
-      case 'V':
-        icon += 'A_def' + iconTagClosing;
+      case "V":
+        icon += "A_def" + iconTagClosing;
         break;
 
-      case 'N':
+      case "N":
         //TODO disengage units list management from icon choosing for cell painting
         units = players.neutral.units.towns;
-        units.push(getTownObject(id, 'neutral', 'Free Town', 'Town', 'Nature'));
+        units.push(getTownObject(id, "neutral", "Free Town", "Town", "Nature"));
         icon = iconTemplates.getNeutralTown(id);
         break;
 
-      case 'A':
-        randomName = namesManager.getRandomName('town', 'human');
+      case "A":
+        randomName = namesManager.getRandomName("town", "human");
         units = players.human.units.towns;
-        units.push(getTownObject(id, 'human', randomName, 'Town', 'Roman'));
+        units.push(getTownObject(id, "human", randomName, "Town", "Roman"));
         icon = iconTemplates.getHumanTown(id, randomName);
         break;
 
-      case 'E':
-        randomName = namesManager.getRandomName('town', 'ai');
+      case "E":
+        randomName = namesManager.getRandomName("town", "ai");
         units = players.ai.units.towns;
-        units.push(getTownObject(id, 'ai', randomName, 'Town', 'Barbarian'));
+        units.push(getTownObject(id, "ai", randomName, "Town", "Barbarian"));
         icon = iconTemplates.getAITown(id, randomName);
         break;
 
-      case 'n':
+      case "n":
         units = players.neutral.units.mobs;
-        units.push(getMobObject(id, 'neutral', 'Wolf', 0, 1, 'Beast', 'Nature'));
+        units.push(
+          getMobObject(id, "neutral", "Wolf", 0, 1, "Beast", "Nature")
+        );
         icon = iconTemplates.getNeutralMob(id);
         break;
 
-      case 'a':
-        randomName = namesManager.getRandomName('mob', 'human');
+      case "a":
+        randomName = namesManager.getRandomName("mob", "human");
         units = players.human.units.mobs;
-        units.push(getMobObject(id, 'human', randomName, 2, 1, 'Soldier', 'Roman'));
+        units.push(
+          getMobObject(id, "human", randomName, 2, 1, "Soldier", "Roman")
+        );
         icon = iconTemplates.getStarterHumanMob(id, randomName);
         break;
 
-      case 'e':
+      case "e":
         units = players.ai.units.mobs;
-        units.push(getMobObject(id, 'ai', null, 1, 1, 'Soldier', 'Barbarian'));
+        units.push(getMobObject(id, "ai", null, 1, 1, "Soldier", "Barbarian"));
         icon = iconTemplates.getStarterAIMob(id, null);
         break;
 
-      case ' ':
+      case " ":
       default:
-        icon = '';
-        display = 'none';
+        icon = "";
+        display = "none";
         break;
-      };
+    }
 
     mapPainter.paintCell(
-      id, rowIndex, columnIndex, icon, imageRoute, ground, display
+      id,
+      rowIndex,
+      columnIndex,
+      icon,
+      imageRoute,
+      ground,
+      display
     );
-  }
+  };
 
-  var getTownObject = function(
-    id, player, name, typeTag, factionTag
-  ) {
+  var getTownObject = function (id, player, name, typeTag, factionTag) {
     const stats = {
       quantity: 1,
       quality: 1,
       quantityUpgradePrice: 1,
-      qualityUpgradePrice: 1
+      qualityUpgradePrice: 1,
     };
 
     let result = getUnitObject(id, player, name, typeTag, factionTag);
     result.stats = stats;
 
     return result;
-  }
+  };
 
-  var getMobObject = function(
-    id, player, name, movements, strength, typeTag, factionTag
+  var getMobObject = function (
+    id,
+    player,
+    name,
+    movements,
+    strength,
+    typeTag,
+    factionTag
   ) {
     let result = getUnitObject(id, player, name, typeTag, factionTag);
     result.totalMovements = movements;
@@ -137,26 +157,24 @@ function Map(mapPainter, detailsPanelPainter, mapDesign, namesManager, iconTempl
     result.strength = strength;
 
     return result;
-  }
+  };
 
-  var getUnitObject = function(
-    id, player, name, typeTag, factionTag
-  ) {
+  var getUnitObject = function (id, player, name, typeTag, factionTag) {
     return {
-      cell: 'icon' + id,
+      cell: "icon" + id,
       player: player,
       name: name,
       typeTag: typeTag,
-      factionTag: factionTag
+      factionTag: factionTag,
     };
-  }
+  };
 
   //TODO create a Map object which stores all possible position on map and what is there, to be able to refactor those functions
-  this.getCellId = function(cell) {
-    return $(cell + ' img').attr('id');
-  }
+  this.getCellId = function (cell) {
+    return $(cell + " img").attr("id");
+  };
 
-  this.getIcon = function(id) {
+  this.getIcon = function (id) {
     return document.getElementById(id).lastElementChild;
-  }
+  };
 }

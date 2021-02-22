@@ -1,11 +1,11 @@
-describe("Player", ()=> {
+describe("Player", () => {
   // let currentMapLevel,
   //   browserUtils,
   //   levelManager,
   //   soundManager,
   //   players;
 
-  beforeEach(()=> {
+  beforeEach(() => {
     // currentMapLevel = 1;
     map = new Map();
     mapPainter = new MapPainter();
@@ -14,7 +14,7 @@ describe("Player", ()=> {
     // soundManager = new SoundManager();
     // levelManager = new LevelManager(browserUtils, mapDesign, soundManager);
 
-//TODO repeated structure 'units'
+    //TODO repeated structure 'units'
     // players = {
     //   human: {
     //     units: {
@@ -32,22 +32,21 @@ describe("Player", ()=> {
     //
     // spyOn(browserUtils, 'navigateToDefaultMap');
     // spyOn(browserUtils, 'showMessage');
-
   });
 
   //moveSoldier
-  describe("When player tries to move soldier to a nearby cell", ()=> {
-    it("Soldier will be moved, and it will loose the used movements", ()=> {
-      spyOn(map, 'getIcon').and.returnValue(null);
-      spyOn(mapPainter, 'clearCell');
+  describe("When player tries to move soldier to a nearby cell", () => {
+    it("Soldier will be moved, and it will loose the used movements", () => {
+      spyOn(map, "getIcon").and.returnValue(null);
+      spyOn(mapPainter, "clearCell");
 
-      unit = {cell: 'icon00a', player: 'human', movements: 2};
+      unit = { cell: "icon00a", player: "human", movements: 2 };
 
-      target = 'cell02';
+      target = "cell02";
 
       const result = player.moveSoldier(unit, target);
 
-      expect(mapPainter.clearCell).toHaveBeenCalledWith('0', '0');
+      expect(mapPainter.clearCell).toHaveBeenCalledWith("0", "0");
       expect(result).toBe(unit);
       expect(unit.movements).toBe(0);
     });

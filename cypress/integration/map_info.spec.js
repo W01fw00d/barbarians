@@ -1,32 +1,32 @@
 /// <reference types="cypress" />
 
-import { start, click, canSeeSoldierInfo } from '../utils/ui.js';
+import { start, click, canSeeSoldierInfo } from "../utils/ui.js";
 
-context('User can display more info about map units', () => {
+context("User can display more info about map units", () => {
   beforeEach(() => start());
 
   //TODO: repeat this test for all faction/types units on game
-  it('Open and close player/roman soldier UI', () => {
-    cy.get('#info').should('not.be.visible');
-    cy.get('#soldier_info').should('not.be.visible');
+  it("Open and close player/roman soldier UI", () => {
+    cy.get("#info").should("not.be.visible");
+    cy.get("#soldier_info").should("not.be.visible");
 
-    click('#icon32a');
+    click("#icon32a");
 
-    cy.get('#info').should('be.visible');
+    cy.get("#info").should("be.visible");
     canSeeSoldierInfo();
-    cy.get('#player').should('have.value', 'Roman');
-    cy.get('#type').should('have.value', 'Soldier');
+    cy.get("#player").should("have.value", "Roman");
+    cy.get("#type").should("have.value", "Soldier");
 
-    click('#close');
-  
-    cy.get('#info').should('not.be.visible');
-    cy.get('#soldier_info').should('not.be.visible');
-  })
+    click("#close");
 
-   /* it('Hover soldier to get tooltip', () => {
+    cy.get("#info").should("not.be.visible");
+    cy.get("#soldier_info").should("not.be.visible");
+  });
+
+  /* it('Hover soldier to get tooltip', () => {
     //TODO: test tooltips when hovering units
     cy.get('#tooltip32a').trigger('mouseover');
 
     cy.get('#map').should('contain', /.*Moves\: \[2\]\, Strength\: \[1\]/);
   }) */
-})
+});
