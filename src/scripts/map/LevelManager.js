@@ -29,30 +29,24 @@ function LevelManager(browserUtils, mapDesign, soundManager, startingMapLevel) {
     "¡Han llegado los refuerzos que Roma prometió...! Es hora de terminar con los últimos supervivientes bárbaros... ¡Por Roma!",
   ];
 
-  let showSecondModal = true;
-
-  const showMessage = function (message) {
-    $("#modal-content").html(message);
-    $("#modal").modal("show");
-  };
   const announce = function (message) {
     soundManager.narrate().read(message);
     browserUtils.showMessage(message);
   };
 
-  showMessage(
-    "Welcome to Barbarians, a strategy turn based game. Click on your roman soldiers and try to defeat the barbarian soldiers and towns."
+  browserUtils.showMessage(
+    "Welcome to Barbarians, a strategy turn based game. Click on your roman soldiers and try to defeat the barbarian soldiers and towns.",
+    () => {
+      announce(maps_messages_eng[startingMapLevel]);
+    }
   );
 
-  $("#modal").on("hidden.bs.modal", function () {
-    if (showSecondModal) {
-      announce(maps_messages_eng[startingMapLevel]);
-      showSecondModal = false;
-    }
-  });
-
   // Check that there are still units in both sides; if not, victory one of the two factions wins
-  this.checkEndOfLevelCondition = function (currentMapLevel, players) {
+  this.checkEndOfLevelCondition = function (
+    currentMapLevel,
+    players,
+    callback
+  ) {
     /*TODO this is not the place for message strings.
     This function should call a Messager class with a messageType code
     */
@@ -64,17 +58,20 @@ function LevelManager(browserUtils, mapDesign, soundManager, startingMapLevel) {
 
     // Player have to destroy all barbarians soldiers and towns. AI wins just by killing all roman soldiers.
     if (deadFaction === "human") {
-      browserUtils.alert(defeat_message_eng);
+      browserUtils.showMessage(
+        defeat_message_eng,
+        () => callback && callback(currentMapLevel)
+      );
     } else if (deadFaction === "ai") {
-      browserUtils.alert(victory_message_eng);
-      currentMapLevel++;
-      showNextMapMsg(currentMapLevel);
+      browserUtils.showMessage(victory_message_eng, () => {
+        currentMapLevel++;
+        showNextMapMsg(currentMapLevel);
+        callback && callback(currentMapLevel);
+      });
     } else {
       //TODO this is a code smell, this function is lying about currentMapLevel
-      currentMapLevel = null;
+      callback && callback(null);
     }
-
-    return currentMapLevel;
   };
 
   var getDeadFaction = function (players) {
@@ -107,8 +104,7 @@ function LevelManager(browserUtils, mapDesign, soundManager, startingMapLevel) {
       currentMapLevel == endGameTestMap + 1 ||
       currentMapLevel >= mapDesign.blueprints.length
     ) {
-      browserUtils.alert(win_message_eng);
-      resetGame();
+      browserUtils.showMessage(win_message_eng, resetGame);
     } else {
       announce(maps_messages_eng[currentMapLevel] || "A new map awaits you...");
     }

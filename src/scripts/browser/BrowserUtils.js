@@ -3,12 +3,13 @@ function BrowserUtils() {
     window.location.href = "./main.html";
   };
 
-  this.alert = function (message) {
-    alert(message);
-  };
-
-  this.showMessage = function (message) {
+  this.showMessage = function (message, onClose) {
     $("#modal-content").html(message);
     $("#modal").modal("show");
+    onClose &&
+      $("#modal").on("hidden.bs.modal", () => {
+        $("#modal").off();
+        onClose();
+      });
   };
 }

@@ -10,5 +10,6 @@
     "map_info.spec.js",
     "narrator.spec.js",
     "manual.spec.js"
-  ]
+  ],
+  "video": false
 }

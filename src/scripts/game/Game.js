@@ -115,17 +115,19 @@ Game.prototype.onCellClick = function (event, unit) {
 
     if (result) {
       this.encounter.check(unit, this.players);
-      newMapLevel = this.levelManager.checkEndOfLevelCondition(
+
+      this.levelManager.checkEndOfLevelCondition(
         this.currentMapLevel,
-        this.players
+        this.players,
+        (newMapLevel) => {
+          if (newMapLevel) {
+            this.currentMapLevel = newMapLevel;
+            this.map.generate(this.currentMapLevel, this.players);
+          }
+
+          this.resetBoardBindings();
+        }
       );
-
-      if (newMapLevel) {
-        this.currentMapLevel = newMapLevel;
-        this.map.generate(this.currentMapLevel, this.players);
-      }
-
-      this.resetBoardBindings();
     }
   }
 };
@@ -140,17 +142,18 @@ Game.prototype.moveMode = function (unit) {
   $("#destroy").click(() => {
     if (confirm("Do you want to destroy current soldier?")) {
       this.encounter.destroyUnit(unit, this.players);
-      newMapLevel = this.levelManager.checkEndOfLevelCondition(
+      this.levelManager.checkEndOfLevelCondition(
         this.currentMapLevel,
-        this.players
+        this.players,
+        (newMapLevel) => {
+          if (newMapLevel) {
+            this.currentMapLevel = newMapLevel;
+            this.map.generate(this.currentMapLevel, this.players);
+          }
+
+          this.resetBoardBindings();
+        }
       );
-
-      if (newMapLevel) {
-        this.currentMapLevel = newMapLevel;
-        this.map.generate(this.currentMapLevel, this.players);
-      }
-
-      this.resetBoardBindings();
     }
   });
 
@@ -202,15 +205,20 @@ Game.prototype.bindAll = function () {
         this.map.generate(this.currentMapLevel, this.players);
       }
 
-      this.resetBoardBindings();
-      $("#end_turn").html("End turn");
+      $("#end_turn").html("<b>End turn</b> (+3 gold)");
       $("#end_turn").prop("disabled", false);
       $("#reset_map").prop("disabled", false);
+      $("#enable_animations").prop("disabled", false);
+      this.bindIconClick();
     };
 
     $("#end_turn").html("AI Turn...");
     $("#end_turn").prop("disabled", true);
     $("#reset_map").prop("disabled", true);
+    $("#enable_animations").prop("disabled", true);
+    $(".cell").off();
+    $(".icon").off();
+    $("#info").hide();
 
     this.turnManager.endTurn.call(
       this.turnManager,
