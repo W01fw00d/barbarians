@@ -10,20 +10,20 @@ context("Units movements", () => {
     cy.get("#movement").should("contain", "Movements left: [2]");
     click("#cell30");
 
-    click('#icon30a[src="./src/images/board/SRUsed_del_def.png"]');
+    click('#icon30a[src="./src/images/board/mob/roman/grey/1.png"]');
     cy.get("#movement").should("contain", "Movements left: [0]");
     click("#cell32");
 
-    cy.get('#icon30a[src="./src/images/board/SRUsed_del_def.png"]').should(
+    cy.get('#icon30a[src="./src/images/board/mob/roman/grey/1.png"]').should(
       "exist"
     );
 
     endTurn();
-    click('#icon30a[src="./src/images/board/SR_del_def.png"]');
+    click('#icon30a[src="./src/images/board/mob/roman/1.png"]');
     cy.get("#movement").should("contain", "Movements left: [2]");
     click("#cell32");
 
-    cy.get('#icon32a[src="./src/images/board/SRUsed_del_def.png"]').should(
+    cy.get('#icon32a[src="./src/images/board/mob/roman/grey/1.png"]').should(
       "exist"
     );
   });
@@ -34,14 +34,14 @@ context("Units movements", () => {
     click("#icon32a");
     click("#cell31");
 
-    click('#icon31a[src="./src/images/board/SR_del_def.png"]');
+    click('#icon31a[src="./src/images/board/mob/roman/1.png"]');
     cy.get("#movement").should("contain", "Movements left: [1]");
     click("#cell30");
 
-    click('#icon30a[src="./src/images/board/SRUsed_del_def.png"]');
+    click('#icon30a[src="./src/images/board/mob/roman/grey/1.png"]');
     cy.get("#movement").should("contain", "Movements left: [0]");
     click("#cell31");
-    cy.get('#icon30a[src="./src/images/board/SRUsed_del_def.png"]').should(
+    cy.get('#icon30a[src="./src/images/board/mob/roman/grey/1.png"]').should(
       "exist"
     );
   });
@@ -52,7 +52,9 @@ context("Units movements", () => {
     click("#icon32a");
     click("#cell62");
 
-    cy.get('#icon32a[src="./src/images/board/SR_del_def.png"]').should("exist");
+    cy.get('#icon32a[src="./src/images/board/mob/roman/1.png"]').should(
+      "exist"
+    );
     cy.get("#movement").should("contain", "Movements left: [2]");
   });
 
@@ -62,7 +64,9 @@ context("Units movements", () => {
     click("#icon32a");
     click("#cell33");
 
-    cy.get('#icon32a[src="./src/images/board/SR_del_def.png"]').should("exist");
+    cy.get('#icon32a[src="./src/images/board/mob/roman/1.png"]').should(
+      "exist"
+    );
     cy.get("#movement").should("contain", "Movements left: [2]");
   });
 
@@ -78,7 +82,7 @@ context("Units movements", () => {
     endTurn();
 
     cy.get("#map")
-      .find('img[src="./src/images/board/SB_del_def.png"]')
+      .find('img[src="./src/images/board/mob/barbarian/8.png"]')
       .should("have.length.at.least", 7); // AI randomly upgrades quantity, resulting in +2 barbarians instead of +1
   });
 });

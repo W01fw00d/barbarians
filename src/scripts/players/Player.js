@@ -32,12 +32,12 @@ Player.prototype.showModal = function (message) {
 
 // upgrade_auto is for AI turn use of this function. In other case, this is invoked by an event_handler
 Player.prototype.moveSoldier = function (unit, target) {
-  const initialCell = unit.cell.replace("icon", "").split(""),
-    finalCell = target.replace("cell", "").replace("#", "").split("");
+  const initialCell = unit.cell.replace("icon", "").split("");
+  const finalCell = target.replace("cell", "").replace("#", "").split("");
 
-  let icon = this.mapManager.getIcon(target),
-    movement,
-    result;
+  let icon = this.mapManager.getIcon(target);
+  let movement;
+  let result;
 
   //Check how many cells have it move as a total
   movement =
@@ -66,9 +66,7 @@ Player.prototype.moveSoldier = function (unit, target) {
 Player.prototype.upgradeMode = function (unit, upgrade) {
   const errorMessage = "You don't have enough gold!";
 
-  let cell,
-    image = "",
-    title = "";
+  let cell;
 
   const updateTownHtml = () => {
     $("#prod").html(
@@ -77,17 +75,9 @@ Player.prototype.upgradeMode = function (unit, upgrade) {
 
     cell = unit.cell.replace("icon", "#cell");
     cell = cell.substring(0, cell.length - 1);
-    title = `[${unit.name}]. Quantity: [${unit.stats.quantity}], Quality: [${unit.stats.quality}]`;
+    const title = `[${unit.name}]. Quantity: [${unit.stats.quantity}], Quality: [${unit.stats.quality}]`;
     $(cell + " a").attr("title", title);
   };
-
-  if (unit.player === "human") {
-    index = 0;
-    image = "AR_del_def";
-  } else if (unit.player === "ai") {
-    index = 1;
-    image = "AB_del_def";
-  }
 
   if (upgrade === "improve_quantity") {
     if (unit.stats.quantityUpgradePrice <= this.gold) {

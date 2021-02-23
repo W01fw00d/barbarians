@@ -38,7 +38,7 @@ function Map(
     const id = rowIndex + "" + columnIndex + cell,
       imageRoute = "./src/images/board/",
       iconTagClosing = '.png"></img>',
-      ground = "H_def.png";
+      ground = "land/grass.png";
 
     let display = "block",
       icon = '<img id="obstacle' + id + '" src="' + imageRoute,
@@ -47,23 +47,23 @@ function Map(
     //TODO use a map structure or similar to map character to function
     switch (cell) {
       case "x":
-        icon += "MS_def" + iconTagClosing;
+        icon += "land/mountain/single" + iconTagClosing;
         break;
 
       case "I":
-        icon += "MI_defl" + iconTagClosing;
+        icon += "land/mountain/range/left" + iconTagClosing;
         break;
 
       case "X":
-        icon += "M_def" + iconTagClosing;
+        icon += "land/mountain/range/middle" + iconTagClosing;
         break;
 
       case "D":
-        icon += "MD_def" + iconTagClosing;
+        icon += "land/mountain/range/right" + iconTagClosing;
         break;
 
       case "V":
-        icon += "A_def" + iconTagClosing;
+        icon += "land/tree" + iconTagClosing;
         break;
 
       case "N":

@@ -8,22 +8,22 @@ context("Towns upgrades and unit generation", () => {
     start(16);
 
     cy.get("#map")
-      .find('img[src="./src/images/board/SR_del_def.png"]')
+      .find('img[src="./src/images/board/mob/roman/1.png"]')
       .should("have.length", 1);
     cy.get("#map")
-      .find('img[src="./src/images/board/SB_del_def.png"]')
+      .find('img[src="./src/images/board/mob/barbarian/8.png"]')
       .should("have.length", 1);
 
     endTurn();
 
     cy.get("#map")
-      .find('img[src="./src/images/board/SR_del_def.png"]')
+      .find('img[src="./src/images/board/mob/roman/1.png"]')
       .should("have.length", 2);
 
     // AI randonmly chooses between improving quantity or quality, so 1 - 2 units can spawn in first turn.
     // We limited available space in this map to 1 to avoid this randomness.
     cy.get("#map")
-      .find('img[src="./src/images/board/SR_del_def.png"]')
+      .find('img[src="./src/images/board/mob/roman/1.png"]')
       .should("have.length", 2);
   });
 
@@ -31,7 +31,7 @@ context("Towns upgrades and unit generation", () => {
     start(16);
 
     cy.get("#map")
-      .find('img[src="./src/images/board/SR_del_def.png"]')
+      .find('img[src="./src/images/board/mob/roman/1.png"]')
       .should("have.length", 1);
 
     click("#icon11A");
@@ -48,7 +48,7 @@ context("Towns upgrades and unit generation", () => {
     endTurn();
 
     cy.get("#map")
-      .find('img[src="./src/images/board/SR_del_def.png"]')
+      .find('img[src="./src/images/board/mob/roman/1.png"]')
       .should("have.length", 3);
   });
 
@@ -59,7 +59,7 @@ context("Towns upgrades and unit generation", () => {
       start(17);
 
       cy.get("#map")
-        .find('img[src="./src/images/board/SR_del_def.png"]')
+        .find('img[src="./src/images/board/mob/roman/1.png"]')
         .should("have.length", 1);
 
       click("#icon11A");

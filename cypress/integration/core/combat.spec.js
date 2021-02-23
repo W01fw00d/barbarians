@@ -37,7 +37,7 @@ context("Combat", () => {
       cy.get("#icon44n").should("not.exist");
       cy.get("#icon53e").should("not.exist");
       cy.get("#icon55e").should("not.exist");
-      click('#icon54a[src="./src/images/board/SRUsed_del_def.png"]');
+      click('#icon54a[src="./src/images/board/mob/roman/grey/1.png"]');
       cy.get("#movement").should("contain", "Movements left: [0]");
       cy.get("#gold").should("have.value", 3); // + 2 because 2 barbarians killed, + 0 because 1 wolf killed
 
@@ -53,30 +53,54 @@ context("Combat", () => {
 
     click("#icon64a");
 
-    cy.get('#icon44N[src="./src/images/board/AN_del_def.png"]').should("exist");
-    cy.get('#icon53E[src="./src/images/board/AB_del_def.png"]').should("exist");
-    cy.get('#icon55E[src="./src/images/board/AB_del_def.png"]').should("exist");
+    cy.get('#icon44N[src="./src/images/board/town/nature/free.png"]').should(
+      "exist"
+    );
+    cy.get('#icon53E[src="./src/images/board/town/barbarian/2.png"]').should(
+      "exist"
+    );
+    cy.get('#icon55E[src="./src/images/board/town/barbarian/2.png"]').should(
+      "exist"
+    );
 
     click("#cell54");
 
-    cy.get('#icon44A[src="./src/images/board/AR_del_def.png"]').should("exist");
-    cy.get('#icon53A[src="./src/images/board/AR_del_def.png"]').should("exist");
-    cy.get('#icon55A[src="./src/images/board/AR_del_def.png"]').should("exist");
-    click('#icon54a[src="./src/images/board/SRUsed_del_def.png"]');
+    cy.get('#icon44A[src="./src/images/board/town/roman/2.png"]').should(
+      "exist"
+    );
+    cy.get('#icon53A[src="./src/images/board/town/roman/2.png"]').should(
+      "exist"
+    );
+    cy.get('#icon55A[src="./src/images/board/town/roman/2.png"]').should(
+      "exist"
+    );
+    click('#icon54a[src="./src/images/board/mob/roman/grey/1.png"]');
     cy.get("#movement").should("contain", "Movements left: [0]");
   });
 
   it("Soldier captures 3 towns automatically at beginning of second turn", () => {
     start(15);
 
-    cy.get('#icon44N[src="./src/images/board/AN_del_def.png"]').should("exist");
-    cy.get('#icon53E[src="./src/images/board/AB_del_def.png"]').should("exist");
-    cy.get('#icon55E[src="./src/images/board/AB_del_def.png"]').should("exist");
+    cy.get('#icon44N[src="./src/images/board/town/nature/free.png"]').should(
+      "exist"
+    );
+    cy.get('#icon53E[src="./src/images/board/town/barbarian/2.png"]').should(
+      "exist"
+    );
+    cy.get('#icon55E[src="./src/images/board/town/barbarian/2.png"]').should(
+      "exist"
+    );
 
     endTurn();
 
-    cy.get('#icon44A[src="./src/images/board/AR_del_def.png"]').should("exist");
-    cy.get('#icon53A[src="./src/images/board/AR_del_def.png"]').should("exist");
-    cy.get('#icon55A[src="./src/images/board/AR_del_def.png"]').should("exist");
+    cy.get('#icon44A[src="./src/images/board/town/roman/2.png"]').should(
+      "exist"
+    );
+    cy.get('#icon53A[src="./src/images/board/town/roman/2.png"]').should(
+      "exist"
+    );
+    cy.get('#icon55A[src="./src/images/board/town/roman/2.png"]').should(
+      "exist"
+    );
   });
 });

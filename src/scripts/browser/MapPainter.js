@@ -52,7 +52,7 @@ function MapPainter() {
       .replaceAt($(`${iteration} img`).attr("id").length - 1, annotation);
 
     $(`${iteration} a img`).attr("id", newId);
-    $(`${iteration} a img`).attr("src", `./src/images/board/${img}.png`);
+    $(`${iteration} a img`).attr("src", `./src/images/board/town/${img}.png`);
     $(`${iteration} a`).attr("title", `[${conqueredUnit.name}]${extraTitle}`);
   };
 

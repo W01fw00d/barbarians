@@ -15,15 +15,14 @@ export const moreStrength = () => cy.get("#improve_strength").click();
 export const canSeeSoldierInfo = () =>
   cy.get("#soldier_info").should("be.visible");
 
-export const isMobsCount = (faction, expected) => {
-  const factionsMap = {
-    roman: "SR",
-    barbarian: "SB",
-    nature: "L",
-  };
-
-  return cy
+export const isMobsCount = (faction, expected) =>
+  cy
     .get("#map")
-    .find(`img[src="./src/images/board/${factionsMap[faction]}_del_def.png"]`)
+    .find(`img[src="./src/images/board/mob/${faction}/1.png"]`)
     .should("have.length", expected);
-};
+
+export const isBarbarianMobsCount = (expected) =>
+  cy
+    .get("#map")
+    .find(`img[src="./src/images/board/mob/barbarian/8.png"]`)
+    .should("have.length", expected);
