@@ -6,6 +6,7 @@ import {
   endTurn,
   moreStrength,
   isMobsCount,
+  isBarbarianMobsCount,
 } from "../../utils/ui.js";
 
 context("Different ways to finish a map or the whole game", () => {
@@ -14,21 +15,20 @@ context("Different ways to finish a map or the whole game", () => {
 
     cy.get("#gold").should("have.value", 1);
     isMobsCount("roman", 1);
-    isMobsCount("barbarian", 1);
+    isBarbarianMobsCount(1);
 
     endTurn();
 
     cy.get("#gold").should("have.value", 4);
     isMobsCount("roman", 2);
     cy.get("#map")
-      .find('img[src="./src/images/board/SB_del_def.png"]')
+      .find('img[src="./src/images/board/mob/barbarian/8.png"]')
       .should("have.length.at.least", 2); // AI randomly upgrades quantity, resulting in +2 barbarians instead of +1
-
     click("#reset_map");
 
     cy.get("#gold").should("have.value", 1);
     isMobsCount("roman", 1);
-    isMobsCount("barbarian", 1);
+    isBarbarianMobsCount(1);
   });
 
   it("Destroy all player soldiers and it's game over, after that games resets units and gold", () => {

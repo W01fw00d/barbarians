@@ -220,17 +220,11 @@ function Encounter(iconTemplates, namesManager, soundManager, map, mapPainter) {
   var updateConqueredRomanTown = function (iteration, conqueredUnit) {
     //TODO only extraTitle setting is different from BarbarianTown function
     const extraTitle = `. quantity: [${conqueredUnit.stats.quantity}]. quality: [${conqueredUnit.stats.quality}]`;
-    updateConqueredTown(
-      iteration,
-      conqueredUnit,
-      "A",
-      "AR_del_def",
-      extraTitle
-    );
+    updateConqueredTown(iteration, conqueredUnit, "A", "roman/2", extraTitle);
   };
 
   var updateConqueredBarbarianTown = function (iteration, conqueredUnit) {
-    updateConqueredTown(iteration, conqueredUnit, "E", "AB_del_def", "");
+    updateConqueredTown(iteration, conqueredUnit, "E", "barbarian/2", "");
   };
 
   var updateConqueredTown = function (

@@ -36,20 +36,20 @@ context("Topbar actions", () => {
   it("When user clicks next turn, a new player and AI unit should spawn and player gains 3 gold", () => {
     cy.get("#gold").should("have.value", 1);
     cy.get("#map")
-      .find('img[src="./src/images/board/SR_del_def.png"]')
+      .find('img[src="./src/images/board/mob/roman/1.png"]')
       .should("have.length", 1);
     cy.get("#map")
-      .find('img[src="./src/images/board/SB_del_def.png"]')
+      .find('img[src="./src/images/board/mob/barbarian/8.png"]')
       .should("have.length", 1);
 
     endTurn();
 
     cy.get("#gold").should("have.value", 4);
     cy.get("#map")
-      .find('img[src="./src/images/board/SR_del_def.png"]')
+      .find('img[src="./src/images/board/mob/roman/1.png"]')
       .should("have.length", 2);
     cy.get("#map")
-      .find('img[src="./src/images/board/SB_del_def.png"]')
+      .find('img[src="./src/images/board/mob/barbarian/8.png"]')
       .should("have.length.at.least", 2); // AI randomly upgrades quantity, resulting in +2 barbarians instead of +1
   });
 });
