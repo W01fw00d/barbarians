@@ -35,7 +35,7 @@ IconTemplates.prototype.getStarterHumanMob = function (id, name) {
 };
 
 IconTemplates.prototype.getHumanMob = function (id, name, movements, strength) {
-  return this.getMob(id, name, movements, strength, "SR_del_def");
+  return this.getMob(id, name, movements, strength, "SR_del_def_1");
 };
 
 IconTemplates.prototype.getUsedHumanMob = function (
@@ -44,7 +44,7 @@ IconTemplates.prototype.getUsedHumanMob = function (
   movements,
   strength
 ) {
-  return this.getMob(id, name, movements, strength, "SR_del_def_grey");
+  return this.getMob(id, name, movements, strength, "SR_del_def_1_grey");
 };
 
 IconTemplates.prototype.getNeutralMob = function (id) {
