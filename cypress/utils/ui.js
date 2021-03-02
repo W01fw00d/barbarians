@@ -24,5 +24,5 @@ export const isMobsCount = (faction, expected) =>
 export const isBarbarianMobsCount = (expected) =>
   cy
     .get("#map")
-    .find(`img[src="./src/images/board/mob/barbarian/8.png"]`)
+    .find(`img[src="./src/images/board/mob/barbarian/1.png"]`)
     .should("have.length", expected);

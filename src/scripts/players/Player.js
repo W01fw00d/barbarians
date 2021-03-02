@@ -63,6 +63,7 @@ Player.prototype.moveSoldier = function (unit, target) {
 };
 
 // upgrade_auto is for AI turn use of this function. In other case, this is invoked by an event_handler
+// TODO: refactor, doesn't make much sense that soldiers and towns share this function
 Player.prototype.upgradeMode = function (unit, upgrade) {
   const errorMessage = "You don't have enough gold!";
 
@@ -75,8 +76,16 @@ Player.prototype.upgradeMode = function (unit, upgrade) {
 
     cell = unit.cell.replace("icon", "#cell");
     cell = cell.substring(0, cell.length - 1);
-    const title = `[${unit.name}]. Quantity: [${unit.stats.quantity}], Quality: [${unit.stats.quality}]`;
-    $(cell + " a").attr("title", title);
+    const factionTitleMap = {
+      roman: () =>
+        ` Quantity: [${unit.stats.quantity}], Quality: [${unit.stats.quality}]`,
+    };
+
+    this.mapPainter.repaintTown(
+      cell,
+      unit,
+      (factionTitleMap[unit.factionTag.toLowerCase()] || (() => ""))()
+    );
   };
 
   if (upgrade === "improve_quantity") {
@@ -111,15 +120,6 @@ Player.prototype.upgradeMode = function (unit, upgrade) {
     // This is only used by AlliedMobs.
   } else if (upgrade === "improve_strength") {
     if (unit.strength <= this.gold) {
-      const updateTooltip = () => {
-        cell = unit.cell.replace("icon", "#cell");
-        cell = cell.substring(0, cell.length - 1);
-        $(cell + " a").attr(
-          "title",
-          `[${unit.name}]. Moves: [${unit.movements}], Strength: [${unit.strength}]`
-        );
-      };
-
       this.setGold(this.gold - unit.strength);
       unit.strength += unit.strength;
 
@@ -127,7 +127,14 @@ Player.prototype.upgradeMode = function (unit, upgrade) {
       $("#improve_strength").html(
         "Improve Strength (" + unit.strength + " Gold)"
       );
-      updateTooltip();
+
+      cell = unit.cell.replace("icon", "#cell");
+      cell = cell.substring(0, cell.length - 1);
+      this.mapPainter.repaintMob(
+        cell,
+        unit,
+        ` | Moves: [${unit.movements}] | Strength: [${unit.strength}]`
+      );
     } else {
       this.showModal(errorMessage);
     }

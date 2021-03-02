@@ -1,5 +1,7 @@
 //TODO Name it BoardPainter
-function MapPainter() {
+function MapPainter(iconTemplates) {
+  this.iconTemplates = iconTemplates;
+
   const factionsMap = {
     roman: "red",
     barbarian: "blue",
@@ -40,20 +42,71 @@ function MapPainter() {
     $(`#icon${id}`).css({ display: display });
   };
 
-  this.repaintTown = function (
-    iteration,
-    conqueredUnit,
-    annotation,
-    img,
-    extraTitle
-  ) {
-    const newId = $(iteration + " img")
-      .attr("id")
-      .replaceAt($(`${iteration} img`).attr("id").length - 1, annotation);
+  this.repaintTown = function (cell, unit, extraTitle) {
+    const { factionTag, stats, name } = unit;
+    const faction = factionTag.toLowerCase();
+    const { quantity, quality } = stats;
 
-    $(`${iteration} a img`).attr("id", newId);
-    $(`${iteration} a img`).attr("src", `./src/images/board/town/${img}.png`);
-    $(`${iteration} a`).attr("title", `[${conqueredUnit.name}]${extraTitle}`);
+    const getAnnotation = () => {
+      const roman = "roman";
+      const factionsMap = {
+        roman: "A",
+        barbarian: "E",
+        nature: "N", //not really used here
+      };
+
+      return factionsMap[faction || roman] || factionsMap[roman];
+    };
+
+    const getIconByStrength = function (strength) {
+      const availableIcons = [2, 3, 4, 5, 6];
+
+      return availableIcons.includes(strength)
+        ? strength
+        : availableIcons[availableIcons.length - 1];
+    };
+
+    const newId = $(cell + " img")
+      .attr("id")
+      .replaceAt($(`${cell} img`).attr("id").length - 1, getAnnotation());
+
+    $(`${cell} a img`).attr("id", newId);
+    $(`${cell} a img`).attr(
+      "src",
+      `./src/images/board/town/${faction.toLowerCase()}/${getIconByStrength(
+        quantity + quality
+      )}.png`
+    );
+    $(`${cell} a`).attr("title", `[${name}]${extraTitle}`);
+  };
+
+  this.repaintMob = function (cell, unit, extraTitle) {
+    const { factionTag, strength, name, movements } = unit;
+    const faction = factionTag.toLowerCase();
+
+    const getAnnotation = () => {
+      const roman = "roman";
+      const factionsMap = {
+        roman: "a",
+        barbarian: "e",
+        nature: "n", //not really used here
+      };
+
+      return factionsMap[faction || roman] || factionsMap[roman];
+    };
+
+    const newId = $(cell + " img")
+      .attr("id")
+      .replaceAt($(`${cell} img`).attr("id").length - 1, getAnnotation());
+
+    $(`${cell} a img`).attr("id", newId);
+    $(`${cell} a img`).attr(
+      "src",
+      `./src/images/board/mob/${faction.toLowerCase()}/${
+        faction === "roman" && movements === 0 ? "grey/" : ""
+      }${this.iconTemplates.getSoldierIconByStrength(strength)}.png`
+    );
+    $(`${cell} a`).attr("title", `[${name}]${extraTitle}`);
   };
 
   this.selectCell = (cell, faction) => {

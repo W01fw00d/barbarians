@@ -40,6 +40,8 @@ Contributors:
 
 Juanju (JJ)
 
+[@W01fw00d](https://github.com/W01fw00d)
+
 - Programming
 
 [@tattarrattat](https://github.com/tattarrattat)

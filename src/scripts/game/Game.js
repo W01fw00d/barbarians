@@ -1,11 +1,11 @@
 function Game(startingMapLevel, muteNarration, enableAnimations) {
   //TODO why define vars on this?
   this.browserUtils = new BrowserUtils();
-  this.mapPainter = new MapPainter();
+  this.iconTemplates = new IconTemplates();
+  this.mapPainter = new MapPainter(this.iconTemplates);
   this.detailsPanelPainter = new DetailsPanelPainter();
   this.mapDesign = new MapDesign();
   this.namesManager = new NamesManager();
-  this.iconTemplates = new IconTemplates();
   this.soundManager = new SoundManager(muteNarration);
   this.animationManager = new AnimationManager(enableAnimations);
   this.map = new Map(
@@ -185,8 +185,6 @@ Game.prototype.resetBoardBindings = function () {
 };
 
 Game.prototype.bindAll = function () {
-  let newMapLevel;
-
   $("#close").click(() => {
     this.resetBoardBindings.call(this);
   });

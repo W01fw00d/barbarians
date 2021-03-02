@@ -220,27 +220,20 @@ function Encounter(iconTemplates, namesManager, soundManager, map, mapPainter) {
   var updateConqueredRomanTown = function (iteration, conqueredUnit) {
     //TODO only extraTitle setting is different from BarbarianTown function
     const extraTitle = `. quantity: [${conqueredUnit.stats.quantity}]. quality: [${conqueredUnit.stats.quality}]`;
-    updateConqueredTown(iteration, conqueredUnit, "A", "roman/2", extraTitle);
+    updateConqueredTown(iteration, conqueredUnit, "A", extraTitle);
   };
 
   var updateConqueredBarbarianTown = function (iteration, conqueredUnit) {
-    updateConqueredTown(iteration, conqueredUnit, "E", "barbarian/2", "");
+    updateConqueredTown(iteration, conqueredUnit, "E", "");
   };
 
   var updateConqueredTown = function (
     iteration,
     conqueredUnit,
     annotation,
-    img,
     extraTitle
   ) {
-    mapPainter.repaintTown(
-      iteration,
-      conqueredUnit,
-      annotation,
-      img,
-      extraTitle
-    );
+    mapPainter.repaintTown(iteration, conqueredUnit, extraTitle);
 
     conqueredUnit.cell = conqueredUnit.cell.replaceAt(
       conqueredUnit.cell.length - 1,
@@ -279,12 +272,7 @@ function Encounter(iconTemplates, namesManager, soundManager, map, mapPainter) {
       case "ai":
         unit.movements = 1;
 
-        html = iconTemplates.getAIMob(
-          id,
-          unit.name,
-          unit.movements,
-          unit.strength
-        );
+        html = iconTemplates.getAIMob(id, unit.name, null, unit.strength);
 
         break;
 

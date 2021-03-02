@@ -37,7 +37,7 @@ context("Combat", () => {
       cy.get("#icon44n").should("not.exist");
       cy.get("#icon53e").should("not.exist");
       cy.get("#icon55e").should("not.exist");
-      click('#icon54a[src="./src/images/board/mob/roman/grey/1.png"]');
+      click('#icon54a[src="./src/images/board/mob/roman/grey/4.png"]');
       cy.get("#movement").should("contain", "Movements left: [0]");
       cy.get("#gold").should("have.value", 3); // + 2 because 2 barbarians killed, + 0 because 1 wolf killed
 
@@ -93,14 +93,25 @@ context("Combat", () => {
 
     endTurn();
 
-    cy.get('#icon44A[src="./src/images/board/town/roman/2.png"]').should(
-      "exist"
-    );
-    cy.get('#icon53A[src="./src/images/board/town/roman/2.png"]').should(
-      "exist"
-    );
-    cy.get('#icon55A[src="./src/images/board/town/roman/2.png"]').should(
-      "exist"
-    );
+    const isRomanTown = (cell) => {
+      const minLength = 0;
+      cy.get("#map")
+        .find(`#icon${cell}A[src="./src/images/board/town/roman/2.png"]`)
+        .should("have.length.at.least", minLength)
+        .then(({ length }) => {
+          // If no basic level roman town is found, look for a higher level one
+          if (length === minLength) {
+            cy.get(
+              `#icon${cell}A[src="./src/images/board/town/roman/3.png"]`
+            ).should("exist");
+          } else {
+            cy.expect(length).to.equal(1);
+          }
+        });
+    };
+
+    isRomanTown("44");
+    isRomanTown("53");
+    isRomanTown("55");
   });
 });

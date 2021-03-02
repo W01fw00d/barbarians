@@ -16,26 +16,43 @@ IconTemplates.prototype.getBase = function (id, title, img) {
   );
 };
 
-IconTemplates.prototype.getMob = function (id, name, movements, strength, img) {
-  const title = `[${name}]. Moves: [${movements}], Strength: [${strength}]`;
+IconTemplates.prototype.getMob = function (id, name, img, extraTitle = "") {
+  const title = `[${name}]${extraTitle}`;
 
   return this.getBase(id, title, `mob/${img}`);
 };
 
 IconTemplates.prototype.getStarterAIMob = function (id, name) {
-  return this.getAIMob(id, name, 1, 1);
+  return this.getAIMob(id, name, null, 1);
 };
 
-IconTemplates.prototype.getAIMob = function (id, _, movements, strength) {
-  return this.getMob(id, "Barbarian", movements, strength, "barbarian/8");
+IconTemplates.prototype.getAIMob = function (id, _, _, strength) {
+  return this.getMob(
+    id,
+    "Barbarian",
+    `barbarian/${this.getSoldierIconByStrength(strength)}`
+  );
 };
 
 IconTemplates.prototype.getStarterHumanMob = function (id, name) {
   return this.getHumanMob(id, name, 2, 1);
 };
 
+IconTemplates.prototype.getSoldierIconByStrength = function (strength) {
+  const availableIcons = [1, 2, 4, 8];
+
+  return availableIcons.includes(strength)
+    ? strength
+    : availableIcons[availableIcons.length - 1];
+};
+
 IconTemplates.prototype.getHumanMob = function (id, name, movements, strength) {
-  return this.getMob(id, name, movements, strength, "roman/1");
+  return this.getMob(
+    id,
+    name,
+    `roman/${this.getSoldierIconByStrength(strength)}`,
+    ` | Moves: [${movements}] | Strength: [${strength}]`
+  );
 };
 
 IconTemplates.prototype.getUsedHumanMob = function (
@@ -44,7 +61,12 @@ IconTemplates.prototype.getUsedHumanMob = function (
   movements,
   strength
 ) {
-  return this.getMob(id, name, movements, strength, "roman/grey/1");
+  return this.getMob(
+    id,
+    name,
+    `roman/grey/${this.getSoldierIconByStrength(strength)}`,
+    ` | Moves: [${movements}] | Strength: [${strength}]`
+  );
 };
 
 IconTemplates.prototype.getNeutralMob = function (id) {
@@ -55,14 +77,12 @@ IconTemplates.prototype.getNeutralTown = function (id) {
   return this.getBase(id, "Free Town", "town/nature/free");
 };
 
-IconTemplates.prototype.getTown = function (id, name, img) {
-  const title = `[${name}]. quantity: [1], quality: [1]`;
-
-  return this.getBase(id, title, `town/${img}`);
+IconTemplates.prototype.getTown = function (id, name, img, extraTitle = "") {
+  return this.getBase(id, `[${name}]${extraTitle}`, `town/${img}`);
 };
 
 IconTemplates.prototype.getHumanTown = function (id, name) {
-  return this.getTown(id, name, "roman/2");
+  return this.getTown(id, name, "roman/2", " | Quantity: [1] | Quality: [1]");
 };
 
 IconTemplates.prototype.getAITown = function (id, name) {
