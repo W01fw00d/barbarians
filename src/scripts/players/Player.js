@@ -75,8 +75,16 @@ Player.prototype.upgradeMode = function (unit, upgrade) {
 
     cell = unit.cell.replace("icon", "#cell");
     cell = cell.substring(0, cell.length - 1);
-    const title = `[${unit.name}]. Quantity: [${unit.stats.quantity}], Quality: [${unit.stats.quality}]`;
-    $(cell + " a").attr("title", title);
+    const factionTitleMap = {
+      roman: () =>
+        ` Quantity: [${unit.stats.quantity}], Quality: [${unit.stats.quality}]`,
+    };
+
+    this.mapPainter.repaintTown(
+      cell,
+      unit,
+      (factionTitleMap[unit.factionTag.toLowerCase()] || (() => ""))()
+    );
   };
 
   if (upgrade === "improve_quantity") {
@@ -116,7 +124,7 @@ Player.prototype.upgradeMode = function (unit, upgrade) {
         cell = cell.substring(0, cell.length - 1);
         $(cell + " a").attr(
           "title",
-          `[${unit.name}]. Moves: [${unit.movements}], Strength: [${unit.strength}]`
+          `[${unit.name}] | Moves: [${unit.movements}] | Strength: [${unit.strength}]`
         );
       };
 

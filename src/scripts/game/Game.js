@@ -185,8 +185,6 @@ Game.prototype.resetBoardBindings = function () {
 };
 
 Game.prototype.bindAll = function () {
-  let newMapLevel;
-
   $("#close").click(() => {
     this.resetBoardBindings.call(this);
   });
