@@ -11,7 +11,7 @@ context("Towns upgrades and unit generation", () => {
       .find('img[src="./src/images/board/mob/roman/1.png"]')
       .should("have.length", 1);
     cy.get("#map")
-      .find('img[src="./src/images/board/mob/barbarian/8.png"]')
+      .find('img[src="./src/images/board/mob/barbarian/1.png"]')
       .should("have.length", 1);
 
     endTurn();
@@ -20,11 +20,20 @@ context("Towns upgrades and unit generation", () => {
       .find('img[src="./src/images/board/mob/roman/1.png"]')
       .should("have.length", 2);
 
-    // AI randonmly chooses between improving quantity or quality, so 1 - 2 units can spawn in first turn.
-    // We limited available space in this map to 1 to avoid this randomness.
     cy.get("#map")
-      .find('img[src="./src/images/board/mob/roman/1.png"]')
-      .should("have.length", 2);
+      .find('img[src="./src/images/board/mob/barbarian/1.png"]')
+      .then(({ length }) => {
+        // AI randonmly chooses between improving quantity or quality, so 1 - 2 units can spawn in first turn.
+        // Also, strength can be improved
+        // We limited available space in this map to 1 to avoid this randomness.
+        if (length === 1) {
+          cy.get("#map")
+            .find('img[src="./src/images/board/mob/barbarian/2.png"]')
+            .should("have.length", length);
+        } else {
+          cy.expect(length).to.equal(2);
+        }
+      });
   });
 
   it("Player town generates 2 units when quantity is 2", () => {

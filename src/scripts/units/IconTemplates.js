@@ -30,7 +30,7 @@ IconTemplates.prototype.getAIMob = function (id, _, _, strength) {
   return this.getMob(
     id,
     "Barbarian",
-    `barbarian/${this.getIconByStrength(strength)}`
+    `barbarian/${this.getSoldierIconByStrength(strength)}`
   );
 };
 
@@ -38,7 +38,7 @@ IconTemplates.prototype.getStarterHumanMob = function (id, name) {
   return this.getHumanMob(id, name, 2, 1);
 };
 
-IconTemplates.prototype.getIconByStrength = function (strength) {
+IconTemplates.prototype.getSoldierIconByStrength = function (strength) {
   const availableIcons = [1, 2, 4, 8];
 
   return availableIcons.includes(strength)
@@ -50,8 +50,8 @@ IconTemplates.prototype.getHumanMob = function (id, name, movements, strength) {
   return this.getMob(
     id,
     name,
-    `roman/${this.getIconByStrength(strength)}`,
-    `| Moves: [${movements}] | Strength: [${strength}]`
+    `roman/${this.getSoldierIconByStrength(strength)}`,
+    ` | Moves: [${movements}] | Strength: [${strength}]`
   );
 };
 
@@ -64,8 +64,8 @@ IconTemplates.prototype.getUsedHumanMob = function (
   return this.getMob(
     id,
     name,
-    `roman/grey/${this.getIconByStrength(strength)}`,
-    `| Moves: [${movements}] | Strength: [${strength}]`
+    `roman/grey/${this.getSoldierIconByStrength(strength)}`,
+    ` | Moves: [${movements}] | Strength: [${strength}]`
   );
 };
 

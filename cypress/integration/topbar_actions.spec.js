@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 
 import { start, click, endTurn } from "../utils/ui.js";
+import { barbariansMapOneFirstTurn } from "../utils/barbarians.js";
 
 context("Topbar actions", () => {
   beforeEach(() => start());
@@ -39,7 +40,7 @@ context("Topbar actions", () => {
       .find('img[src="./src/images/board/mob/roman/1.png"]')
       .should("have.length", 1);
     cy.get("#map")
-      .find('img[src="./src/images/board/mob/barbarian/8.png"]')
+      .find('img[src="./src/images/board/mob/barbarian/1.png"]')
       .should("have.length", 1);
 
     endTurn();
@@ -48,8 +49,7 @@ context("Topbar actions", () => {
     cy.get("#map")
       .find('img[src="./src/images/board/mob/roman/1.png"]')
       .should("have.length", 2);
-    cy.get("#map")
-      .find('img[src="./src/images/board/mob/barbarian/8.png"]')
-      .should("have.length.at.least", 2); // AI randomly upgrades quantity, resulting in +2 barbarians instead of +1
+
+    barbariansMapOneFirstTurn();
   });
 });

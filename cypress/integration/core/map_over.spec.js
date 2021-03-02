@@ -8,6 +8,7 @@ import {
   isMobsCount,
   isBarbarianMobsCount,
 } from "../../utils/ui.js";
+import { barbariansMapOneFirstTurn } from "../../utils/barbarians.js";
 
 context("Different ways to finish a map or the whole game", () => {
   it("When user clicks reset map, units and golds gets reset", () => {
@@ -21,9 +22,7 @@ context("Different ways to finish a map or the whole game", () => {
 
     cy.get("#gold").should("have.value", 4);
     isMobsCount("roman", 2);
-    cy.get("#map")
-      .find('img[src="./src/images/board/mob/barbarian/8.png"]')
-      .should("have.length.at.least", 2); // AI randomly upgrades quantity, resulting in +2 barbarians instead of +1
+    barbariansMapOneFirstTurn();
     click("#reset_map");
 
     cy.get("#gold").should("have.value", 1);
