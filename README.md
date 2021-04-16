@@ -4,8 +4,6 @@
 
 A little web-browser turn-based strategy game.
 
-[[Play Game]](https://w01fw00d.itch.io/barbarians)
-
 Includes:
 
 - Jquery
