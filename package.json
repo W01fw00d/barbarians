@@ -2,7 +2,7 @@
   "name": "barbarians",
   "version": "1.0.0",
   "description": "![alt text](https://github.com/W01fw00d/barbarians/blob/master/src/images/gifs/barbarians_demo.gif \"\")",
-  "main": "main.html",
+  "main": "index.html",
   "directories": {
     "lib": "lib"
   },

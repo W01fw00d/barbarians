@@ -2,7 +2,7 @@ export const click = (selector) => cy.get(selector).click();
 
 export const start = (level) => {
   cy.visit(
-    `main.html${
+    `index.html${
       level ? `?level=${level}&` : `?`
     }muteNarration&disableAnimations`
   );
