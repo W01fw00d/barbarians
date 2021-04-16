@@ -45,7 +45,7 @@ npm run f-test-ui
 
 - Art
 
-Juanju (JJ)
+[@gelabert.art](https://www.instagram.com/gelabert.art/)
 
 [@W01fw00d](https://github.com/W01fw00d)
 
