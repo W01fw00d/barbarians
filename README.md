@@ -4,17 +4,23 @@
 
 A little web-browser turn-based strategy game.
 
-Includes:
+[[Play Game]](https://w01fw00d.itch.io/barbarians)
+
+# Includes:
 
 - Jquery
 - Bootstrap
 - Jasmine
 - Cypress
 
-To play it, just open the main.html file with your browser :)
+# How to play
+
+Just open the main.html file with your browser :)
 
 - You can choose the level by using params like this: 'main.html?level=2'
   (1 - 10 are used for the main campaign, 0 and 11 - XX are used for testing)
+
+# How to test
 
 To launch the Jasmine unit tests, just open SpecRunner.html (please check that all tests are green before launching a pull request :) )
 
@@ -32,9 +38,10 @@ npm run f-test-ui
 
 - This project code has been formatted by default prettier
 
-[How to contribute](https://github.com/MarcDiethelm/contributing/blob/master/README.md)
 
-Contributors:
+# Contributors:
+
+[How to contribute](https://github.com/MarcDiethelm/contributing/blob/master/README.md)
 
 - Art
 
