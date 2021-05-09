@@ -175,6 +175,39 @@ Game.prototype.bindIconClick = function () {
       this.bindIconClick();
     }
   });
+
+  Array.from(document.getElementsByClassName("icon-wrapper")).forEach((node) =>
+    node.addEventListener(
+      "dragstart",
+      function (ev) {
+        console.log("drag!", ev.currentTarget);
+        ev.dataTransfer.setData("Text", ev.currentTarget.id);
+      },
+      false
+    )
+  );
+
+  Array.from(document.getElementsByClassName("cell")).forEach((node) => {
+    node.addEventListener(
+      "drop",
+      function (ev) {
+        console.log("ondrop!");
+        var data = ev.dataTransfer.getData("Text");
+        ev.target.appendChild(document.getElementById(data));
+        ev.preventDefault();
+      },
+      false
+    );
+
+    node.addEventListener(
+      "dragover",
+      function (ev) {
+        console.log("ondragover!");
+        ev.preventDefault();
+      },
+      false
+    );
+  });
 };
 
 Game.prototype.resetBoardBindings = function () {

@@ -1,25 +1,35 @@
 //TODO all this should probably go into browser/
 function IconTemplates() {}
 
-IconTemplates.prototype.getBase = function (id, title, img) {
+IconTemplates.prototype.getBase = function (id, title, img, draggable = false) {
+  //TODO use string template here
   return (
     '<a id="tooltip' +
     id +
-    '" href="#" data-toggle="tooltip" title="' +
+    '" class="icon-wrapper" href="#" data-toggle="tooltip" title="' +
     title +
-    '">' +
+    '"' +
+    (draggable ? ' draggable="true"' : "") +
+    ">" +
     '<img class="icon" id="icon' +
     id +
     '" src="./src/images/board/' +
     img +
-    '.png"></img></a>'
+    '.png"' +
+    "></img></a>"
   );
 };
 
-IconTemplates.prototype.getMob = function (id, name, img, extraTitle = "") {
+IconTemplates.prototype.getMob = function (
+  id,
+  name,
+  img,
+  extraTitle = "",
+  draggable = false
+) {
   const title = `[${name}]${extraTitle}`;
 
-  return this.getBase(id, title, `mob/${img}`);
+  return this.getBase(id, title, `mob/${img}`, draggable);
 };
 
 IconTemplates.prototype.getStarterAIMob = function (id, name) {
@@ -47,11 +57,13 @@ IconTemplates.prototype.getSoldierIconByStrength = function (strength) {
 };
 
 IconTemplates.prototype.getHumanMob = function (id, name, movements, strength) {
+  const draggable = true;
   return this.getMob(
     id,
     name,
     `roman/${this.getSoldierIconByStrength(strength)}`,
-    ` | Moves: [${movements}] | Strength: [${strength}]`
+    ` | Moves: [${movements}] | Strength: [${strength}]`,
+    draggable
   );
 };
 
