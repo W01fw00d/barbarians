@@ -45,7 +45,7 @@ Player.prototype.moveSoldier = function (unit, target) {
     Math.abs(finalCell[1] - initialCell[1]);
 
   if (icon === null && movement > 0 && movement <= unit.movements) {
-    //Move the soldier icon to he selected cell, and calculate movements left
+    // Move the soldier icon to the selected cell, and calculate movements left
     unit.cell = "icon" + finalCell[0] + "" + finalCell[1] + initialCell[2];
     unit.movements -= movement;
 
@@ -53,7 +53,7 @@ Player.prototype.moveSoldier = function (unit, target) {
 
     this.mapPainter.clearCell(initialCell[0], initialCell[1]);
   } else {
-    if (unit.player === "Roman") {
+    if (unit.player === "human") {
       this.showModal("Invalid movement");
       result = null;
     }

@@ -9,7 +9,6 @@ function InfoLayer(painter) {
         mode: null,
         unit: null,
       },
-      color,
       unit;
 
     switch (type) {
@@ -90,4 +89,5 @@ function InfoLayer(painter) {
 
     return unit;
   };
+  this.findUnit = findUnit;
 }

@@ -95,8 +95,6 @@ Game.prototype.getUnit = function (icon) {
 Game.prototype.onCellClick = function (event, unit) {
   const target = event.target.id;
 
-  let newMapLevel;
-
   //if this cell has an icon and the icon represents unit or town data, show that data instead of moving unit
   if (target.indexOf("icon") !== -1 && this.getUnit(target)) {
     //        showIconData.apply(targetIcon);
@@ -163,6 +161,69 @@ Game.prototype.moveMode = function (unit) {
   });
 };
 
+Game.prototype.bindDrag = function () {
+  document.querySelectorAll(".cell").forEach((node) => {
+    const handleDrop = (event) => {
+      var data = event.dataTransfer.getData("Text");
+
+      const checkEncounter = (unit) => {
+        const target = event.target.id;
+
+        //if this cell has an icon and the icon represents unit or town data, don't do anything
+        if (target.indexOf("icon") !== -1 && this.getUnit(target)) {
+          //TODO: refactor this empty block
+        } else if (
+          unit.movements > 0 &&
+          unit.cell.replace("icon", "").substring(0, 2) !==
+            target.replace("cell", "")
+        ) {
+          const dataElement = document.getElementById(data);
+          result = this.players.human.moveSoldier(unit, target);
+
+          if (result) {
+            event.target.appendChild(dataElement);
+
+            this.encounter.check(unit, this.players);
+
+            this.levelManager.checkEndOfLevelCondition(
+              this.currentMapLevel,
+              this.players,
+              (newMapLevel) => {
+                if (newMapLevel) {
+                  this.currentMapLevel = newMapLevel;
+                  this.map.generate(this.currentMapLevel, this.players);
+                }
+
+                this.resetBoardBindings();
+              }
+            );
+          }
+        }
+      };
+
+      event.preventDefault();
+
+      const draggedIcon = data.replace("tooltip", "icon");
+
+      const unit = this.infoLayer.findUnit(
+        draggedIcon,
+        this.players.human.units.mobs
+      );
+      checkEncounter(unit);
+    };
+
+    node.addEventListener("drop", handleDrop, false);
+
+    node.addEventListener(
+      "dragover",
+      (event) => {
+        event.preventDefault();
+      },
+      false
+    );
+  });
+};
+
 Game.prototype.bindIconClick = function () {
   $(".icon").one("click", (event) => {
     event.stopPropagation();
@@ -176,38 +237,15 @@ Game.prototype.bindIconClick = function () {
     }
   });
 
-  Array.from(document.getElementsByClassName("icon-wrapper")).forEach((node) =>
-    node.addEventListener(
-      "dragstart",
-      function (ev) {
-        console.log("drag!", ev.currentTarget);
-        ev.dataTransfer.setData("Text", ev.currentTarget.id);
-      },
-      false
-    )
+  Array.from(document.getElementsByClassName("icon-wrapper")).forEach(
+    (node) => {
+      const handleDragstart = (event) => {
+        event.dataTransfer.setData("Text", event.currentTarget.id);
+      };
+
+      node.addEventListener("dragstart", handleDragstart, false);
+    }
   );
-
-  Array.from(document.getElementsByClassName("cell")).forEach((node) => {
-    node.addEventListener(
-      "drop",
-      function (ev) {
-        console.log("ondrop!");
-        var data = ev.dataTransfer.getData("Text");
-        ev.target.appendChild(document.getElementById(data));
-        ev.preventDefault();
-      },
-      false
-    );
-
-    node.addEventListener(
-      "dragover",
-      function (ev) {
-        console.log("ondragover!");
-        ev.preventDefault();
-      },
-      false
-    );
-  });
 };
 
 Game.prototype.resetBoardBindings = function () {
@@ -290,4 +328,6 @@ Game.prototype.bindAll = function () {
     enableAnimationsCheckbox.addEventListener("change", ({ currentTarget }) => {
       this.animationManager.enableAnimations = currentTarget.checked;
     });
+
+  this.bindDrag();
 };
