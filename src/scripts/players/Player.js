@@ -26,6 +26,7 @@ Player.prototype.setGold = function (gold) {
 };
 
 Player.prototype.showModal = function (message) {
+  //TODO: use BrowserUtils modal here
   $("#modal-content").html(message);
   $("#modal").modal("show");
 };

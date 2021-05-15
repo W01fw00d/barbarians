@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/W01fw00d/barbarians/issues"
   },
-  "homepage": "https://github.com/W01fw00d/barbarians#readme"
+  "homepage": "https://github.com/W01fw00d/barbarians#readme",
+  "devDependencies": {
+    "@4tw/cypress-drag-drop": "^1.6.0"
+  }
 }

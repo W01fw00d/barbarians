@@ -51,6 +51,7 @@ context("Units movements", () => {
 
     click("#icon32a");
     click("#cell62");
+    click("#modal-ok");
 
     cy.get('#icon32a[src="./src/images/board/mob/roman/1.png"]').should(
       "exist"
@@ -63,6 +64,7 @@ context("Units movements", () => {
 
     click("#icon32a");
     click("#cell33");
+    click("#modal-ok");
 
     cy.get('#icon32a[src="./src/images/board/mob/roman/1.png"]').should(
       "exist"

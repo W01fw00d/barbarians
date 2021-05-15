@@ -80,9 +80,10 @@ Game.prototype.getUnit = function (icon) {
     },
     annotation = icon[icon.length - 1];
 
-  let units = this.players[unitsAnnotationCorralation[annotation][0]].units[
-    unitsAnnotationCorralation[annotation][1]
-  ];
+  let units =
+    this.players[unitsAnnotationCorralation[annotation][0]].units[
+      unitsAnnotationCorralation[annotation][1]
+    ];
   let unitsLength = units.length;
 
   for (i = 0; i < unitsLength; i++) {
@@ -162,6 +163,7 @@ Game.prototype.moveMode = function (unit) {
 };
 
 Game.prototype.bindDrag = function () {
+  //TODO: when changing map, we need to do a bindDrag again
   document.querySelectorAll(".cell").forEach((node) => {
     const handleDrop = (event) => {
       var data = event.dataTransfer.getData("Text");
