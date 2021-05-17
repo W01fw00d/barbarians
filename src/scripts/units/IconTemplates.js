@@ -1,24 +1,14 @@
 //TODO all this should probably go into browser/
 function IconTemplates() {}
 
-IconTemplates.prototype.getBase = function (id, title, img, draggable = false) {
-  //TODO use string template here
-  return (
-    '<a id="tooltip' +
-    id +
-    '" class="icon-wrapper" href="#" data-toggle="tooltip" title="' +
-    title +
-    '"' +
-    (draggable ? ' draggable="true"' : "") +
-    ">" +
-    '<img class="icon" id="icon' +
-    id +
-    '" src="./src/images/board/' +
-    img +
-    '.png"' +
-    "></img></a>"
-  );
-};
+IconTemplates.prototype.getBase = (id, title, img, draggable = false) =>
+  `<a id="tooltip${id}" ` +
+  `class="icon-wrapper" ` +
+  `href="#" ` +
+  `data-toggle="tooltip" ` +
+  `title="${title}"${draggable ? ' draggable="true"' : ""}>` +
+  `<img class="icon" id="icon${id}" src="./src/images/board/${img}.png"/>` +
+  `</a>`;
 
 IconTemplates.prototype.getMob = function (
   id,
@@ -58,6 +48,7 @@ IconTemplates.prototype.getSoldierIconByStrength = function (strength) {
 
 IconTemplates.prototype.getHumanMob = function (id, name, movements, strength) {
   const draggable = true;
+
   return this.getMob(
     id,
     name,
