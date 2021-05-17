@@ -36,7 +36,8 @@ context("Human Soldiers movements using drag and drop", () => {
     click('#icon30a[src="./src/images/board/mob/roman/grey/1.png"]');
     cy.get("#movement").should("contain", "Movements left: [0]");
 
-    cy.get("#tooltip30a").drag("#cell31");
+    cy.get("#tooltip30a").drag("#cell31", { force: true });
+    click("#modal-ok");
     cy.get('#icon30a[src="./src/images/board/mob/roman/grey/1.png"]').should(
       "exist"
     );
