@@ -165,7 +165,6 @@ Game.prototype.moveMode = function (unit) {
 };
 
 Game.prototype.bindDrag = function () {
-  //TODO: when changing map, we need to do a bindDrag again
   document.querySelectorAll(".cell").forEach((node) => {
     const handleDrop = (event) => {
       var data = event.dataTransfer.getData("Text");
@@ -174,9 +173,8 @@ Game.prototype.bindDrag = function () {
         const target = event.target.id;
 
         //if this cell has an icon and the icon represents unit or town data, don't do anything
-        if (target.indexOf("icon") !== -1 && this.getUnit(target)) {
-          //TODO: refactor this empty block
-        } else if (
+        if (
+          (target.indexOf("icon") === -1 || !this.getUnit(target)) &&
           unit.movements > 0 &&
           unit.cell.replace("icon", "").substring(0, 2) !==
             target.replace("cell", "")
@@ -203,6 +201,8 @@ Game.prototype.bindDrag = function () {
               }
             );
           }
+        } else {
+          this.browserUtils.showMessage("Invalid movement");
         }
       };
 
