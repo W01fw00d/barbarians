@@ -122,6 +122,7 @@ Game.prototype.onCellClick = function (event, unit) {
           if (newMapLevel) {
             this.currentMapLevel = newMapLevel;
             this.map.generate(this.currentMapLevel, this.players);
+            this.bindDrag();
           }
 
           this.resetBoardBindings();
@@ -148,6 +149,7 @@ Game.prototype.moveMode = function (unit) {
           if (newMapLevel) {
             this.currentMapLevel = newMapLevel;
             this.map.generate(this.currentMapLevel, this.players);
+            this.bindDrag();
           }
 
           this.resetBoardBindings();
@@ -194,6 +196,7 @@ Game.prototype.bindDrag = function () {
                 if (newMapLevel) {
                   this.currentMapLevel = newMapLevel;
                   this.map.generate(this.currentMapLevel, this.players);
+                  this.bindDrag();
                 }
 
                 this.resetBoardBindings();
@@ -266,6 +269,7 @@ Game.prototype.bindAll = function () {
     if (confirm("Reset current map?")) {
       this.map.generate(this.currentMapLevel, this.players);
       this.bindIconClick();
+      this.bindDrag();
     }
   });
 
@@ -274,6 +278,7 @@ Game.prototype.bindAll = function () {
       if (newMapLevel) {
         this.currentMapLevel = newMapLevel;
         this.map.generate(this.currentMapLevel, this.players);
+        this.bindDrag();
       }
 
       $("#end_turn").html("<b>End turn</b> (+3 gold)");

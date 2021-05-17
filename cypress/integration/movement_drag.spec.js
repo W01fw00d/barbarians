@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { start, click, endTurn } from "../utils/ui.js";
+import { start, click, endTurn, moreStrength } from "../utils/ui.js";
 
 context("Human Soldiers movements using drag and drop", () => {
   it("User drags a soldier 2 steps and cannot move anymore; then next turn user drags it 2 steps again", () => {
@@ -69,6 +69,34 @@ context("Human Soldiers movements using drag and drop", () => {
     cy.get("#movement").should("contain", "Movements left: [2]");
   });
 
-  // TODO
-  it.skip("User can drag a soldier after moving to next map", () => {});
+  it("User can drag a soldier after moving to next map", () => {
+    start(19);
+
+    cy.get("#icon71a").should("not.exist");
+
+    endTurn();
+
+    click("#icon64a");
+    moreStrength();
+    moreStrength();
+
+    click("#cell54").then(() => {
+      cy.get("#modal-content").should(
+        "contain",
+        "Victory! The area is safe again."
+      );
+      click("#modal-ok");
+
+      cy.get("#modal-content").should("contain", "A new map awaits you...");
+      click("#modal-ok");
+
+      cy.get("#icon71a").should("exist");
+
+      endTurn();
+
+      cy.get("#icon54a").should("not.exist");
+      cy.get("#tooltip71a").drag("#cell72");
+      cy.get("#icon72a").should("exist");
+    });
+  });
 });
