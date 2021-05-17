@@ -9,7 +9,8 @@
     "topbar_actions.spec.js",
     "map_info.spec.js",
     "narrator.spec.js",
-    "manual.spec.js"
+    "manual.spec.js",
+    "movement_drag.spec.js"
   ],
   "video": false
 }

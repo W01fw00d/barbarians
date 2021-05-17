@@ -80,9 +80,10 @@ Game.prototype.getUnit = function (icon) {
     },
     annotation = icon[icon.length - 1];
 
-  let units = this.players[unitsAnnotationCorralation[annotation][0]].units[
-    unitsAnnotationCorralation[annotation][1]
-  ];
+  let units =
+    this.players[unitsAnnotationCorralation[annotation][0]].units[
+      unitsAnnotationCorralation[annotation][1]
+    ];
   let unitsLength = units.length;
 
   for (i = 0; i < unitsLength; i++) {
@@ -94,8 +95,6 @@ Game.prototype.getUnit = function (icon) {
 
 Game.prototype.onCellClick = function (event, unit) {
   const target = event.target.id;
-
-  let newMapLevel;
 
   //if this cell has an icon and the icon represents unit or town data, show that data instead of moving unit
   if (target.indexOf("icon") !== -1 && this.getUnit(target)) {
@@ -123,6 +122,7 @@ Game.prototype.onCellClick = function (event, unit) {
           if (newMapLevel) {
             this.currentMapLevel = newMapLevel;
             this.map.generate(this.currentMapLevel, this.players);
+            this.bindDrag();
           }
 
           this.resetBoardBindings();
@@ -149,6 +149,7 @@ Game.prototype.moveMode = function (unit) {
           if (newMapLevel) {
             this.currentMapLevel = newMapLevel;
             this.map.generate(this.currentMapLevel, this.players);
+            this.bindDrag();
           }
 
           this.resetBoardBindings();
@@ -160,6 +161,71 @@ Game.prototype.moveMode = function (unit) {
   $("#improve_strength").off();
   $("#improve_strength").click(() => {
     this.encounter.improveUnitStrength(unit, this.players);
+  });
+};
+
+Game.prototype.bindDrag = function () {
+  document.querySelectorAll(".cell").forEach((node) => {
+    const handleDrop = (event) => {
+      var data = event.dataTransfer.getData("Text");
+
+      const checkEncounter = (unit) => {
+        const target = event.target.id;
+
+        //if this cell has an icon and the icon represents unit or town data, don't do anything
+        if (
+          (target.indexOf("icon") === -1 || !this.getUnit(target)) &&
+          unit.movements > 0 &&
+          unit.cell.replace("icon", "").substring(0, 2) !==
+            target.replace("cell", "")
+        ) {
+          const dataElement = document.getElementById(data);
+          result = this.players.human.moveSoldier(unit, target);
+
+          if (result) {
+            event.target.appendChild(dataElement);
+
+            this.encounter.check(unit, this.players);
+
+            this.levelManager.checkEndOfLevelCondition(
+              this.currentMapLevel,
+              this.players,
+              (newMapLevel) => {
+                if (newMapLevel) {
+                  this.currentMapLevel = newMapLevel;
+                  this.map.generate(this.currentMapLevel, this.players);
+                  this.bindDrag();
+                }
+
+                this.resetBoardBindings();
+              }
+            );
+          }
+        } else {
+          this.browserUtils.showMessage("Invalid movement");
+        }
+      };
+
+      event.preventDefault();
+
+      const draggedIcon = data.replace("tooltip", "icon");
+
+      const unit = this.infoLayer.findUnit(
+        draggedIcon,
+        this.players.human.units.mobs
+      );
+      checkEncounter(unit);
+    };
+
+    node.addEventListener("drop", handleDrop, false);
+
+    node.addEventListener(
+      "dragover",
+      (event) => {
+        event.preventDefault();
+      },
+      false
+    );
   });
 };
 
@@ -175,6 +241,16 @@ Game.prototype.bindIconClick = function () {
       this.bindIconClick();
     }
   });
+
+  Array.from(document.getElementsByClassName("icon-wrapper")).forEach(
+    (node) => {
+      const handleDragstart = (event) => {
+        event.dataTransfer.setData("Text", event.currentTarget.id);
+      };
+
+      node.addEventListener("dragstart", handleDragstart, false);
+    }
+  );
 };
 
 Game.prototype.resetBoardBindings = function () {
@@ -193,6 +269,7 @@ Game.prototype.bindAll = function () {
     if (confirm("Reset current map?")) {
       this.map.generate(this.currentMapLevel, this.players);
       this.bindIconClick();
+      this.bindDrag();
     }
   });
 
@@ -201,6 +278,7 @@ Game.prototype.bindAll = function () {
       if (newMapLevel) {
         this.currentMapLevel = newMapLevel;
         this.map.generate(this.currentMapLevel, this.players);
+        this.bindDrag();
       }
 
       $("#end_turn").html("<b>End turn</b> (+3 gold)");
@@ -257,4 +335,6 @@ Game.prototype.bindAll = function () {
     enableAnimationsCheckbox.addEventListener("change", ({ currentTarget }) => {
       this.animationManager.enableAnimations = currentTarget.checked;
     });
+
+  this.bindDrag();
 };
