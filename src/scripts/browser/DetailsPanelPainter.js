@@ -1,10 +1,5 @@
 //TODO the functions inside this class need some refactoring work
 function DetailsPanelPainter() {
-  //TODO this colors should be defined in the CSS, and DetailsPanelPainter should be the one knowing about the name on the color, which would be the name of the css class to be used on the panel
-  const grey = "RGB(135, 135, 135)",
-    red = "RGB(213, 28, 31)",
-    blue = "RGB(28, 31, 213)";
-
   this.hide = function () {
     $("#info").hide();
   };
@@ -29,7 +24,7 @@ function DetailsPanelPainter() {
       qualityUpgradePrice
     );
 
-    paintBackground(red);
+    paintBackground("roman");
     showTownDetails();
     showPanel();
   };
@@ -37,7 +32,7 @@ function DetailsPanelPainter() {
   this.showAITownPanel = function (name) {
     showAdversaryTownPanel("Barbarian", "Town", name);
 
-    paintBackground(blue);
+    paintBackground("barbarian");
     showTownDetails();
     showPanel();
   };
@@ -45,7 +40,7 @@ function DetailsPanelPainter() {
   this.showNeutralTownPanel = function (name) {
     showAdversaryTownPanel("Nature", "Free Town");
 
-    paintBackground(grey);
+    paintBackground("nature");
     showTownDetails();
     showPanel();
   };
@@ -58,7 +53,7 @@ function DetailsPanelPainter() {
     showSoldierDetails();
     showDestroyButton();
 
-    paintBackground(red);
+    paintBackground("roman");
     showPanel();
   };
 
@@ -70,7 +65,7 @@ function DetailsPanelPainter() {
     hideDestroyButton();
     showSoldierDetails();
 
-    paintBackground(blue);
+    paintBackground("barbarian");
     showPanel();
   };
 
@@ -82,12 +77,11 @@ function DetailsPanelPainter() {
     hideDestroyButton();
     showSoldierDetails();
 
-    paintBackground(grey);
+    paintBackground("nature");
     showPanel();
   };
 
-  var showPanel = function (color) {
-    paintBackground(color);
+  var showPanel = (color) => {
     $("#info").show();
   };
 
@@ -197,7 +191,7 @@ function DetailsPanelPainter() {
     $("#strength").html(strength_message_eng);
   };
 
-  var paintBackground = function (color) {
-    $("#info").css({ background: color });
+  var paintBackground = (color) => {
+    document.getElementById("info").className = color;
   };
 }

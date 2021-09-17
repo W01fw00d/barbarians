@@ -1,0 +1,25 @@
+body {
+  background-size: 100% 100%;
+  background: var(--yellow);
+  background: linear-gradient(0deg, var(--yellow) 0%, var(--lightBlue) 100%);
+}
+
+html {
+  height: 100%;
+}
+
+.container {
+  text-align: center;
+}
+
+.padding-sm {
+  padding: 10px;
+}
+
+.padding-top-md {
+  padding-top: 20px;
+}
+
+.margin-top-md {
+  margin-top: 20px;
+}

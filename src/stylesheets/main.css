@@ -1,3 +1,10 @@
+@import url("colors.css");
+@import url("layout.css");
+@import url("board/cell.css");
+@import url("board/main.css");
+@import url("panels/info.css");
+@import url("panels/topbar.css");
+
 @font-face {
   font-family: "Roman";
   src: url("../images/fonts/roman.ttf");
@@ -7,126 +14,7 @@ header {
   font-family: "Roman";
 }
 
-.gold-label {
-  color: white;
-}
-
-table,
-th,
-td {
-  border: 1px solid rgba(111, 111, 111, 0.5);
-}
-
-th {
-  width: 60px;
-  height: 50px;
-  text-align: center;
-}
-
-img {
-  width: 100%;
-  height: 100%;
-}
-
 input {
   text-align: center;
-  color: Black;
-}
-
-body {
-  background: url("../images/background.jpg");
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-}
-
-html {
-  height: 100%;
-}
-
-.icon {
-  position: relative;
-  /*
-    border: 1px solid rgba(111, 111, 111, .5);
-    */
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-
-  color: White;
-}
-
-.container {
-  text-align: center;
-}
-
-#map {
-  position: absolute;
-  width: 425px;
-}
-
-#info {
-  display: block;
-}
-
-#info div,
-form {
-  color: White;
-}
-
-#info button {
-  color: Black;
-}
-
-.hidden-div {
-  display: none;
-}
-
-.padding-sm {
-  padding: 10px;
-}
-
-.padding-top-md {
-  padding-top: 20px;
-}
-
-.margin-top-md {
-  margin-top: 20px;
-}
-
-.control-bar {
-  background-color: rgba(0, 0, 0, 0.6);
-}
-
-.close-button {
-  padding: 5px;
-  margin-bottom: 15px;
-}
-
-.music-control-bar {
-  vertical-align: middle;
-}
-
-.gold-marker {
-  width: 50%;
-}
-
-.control-bar-col {
-  display: inline-block;
-  vertical-align: middle;
-  float: none;
-}
-
-.selected-cell-red {
-  outline: 3px dashed rgb(213, 28, 31);
-  outline-offset: 0px;
-}
-
-.selected-cell-blue {
-  outline: 3px dashed rgb(28, 31, 213);
-  outline-offset: 0px;
-}
-
-.selected-cell-grey {
-  outline: 3px dashed rgb(135, 135, 135);
-  outline-offset: 0px;
+  color: var(--black);
 }
