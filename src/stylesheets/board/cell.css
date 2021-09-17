@@ -1,14 +1,15 @@
-.selected-cell-roman {
+.selected-cell {
+  outline-offset: 0px;
+}
+
+.selected-cell.roman {
   outline: 3px dashed var(--red);
-  outline-offset: 0px;
 }
 
-.selected-cell-barbarian {
+.selected-cell.barbarian {
   outline: 3px dashed var(--darkBlue);
-  outline-offset: 0px;
 }
 
-.selected-cell-nature {
+.selected-cell.nature {
   outline: 3px dashed var(--lightGrey);
-  outline-offset: 0px;
 }

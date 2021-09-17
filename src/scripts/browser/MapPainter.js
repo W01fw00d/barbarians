@@ -104,7 +104,7 @@ function MapPainter(iconTemplates) {
   };
 
   this.selectCell = (cell, faction) => {
-    document.getElementById(cell).className = `cell selected-cell-${
+    document.getElementById(cell).className = `cell selected-cell ${
       faction ? faction.toLowerCase() : factionsMap.nature
     }`;
   };
