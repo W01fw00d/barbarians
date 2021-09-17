@@ -104,14 +104,12 @@ function MapPainter(iconTemplates) {
   };
 
   this.selectCell = (cell, faction) => {
-    $(`#${cell}`).addClass(
-      `selected-cell-${faction ? faction.toLowerCase() : factionsMap.nature}`
-    );
+    document.getElementById(cell).className = `cell selected-cell-${
+      faction ? faction.toLowerCase() : factionsMap.nature
+    }`;
   };
 
-  this.unselectCell = (cell, faction) => {
-    $(`#${cell}`).removeClass(
-      `selected-cell-${faction ? faction.toLowerCase() : factionsMap.nature}`
-    );
+  this.unselectCell = (cell) => {
+    document.getElementById(cell).className = "cell";
   };
 }

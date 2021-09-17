@@ -68,8 +68,6 @@ AI.prototype.performTurn = function (endAITurn, checkEncounter) {
 
         this.animationManager.sleepHalfStep().then(() => {
           this.moveSoldierRandom(currentSoldier);
-          this.animationManager.enableAnimations &&
-            this.mapPainter.unselectCell(currentCell, currentFaction);
           checkEncounter(currentSoldier);
         });
       }

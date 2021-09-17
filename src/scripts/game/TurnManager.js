@@ -132,7 +132,7 @@ TurnManager.prototype.generateSoldiers = function (player, players, callback) {
       this.animationManager.sleepHalfStep().then(() => {
         spawnMobsFromTown(town);
         this.animationManager.enableAnimations &&
-          this.mapPainter.unselectCell(town.cell, town.factionTag);
+          this.mapPainter.unselectCell(town.cell);
       });
     } else {
       callback();
@@ -147,7 +147,7 @@ TurnManager.prototype.generateSoldiers = function (player, players, callback) {
     this.animationManager.sleepHalfStep().then(() => {
       spawnMobsFromTown(towns[index]);
       this.animationManager.enableAnimations &&
-        this.mapPainter.unselectCell(town.cell, town.factionTag);
+        this.mapPainter.unselectCell(town.cell);
     });
   } else {
     callback();
