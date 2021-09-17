@@ -1,0 +1,21 @@
+.control-bar {
+  background-color: var(--lightBlack);
+}
+
+.control-bar-col {
+  display: inline-block;
+  vertical-align: middle;
+  float: none;
+}
+
+.music-control-bar {
+  vertical-align: middle;
+}
+
+.gold-label {
+  color: var(--white);
+}
+
+.gold-marker {
+  width: 50%;
+}

@@ -1,0 +1,33 @@
+#info {
+  display: block;
+}
+
+#info.roman {
+  background: var(--red);
+}
+
+#info.barbarian {
+  background: var(--darkBlue);
+}
+
+#info.nature {
+  background: var(--lightGrey);
+}
+
+#info div,
+form {
+  color: var(--white);
+}
+
+#info button {
+  color: var(--black);
+}
+
+.close-button {
+  padding: 5px;
+  margin-bottom: 15px;
+}
+
+.hidden-div {
+  display: none;
+}

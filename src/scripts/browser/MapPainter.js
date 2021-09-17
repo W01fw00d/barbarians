@@ -2,12 +2,6 @@
 function MapPainter(iconTemplates) {
   this.iconTemplates = iconTemplates;
 
-  const factionsMap = {
-    roman: "red",
-    barbarian: "blue",
-    nature: "grey",
-  };
-
   this.paint = function (selector, content) {
     $(selector).html(content);
   };
@@ -111,17 +105,13 @@ function MapPainter(iconTemplates) {
 
   this.selectCell = (cell, faction) => {
     $(`#${cell}`).addClass(
-      `selected-cell-${
-        factionsMap[faction ? faction.toLowerCase() : factionsMap.nature]
-      }`
+      `selected-cell-${faction ? faction.toLowerCase() : factionsMap.nature}`
     );
   };
 
   this.unselectCell = (cell, faction) => {
     $(`#${cell}`).removeClass(
-      `selected-cell-${
-        factionsMap[faction ? faction.toLowerCase() : factionsMap.nature]
-      }`
+      `selected-cell-${faction ? faction.toLowerCase() : factionsMap.nature}`
     );
   };
 }

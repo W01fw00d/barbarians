@@ -1,0 +1,11 @@
+:root {
+  --darkBlue: RGB(28, 31, 213);
+  --lightBlue: RGBA(34, 193, 195, 1);
+  --red: RGB(213, 28, 31);
+  --yellow: RGBA(253, 187, 45, 1);
+  --white: white;
+  --lightGrey: RGB(135, 135, 135);
+  --darkGrey: RGBA(111, 111, 111, 0.5);
+  --lightBlack: RGBA(0, 0, 0, 0.6);
+  --black: black;
+}
