@@ -18,14 +18,14 @@ A little web-browser turn-based strategy game.
 
 # How to play
 
-Just open the index.html file with your browser :)
+Just open the index.html file with your browser 👍
 
 - You can choose the level by using params like this: 'index.html?level=2'
   (1 - 10 are used for the main campaign, 0 and 11 - XX are used for testing)
 
 # How to test
 
-To launch the Jasmine unit tests, just open SpecRunner.html (please check that all tests are green before launching a pull request :) )
+To launch the Jasmine unit tests, just open SpecRunner.html (please check that all tests are green before launching a pull request 😀)
 
 - Launch Cypress (Functional Tests)
 
@@ -67,4 +67,4 @@ npm run f-test-ui
 
 [@W01fw00d](https://github.com/W01fw00d)
 
-Thanks everyone! ;)
+Thanks everyone! 😉
