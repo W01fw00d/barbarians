@@ -3,15 +3,18 @@
 }
 
 #info.roman {
-  background: var(--red);
+  background: var(--beige);
+  background: linear-gradient(240deg, var(--beige) 0%, var(--red) 100%);
 }
 
 #info.barbarian {
-  background: var(--darkBlue);
+  background: var(--beige);
+  background: linear-gradient(240deg, var(--beige) 0%, var(--darkBlue) 100%);
 }
 
 #info.nature {
-  background: var(--lightGrey);
+  background: var(--beige);
+  background: linear-gradient(240deg, var(--beige) 0%, var(--lightGrey) 100%);
 }
 
 #info div,
