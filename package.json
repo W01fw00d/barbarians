@@ -6,9 +6,7 @@
   "directories": {
     "lib": "lib"
   },
-  "dependencies": {
-    "cypress": "^6.4.0"
-  },
+  "dependencies": {},
   "scripts": {
     "f-test": "cypress run",
     "f-test-ui": "cypress open"
@@ -24,6 +22,7 @@
   },
   "homepage": "https://github.com/W01fw00d/barbarians#readme",
   "devDependencies": {
-    "@4tw/cypress-drag-drop": "^1.6.0"
+    "@4tw/cypress-drag-drop": "^1.6.0",
+    "cypress": "^8.4.1"
   }
 }

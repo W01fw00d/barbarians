@@ -1,17 +1,37 @@
 #info {
   display: block;
+  box-shadow: 3px 3px 6px;
+  border-radius: 3px;
 }
 
-#info.roman {
-  background: var(--red);
+#info.soldier.roman {
+  background: var(--beige);
+  background: linear-gradient(240deg, var(--beige) 0%, var(--red) 100%);
 }
 
-#info.barbarian {
-  background: var(--darkBlue);
+#info.soldier.barbarian {
+  background: var(--beige);
+  background: linear-gradient(240deg, var(--beige) 0%, var(--darkBlue) 100%);
 }
 
-#info.nature {
-  background: var(--lightGrey);
+#info.soldier.nature {
+  background: var(--beige);
+  background: linear-gradient(240deg, var(--beige) 0%, var(--lightGrey) 100%);
+}
+
+#info.town.roman {
+  background: var(--brown);
+  background: linear-gradient(240deg, var(--brown) 0%, var(--red) 100%);
+}
+
+#info.town.barbarian {
+  background: var(--brown);
+  background: linear-gradient(240deg, var(--brown) 0%, var(--darkBlue) 100%);
+}
+
+#info.town.nature {
+  background: var(--brown);
+  background: linear-gradient(240deg, var(--brown) 0%, var(--lightGrey) 100%);
 }
 
 #info div,

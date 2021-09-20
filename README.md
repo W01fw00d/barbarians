@@ -18,16 +18,25 @@ A little web-browser turn-based strategy game.
 
 # How to play
 
-Just open the index.html file with your browser 👍
+Just open the `index.html` file with your browser of choice 👍
 
-- You can choose the level by using params like this: 'index.html?level=2'
+# Url Params (cheat codes):
+
+- Choose the map/level: 'index.html?level=2'
   (1 - 10 are used for the main campaign, 0 and 11 - XX are used for testing)
+- Mute the story narration on startup: 'index.html?muteNarration'
+- Disable animations on startup: 'index.html?disableAnimations'
+
+Example (useful for manual testing): `index.html?level=12&muteNarration&disableAnimations`
 
 # How to test
 
-To launch the Jasmine unit tests, just open SpecRunner.html (please check that all tests are green before launching a pull request 😀)
+To launch the Jasmine unit tests, just open `SpecRunner.html` (please check that all tests are green before launching a pull request 😀).
 
-- Launch Cypress (Functional Tests)
+- Note: some Jasmine tests are currently disabled after a refactor.
+- Note 2: Cypress runs the jasmine tests in one of its specs.
+
+* Launch Cypress (Functional Tests)
 
 ```
 npm run f-test
