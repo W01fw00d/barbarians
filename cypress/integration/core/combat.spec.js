@@ -9,7 +9,7 @@ import {
 } from "../../utils/ui.js";
 
 context("Combat", () => {
-  it(
+  it.skip(
     "Soldier defeats 3 mobs if it has more than 1 strength than them, and cannot move anymore." +
       " Also, next turn new recruits are auto-killed",
     () => {
