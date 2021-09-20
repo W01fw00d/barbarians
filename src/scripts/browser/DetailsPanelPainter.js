@@ -24,7 +24,7 @@ function DetailsPanelPainter() {
       qualityUpgradePrice
     );
 
-    paintBackground("roman");
+    paintBackground("roman town");
     showTownDetails();
     showPanel();
   };
@@ -32,7 +32,7 @@ function DetailsPanelPainter() {
   this.showAITownPanel = function (name) {
     showAdversaryTownPanel("Barbarian", "Town", name);
 
-    paintBackground("barbarian");
+    paintBackground("barbarian town");
     showTownDetails();
     showPanel();
   };
@@ -40,7 +40,7 @@ function DetailsPanelPainter() {
   this.showNeutralTownPanel = function (name) {
     showAdversaryTownPanel("Nature", "Free Town");
 
-    paintBackground("nature");
+    paintBackground("nature town");
     showTownDetails();
     showPanel();
   };
@@ -53,7 +53,7 @@ function DetailsPanelPainter() {
     showSoldierDetails();
     showDestroyButton();
 
-    paintBackground("roman");
+    paintBackground("roman soldier");
     showPanel();
   };
 
@@ -65,7 +65,7 @@ function DetailsPanelPainter() {
     hideDestroyButton();
     showSoldierDetails();
 
-    paintBackground("barbarian");
+    paintBackground("barbarian soldier");
     showPanel();
   };
 
@@ -77,7 +77,7 @@ function DetailsPanelPainter() {
     hideDestroyButton();
     showSoldierDetails();
 
-    paintBackground("nature");
+    paintBackground("nature soldier");
     showPanel();
   };
 
@@ -191,7 +191,7 @@ function DetailsPanelPainter() {
     $("#strength").html(strength_message_eng);
   };
 
-  var paintBackground = (color) => {
-    document.getElementById("info").className = color;
+  var paintBackground = (classes) => {
+    document.getElementById("info").className = classes;
   };
 }
