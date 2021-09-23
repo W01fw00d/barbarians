@@ -46,20 +46,32 @@ context("Soldiers actions", () => {
     click("#icon70a");
 
     cy.get("#strength").should("contain", "Combat strength: [1].");
-    cy.get("#improve_strength").should("contain", "Improve Strength (1 💰)");
+    cy.get("#improve_strength").should(
+      "contain",
+      "💪 Improve Strength (-1 💰)"
+    );
     cy.get("#gold").should("have.value", 4);
     moreStrength();
     cy.get("#gold").should("have.value", 3);
     cy.get("#strength").should("contain", "Combat strength: [2].");
-    cy.get("#improve_strength").should("contain", "Improve Strength (2 💰)");
+    cy.get("#improve_strength").should(
+      "contain",
+      "💪 Improve Strength (-2 💰)"
+    );
 
     click("#icon71a");
     cy.get("#strength").should("contain", "Combat strength: [1].");
-    cy.get("#improve_strength").should("contain", "Improve Strength (1 💰)");
+    cy.get("#improve_strength").should(
+      "contain",
+      "💪 Improve Strength (-1 💰)"
+    );
     moreStrength();
     cy.get("#gold").should("have.value", 2);
     cy.get("#strength").should("contain", "Combat strength: [2].");
-    cy.get("#improve_strength").should("contain", "Improve Strength (2 💰)");
+    cy.get("#improve_strength").should(
+      "contain",
+      "💪 Improve Strength (-2 💰)"
+    );
   });
 
   it("Destroy one of the soldiers after confirmation", () => {

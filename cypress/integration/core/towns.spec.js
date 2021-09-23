@@ -46,12 +46,12 @@ context("Towns upgrades and unit generation", () => {
     click("#icon11A");
     cy.get("#prod").should(
       "contain",
-      "Producing [1] soldiers with [1] strength each turn. Upgrade: "
+      "Producing [1] soldiers with [1] strength each turn."
     );
     click("#improve_quantity");
     cy.get("#prod").should(
       "contain",
-      "Producing [2] soldiers with [1] strength each turn. Upgrade: "
+      "Producing [2] soldiers with [1] strength each turn."
     );
 
     endTurn();
@@ -74,7 +74,7 @@ context("Towns upgrades and unit generation", () => {
       click("#icon11A");
       cy.get("#prod").should(
         "contain",
-        "Producing [1] soldiers with [1] strength each turn. Upgrade: "
+        "Producing [1] soldiers with [1] strength each turn."
       );
       endTurn();
 
@@ -87,7 +87,7 @@ context("Towns upgrades and unit generation", () => {
       click("#icon11A");
       cy.get("#prod").should(
         "contain",
-        "Producing [1] soldiers with [2] strength each turn. Upgrade: "
+        "Producing [1] soldiers with [2] strength each turn."
       );
 
       endTurn();

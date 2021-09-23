@@ -67,14 +67,14 @@ Player.prototype.upgradeMode = function (unit, upgrade) {
 
   const updateTownHtml = () => {
     $("#prod").html(
-      `Producing [${unit.stats.quantity}] soldiers with [${unit.stats.quality}] strength each turn. Upgrade: `
+      `Producing [${unit.stats.quantity}] soldiers with [${unit.stats.quality}] strength each turn.`
     );
 
     cell = unit.cell.replace("icon", "#cell");
     cell = cell.substring(0, cell.length - 1);
     const factionTitleMap = {
       roman: () =>
-        ` Quantity: [${unit.stats.quantity}], Quality: [${unit.stats.quality}]`,
+        ` 👥 Quantity: [${unit.stats.quantity}], 💪 Quality: [${unit.stats.quality}]`,
     };
 
     this.mapPainter.repaintTown(
@@ -94,7 +94,7 @@ Player.prototype.upgradeMode = function (unit, upgrade) {
 
       //TODO refactor: move all this DOM acceses to DetailsPanelPainter
       $("#improve_quantity").html(
-        `Quantity (${unit.stats.quantityUpgradePrice} 💰)`
+        `👥 Improve Quantity (-${unit.stats.quantityUpgradePrice} 💰)`
       );
     } else {
       this.browserUtils.showMessage(errorMessage);
@@ -107,7 +107,7 @@ Player.prototype.upgradeMode = function (unit, upgrade) {
 
       updateTownHtml();
       $("#improve_quality").html(
-        `Quality (${unit.stats.qualityUpgradePrice} 💰)`
+        `💪 Improve Quality (-${unit.stats.qualityUpgradePrice} 💰)`
       );
     } else {
       this.browserUtils.showMessage(errorMessage);
@@ -120,16 +120,14 @@ Player.prototype.upgradeMode = function (unit, upgrade) {
       unit.strength += unit.strength;
 
       $("#strength").html("Combat strength: [" + unit.strength + "].");
-      $("#improve_strength").html(
-        "Improve Strength (" + unit.strength + " 💰)"
-      );
+      $("#improve_strength").html(`💪 Improve Strength (-${unit.strength} 💰)`);
 
       cell = unit.cell.replace("icon", "#cell");
       cell = cell.substring(0, cell.length - 1);
       this.mapPainter.repaintMob(
         cell,
         unit,
-        ` | Moves: [${unit.movements}] | Strength: [${unit.strength}]`
+        ` | 🦶 Moves: [${unit.movements}] | 💪 Strength: [${unit.strength}]`
       );
     } else {
       this.browserUtils.showMessage(errorMessage);
