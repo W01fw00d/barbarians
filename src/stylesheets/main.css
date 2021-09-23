@@ -18,3 +18,31 @@ input {
   text-align: center;
   color: var(--black);
 }
+
+label {
+  margin: 0;
+}
+
+.custom-col-checkbox {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.custom-col-label {
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 5px;
+}
+
+.custom-row {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.custom-col-1 {
+  flex: 1;
+}
+
+.custom-col-2 {
+  flex: 2;
+}
