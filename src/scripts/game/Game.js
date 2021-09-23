@@ -40,8 +40,13 @@ function Game(startingMapLevel, muteNarration, enableAnimations, enableModals) {
   );
 
   this.players = {
-    human: new Human(this.map, this.mapPainter),
-    ai: new AI(this.map, this.mapPainter, this.animationManager),
+    human: new Human(this.map, this.mapPainter, this.browserUtils),
+    ai: new AI(
+      this.map,
+      this.mapPainter,
+      this.animationManager,
+      this.browserUtils
+    ),
     neutral: new Neutral(),
   };
 

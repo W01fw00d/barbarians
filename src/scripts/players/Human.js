@@ -1,5 +1,5 @@
-function Human(map, mapPainter) {
-  Player.call(this, map, mapPainter);
+function Human(map, mapPainter, browserUtils) {
+  Player.call(this, map, mapPainter, browserUtils);
   this.name = "human";
 }
 
