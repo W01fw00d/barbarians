@@ -61,7 +61,7 @@ Player.prototype.moveSoldier = function (unit, target) {
 // upgrade_auto is for AI turn use of this function. In other case, this is invoked by an event_handler
 // TODO: refactor, doesn't make much sense that soldiers and towns share this function
 Player.prototype.upgradeMode = function (unit, upgrade) {
-  const errorMessage = "You don't have enough gold!";
+  const errorMessage = "You don't have enough 💰!";
 
   let cell;
 
@@ -94,7 +94,7 @@ Player.prototype.upgradeMode = function (unit, upgrade) {
 
       //TODO refactor: move all this DOM acceses to DetailsPanelPainter
       $("#improve_quantity").html(
-        `Quantity (${unit.stats.quantityUpgradePrice} Gold)`
+        `Quantity (${unit.stats.quantityUpgradePrice} 💰)`
       );
     } else {
       this.browserUtils.showMessage(errorMessage);
@@ -107,7 +107,7 @@ Player.prototype.upgradeMode = function (unit, upgrade) {
 
       updateTownHtml();
       $("#improve_quality").html(
-        `Quality (${unit.stats.qualityUpgradePrice} Gold)`
+        `Quality (${unit.stats.qualityUpgradePrice} 💰)`
       );
     } else {
       this.browserUtils.showMessage(errorMessage);
@@ -121,7 +121,7 @@ Player.prototype.upgradeMode = function (unit, upgrade) {
 
       $("#strength").html("Combat strength: [" + unit.strength + "].");
       $("#improve_strength").html(
-        "Improve Strength (" + unit.strength + " Gold)"
+        "Improve Strength (" + unit.strength + " 💰)"
       );
 
       cell = unit.cell.replace("icon", "#cell");
