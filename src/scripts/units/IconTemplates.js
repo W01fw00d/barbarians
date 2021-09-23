@@ -53,7 +53,7 @@ IconTemplates.prototype.getHumanMob = function (id, name, movements, strength) {
     id,
     name,
     `roman/${this.getSoldierIconByStrength(strength)}`,
-    ` | Moves: [${movements}] | Strength: [${strength}]`,
+    ` | 🦶 Moves: [${movements}] | 💪 Strength: [${strength}]`,
     draggable
   );
 };
@@ -68,7 +68,7 @@ IconTemplates.prototype.getUsedHumanMob = function (
     id,
     name,
     `roman/grey/${this.getSoldierIconByStrength(strength)}`,
-    ` | Moves: [${movements}] | Strength: [${strength}]`
+    ` | 🦶 Moves: [${movements}] | 💪 Strength: [${strength}]`
   );
 };
 
@@ -85,7 +85,12 @@ IconTemplates.prototype.getTown = function (id, name, img, extraTitle = "") {
 };
 
 IconTemplates.prototype.getHumanTown = function (id, name) {
-  return this.getTown(id, name, "roman/2", " | Quantity: [1] | Quality: [1]");
+  return this.getTown(
+    id,
+    name,
+    "roman/2",
+    " | 👥 Quantity: [1] | 💪 Quality: [1]"
+  );
 };
 
 IconTemplates.prototype.getAITown = function (id, name) {

@@ -98,6 +98,11 @@ Game.prototype.getUnit = function (icon) {
   }
 };
 
+Game.prototype.resetOptionsButton = function () {
+  document.getElementById("toggle-options").innerHTML = "🔽 Open Options ⚙";
+  document.getElementById("options").className = "info hidden-div";
+};
+
 Game.prototype.onCellClick = function (event, unit) {
   const target = event.target.id;
 
@@ -238,8 +243,7 @@ Game.prototype.bindIconClick = function () {
   $(".icon").one("click", (event) => {
     event.stopPropagation();
 
-    document.getElementById("toggle-options").innerHTML = "Open Options";
-    document.getElementById("options").className = "info hidden-div";
+    this.resetOptionsButton();
     let modeToActivate = this.infoLayer.checkUnitInfo(event, this.players);
 
     if (modeToActivate.mode === "move") {
@@ -272,12 +276,7 @@ Game.prototype.bindAll = function () {
     this.resetBoardBindings.call(this);
   });
 
-  $("#close-options").click(
-    function () {
-      document.getElementById("toggle-options").innerHTML = "Open Options";
-      document.getElementById("options").className = "info hidden-div";
-    }.bind(this)
-  );
+  $("#close-options").click(this.resetOptionsButton.bind(this));
 
   $("#toggle-options").click(
     function () {
@@ -286,17 +285,17 @@ Game.prototype.bindAll = function () {
       const optionsComponent = document.getElementById("options");
 
       if (optionsComponent.className.includes("hidden-div")) {
-        document.getElementById("toggle-options").innerHTML = "Close Options";
+        document.getElementById("toggle-options").innerHTML =
+          "🔼 Close Options ⚙";
         optionsComponent.className = "info";
       } else {
-        document.getElementById("toggle-options").innerHTML = "Open Options";
-        optionsComponent.className = "info hidden-div";
+        this.resetOptionsButton();
       }
     }.bind(this)
   );
 
   $("#reset_map").click(() => {
-    if (confirm("Reset current map?")) {
+    if (confirm("⏮ Reset current map?")) {
       this.map.generate(this.currentMapLevel, this.players);
       this.bindIconClick();
       this.bindDrag();
@@ -311,7 +310,7 @@ Game.prototype.bindAll = function () {
         this.bindDrag();
       }
 
-      $("#end_turn").html("<b>End turn</b> (+3 gold)");
+      $("#end_turn").html("<b>⏩ End turn</b> (+3 💰)");
       $("#end_turn").prop("disabled", false);
       $("#reset_map").prop("disabled", false);
       $("#toggle-options").prop("disabled", false);
@@ -320,7 +319,7 @@ Game.prototype.bindAll = function () {
       this.bindIconClick();
     };
 
-    $("#end_turn").html("AI Turn...");
+    $("#end_turn").html("🤖 AI Turn...");
     $("#end_turn").prop("disabled", true);
     $("#reset_map").prop("disabled", true);
     $("#toggle-options").prop("disabled", true);
@@ -328,8 +327,7 @@ Game.prototype.bindAll = function () {
     $(".cell").off();
     $(".icon").off();
     $("#info").hide();
-    document.getElementById("toggle-options").innerHTML = "Open Options";
-    document.getElementById("options").className = "info hidden-div";
+    this.resetOptionsButton();
 
     this.turnManager.endTurn.call(
       this.turnManager,

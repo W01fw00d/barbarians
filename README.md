@@ -20,15 +20,24 @@ A little web-browser turn-based strategy game.
 
 Just open the `index.html` file with your browser of choice 👍
 
+## Features details:
+
+- Hover a unit to display a tooltip with extra information
+- You can drag and drop a Roman soldier to move it, or just select it and then click where do you want to move it
+
 # Url Params (cheat codes):
 
-- Choose the map/level: 'index.html?level=2'
+- Choose the map/level: `index.html?level=2`
   (1 - 10 are used for the main campaign, 0 and 11 - XX are used for testing)
-- Mute the story narration on startup: 'index.html?muteNarration'
-- Disable animations on startup: 'index.html?disableAnimations'
-- Disable modals (pop-ups) on startup: 'index.html?disableModals'
+- Mute the story narration on startup: `index.html?muteNarration`
+- Disable animations on startup: `index.html?disableAnimations`
+- Disable modals (pop-ups) on startup: `index.html?disableModals`
 
-Example (useful for manual testing): `index.html?level=12&muteNarration&disableAnimations&disableModals`
+Example (useful for manual testing):
+
+```
+index.html?level=12&muteNarration&disableAnimations&disableModals
+```
 
 # How to test
 

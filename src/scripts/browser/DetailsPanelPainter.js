@@ -161,10 +161,14 @@ function DetailsPanelPainter() {
       players.human.upgradeMode(unit, "improve_quality");
     });
 
-    $("#improve_quantity").html(`Quantity (${quantityUpgradePrice} Gold)`);
-    $("#improve_quality").html(`Quality (${qualityUpgradePrice} Gold)`);
+    $("#improve_quantity").html(
+      `👥 Improve Quantity (-${quantityUpgradePrice} 💰)`
+    );
+    $("#improve_quality").html(
+      `💪 Improve Quality (-${qualityUpgradePrice} 💰)`
+    );
     $("#prod").html(
-      `Producing [${quantity}] soldiers with [${quality}] strength each turn. Upgrade: `
+      `Producing [${quantity}] soldiers with [${quality}] strength each turn.`
     );
     $("#prod").show();
   };
@@ -172,7 +176,7 @@ function DetailsPanelPainter() {
   var updateHumanSoldierStats = function (movements, strength) {
     $("#movement").html(`Movements left: [${movements}]`);
     $("#strength").html(`Combat strength: [${strength}].`);
-    $("#improve_strength").html(`Improve Strength (${strength} Gold)`);
+    $("#improve_strength").html(`💪 Improve Strength (-${strength} 💰)`);
   };
 
   var updateAISoldierStats = function (strength) {
