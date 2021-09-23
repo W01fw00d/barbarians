@@ -26,8 +26,9 @@ Just open the `index.html` file with your browser of choice 👍
   (1 - 10 are used for the main campaign, 0 and 11 - XX are used for testing)
 - Mute the story narration on startup: 'index.html?muteNarration'
 - Disable animations on startup: 'index.html?disableAnimations'
+- Disable modals (pop-ups) on startup: 'index.html?disableModals'
 
-Example (useful for manual testing): `index.html?level=12&muteNarration&disableAnimations`
+Example (useful for manual testing): `index.html?level=12&muteNarration&disableAnimations&disableModals`
 
 # How to test
 

@@ -1,5 +1,5 @@
-function AI(map, mapPainter, animationManager) {
-  Player.call(this, map, mapPainter);
+function AI(map, mapPainter, animationManager, browserUtils) {
+  Player.call(this, map, mapPainter, browserUtils);
   this.animationManager = animationManager;
 
   this.name = "ai";

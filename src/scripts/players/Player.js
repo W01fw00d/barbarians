@@ -1,12 +1,13 @@
 const STARTING_GOLD = 1;
 
 //TODO map as mapManager renamed here only to avoid crash with other var named map
-function Player(mapManager, mapPainter) {
+function Player(mapManager, mapPainter, browserUtils) {
   Faction.call(this);
 
   this.gold = STARTING_GOLD;
   this.mapManager = mapManager;
   this.mapPainter = mapPainter;
+  this.browserUtils = browserUtils;
 }
 
 Player.prototype = Object.create(Faction.prototype);
@@ -23,12 +24,6 @@ Player.prototype.reset = function () {
 
 Player.prototype.setGold = function (gold) {
   this.gold = gold;
-};
-
-Player.prototype.showModal = function (message) {
-  //TODO: use BrowserUtils modal here
-  $("#modal-content").html(message);
-  $("#modal").modal("show");
 };
 
 // upgrade_auto is for AI turn use of this function. In other case, this is invoked by an event_handler
@@ -55,7 +50,7 @@ Player.prototype.moveSoldier = function (unit, target) {
     this.mapPainter.clearCell(initialCell[0], initialCell[1]);
   } else {
     if (unit.player === "human") {
-      this.showModal("Invalid movement");
+      this.browserUtils.showMessage("Invalid movement");
       result = null;
     }
   }
@@ -102,7 +97,7 @@ Player.prototype.upgradeMode = function (unit, upgrade) {
         `Quantity (${unit.stats.quantityUpgradePrice} Gold)`
       );
     } else {
-      this.showModal(errorMessage);
+      this.browserUtils.showMessage(errorMessage);
     }
   } else if (upgrade === "improve_quality") {
     if (unit.stats.qualityUpgradePrice <= this.gold) {
@@ -115,7 +110,7 @@ Player.prototype.upgradeMode = function (unit, upgrade) {
         `Quality (${unit.stats.qualityUpgradePrice} Gold)`
       );
     } else {
-      this.showModal(errorMessage);
+      this.browserUtils.showMessage(errorMessage);
     }
 
     // This is only used by AlliedMobs.
@@ -137,7 +132,7 @@ Player.prototype.upgradeMode = function (unit, upgrade) {
         ` | Moves: [${unit.movements}] | Strength: [${unit.strength}]`
       );
     } else {
-      this.showModal(errorMessage);
+      this.browserUtils.showMessage(errorMessage);
     }
   }
 };
