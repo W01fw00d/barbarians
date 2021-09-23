@@ -8,10 +8,15 @@ import {
   moreStrength,
 } from "../utils/ui.js";
 
+const enableNarration = () => {
+  click("#toggle-options");
+  click("#enable_narration");
+};
+
 context("Narrator", () => {
   it("Roman soldier kills barbarian", () => {
     start(23);
-    click("#mute_narration");
+    enableNarration();
 
     endTurn();
 
@@ -32,7 +37,7 @@ context("Narrator", () => {
 
   it("Roman vs wolves", () => {
     start(23);
-    click("#mute_narration");
+    enableNarration();
 
     endTurn();
 
@@ -51,7 +56,7 @@ context("Narrator", () => {
 
   it("Roman captures barbarian town", () => {
     start(23);
-    click("#mute_narration");
+    enableNarration();
 
     endTurn();
 
@@ -70,7 +75,7 @@ context("Narrator", () => {
 
   it("Roman captures free town", () => {
     start(23);
-    click("#mute_narration");
+    enableNarration();
 
     endTurn();
 
@@ -89,7 +94,7 @@ context("Narrator", () => {
 
   it("Barbarian kills roman soldier", () => {
     start(23);
-    click("#mute_narration");
+    enableNarration();
 
     endTurn();
 
@@ -107,7 +112,7 @@ context("Narrator", () => {
 
   it("Barbarian vs wolves", () => {
     start(24);
-    click("#mute_narration");
+    enableNarration();
 
     cy.window().then(({ speechSynthesis }) => {
       expect(speechSynthesis.speaking).to.be.false;
@@ -124,7 +129,7 @@ context("Narrator", () => {
     // (as it gets captured back by the new roman recruit at beginning of next turn),
     // because of how AI turn order works different from player
     start(26);
-    click("#mute_narration");
+    enableNarration();
 
     cy.window().then(({ speechSynthesis }) => {
       expect(speechSynthesis.speaking).to.be.false;
@@ -138,7 +143,7 @@ context("Narrator", () => {
 
   it("Barbarian captures free town", () => {
     start(25);
-    click("#mute_narration");
+    enableNarration();
 
     cy.window().then(({ speechSynthesis }) => {
       expect(speechSynthesis.speaking).to.be.false;

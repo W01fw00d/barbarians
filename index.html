@@ -22,19 +22,13 @@
     </div>
     <div class="container">
         <div class="control-bar padding-sm margin-top-md row">
-            <button type="button" id="mute_narration" class="control-bar-col col-sm-2">Mute Narration</button>
-            <div class="form-check control-bar-col col-sm-2">
-                <input class="form-check-input" type="checkbox" value="" id="enable_animations" checked>
-                <label class="form-check-label" for="enable_animations">
-                    Animations
-                </label>
-            </div>
             <div class="control-bar-col col-sm-2">
                 <span class="gold-label">Gold: </span>
                 <input id="gold" class="gold-marker" value="1" type="text" readonly disabled></input>
             </div>
             <button type="button" id="end_turn" class="control-bar-col col-sm-2"> <b>End turn</b> (+3 gold) </button>
             <button type="button" id="reset_map" class="control-bar-col col-sm-3"> Reset map </button>
+            <button type="button" id="toggle-options" class="control-bar-col col-sm-2">Open Options</button>
         </div>
 
         <div class="control-board margin-top-md row">
@@ -45,7 +39,7 @@
             <div class="col-sm-1"></div>
 
             <div class="col-sm-4">
-                <div id="info">
+                <div id="info" class="info">
                     <form class="padding-top-md">
                         Faction:
                         <br><input id="player" type="text" readonly disabled></input>
@@ -58,7 +52,6 @@
                         <br><br><br>
                     </form>
                     <form id="town_info" class="hidden-div">
-                        <!--Town only -->
                         <div id="prod" type="text" readonly></div>
                         <br>
                         <button type="button" id="improve_quantity">Improve quantity (1 Gold)</button>
@@ -67,7 +60,6 @@
                         <br><br>
                     </form>
                     <form id="soldier_info" class="hidden-div">
-                        <!--Soldier only -->
                         <div id="movement" type="text" readonly></div>
                         <br>
                         <div id="strength" type="text" readonly></div>
@@ -79,6 +71,31 @@
                     </form>
 
                     <button type="button" id="close" class="close-button">Close</button>
+                </div>
+                <div id="options" class="info hidden-div">
+                    <div class="padding-top-md">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="enable_narration" checked>
+                            <label class="form-check-label" for="enable_narration">
+                                Narration
+                            </label>
+                        </div>
+                        
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="enable_animations" checked>
+                            <label class="form-check-label" for="enable_animations">
+                                Animations
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="enable_modals" checked>
+                            <label class="form-check-label" for="enable_modals">
+                                Modals
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="button" id="close-options" class="close-button">Close</button>
                 </div>
             </div>
         </div>

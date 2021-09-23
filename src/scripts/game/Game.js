@@ -238,6 +238,8 @@ Game.prototype.bindIconClick = function () {
   $(".icon").one("click", (event) => {
     event.stopPropagation();
 
+    document.getElementById("toggle-options").innerHTML = "Open Options";
+    document.getElementById("options").className = "info hidden-div";
     let modeToActivate = this.infoLayer.checkUnitInfo(event, this.players);
 
     if (modeToActivate.mode === "move") {
@@ -270,6 +272,29 @@ Game.prototype.bindAll = function () {
     this.resetBoardBindings.call(this);
   });
 
+  $("#close-options").click(
+    function () {
+      document.getElementById("toggle-options").innerHTML = "Open Options";
+      document.getElementById("options").className = "info hidden-div";
+    }.bind(this)
+  );
+
+  $("#toggle-options").click(
+    function () {
+      $("#info").hide();
+
+      const optionsComponent = document.getElementById("options");
+
+      if (optionsComponent.className.includes("hidden-div")) {
+        document.getElementById("toggle-options").innerHTML = "Close Options";
+        optionsComponent.className = "info";
+      } else {
+        document.getElementById("toggle-options").innerHTML = "Open Options";
+        optionsComponent.className = "info hidden-div";
+      }
+    }.bind(this)
+  );
+
   $("#reset_map").click(() => {
     if (confirm("Reset current map?")) {
       this.map.generate(this.currentMapLevel, this.players);
@@ -289,6 +314,8 @@ Game.prototype.bindAll = function () {
       $("#end_turn").html("<b>End turn</b> (+3 gold)");
       $("#end_turn").prop("disabled", false);
       $("#reset_map").prop("disabled", false);
+      $("#toggle-options").prop("disabled", false);
+
       $("#enable_animations").prop("disabled", false);
       this.bindIconClick();
     };
@@ -296,10 +323,13 @@ Game.prototype.bindAll = function () {
     $("#end_turn").html("AI Turn...");
     $("#end_turn").prop("disabled", true);
     $("#reset_map").prop("disabled", true);
+    $("#toggle-options").prop("disabled", true);
     $("#enable_animations").prop("disabled", true);
     $(".cell").off();
     $(".icon").off();
     $("#info").hide();
+    document.getElementById("toggle-options").innerHTML = "Open Options";
+    document.getElementById("options").className = "info hidden-div";
 
     this.turnManager.endTurn.call(
       this.turnManager,
@@ -309,23 +339,33 @@ Game.prototype.bindAll = function () {
     );
   });
 
-  $("#mute_narration").click(
-    function (event) {
+  const enableNarrationCheckbox = document.getElementById("enable_narration");
+  enableNarrationCheckbox &&
+    enableNarrationCheckbox.addEventListener("change", ({ currentTarget }) => {
       var narrator = this.soundManager.narrator;
       if (!narrator.isMuted) {
-        event.target.innerHTML = "Unmute Narration";
+        currentTarget.innerHTML = "Unmute Narration";
         narrator.mute();
       } else {
-        event.target.innerHTML = "Mute Narration";
+        currentTarget.innerHTML = "Mute Narration";
         narrator.unmute();
       }
-    }.bind(this)
-  );
+    });
 
   const enableAnimationsCheckbox = document.getElementById("enable_animations");
   enableAnimationsCheckbox &&
     enableAnimationsCheckbox.addEventListener("change", ({ currentTarget }) => {
       this.animationManager.enableAnimations = currentTarget.checked;
+    });
+
+  const enableModalsCheckbox = document.getElementById("enable_modals");
+  enableModalsCheckbox &&
+    enableModalsCheckbox.addEventListener("change", ({ currentTarget }) => {
+      if (currentTarget.checked) {
+        this.browserUtils.enableModals();
+      } else {
+        this.browserUtils.disableModals();
+      }
     });
 
   this.bindDrag();

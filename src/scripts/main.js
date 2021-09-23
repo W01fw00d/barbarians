@@ -3,7 +3,7 @@ function init() {
 
   const muteNarration = urlParams.get("muteNarration") !== null;
   if (muteNarration) {
-    $("#mute_narration").html("Unmute Narration");
+    $("#enable_narration").prop("checked", false);
   }
 
   const disableAnimations = urlParams.get("disableAnimations") !== null;
@@ -13,8 +13,7 @@ function init() {
 
   const disableModals = urlParams.get("disableModals") !== null;
   if (disableModals) {
-    // TODO: Add a new checkbox to options
-    // $("#enable_modals").prop("checked", false);
+    $("#enable_modals").prop("checked", false);
   }
 
   new Game(

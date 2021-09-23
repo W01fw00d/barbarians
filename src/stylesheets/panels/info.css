@@ -1,7 +1,25 @@
-#info {
+.info {
   display: block;
   box-shadow: 3px 3px 6px;
   border-radius: 3px;
+}
+
+.info div,
+form {
+  color: var(--white);
+}
+
+.info button {
+  color: var(--black);
+}
+
+.info .close-button {
+  padding: 5px;
+  margin-bottom: 15px;
+}
+
+.hidden-div {
+  display: none;
 }
 
 #info.soldier.roman {
@@ -34,20 +52,6 @@
   background: linear-gradient(240deg, var(--brown) 0%, var(--lightGrey) 100%);
 }
 
-#info div,
-form {
-  color: var(--white);
-}
-
-#info button {
-  color: var(--black);
-}
-
-.close-button {
-  padding: 5px;
-  margin-bottom: 15px;
-}
-
-.hidden-div {
-  display: none;
+#options {
+  background-color: var(--lightBlack);
 }

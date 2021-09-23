@@ -81,7 +81,7 @@ function DetailsPanelPainter() {
     showPanel();
   };
 
-  var showPanel = (color) => {
+  var showPanel = () => {
     $("#info").show();
   };
 
@@ -192,6 +192,6 @@ function DetailsPanelPainter() {
   };
 
   var paintBackground = (classes) => {
-    document.getElementById("info").className = classes;
+    document.getElementById("info").className = `info ${classes}`;
   };
 }
