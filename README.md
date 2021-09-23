@@ -1,4 +1,4 @@
-# Barbarians! v1.3
+# Barbarians! v1.4
 
 ![Game Gif Image](https://github.com/W01fw00d/barbarians/blob/master/src/images/gifs/barbarians_demo.gif)
 
