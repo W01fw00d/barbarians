@@ -1,17 +1,4 @@
 function SoundManager(muteNarration) {
-  this.music = {
-    audio: $("#music-bar"),
-    isMuted: function () {
-      return this.audio.prop("muted");
-    },
-    mute: function () {
-      this.audio.prop("muted", true);
-    },
-    unmute: function () {
-      this.audio.prop("muted", false);
-    },
-  };
-
   this.narrator = {
     isMuted: muteNarration,
     mute: function () {

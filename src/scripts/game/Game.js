@@ -309,19 +309,6 @@ Game.prototype.bindAll = function () {
     );
   });
 
-  $("#mute_music").click(
-    function (event) {
-      var music = this.soundManager.music;
-      if (!music.isMuted()) {
-        event.target.innerHTML = "Unmute Music";
-        music.mute();
-      } else {
-        event.target.innerHTML = "Mute Music";
-        music.unmute();
-      }
-    }.bind(this)
-  );
-
   $("#mute_narration").click(
     function (event) {
       var narrator = this.soundManager.narrator;

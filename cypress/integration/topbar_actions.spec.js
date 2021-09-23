@@ -6,20 +6,6 @@ import { barbariansMapOneFirstTurn } from "../utils/barbarians.js";
 context("Topbar actions", () => {
   beforeEach(() => start());
 
-  it("When user clicks on unmute music button, music gets unmuted and then, it can me muted again", () => {
-    // Try to mute sound in browser, so no sound will really be heard when launching this test with ui
-    cy.get("#mute_music").should("contain", "Unmute Music");
-
-    click("#mute_music");
-
-    cy.get("#mute_music").should("contain", "Mute Music");
-    //TODO: demonstrate that sound is actually emited
-
-    click("#mute_music");
-
-    cy.get("#mute_music").should("contain", "Unmute Music");
-  });
-
   it("When user clicks on unmute Narration button, Narration gets unmuted and then, it can me muted again", () => {
     // Try to mute sound in browser, so no sound will really be heard when launching this test with ui
     cy.get("#mute_narration").should("contain", "Unmute Narration");
