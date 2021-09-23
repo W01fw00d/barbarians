@@ -11,7 +11,18 @@ function init() {
     $("#enable_animations").prop("checked", false);
   }
 
-  new Game(urlParams.get("level") || 1, muteNarration, !disableAnimations);
+  const disableModals = urlParams.get("disableModals") !== null;
+  if (disableModals) {
+    // TODO: Add a new checkbox to options
+    // $("#enable_modals").prop("checked", false);
+  }
+
+  new Game(
+    urlParams.get("level") || 1,
+    muteNarration,
+    !disableAnimations,
+    !disableModals
+  );
 }
 
 String.prototype.replaceAt = function (index, character) {

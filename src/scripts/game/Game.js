@@ -1,6 +1,6 @@
-function Game(startingMapLevel, muteNarration, enableAnimations) {
+function Game(startingMapLevel, muteNarration, enableAnimations, enableModals) {
   //TODO why define vars on this?
-  this.browserUtils = new BrowserUtils();
+  this.browserUtils = new BrowserUtils(enableModals);
   this.iconTemplates = new IconTemplates();
   this.mapPainter = new MapPainter(this.iconTemplates);
   this.detailsPanelPainter = new DetailsPanelPainter();
